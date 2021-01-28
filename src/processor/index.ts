@@ -61,7 +61,7 @@ export class LogicProcessor
 
         let processors : BaseParserExecutor[] = [];
 
-        for(var fileName of files)
+        for(let fileName of files)
         {
             this.logger.debug('[_extractProcessors] %s', fileName);
             let moduleName = fileName.replace('.d.ts', '');
@@ -74,7 +74,7 @@ export class LogicProcessor
             x => x.targetInfo
         ]);
 
-        for(var processor of processors)
+        for(let processor of processors)
         {
             this._logger.info("[_extractProcessors] HANDLER: %s -> %s, target:", 
                 processor.order, 
@@ -136,19 +136,22 @@ export class LogicProcessor
         }
     }
 
-    process()
+    process() : Promise<LogicItem[]>
     {
         return this._tracker.scope("Logic::process", (tracker) => {
 
-            var scope = new LogicScope(this._logger, this._registry);
+            let scope = new LogicScope(this._logger, this._registry);
 
             return Promise.resolve()
                 .then(() => this._runLogic(scope, tracker))
                 .then(() => this._dumpToFile(scope))
-
+                .then(() => {
+                    return scope.extractItems();
+                });
         })
         .catch((reason : any) => {
             this._logger.error("[process] ", reason);
+            throw reason;
         });
     }
 
@@ -167,7 +170,7 @@ export class LogicProcessor
 
     private _processParsers(scope : LogicScope)
     {
-        for(var handlerInfo of this._processors)
+        for(let handlerInfo of this._processors)
         {
             this._processParser(scope, handlerInfo);
         }
@@ -183,7 +186,7 @@ export class LogicProcessor
 
     //     } else if (handlerInfo.targetKind == 'scope') {
     //         if (handlerInfo.target.namespaced) {
-    //             var items = scope.getNamespaceScopes();
+    //             let items = scope.getNamespaceScopes();
     //             if (handlerInfo.target.scopeKind) {
     //                 items = _.flatten(items.map(x => x.items.getAll(handlerInfo.target.scopeKind)))
     //                 targets = items.map(x => ({ id: 'scope-item-' + x.kind + '-' + x.name, itemScope: x, item: x }));
@@ -191,7 +194,7 @@ export class LogicProcessor
     //                 targets = items.map(x => ({ id: 'scope-ns-' + x.name, namespaceScope: x, item: x }));
     //             }
     //         } else {
-    //             var items = scope.getInfraScope().items.getAll(handlerInfo.target.scopeKind);
+    //             let items = scope.getInfraScope().items.getAll(handlerInfo.target.scopeKind);
     //             targets = items.map(x => ({ id: 'scope-item-' + x.kind + '-' + x.name, itemScope: x, item: x }));
     //         }
     //     }
@@ -200,7 +203,7 @@ export class LogicProcessor
     private _finalizeScope(scope : LogicScope)
     {
         scope.getInfraScope().items.finalize();
-        for(var nsScope of scope.getNamespaceScopes())
+        for(let nsScope of scope.getNamespaceScopes())
         {
             nsScope.items.finalize();
         }
@@ -219,7 +222,7 @@ export class LogicProcessor
             return;
         }
 
-        for(var flagInfo of node.getFlags())
+        for(let flagInfo of node.getFlags())
         {
             if (flagInfo.propagatable)
             {
@@ -246,7 +249,7 @@ export class LogicProcessor
             col.push(x);
         })
 
-        for(var i = col.length - 1; i >= 0; i--)
+        for(let i = col.length - 1; i >= 0; i--)
         {
             let node = col[i];
             cb(node);
@@ -264,14 +267,14 @@ export class LogicProcessor
                 }
             })
             .then(() => {
-                var writer = this.logger.outputStream("dump-logic-tree-detailed");
+                let writer = this.logger.outputStream("dump-logic-tree-detailed");
                 if (writer) {
                     scope.root.debugOutputToFile(writer, { includeConfig: true });
                     return writer.close();
                 }
             })
             // .then(() => {
-            //     var writer = this.logger.outputStream("exported-tree");
+            //     let writer = this.logger.outputStream("exported-tree");
             //     if (writer) {
             //         writer.write(this._context.facadeRegistry.logicTree);
             //         return writer.close();
