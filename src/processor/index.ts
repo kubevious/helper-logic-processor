@@ -22,18 +22,18 @@ import { ScopeParserExecutor } from './scope/executor';
 
 import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
 
-import { ConcreteRegistry } from '../registry';
+import { IConcreteRegistry } from '../registry';
 
 export class LogicProcessor 
 {
     private _logger : ILogger;
     private _tracker: ProcessingTracker;
-    private _registry : ConcreteRegistry;
+    private _registry : IConcreteRegistry;
 
     private _helpers : Helpers = new Helpers();
     private _processors : BaseParserExecutor[] = [];
 
-    constructor(logger: ILogger, tracker: ProcessingTracker, registry : ConcreteRegistry)
+    constructor(logger: ILogger, tracker: ProcessingTracker, registry : IConcreteRegistry)
     {
         this._logger = logger.sublogger("LogicProcessor");
         this._tracker = tracker;

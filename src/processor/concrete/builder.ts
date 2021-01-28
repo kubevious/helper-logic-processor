@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { ConcreteItem } from '../../registry';
+import { IConcreteItem } from '../../registry';
 
 import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
 
@@ -11,12 +11,12 @@ export interface ConcreteParserInfo extends BaseParserInfo
 
     needAppScope?: boolean;
     canCreateAppIfMissing? : boolean;
-    appNameCb?: (item : ConcreteItem) => string;
+    appNameCb?: (item : IConcreteItem) => string;
 
-    kind?: string | ((item: ConcreteItem) => string);
+    kind?: string | ((item: IConcreteItem) => string);
 
     needNamespaceScope?: boolean;
-    namespaceNameCb? : (item : ConcreteItem) => string;
+    namespaceNameCb? : (item : IConcreteItem) => string;
 
     handler? : (args : ConcreteProcessorHandlerArgs) => void;
 }
@@ -69,13 +69,13 @@ export class ConcreteParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    appNameCb(value : (item : ConcreteItem) => string) : ConcreteParserBuilder
+    appNameCb(value : (item : IConcreteItem) => string) : ConcreteParserBuilder
     {
         this._data.appNameCb = value;
         return this;
     }
 
-    kind(value : string | ((item: ConcreteItem) => string)) : ConcreteParserBuilder
+    kind(value : string | ((item: IConcreteItem) => string)) : ConcreteParserBuilder
     {
         this._data.kind = value;
         return this;
@@ -87,7 +87,7 @@ export class ConcreteParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    namespaceNameCb(value : (item : ConcreteItem) => string) : ConcreteParserBuilder
+    namespaceNameCb(value : (item : IConcreteItem) => string) : ConcreteParserBuilder
     {
         this._data.namespaceNameCb = value;
         return this;

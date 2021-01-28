@@ -1,10 +1,10 @@
-export interface ConcreteRegistry
+export interface IConcreteRegistry
 {
-    filterItems(idFilter: any) : ConcreteItem[];
+    filterItems(idFilter: any) : IConcreteItem[];
     debugOutputCapacity() : void;
 }
 
-export interface ConcreteItem
+export interface IConcreteItem
 {
     id: any
     config: any

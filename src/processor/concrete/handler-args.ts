@@ -12,13 +12,13 @@ import { Helpers } from '../../helpers';
 import { LogicItem } from '../../item';
 
 import { ConcreteParserInfo } from './builder'
-import { ConcreteItem } from '../../registry';
+import { IConcreteItem } from '../../registry';
 
 import { AlertInfo } from '../types';
 
 export interface CreateItemParams
 {
-    kind? : string | ((item: ConcreteItem) => string),
+    kind? : string | ((item: IConcreteItem) => string),
     order? : number
 }
 
@@ -26,7 +26,7 @@ export interface ConcreteProcessorHandlerArgs
 {
     readonly logger : ILogger;
     readonly scope : LogicScope;
-    readonly item : ConcreteItem;
+    readonly item : IConcreteItem;
     readonly infraScope : InfraScope;
     readonly helpers : Helpers;
     readonly namespaceScope : NamespaceScope;
@@ -63,14 +63,14 @@ export function constructArgs(
     processor : LogicProcessor,
     parserInfo : ConcreteParserInfo,
     scope : LogicScope,
-    item: ConcreteItem,
+    item: IConcreteItem,
     variableArgs : ConcreteProcessorVariableArgs,
     runtimeData : ConcreteProcessorRuntimeData) : ConcreteProcessorHandlerArgs
 {
 
     let createItem = (parent : LogicItem, name : string, params? : CreateItemParams) =>
         {
-            let kindX : string | ((item: ConcreteItem) => string) | undefined = parserInfo.kind;
+            let kindX : string | ((item: IConcreteItem) => string) | undefined = parserInfo.kind;
             if (params)
             {
                 if (params.kind) {

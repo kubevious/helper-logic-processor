@@ -5,12 +5,12 @@ import { InfraScope } from './infra';
 import { NamespaceScope } from './namespace';
 import { LogicItem } from '../item';
 import { LabelMatcher } from './label-matcher';
-import { ConcreteRegistry, ConcreteItem } from '../registry';
+import { IConcreteRegistry, IConcreteItem } from '../registry';
 
 export class LogicScope
 {
     private _logger : ILogger;
-    private _concreteRegistry : ConcreteRegistry;
+    private _concreteRegistry : IConcreteRegistry;
 
     private _root : LogicItem;
     private _itemsMap : Record<string, LogicItem> = {};
@@ -21,7 +21,7 @@ export class LogicScope
 
     private _namespaceLabelMatcher : LabelMatcher<NamespaceScope>;
 
-    constructor(logger: ILogger, concreteRegistry: ConcreteRegistry)
+    constructor(logger: ILogger, concreteRegistry: IConcreteRegistry)
     {
         this._logger = logger.sublogger("LogicScope");
         this._concreteRegistry = concreteRegistry;
@@ -158,7 +158,7 @@ export class LogicScope
         return infra;
     }
 
-    fetchRawContainer(item : ConcreteItem, name : string) : LogicItem
+    fetchRawContainer(item : IConcreteItem, name : string) : LogicItem
     {
         var nsName = item.config.metadata.namespace;
         return this.fetchNamespaceRawContainer(nsName, name)

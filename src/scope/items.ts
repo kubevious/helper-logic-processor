@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
-import { ConcreteItem } from '../registry';
+import { IConcreteItem } from '../registry';
 import { ItemScope } from './item';
 
 export class ItemsScope
@@ -50,7 +50,7 @@ export class ItemsScope
         return this._get(kind, name);
     }
 
-    getByConcrete(item : ConcreteItem) : ItemScope | null
+    getByConcrete(item : IConcreteItem) : ItemScope | null
     {
         return this.get(item.config.kind, item.config.metadata.name);;
     }

@@ -6,7 +6,7 @@ import { LogicProcessor } from '../';
 import { LogicScope } from "../../scope";
 
 import { ConcreteParserInfo } from './builder'
-import { ConcreteRegistry, ConcreteItem } from '../../registry';
+import { IConcreteRegistry, IConcreteItem } from '../../registry';
 
 import { constructArgs, ConcreteProcessorVariableArgs, ConcreteProcessorRuntimeData } from './handler-args';
 
@@ -14,14 +14,14 @@ import { BaseParserExecutor } from '../base/executor';
 
 export class ConcreteParserExecutor implements BaseParserExecutor
 {
-    private _concreteRegistry : ConcreteRegistry;
+    private _concreteRegistry : IConcreteRegistry;
     private _processor : LogicProcessor;
     private _logger : ILogger;
     public path : string;
 
     private _parserInfo : ConcreteParserInfo;
 
-    constructor(concreteRegistry: ConcreteRegistry, processor : LogicProcessor, path : string, parserInfo : ConcreteParserInfo)
+    constructor(concreteRegistry: IConcreteRegistry, processor : LogicProcessor, path : string, parserInfo : ConcreteParserInfo)
     {
         this.path = path;
         this._processor = processor;
@@ -55,7 +55,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
         }
     }
 
-    _processHandler(scope : LogicScope, item: ConcreteItem)
+    _processHandler(scope : LogicScope, item: IConcreteItem)
     {
         this._logger.silly("[_processHandler] ConcreteHandler: %s, Item: %s", 
             this.path, 
@@ -93,7 +93,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
 
     }
 
-    private _preprocessHandler(scope : LogicScope, item: ConcreteItem, variableArgs : ConcreteProcessorVariableArgs)
+    private _preprocessHandler(scope : LogicScope, item: IConcreteItem, variableArgs : ConcreteProcessorVariableArgs)
     {
         variableArgs.namespaceName = null;
         if (this._parserInfo.needNamespaceScope || this._parserInfo.needAppScope)

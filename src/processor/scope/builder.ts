@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-// import { ConcreteItem } from '../../../concrete/item';
+// import { IConcreteItem } from '../../../concrete/item';
 
 import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
 import { ScopeProcessorHandlerArgs } from './handler-args';
@@ -12,12 +12,12 @@ export interface ScopeParserInfo extends BaseParserInfo
 
     // needAppScope?: boolean;
     // canCreateAppIfMissing? : boolean;
-    // appNameCb?: (item : ConcreteItem) => string;
+    // appNameCb?: (item : IConcreteItem) => string;
 
     kind?: string;
 
     // needNamespaceScope?: boolean;
-    // namespaceNameCb? : (item : ConcreteItem) => string;
+    // namespaceNameCb? : (item : IConcreteItem) => string;
 
     handler? : (args : ScopeProcessorHandlerArgs) => void;
 }
