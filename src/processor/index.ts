@@ -2,8 +2,6 @@ import _ from 'the-lodash';
 import { Promise } from 'the-promise';
 import { ILogger } from 'the-logger';
 
-import { Context } from '../../context';
-
 import { readdirSync } from 'fs' 
 import * as path from 'path' 
 
@@ -22,19 +20,24 @@ import { ConcreteParserExecutor } from './concrete/executor';
 import { LogicParserExecutor } from './logic/executor';
 import { ScopeParserExecutor } from './scope/executor';
 
+import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
+
+import { ConcreteRegistry } from '../registry';
 
 export class LogicProcessor 
 {
-    private _context : Context;
     private _logger : ILogger;
+    private _tracker: ProcessingTracker;
+    private _registry : ConcreteRegistry;
 
     private _helpers : Helpers = new Helpers();
     private _processors : BaseParserExecutor[] = [];
 
-    constructor(context : Context)
+    constructor(logger: ILogger, tracker: ProcessingTracker, registry : ConcreteRegistry)
     {
-        this._context = context;
-        this._logger = context.logger.sublogger("LogicProcessor");
+        this._logger = logger.sublogger("LogicProcessor");
+        this._tracker = tracker;
+        this._registry = registry;
 
         this._extractProcessors('parsers');
         this._extractProcessors('polishers');
@@ -42,10 +45,6 @@ export class LogicProcessor
 
     get logger() {
         return this._logger;
-    }
-
-    get context() {
-        return this._context;
     }
 
     get helpers() : Helpers {
@@ -110,6 +109,7 @@ export class LogicProcessor
             {
                 let parserInfo = <ConcreteParserInfo>baseParserInfo;
                 let parserExecutor = new ConcreteParserExecutor(
+                    this._registry,
                     this,
                     moduleName,
                     parserInfo)
@@ -138,13 +138,12 @@ export class LogicProcessor
 
     process()
     {
-        return this._context.tracker.scope("Logic::process", (tracker : any) => {
+        return this._tracker.scope("Logic::process", (tracker) => {
 
-            var scope = new LogicScope(this._context);
+            var scope = new LogicScope(this._logger, this._registry);
 
             return Promise.resolve()
                 .then(() => this._runLogic(scope, tracker))
-                .then(() => this._report(scope, tracker))
                 .then(() => this._dumpToFile(scope))
 
         })
@@ -156,7 +155,7 @@ export class LogicProcessor
     private _runLogic(scope : LogicScope, tracker : any)
     {
         return tracker.scope("runLogic", () => {
-            this._context.concreteRegistry.debugOutputCapacity();
+            this._registry.debugOutputCapacity();
 
             this._processParsers(scope);
             this._finalizeScope(scope);
@@ -164,13 +163,6 @@ export class LogicProcessor
 
             scope.debugOutputCapacity();
         })
-    }
-
-    _report(scope : LogicScope, tracker : any)
-    {
-        return tracker.scope("report", () => {
-            return this._context.facadeRegistry.acceptLogicItems(scope.extractItems());
-        });
     }
 
     private _processParsers(scope : LogicScope)

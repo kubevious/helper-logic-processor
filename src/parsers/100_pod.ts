@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 import { ConcreteParser } from '../parser-builder';
-import { makeRelativeName } from "../../utils/name-helpers.js";
+import { makeRelativeName } from "../utils/name-helpers.js";
 
 export default ConcreteParser()
     .order(100)

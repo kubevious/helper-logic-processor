@@ -1,14 +1,11 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
 
-import { Context } from '../../../context';
-
 import { LogicProcessor } from '../';
 
 import { LogicScope } from "../../scope";
 
 import { ScopeParserInfo } from './builder'
-import { ConcreteItem } from '../../../concrete/item';
 
 import { constructArgs, ScopeProcessorHandlerArgs, ScopeProcessorVariableArgs, ScopeProcessorRuntimeData } from './handler-args';
 
@@ -18,7 +15,6 @@ import { NamespaceScope } from '../../scope/namespace';
 
 export class ScopeParserExecutor implements BaseParserExecutor
 {
-    private _context : Context;
     private _processor : LogicProcessor;
     private _logger : ILogger;
     public path : string;
@@ -30,7 +26,6 @@ export class ScopeParserExecutor implements BaseParserExecutor
         this.path = path;
         this._processor = processor;
         this._logger = processor.logger;
-        this._context = processor.context;
         this._parserInfo = parserInfo;
     }
 

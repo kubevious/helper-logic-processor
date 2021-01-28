@@ -1,8 +1,6 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
 
-import { Context } from '../../../context';
-
 import { LogicProcessor } from '../';
 
 import { LogicScope } from "../../scope";
@@ -26,7 +24,6 @@ export interface CreateItemParams
 export interface LogicProcessorHandlerArgs
 {
     readonly logger : ILogger;
-    readonly context : Context;
     readonly scope : LogicScope;
     readonly item : LogicItem;
     readonly infraScope : InfraScope;
@@ -102,8 +99,6 @@ export function constructArgs(
     return {
 
         logger: processor.logger,
-    
-        context: processor.context,
     
         scope: scope,
     

@@ -1,8 +1,6 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
 
-import { Context } from '../../../context';
-
 import { LogicProcessor } from '../';
 
 import { LogicScope } from "../../scope";
@@ -14,7 +12,7 @@ import { Helpers } from '../../helpers';
 import { LogicItem } from '../../item';
 
 import { ConcreteParserInfo } from './builder'
-import { ConcreteItem } from '../../../concrete/item';
+import { ConcreteItem } from '../../registry';
 
 import { AlertInfo } from '../types';
 
@@ -27,7 +25,6 @@ export interface CreateItemParams
 export interface ConcreteProcessorHandlerArgs
 {
     readonly logger : ILogger;
-    readonly context : Context;
     readonly scope : LogicScope;
     readonly item : ConcreteItem;
     readonly infraScope : InfraScope;
@@ -105,8 +102,6 @@ export function constructArgs(
     return {
 
         logger: processor.logger,
-    
-        context: processor.context,
     
         scope: scope,
     
