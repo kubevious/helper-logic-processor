@@ -7,9 +7,6 @@ import { ItemScope } from './scope/item';
 
 import { PropertiesBuilder } from './properties-builder';
 
-import { Helpers } from './helpers';
-const helpers = new Helpers();
-
 import * as DocsHelper from '@kubevious/helpers/dist/docs';
 
 import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/helpers/dist/snapshot/types'
@@ -270,16 +267,6 @@ export class LogicItem
     extractProperties() : SnapshotPropsConfig[] {
         var myProps = _.values(this._properties);
 
-        // if (_.keys(this._flags).length > 0) {
-        //     myProps.push({
-        //         kind: "key-value",
-        //         id: "flags",
-        //         title: "Flags",
-        //         order: 1,
-        //         config: this._flags
-        //     });   
-        // }
-
         if (_.keys(this._usedBy).length > 0) {
             myProps.push({
                 kind: "dn-list",
@@ -289,44 +276,6 @@ export class LogicItem
                 config: _.keys(this._usedBy)
             });   
         }
-
-        // for (var i = 0; i < myProps.length; i++)
-        // {
-        //     var props = myProps[i];
-        //     props = _.clone(props);
-
-        //     if (props.kind == "resources")
-        //     {
-        //         props.kind = "key-value";
-
-        //         var config = props.config;
-        //         props.config = {};
-        //         for(var metric of _.keys(config))
-        //         {
-        //             for(var metricKind of _.keys(config[metric]))
-        //             {
-        //                 var value = config[metric][metricKind];
-        //                 props.config[metric + ' ' + metricKind] = helpers.resources.stringify(metric, value);
-        //             }
-        //         }
-        //     } 
-            
-        //     if (props.kind == "percentage")
-        //     {
-        //         props.kind = "key-value";
-
-        //         var config = props.config;
-        //         props.config = {};
-        //         for(var key of _.keys(config))
-        //         {
-        //             var value = config[key];
-        //             props.config[key] = helpers.resources.percentage(value);
-        //         }
-        //     }
-
-        //     myProps[i] = props;
-        // }
-
         myProps = _.deepClean(myProps);
 
         return myProps;
