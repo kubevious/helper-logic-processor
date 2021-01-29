@@ -20,20 +20,20 @@ import { ConcreteParserExecutor } from './concrete/executor';
 import { LogicParserExecutor } from './logic/executor';
 import { ScopeParserExecutor } from './scope/executor';
 
-import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
+import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
 
 import { IConcreteRegistry } from '../registry';
 
 export class LogicProcessor 
 {
     private _logger : ILogger;
-    private _tracker: ProcessingTracker;
+    private _tracker: ProcessingTrackerScoper;
     private _registry : IConcreteRegistry;
 
     private _helpers : Helpers = new Helpers();
     private _processors : BaseParserExecutor[] = [];
 
-    constructor(logger: ILogger, tracker: ProcessingTracker, registry : IConcreteRegistry)
+    constructor(logger: ILogger, tracker: ProcessingTrackerScoper, registry : IConcreteRegistry)
     {
         this._logger = logger.sublogger("LogicProcessor");
         this._tracker = tracker;
