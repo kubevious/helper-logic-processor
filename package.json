@@ -17,7 +17,7 @@
   "author": "Ruben Hakopian <ruben.hakopian@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubevious/helpers": "^1.0.31",
+    "@kubevious/helpers": "^1.0.32",
     "the-lodash": "^2.0.0",
     "the-logger": "^2.0.5",
     "the-promise": "^2.0.4"
