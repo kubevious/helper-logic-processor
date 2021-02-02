@@ -17,6 +17,9 @@ describe('processor', () => {
         const registry = new ConcreteRegistry();
         const logicProcessor = new LogicProcessor(logger, tracker, registry)
         return logicProcessor.process()
+            .then(registryState => {
+                should(registryState).be.ok();
+            })
     });
 
 });

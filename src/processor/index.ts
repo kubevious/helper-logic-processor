@@ -21,8 +21,10 @@ import { LogicParserExecutor } from './logic/executor';
 import { ScopeParserExecutor } from './scope/executor';
 
 import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
+import { RegistryState } from '@kubevious/helpers/dist/registry-state';
 
 import { IConcreteRegistry } from '../registry';
+import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/helpers/dist/snapshot/types';
 
 export class LogicProcessor 
 {
@@ -136,7 +138,7 @@ export class LogicProcessor
         }
     }
 
-    process() : Promise<LogicItem[]>
+    process() : Promise<RegistryState>
     {
         return this._tracker.scope("Logic::process", (tracker) => {
 
@@ -146,8 +148,11 @@ export class LogicProcessor
                 .then(() => this._runLogic(scope, tracker))
                 .then(() => this._dumpToFile(scope))
                 .then(() => {
-                    return scope.extractItems();
-                });
+                    let items = scope.extractItems();
+                    let state = this._makeRegistryState(items);
+                    return state;
+                })
+                ;
         })
         .catch((reason : any) => {
             this._logger.error("[process] ", reason);
@@ -280,6 +285,49 @@ export class LogicProcessor
             //         return writer.close();
             //     }
             // });
+    }
+
+    private _makeRegistryState(logicItems: LogicItem[]) : RegistryState
+    {
+        let snapshotItems : SnapshotItemInfo[] = [];
+
+        for(let item of logicItems)
+        {
+            snapshotItems.push({
+                dn: item.dn,
+                kind: item.kind,
+                config_kind: SnapshotConfigKind.node,
+                config: item.exportNode()
+            })
+
+            let alerts = item.extractAlerts();
+            if (alerts.length > 0) 
+            {
+                snapshotItems.push({
+                    dn: item.dn,
+                    kind: item.kind,
+                    config_kind: SnapshotConfigKind.alerts,
+                    config: item.extractAlerts()
+                })
+            }
+
+            let properties = item.extractProperties();
+            for(let props of properties)
+            {
+                snapshotItems.push({
+                    dn: item.dn,
+                    kind: item.kind,
+                    config_kind: SnapshotConfigKind.props,
+                    config: props
+                })
+            }
+        }
+
+        let registryState = new RegistryState({
+            date: this._registry.date,
+            items: snapshotItems
+        })
+        return registryState;
     }
 
 }
