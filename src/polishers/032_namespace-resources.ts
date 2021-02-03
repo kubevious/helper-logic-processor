@@ -79,6 +79,13 @@ export default LogicParser()
             }
         }
 
+        for(let metric of helpers.resources.METRICS) {
+            
+            usedResourcesProps[metric + ' ' + 'request'].value = 
+                Math.round(usedResourcesProps[metric + ' ' + 'request'].value * 100) / 100;
+                
+        }
+
         item.addProperties({
             kind: "key-value",
             id: "resources",
