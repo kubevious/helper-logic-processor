@@ -14,7 +14,7 @@ export default ScopeParser()
     .handler(({ scope, infraScope, itemScope }) => {
 
         var key = 'policy/podsecuritypolicies';
-        var pspRules = itemScope.data.rules[key];
+        var pspRules = itemScope.data.rules[key]; // TODO: Fix Me. Sometimes rules is not set. 
         if (!pspRules) {
             return;
         }
