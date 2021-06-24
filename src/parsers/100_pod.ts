@@ -43,7 +43,7 @@ export default ConcreteParser()
 
         if (!hasCreatedItems()) {
             let rawContainer = scope.fetchRawContainer(item, "Pods");
-            logicItem = createK8sItem(rawContainer);
+            let logicItem = createK8sItem(rawContainer);
             itemScope.registerItem(logicItem);
 
             createAlert('MissingController', 'warn', 'Controller not found.');
