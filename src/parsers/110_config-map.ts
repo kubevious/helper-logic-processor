@@ -11,13 +11,13 @@ export default ConcreteParser()
     .needNamespaceScope(true)
     .handler(({ logger, scope, item, createK8sItem, createAlert, namespaceScope, helpers }) => {
 
-        var configMapScope = namespaceScope.items.getByConcrete(item)!;
+        let configMapScope = namespaceScope.items.getByConcrete(item)!;
 
         helpers.common.determineSharedFlag(configMapScope);
 
         if (configMapScope.isNotUsed)
         {
-            var rawContainer = scope.fetchRawContainer(item, "ConfigMaps");
+            let rawContainer = scope.fetchRawContainer(item, "ConfigMaps");
             createK8sItem(rawContainer);
             createAlert('Unused', 'warn', 'ConfigMap not used.');
         }

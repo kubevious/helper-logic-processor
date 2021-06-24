@@ -8,7 +8,7 @@ export default LogicParser()
     })
     .handler(({ item }) => {
 
-        var radioactiveProps : Record<string, any> = {};
+        let radioactiveProps : Record<string, any> = {};
 
         if (_.get(item.config, 'securityContext.privileged')) {
             radioactiveProps['privileged'] = true;

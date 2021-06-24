@@ -13,20 +13,20 @@ export default ConcreteParser()
     .handler(({ scope, item, createK8sItem, createAlert, hasCreatedItems, namespaceScope }) => {
         namespaceScope.items.register(item.config);
 
-        var defaultBackend = _.get(item.config, "spec.backend");
+        let defaultBackend = _.get(item.config, "spec.backend");
         if (defaultBackend) {
             processIngressBackend(defaultBackend);
         }
 
-        var rulesConfig = _.get(item.config, "spec.rules");
-        for(var ruleConfig of rulesConfig)
+        let rulesConfig = _.get(item.config, "spec.rules");
+        for(let ruleConfig of rulesConfig)
         {
-            var host = ruleConfig.host;
+            let host = ruleConfig.host;
             if (!host) {
                 host = null;
             }
             if (ruleConfig.http && ruleConfig.http.paths) {
-                for(var pathConfig of ruleConfig.http.paths) {
+                for(let pathConfig of ruleConfig.http.paths) {
                     if (pathConfig.backend) {
                         processIngressBackend(pathConfig.backend);
                     }
@@ -35,7 +35,7 @@ export default ConcreteParser()
         }
 
         if (!hasCreatedItems()) {
-            var rawContainer = scope.fetchRawContainer(item, "Ingresses");
+            let rawContainer = scope.fetchRawContainer(item, "Ingresses");
             createIngress(rawContainer);
             createAlert('Missing', 'error', 'Could not match Ingress to Services.');
         }
@@ -47,19 +47,19 @@ export default ConcreteParser()
                 return;
             }
 
-            var serviceScopeInfo = namespaceScope.items.get('Service', backendConfig.serviceName);
+            let serviceScopeInfo = namespaceScope.items.get('Service', backendConfig.serviceName);
             if (serviceScopeInfo) {
 
-                for(var appScope of serviceScopeInfo.appScopes)
+                for(let appScope of serviceScopeInfo.appScopes)
                 {
                     appScope.properties['Exposed'] = 'With Ingress';
                 }
 
-                for(var serviceItem of serviceScopeInfo.items) {
+                for(let serviceItem of serviceScopeInfo.items) {
                     createIngress(serviceItem);
                 }
 
-                for(var appItem of serviceScopeInfo.appItems)
+                for(let appItem of serviceScopeInfo.appItems)
                 {
                     createIngress(appItem, { order: 250 });
                 }
@@ -72,7 +72,7 @@ export default ConcreteParser()
 
         function createIngress(parent : LogicItem, params?: any)
         {
-            var k8sIngress = createK8sItem(parent, params);
+            let k8sIngress = createK8sItem(parent, params);
             return k8sIngress;
         }
     })

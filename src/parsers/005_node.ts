@@ -12,15 +12,15 @@ export default ConcreteParser()
 
         infraScope.increaseNodeCount();
         
-        var infra = scope.fetchInfraRawContainer();
+        let infra = scope.fetchInfraRawContainer();
 
-        var nodes = infra.fetchByNaming("nodes", "Nodes");
+        let nodes = infra.fetchByNaming("nodes", "Nodes");
 
-        var node = createK8sItem(nodes);
+        let node = createK8sItem(nodes);
 
-        var resourcesProps : Record<string, Record<string, any>> = {
+        let resourcesProps : Record<string, Record<string, any>> = {
         }
-        for(var metric of helpers.resources.METRICS) {
+        for(let metric of helpers.resources.METRICS) {
             collectResourceMetric(metric);
         }
 
@@ -42,7 +42,7 @@ export default ConcreteParser()
 
         function collectResourceMetricCounter(metric: string, counter: string)
         {
-            var rawValue = _.get(item.config, 'status.' + counter + '.' + metric);
+            let rawValue = _.get(item.config, 'status.' + counter + '.' + metric);
             if (!rawValue) {
                 return;
             }

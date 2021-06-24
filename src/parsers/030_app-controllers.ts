@@ -28,12 +28,12 @@ export default ConcreteParser()
 
         app.associateAppScope(appScope);
 
-        var labelsMap = _.get(item.config, 'spec.template.metadata.labels');
+        let labelsMap = _.get(item.config, 'spec.template.metadata.labels');
         if (labelsMap) {
             namespaceScope.registerAppScopeLabels(appScope, labelsMap);
         }
 
-        var launcher = app.fetchByNaming("launcher", item.config.kind);
+        let launcher = app.fetchByNaming("launcher", item.config.kind);
         scope.setK8sConfig(launcher, item.config);
         namespaceScope.registerAppOwner(launcher);
         launcher.associateAppScope(appScope);

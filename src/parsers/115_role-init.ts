@@ -32,22 +32,22 @@ export default ConcreteParser()
     })
     .handler(({ item, namespaceScope, helpers }) => {
 
-        var roleScope = namespaceScope.items.register(item.config);
+        let roleScope = namespaceScope.items.register(item.config);
 
         roleScope.data.rules = helpers.roles.makeRulesMap();
 
         if (item.config.rules)
         {
-            for(var rule of item.config.rules)
+            for(let rule of item.config.rules)
             {
                 if (rule.apiGroups)
                 {
-                    for(var api of rule.apiGroups)
+                    for(let api of rule.apiGroups)
                     {
-                        for(var resource of rule.resources)
+                        for(let resource of rule.resources)
                         {
                             if (rule.resourceNames) {
-                                for(var resourceName of rule.resourceNames) {
+                                for(let resourceName of rule.resourceNames) {
                                     helpers.roles.addRule(roleScope.data.rules, api, resource, resourceName, rule.verbs)
                                 }
                             } else {

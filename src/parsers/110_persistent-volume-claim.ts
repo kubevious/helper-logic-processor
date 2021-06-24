@@ -11,14 +11,14 @@ export default ConcreteParser()
     .needNamespaceScope(true)
     .handler(({ scope, item, createK8sItem, createAlert, namespaceScope, helpers }) => {
 
-        var pvcScope = namespaceScope.items.getByConcrete(item)!;
+        let pvcScope = namespaceScope.items.getByConcrete(item)!;
 
         helpers.common.determineSharedFlag(pvcScope);
 
         if (pvcScope.isNotUsed)
         {
-            var rawContainer = scope.fetchRawContainer(item, "PersistentVolumeClaims");
-            var pvcItem = createK8sItem(rawContainer);
+            let rawContainer = scope.fetchRawContainer(item, "PersistentVolumeClaims");
+            let pvcItem = createK8sItem(rawContainer);
             createAlert('Unused', 'warn', 'PersistentVolumeClaim not attached.');
             pvcScope.registerItem(pvcItem);
         }

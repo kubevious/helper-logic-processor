@@ -22,18 +22,18 @@ export default ScopeParser()
             
         };
 
-        var appSelector = _.get(itemScope.config, 'spec.podSelector.matchLabels');
+        let appSelector = _.get(itemScope.config, 'spec.podSelector.matchLabels');
         if (!appSelector)
         {
             appSelector = {};
         }
 
-        var appScopes = namespaceScope!.findAppScopesByLabels(appSelector);
-        for(var appScope of appScopes)
+        let appScopes = namespaceScope!.findAppScopesByLabels(appSelector);
+        for(let appScope of appScopes)
         {
-            var container = appScope.item.fetchByNaming("netpols", "NetworkPolicies");
+            let container = appScope.item.fetchByNaming("netpols", "NetworkPolicies");
 
-            var k8sNetworkPolicy = createK8sItem(container);
+            let k8sNetworkPolicy = createK8sItem(container);
             itemScope.registerItem(k8sNetworkPolicy);
             itemScope.markUsedBy(k8sNetworkPolicy);
 
@@ -70,16 +70,16 @@ export default ScopeParser()
                 .column('ports')
                 .column('access');
 
-            var policyConfig = _.get(itemScope.config, specPath);
+            let policyConfig = _.get(itemScope.config, specPath);
             if (policyConfig)
             {
-                for(var policyItem of policyConfig)
+                for(let policyItem of policyConfig)
                 {
-                    var portsInfo = "*";
+                    let portsInfo = "*";
                     if (policyItem.ports)
                     {
                         portsInfo = policyItem.ports.map((x : any) => {
-                            var items = [x.port, x.name, x.protocol];
+                            let items = [x.port, x.name, x.protocol];
                             items = _.filter(items, x => _.isNotNullOrUndefined(x));
                             return items.join('/');
                         })
@@ -89,7 +89,7 @@ export default ScopeParser()
                     let rules = _.get(policyItem, rulesPath);
                     if (rules)
                     {
-                        for(var rule of rules)
+                        for(let rule of rules)
                         {
                             const ipBlock = _.get(rule, 'ipBlock');
                             if (ipBlock)
@@ -115,7 +115,7 @@ export default ScopeParser()
                             }
                             else
                             {
-                                var podSelectorLabels = _.get(rule, 'podSelector.matchLabels');
+                                let podSelectorLabels = _.get(rule, 'podSelector.matchLabels');
                                 if (!podSelectorLabels)
                                 {
                                     podSelectorLabels = {};
@@ -130,8 +130,8 @@ export default ScopeParser()
     
                                 for(let targetNamespaceScope of targetNamespaceScopes)
                                 {
-                                    var fromAppScopes = targetNamespaceScope!.findAppScopesByLabels(podSelectorLabels);
-                                    for(var fromAppScope of fromAppScopes)
+                                    let fromAppScopes = targetNamespaceScope!.findAppScopesByLabels(podSelectorLabels);
+                                    for(let fromAppScope of fromAppScopes)
                                     {
                                         trafficTable.row({
                                             dn: fromAppScope.item.dn,

@@ -12,18 +12,18 @@ export default LogicParser()
     .needNamespaceScope(true)
     .handler(({ scope, item, createItem, createAlert, namespaceScope }) => {
 
-        var app = item.parent!;
-        var appScope = app.appScope;
+        let app = item.parent!;
+        let appScope = app.appScope;
 
         // Normal Containers 
         {
-            var containersConfig = _.get(item.config, 'spec.template.spec.containers');
+            let containersConfig = _.get(item.config, 'spec.template.spec.containers');
             if (!containersConfig) {
                 containersConfig = [];
             }
             appScope.properties['Container Count'] = containersConfig.length;
             if (_.isArray(containersConfig)) {
-                for(var containerConfig of containersConfig)
+                for(let containerConfig of containersConfig)
                 {
                     processContainer(containerConfig, "cont");
                 }
@@ -32,13 +32,13 @@ export default LogicParser()
 
         // Init Containers 
         {
-            var containersConfig = _.get(item.config, 'spec.template.spec.initContainers');
+            let containersConfig = _.get(item.config, 'spec.template.spec.initContainers');
             if (!containersConfig) {
                 containersConfig = [];
             }
             appScope.properties['Init Container Count'] = containersConfig.length;
             if (_.isArray(containersConfig)) {
-                for(var containerConfig of containersConfig)
+                for(let containerConfig of containersConfig)
                 {
                     processContainer(containerConfig, "initcont");
                 }
@@ -50,14 +50,14 @@ export default LogicParser()
 
         function processContainer(containerConfig: any, kind : string)
         {
-            var container = createItem(app, containerConfig.name, { kind: kind });
+            let container = createItem(app, containerConfig.name, { kind: kind });
             scope.setK8sConfig(container, containerConfig);
 
             if (containerConfig.image) {
-                var image = containerConfig.image;
-                var imageTag;
-                var i = image.indexOf(':');
-                var repository = 'docker';
+                let image = containerConfig.image;
+                let imageTag;
+                let i = image.indexOf(':');
+                let repository = 'docker';
                 if (i != -1) {
                     imageTag = image.substring(i + 1);
                     image = image.substring(0, i);
@@ -65,14 +65,14 @@ export default LogicParser()
                     imageTag = 'latest';
                 }
 
-                var imageName = image;
+                let imageName = image;
                 i = image.lastIndexOf('/');
                 if (i != -1) {
                     repository = image.substring(0, i);
                     imageName = image.substring(i + 1);
                 }
 
-                var imageItem = container.fetchByNaming("image", image);
+                let imageItem = container.fetchByNaming("image", image);
                 imageItem.addProperties({
                     kind: "key-value",
                     id: "properties",
@@ -88,12 +88,12 @@ export default LogicParser()
 
             }
 
-            var envVars : Record<string, any> = {
+            let envVars : Record<string, any> = {
             }
 
             if (containerConfig.env) {
-                for(var envObj of containerConfig.env) {
-                    var value = null;
+                for(let envObj of containerConfig.env) {
+                    let value = null;
                     if (envObj.value) {
                         value = envObj.value;
                     } else if (envObj.valueFrom) {
@@ -104,12 +104,12 @@ export default LogicParser()
             }
 
             if (containerConfig.envFrom) {
-                for(var envFromObj of containerConfig.envFrom) {
+                for(let envFromObj of containerConfig.envFrom) {
                     if (envFromObj.configMapRef) {
-                        var configMapScope = findAndProcessConfigMap(container, envFromObj.configMapRef.name, true);
+                        let configMapScope = findAndProcessConfigMap(container, envFromObj.configMapRef.name, true);
                         if (configMapScope) {
                             if (configMapScope.config.data) {
-                                for(var dataKey of _.keys(configMapScope.config.data)) {
+                                for(let dataKey of _.keys(configMapScope.config.data)) {
                                     envVars[dataKey] = configMapScope.config.data[dataKey];
                                 }
                             } else {
@@ -132,15 +132,15 @@ export default LogicParser()
             }
 
             if (_.isArray(containerConfig.ports)) {
-                for(var portConfig of containerConfig.ports) {
-                    var portName = portConfig.protocol + "-" + portConfig.containerPort;
+                for(let portConfig of containerConfig.ports) {
+                    let portName = portConfig.protocol + "-" + portConfig.containerPort;
                     if (portConfig.name) {
                         portName = portConfig.name + " (" + portName + ")";
                     }
-                    var portItem = container.fetchByNaming("port", portName);
+                    let portItem = container.fetchByNaming("port", portName);
                     scope.setK8sConfig(portItem, portConfig);
 
-                    var portConfigScope = {
+                    let portConfigScope = {
                         name: portConfig.name,
                         containerName: containerConfig.name,
                         portItem: portItem,
@@ -156,10 +156,10 @@ export default LogicParser()
         
         function findAndProcessConfigMap(parent: LogicItem, name: string, markUsedBy: boolean, isOptional?: boolean)
         {
-            var configMapScope = namespaceScope.items.get('ConfigMap', name);
+            let configMapScope = namespaceScope.items.get('ConfigMap', name);
             if (configMapScope)
             {
-                var configmap = parent.fetchByNaming("configmap", name);
+                let configmap = parent.fetchByNaming("configmap", name);
                 scope.setK8sConfig(configmap, configMapScope.config);
                 if (markUsedBy) {
                     configMapScope.markUsedBy(configmap);

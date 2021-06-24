@@ -12,10 +12,10 @@ export default LogicParser()
     .needNamespaceScope(true)
     .handler(({ item, namespaceScope }) => {
 
-        var app = item.parent!;
-        var appScope = app.appScope;
+        let app = item.parent!;
+        let appScope = app.appScope;
 
-        var name = _.get(item.config, 'spec.template.spec.serviceAccountName');
+        let name = _.get(item.config, 'spec.template.spec.serviceAccountName');
         if (!name) {
             name = _.get(item.config, 'spec.template.spec.serviceAccount');
         }
@@ -26,7 +26,7 @@ export default LogicParser()
         
         if (name)
         {
-            var serviceAccountScope = namespaceScope.items.get('ServiceAccount', name);
+            let serviceAccountScope = namespaceScope.items.get('ServiceAccount', name);
             if (serviceAccountScope) {
                 serviceAccountScope.registerOwnerItem(app);
             } else {

@@ -16,19 +16,19 @@ export default ConcreteParser()
 
         if (item.config.metadata.ownerReferences)
         {
-            for(var ref of item.config.metadata.ownerReferences)
+            for(let ref of item.config.metadata.ownerReferences)
             {
-                var ownerItems = namespaceScope.getAppOwners(ref.kind, ref.name);
-                for(var ownerItem of ownerItems) 
+                let ownerItems = namespaceScope.getAppOwners(ref.kind, ref.name);
+                for(let ownerItem of ownerItems) 
                 {
-                    var shortName = makeRelativeName(ownerItem.config.metadata.name, item.config.metadata.name);
+                    let shortName = makeRelativeName(ownerItem.config.metadata.name, item.config.metadata.name);
                     createReplicaSet(ownerItem, { name: shortName });
                 }
             }
         }
 
         if (!hasCreatedItems()) {
-            var rawContainer = scope.fetchRawContainer(item, "ReplicaSets");
+            let rawContainer = scope.fetchRawContainer(item, "ReplicaSets");
             createReplicaSet(rawContainer);
             createAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deploment, StatefulSet or DaemonSet instead.');
         }
@@ -36,7 +36,7 @@ export default ConcreteParser()
         /*** HELPERS ***/
         function createReplicaSet(parent: LogicItem, params? : any)
         {
-            var k8sReplicaSet = createK8sItem(parent, params);
+            let k8sReplicaSet = createK8sItem(parent, params);
             namespaceScope.registerAppOwner(k8sReplicaSet);
             return k8sReplicaSet;
         }

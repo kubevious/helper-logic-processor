@@ -13,22 +13,22 @@ export default ScopeParser()
     })
     .handler(({ scope, infraScope, itemScope }) => {
 
-        var key = 'policy/podsecuritypolicies';
-        var pspRules = itemScope.data.rules[key]; // TODO: Fix Me. Sometimes rules is not set. 
+        let key = 'policy/podsecuritypolicies';
+        let pspRules = itemScope.data.rules[key]; // TODO: Fix Me. Sometimes rules is not set. 
         if (!pspRules) {
             return;
         }
 
-        for(var pspRuleItem of pspRules.items)
+        for(let pspRuleItem of pspRules.items)
         {
             if (pspRuleItem.verbs['use'])
             {
-                var pspScope = infraScope.items.get('PodSecurityPolicy', pspRuleItem.name);
+                let pspScope = infraScope.items.get('PodSecurityPolicy', pspRuleItem.name);
                 if (pspScope)
                 {
-                    for(var roleItem of itemScope.items)
+                    for(let roleItem of itemScope.items)
                     {
-                        var psp = roleItem.fetchByNaming("psp", pspScope.name);
+                        let psp = roleItem.fetchByNaming("psp", pspScope.name);
                         scope.setK8sConfig(psp, pspScope.config);
                         pspScope.registerItem(psp);
                         pspScope.markUsedBy(psp);

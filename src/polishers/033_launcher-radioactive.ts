@@ -8,13 +8,13 @@ export default LogicParser()
     })
     .handler(({ item }) => {
 
-        var radioactiveProps : Record<string, any> = {};
+        let radioactiveProps : Record<string, any> = {};
 
         if (_.get(item.config, 'securityContext.privileged')) {
             radioactiveProps['privileged'] = true;
         }
         
-        var podSpec = _.get(item.config, 'spec.template.spec');
+        let podSpec = _.get(item.config, 'spec.template.spec');
         if (podSpec)
         {
             if (podSpec.hostIPC) {

@@ -12,13 +12,13 @@ export default ConcreteParser()
     .needNamespaceScope(true)
     .handler(({ scope, item, createK8sItem, createAlert, hasCreatedItems, namespaceScope }) => {
 
-        var itemScope = namespaceScope.items.register(item.config);
+        let itemScope = namespaceScope.items.register(item.config);
         
-        var conditions = _.get(item.config, 'status.conditions');
+        let conditions = _.get(item.config, 'status.conditions');
         if (conditions) {
-            for(var condition of conditions) {
+            for(let condition of conditions) {
                 if (condition.status != 'True') {
-                    var msg = 'There was error with ' + condition.type + '. ';
+                    let msg = 'There was error with ' + condition.type + '. ';
                     if (condition.message) {
                         msg += condition.message;
                     }
@@ -29,20 +29,20 @@ export default ConcreteParser()
 
         if (item.config.metadata.ownerReferences)
         {
-            for(var ref of item.config.metadata.ownerReferences)
+            for(let ref of item.config.metadata.ownerReferences)
             {
-                var ownerItems = namespaceScope.getAppOwners(ref.kind, ref.name);
-                for(var ownerItem of ownerItems) 
+                let ownerItems = namespaceScope.getAppOwners(ref.kind, ref.name);
+                for(let ownerItem of ownerItems) 
                 {
-                    var shortName = makeRelativeName(ownerItem.config.metadata.name, item.config.metadata.name);
-                    var logicItem = createK8sItem(ownerItem, { name: shortName });
+                    let shortName = makeRelativeName(ownerItem.config.metadata.name, item.config.metadata.name);
+                    let logicItem = createK8sItem(ownerItem, { name: shortName });
                     itemScope.registerItem(logicItem);
                 }
             }
         }
 
         if (!hasCreatedItems()) {
-            var rawContainer = scope.fetchRawContainer(item, "Pods");
+            let rawContainer = scope.fetchRawContainer(item, "Pods");
             logicItem = createK8sItem(rawContainer);
             itemScope.registerItem(logicItem);
 

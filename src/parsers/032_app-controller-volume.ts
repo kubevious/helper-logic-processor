@@ -12,24 +12,24 @@ export default LogicParser()
     .handler(({ scope, item, createItem, createAlert, namespaceScope }) => {
 
 
-        var app = item.parent!;
-        var appScope = app.appScope;
+        let app = item.parent!;
+        let appScope = app.appScope;
 
-        var volumesProperties : Record<string, any> = {
+        let volumesProperties : Record<string, any> = {
 
         }
-        var volumesConfig : any[] = _.get(item.config, 'spec.template.spec.volumes');
+        let volumesConfig : any[] = _.get(item.config, 'spec.template.spec.volumes');
         if (!volumesConfig || !_.isArray(volumesConfig)) {
             volumesConfig = [];
         }
-        var volumesMap = _.makeDict(volumesConfig, x => x.name, x => x);
+        let volumesMap = _.makeDict(volumesConfig, x => x.name, x => x);
 
         volumesProperties['Count'] = volumesConfig.length;
         appScope.properties['Volumes'] = volumesConfig.length;
 
         if (volumesConfig.length > 0)
         {
-            var volumes = app.fetchByNaming("vol", "Volumes");
+            let volumes = app.fetchByNaming("vol", "Volumes");
 
             volumes.addProperties({
                 kind: "key-value",
@@ -39,14 +39,14 @@ export default LogicParser()
                 config: volumesProperties
             });  
 
-            for(var volumeConfig of volumesConfig) {
+            for(let volumeConfig of volumesConfig) {
                 processVolumeConfig(
                     volumes, 
                     volumeConfig,
                     false);
             }
 
-            for(var container of appScope.allContainerItems)
+            for(let container of appScope.allContainerItems)
             {
                 processContainerItem(container)
             }
@@ -54,15 +54,15 @@ export default LogicParser()
 
         function processContainerItem(container : LogicItem)
         {
-            var volumeMounts = _.get(container.config, 'volumeMounts');
+            let volumeMounts = _.get(container.config, 'volumeMounts');
             if (!_.isArray(volumeMounts) || volumeMounts.length == 0) {
                 return;
             }
 
-            for(var volumeRefConfig of volumeMounts) {
-                var volumeConfig = volumesMap[volumeRefConfig.name];
+            for(let volumeRefConfig of volumeMounts) {
+                let volumeConfig = volumesMap[volumeRefConfig.name];
                 if (volumeConfig) {
-                    var volumeItem = processVolumeConfig(
+                    let volumeItem = processVolumeConfig(
                         container, 
                         volumeConfig,
                         true);
@@ -82,7 +82,7 @@ export default LogicParser()
 
         function processVolumeConfig(parent : LogicItem, volumeConfig: any, markUsedBy: boolean)
         {
-            var volume = createItem(parent, volumeConfig.name);
+            let volume = createItem(parent, volumeConfig.name);
             scope.setK8sConfig(volume, volumeConfig);
         
             if (volumeConfig.configMap) {
@@ -98,10 +98,10 @@ export default LogicParser()
         
         function findAndProcessConfigMap(parent : LogicItem, name: string, markUsedBy: boolean, isOptional: boolean)
         {
-            var configMapScope = namespaceScope.items.get('ConfigMap', name);
+            let configMapScope = namespaceScope.items.get('ConfigMap', name);
             if (configMapScope)
             {
-                var configmap = parent.fetchByNaming("configmap", name);
+                let configmap = parent.fetchByNaming("configmap", name);
                 scope.setK8sConfig(configmap, configMapScope.config);
                 if (markUsedBy) {
                     configMapScope.markUsedBy(configmap);
@@ -118,9 +118,9 @@ export default LogicParser()
 
         function findAndProcessSecret(parent : LogicItem, name: string, markUsedBy: boolean)
         {
-            var secret = parent.fetchByNaming("secret", name);
+            let secret = parent.fetchByNaming("secret", name);
             if (markUsedBy) {
-                var secretScope = namespaceScope.items.fetch('Secret', name, null);
+                let secretScope = namespaceScope.items.fetch('Secret', name, null);
                 secretScope.markUsedBy(secret);
             }
         }

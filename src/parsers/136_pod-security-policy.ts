@@ -12,8 +12,8 @@ export default ScopeParser()
 
         if (itemScope.isNotUsed)
         {
-            var rawContainer = scope.fetchNamespaceRawContainer("", "PodSecurityPolicies");
-            var logicItem = createK8sItem(rawContainer);
+            let rawContainer = scope.fetchNamespaceRawContainer("", "PodSecurityPolicies");
+            let logicItem = createK8sItem(rawContainer);
             itemScope.registerItem(logicItem);
             createAlert('Unused', 'warn', itemScope.kind + ' not used.');
         }

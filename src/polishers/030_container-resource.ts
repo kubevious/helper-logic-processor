@@ -8,9 +8,9 @@ export default LogicParser()
     })
     .handler(({ item, helpers }) => {
 
-        var resourcesProps : Record<string, any> = {
+        let resourcesProps : Record<string, any> = {
         }
-        for(var metric of helpers.resources.METRICS) {
+        for(let metric of helpers.resources.METRICS) {
             collectResourceMetric(metric);
         }
 
@@ -26,25 +26,26 @@ export default LogicParser()
 
         function collectResourceMetric(metric : string)
         {
-            collectResourceMetricCounter(metric, 'request');
-            collectResourceMetricCounter(metric, 'limit');
+            const limitValue = collectResourceMetricCounter(metric, 'limit', null);
+            collectResourceMetricCounter(metric, 'request', limitValue);
         }
 
-        function collectResourceMetricCounter(metric: string, counter: string)
+        function collectResourceMetricCounter(metric: string, counter: string, defaultValue: number | null) : number | null
         {
-            var rawValue = _.get(item.config, 'resources.' + counter + 's.' + metric);
+            let rawValue = _.get(item.config, 'resources.' + counter + 's.' + metric);
             if (!rawValue) {
-                rawValue = getDefaultMetric(metric, counter);
-                if (!rawValue) {
-                    return;
+                rawValue = getDefaultMetric(metric, counter, defaultValue);
+                if (_.isNullOrUndefined(rawValue)) {
+                    return null;
                 }
             }
             resourcesProps[metric + ' ' + counter] = helpers.resources.parse(metric, rawValue);
+            return rawValue;
         }
 
-        function getDefaultMetric(metric: string, counter: string)
+        function getDefaultMetric(metric: string, counter: string, defaultValue: number | null)
         {
-            return null;
+            return defaultValue;
             // TODO: Get from LimitRange.
             if (counter == 'request') {
                 if (metric == 'cpu') {

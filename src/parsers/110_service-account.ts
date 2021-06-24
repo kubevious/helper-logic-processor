@@ -11,12 +11,12 @@ export default ConcreteParser()
     .needNamespaceScope(true)
     .handler(({ scope, item, namespaceScope, createK8sItem, createAlert, helpers }) => {
 
-        var serviceAccountScope = namespaceScope.items.getByConcrete(item)!;
+        let serviceAccountScope = namespaceScope.items.getByConcrete(item)!;
 
         if (serviceAccountScope.hasNoOwner)
         {
-            var rawContainer = scope.fetchRawContainer(item, "ServiceAccounts");
-            var logicItem = createK8sItem(rawContainer);
+            let rawContainer = scope.fetchRawContainer(item, "ServiceAccounts");
+            let logicItem = createK8sItem(rawContainer);
             // logicItem.associateScope(serviceAccountScope);
 
             if (logicItem.naming != 'default')
@@ -26,9 +26,9 @@ export default ConcreteParser()
         } 
         else 
         {
-            for(var owner of serviceAccountScope.owners)
+            for(let owner of serviceAccountScope.owners)
             {
-                var logicItem = createK8sItem(owner);
+                let logicItem = createK8sItem(owner);
                 // logicItem.associateScope(serviceAccountScope);
                 serviceAccountScope.registerItem(logicItem);
                 serviceAccountScope.markUsedBy(logicItem);

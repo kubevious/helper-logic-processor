@@ -12,7 +12,7 @@ export default ConcreteParser()
     .kind('hpa')
     .needAppScope(true)
     .appNameCb((item) => {
-        var scaleTargetRef = _.get(item.config, 'spec.scaleTargetRef');
+        let scaleTargetRef = _.get(item.config, 'spec.scaleTargetRef');
         if (!scaleTargetRef) {
             return null;
         }
@@ -25,19 +25,19 @@ export default ConcreteParser()
 
         // TODO: replace with appScope or app
         if (!appScope) {
-            var rawContainer = scope.fetchRawContainer(item, "Autoscalers");
+            let rawContainer = scope.fetchRawContainer(item, "Autoscalers");
             createK8sItem(rawContainer);
             createAlert('MissingApp', 'error', 'Could not find apps matching scaleTargetRef.');
             return;
         }
 
-        var min = item.config.spec.minReplicas;
-        var max = item.config.spec.maxReplicas;
-        var replicasInfo = "[" + min + ", " + max + "]";
+        let min = item.config.spec.minReplicas;
+        let max = item.config.spec.maxReplicas;
+        let replicasInfo = "[" + min + ", " + max + "]";
 
         createK8sItem(app);
 
-        var appProps = appScope.properties;
+        let appProps = appScope.properties;
         if (_.isNotNullOrUndefined(appProps['Replicas']))
         {
             appProps['Replicas'] += " " + replicasInfo;

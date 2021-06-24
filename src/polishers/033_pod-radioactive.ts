@@ -8,9 +8,9 @@ export default LogicParser()
     })
     .handler(({ item }) => {
 
-        var radioactiveProps : Record<string, any> = {};
+        let radioactiveProps : Record<string, any> = {};
 
-        var podSpec = _.get(item.config, 'spec')
+        let podSpec = _.get(item.config, 'spec')
         if (podSpec)
         {
             if (podSpec.hostIPC) {
@@ -25,7 +25,7 @@ export default LogicParser()
 
             if (podSpec.containers)
             {
-                for(var container of podSpec.containers)
+                for(let container of podSpec.containers)
                 {
                     if (_.get(container, 'securityContext.privileged')) {
                         radioactiveProps['privileged'] = true;

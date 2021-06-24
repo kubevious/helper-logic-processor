@@ -32,26 +32,26 @@ export default ConcreteParser()
     })
     .handler(({ scope, item, namespaceScope, createK8sItem, createAlert, helpers }) => {
 
-        var roleScope = namespaceScope.items.getByConcrete(item)!;
+        let roleScope = namespaceScope.items.getByConcrete(item)!;
 
         if (roleScope.hasNoOwner)
         {
-            var rawContainer = scope.fetchRawContainer(item, item.config.kind + "s");
-            var logicItem = createK8sItem(rawContainer);
+            let rawContainer = scope.fetchRawContainer(item, item.config.kind + "s");
+            let logicItem = createK8sItem(rawContainer);
             roleScope.registerItem(logicItem);
             createAlert('Unused', 'warn', item.config.kind + ' not used.');
         } 
         else
         {
-            for(var owner of roleScope.owners)
+            for(let owner of roleScope.owners)
             {
-                var logicItem = createK8sItem(owner);
+                let logicItem = createK8sItem(owner);
                 roleScope.registerItem(logicItem);
                 roleScope.markUsedBy(logicItem);
             }
         }
 
-        for(var logicItem of roleScope.items)
+        for(let logicItem of roleScope.items)
         {
             logicItem.addProperties(roleScope.data.roleMatrixProps);
         }
