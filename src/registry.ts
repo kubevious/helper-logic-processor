@@ -22,13 +22,15 @@ export interface ItemId {
     name: string,
 };
 export interface K8sConfig {
-    synthetic?: boolean
-    apiVersion: string
-    kind: string
+    synthetic?: boolean,
+    apiVersion: string,
+    kind: string,
     metadata: {
-        name: string
-        namespace?: string
-    }
+        name: string,
+        namespace?: string,
+        [x: string]: any,
+    },
+    [x: string]: any
 }
 
 export function extractK8sConfigId(config: K8sConfig) : ItemId
