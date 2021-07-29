@@ -12,13 +12,15 @@ export interface IConcreteItem
 }
 
 export interface ItemId {
+    synthetic?: boolean
     infra: string,
     api: string,
     kind: string,
     namespace?: string, 
-    name: string
+    name: string,
 };
 export interface K8sConfig {
+    synthetic?: boolean
     apiVersion: string
     kind: string
     metadata: {
@@ -37,6 +39,9 @@ export function extractK8sConfigId(config: K8sConfig) : ItemId
     }
     if (config.metadata.namespace) {
         itemId.namespace = config.metadata.namespace!;
+    }
+    if (config.synthetic) {
+        itemId.synthetic = true;
     }
     return itemId;
 }
