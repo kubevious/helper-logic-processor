@@ -33,7 +33,7 @@ export interface K8sConfig {
 
 export function extractK8sConfigId(config: K8sConfig) : ItemId
 {
-    const parts = config.apiVersion.split('/')[0];
+    const parts = config.apiVersion.split('/');
 
     let itemId : ItemId = {
         infra: 'k8s',
