@@ -1,3 +1,4 @@
+import _ from 'the-lodash';
 export interface IConcreteRegistry
 {
     date: Date;
@@ -14,7 +15,8 @@ export interface IConcreteItem
 export interface ItemId {
     synthetic?: boolean
     infra: string,
-    api: string,
+    api: string | null,
+    version: string,
     kind: string,
     namespace?: string, 
     name: string,
@@ -31,9 +33,12 @@ export interface K8sConfig {
 
 export function extractK8sConfigId(config: K8sConfig) : ItemId
 {
+    const parts = config.apiVersion.split('/')[0];
+
     let itemId : ItemId = {
         infra: 'k8s',
-        api: config.apiVersion.split('/')[0],
+        api: (parts.length > 1) ? _.head(parts)! : null,
+        version: _.last(parts)!,
         kind: config.kind,
         name: config.metadata.name
     }
