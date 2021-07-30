@@ -30,6 +30,9 @@ export interface K8sConfig {
         namespace?: string,
         [x: string]: any,
     },
+    spec?: object,
+    status?: object,
+    data?: object,
     [x: string]: any
 }
 
