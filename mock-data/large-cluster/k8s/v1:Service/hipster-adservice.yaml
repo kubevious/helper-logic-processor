@@ -1,0 +1,27 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: adservice
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/services/adservice
+    uid: a44d8ac9-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '16672'
+    creationTimestamp: '2020-01-11T07:11:52Z'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"adservice","namespace":"hipster"},"spec":{"ports":[{"name":"grpc","port":9555,"targetPort":9555}],"selector":{"app":"adservice"},"type":"ClusterIP"}}
+spec:
+    ports:
+        -
+            name: grpc
+            protocol: TCP
+            port: 9555
+            targetPort: 9555
+    selector:
+        app: adservice
+    clusterIP: 10.75.1.194
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

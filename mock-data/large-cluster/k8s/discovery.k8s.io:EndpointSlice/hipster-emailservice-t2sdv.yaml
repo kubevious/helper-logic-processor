@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: emailservice-t2sdv
+    generateName: emailservice-
+    namespace: hipster
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/hipster/endpointslices/emailservice-t2sdv
+    uid: 654896b6-5132-4c58-9d07-b257f868a8d1
+    resourceVersion: '274558786'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: emailservice
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:00Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: emailservice
+            uid: a09038cc-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:41:00Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"a09038cc-3441-11ea-9cdc-42010a8001cf"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.10
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: hipster
+            name: emailservice-6545668f4f-sczmz
+            uid: c130d698-1033-4ead-bc45-8e68d653a457
+            resourceVersion: '274558784'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: grpc
+        protocol: TCP
+        port: 8080
+

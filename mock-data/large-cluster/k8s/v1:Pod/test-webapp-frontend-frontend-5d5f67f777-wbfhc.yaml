@@ -1,0 +1,198 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: frontend-5d5f67f777-wbfhc
+    generateName: frontend-5d5f67f777-
+    namespace: test-webapp-frontend
+    selfLink: /api/v1/namespaces/test-webapp-frontend/pods/frontend-5d5f67f777-wbfhc
+    uid: c8232433-8b8f-4dba-819f-87b167e67dad
+    resourceVersion: '274562258'
+    creationTimestamp: '2021-08-01T11:43:21Z'
+    labels:
+        app: frontend
+        pod-template-hash: 5d5f67f777
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.28/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: frontend-5d5f67f777
+            uid: 1292441c-b62a-4f5b-a914-bf4d6d051d17
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:21Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"1292441c-b62a-4f5b-a914-bf4d6d051d17"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"nginx"}':
+                            .: {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:32Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:46:19Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.28"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: default-token-bkg9c
+            secret:
+                secretName: default-token-bkg9c
+                defaultMode: 420
+    containers:
+        -
+            name: nginx
+            image: nginx
+            resources: {}
+            volumeMounts:
+                -
+                    name: default-token-bkg9c
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:22Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:46:19Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:46:19Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:21Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.28
+    podIPs:
+        -
+            ip: 10.8.0.28
+    startTime: '2021-08-01T11:43:22Z'
+    containerStatuses:
+        -
+            name: nginx
+            state:
+                running:
+                    startedAt: '2021-08-01T11:46:18Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'nginx:latest'
+            imageID: >-
+                docker-pullable://nginx@sha256:8f335768880da6baf72b70c701002b45f4932acae8d574dedfddaf967fc3ac90
+            containerID: >-
+                docker://5bfffedd9213104874cf1c2bc27eeec0f78a03af6f422ff5f2eb8f1af76daa91
+            started: true
+    qosClass: BestEffort
+

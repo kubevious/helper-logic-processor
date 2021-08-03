@@ -1,0 +1,19 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:21Z'
+    generation: 1
+    name: replicasets.apps
+    resourceVersion: '275528035'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/replicasets.apps
+    uid: e37a9f8f-35ed-4d5d-8fea-12b7c225736b
+spec:
+    resource:
+        group: apps
+        resource: replicasets
+status:
+    currentStorageVersionHash: P1RzHs8/mWQ=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - P1RzHs8/mWQ=
+

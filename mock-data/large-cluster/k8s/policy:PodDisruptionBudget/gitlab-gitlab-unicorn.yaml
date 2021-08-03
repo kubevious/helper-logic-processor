@@ -1,0 +1,29 @@
+kind: PodDisruptionBudget
+apiVersion: policy/v1beta1
+metadata:
+    name: gitlab-unicorn
+    namespace: gitlab
+    selfLink: >-
+        /apis/policy/v1beta1/namespaces/gitlab/poddisruptionbudgets/gitlab-unicorn
+    uid: 97f8aa01-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274566477'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: unicorn
+        chart: unicorn-2.6.5
+        heritage: Helm
+        release: gitlab
+spec:
+    selector:
+        matchLabels:
+            app: unicorn
+            release: gitlab
+    maxUnavailable: 1
+status:
+    observedGeneration: 1
+    disruptionsAllowed: 1
+    currentHealthy: 2
+    desiredHealthy: 1
+    expectedPods: 2
+

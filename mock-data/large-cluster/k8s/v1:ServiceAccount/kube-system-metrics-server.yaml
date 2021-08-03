@@ -1,0 +1,19 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: metrics-server
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/metrics-server
+    uid: bfd47e64-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '405'
+    creationTimestamp: '2020-01-11T06:01:03Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"metrics-server","namespace":"kube-system"}}
+secrets:
+    -
+        name: metrics-server-token-2s5rt
+

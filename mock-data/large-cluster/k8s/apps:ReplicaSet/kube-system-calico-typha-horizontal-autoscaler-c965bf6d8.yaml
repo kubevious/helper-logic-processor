@@ -1,0 +1,175 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: calico-typha-horizontal-autoscaler-c965bf6d8
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/replicasets/calico-typha-horizontal-autoscaler-c965bf6d8
+    uid: e22cea62-9462-4711-81d3-ff9456525058
+    resourceVersion: '274561191'
+    generation: 1
+    creationTimestamp: '2021-05-11T16:15:53Z'
+    labels:
+        k8s-app: calico-typha-autoscaler
+        pod-template-hash: c965bf6d8
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '6'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: calico-typha-horizontal-autoscaler
+            uid: c7889f07-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: apps/v1
+            time: '2021-08-01T11:44:16Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:deployment.kubernetes.io/desired-replicas': {}
+                        'f:deployment.kubernetes.io/max-replicas': {}
+                        'f:deployment.kubernetes.io/revision': {}
+                    'f:labels':
+                        .: {}
+                        'f:k8s-app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"c7889f07-3d3e-11ea-96d3-42010a80017a"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:replicas': {}
+                    'f:selector':
+                        'f:matchLabels':
+                            .: {}
+                            'f:k8s-app': {}
+                            'f:pod-template-hash': {}
+                    'f:template':
+                        'f:metadata':
+                            'f:annotations':
+                                .: {}
+                                'f:components.gke.io/component-name': {}
+                                'f:components.gke.io/component-version': {}
+                            'f:labels':
+                                .: {}
+                                'f:k8s-app': {}
+                                'f:pod-template-hash': {}
+                        'f:spec':
+                            'f:containers':
+                                'k:{"name":"autoscaler"}':
+                                    .: {}
+                                    'f:command': {}
+                                    'f:image': {}
+                                    'f:imagePullPolicy': {}
+                                    'f:name': {}
+                                    'f:resources':
+                                        .: {}
+                                        'f:requests':
+                                            .: {}
+                                            'f:cpu': {}
+                                    'f:securityContext':
+                                        .: {}
+                                        'f:allowPrivilegeEscalation': {}
+                                        'f:capabilities':
+                                            .: {}
+                                            'f:drop': {}
+                                    'f:terminationMessagePath': {}
+                                    'f:terminationMessagePolicy': {}
+                            'f:dnsPolicy': {}
+                            'f:priorityClassName': {}
+                            'f:restartPolicy': {}
+                            'f:schedulerName': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:fsGroup': {}
+                                'f:runAsGroup': {}
+                                'f:runAsUser': {}
+                                'f:supplementalGroups': {}
+                            'f:serviceAccount': {}
+                            'f:serviceAccountName': {}
+                            'f:terminationGracePeriodSeconds': {}
+                            'f:tolerations': {}
+                'f:status':
+                    'f:availableReplicas': {}
+                    'f:fullyLabeledReplicas': {}
+                    'f:observedGeneration': {}
+                    'f:readyReplicas': {}
+                    'f:replicas': {}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            k8s-app: calico-typha-autoscaler
+            pod-template-hash: c965bf6d8
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: calico-typha-autoscaler
+                pod-template-hash: c965bf6d8
+            annotations:
+                components.gke.io/component-name: networkpolicy-calico
+                components.gke.io/component-version: 1.0.12
+        spec:
+            containers:
+                -
+                    name: autoscaler
+                    image: >-
+                        gke.gcr.io/cluster-proportional-autoscaler-amd64:1.8.1-gke.0
+                    command:
+                        - /cluster-proportional-autoscaler
+                        - '--namespace=kube-system'
+                        - '--configmap=calico-typha-horizontal-autoscaler'
+                        - '--target=deployment/calico-typha'
+                        - '--logtostderr=true'
+                        - '--v=2'
+                    resources:
+                        requests:
+                            cpu: 10m
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        capabilities:
+                            drop:
+                                - all
+                        allowPrivilegeEscalation: false
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: typha-cpha
+            serviceAccount: typha-cpha
+            securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                supplementalGroups:
+                    - 65534
+                fsGroup: 65534
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

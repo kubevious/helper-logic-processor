@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:03Z'
+    generateName: events-
+    generation: 2
+    name: events-pxcrl
+    resourceVersion: '166747782'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storageversionmigrations/events-pxcrl
+    uid: ddcd9f84-da7f-4078-aa9e-fe91e844b91e
+spec:
+    continueToken: >-
+        eyJ2IjoibWV0YS5rOHMuaW8vdjEiLCJydiI6MTA5NDEwNywic3RhcnQiOiJrdWJlLXN5c3RlbS9jYWxpY28tdHlwaGEtdmVydGljYWwtYXV0b3NjYWxlci05ZDlmYzc1YzUtcHdzamguMTY1YzAwMDI1NzFkOWFiYlx1MDAwMCJ9
+    resource:
+        resource: events
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:18:10Z'
+            status: 'True'
+            type: Succeeded
+

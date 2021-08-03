@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: horizontal-pod-autoscaler
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/horizontal-pod-autoscaler
+    uid: b7a3e687-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '196'
+    creationTimestamp: '2020-01-11T06:00:49Z'
+secrets:
+    -
+        name: horizontal-pod-autoscaler-token-x2gt9
+

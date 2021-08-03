@@ -1,0 +1,58 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:csi-external-attacher'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acsi-external-attacher
+    uid: af51b2c8-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '64'
+    creationTimestamp: '2020-01-11T06:00:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumes
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - volumeattachments
+    -
+        verbs:
+            - create
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - events
+

@@ -1,0 +1,25 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:slo-monitor'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Aslo-monitor
+    uid: 3df77614-7fff-406f-881d-b0cbe3bda30c
+    resourceVersion: '61444953'
+    creationTimestamp: '2020-06-13T07:50:44Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-version: slo-monitor-rbac-1.0.0
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{"components.gke.io/component-version":"slo-monitor-rbac-1.0.0"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:slo-monitor"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"system:slo-monitor"},"subjects":[{"kind":"User","name":"system:slo-monitor"}]}
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:slo-monitor'
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:slo-monitor'
+

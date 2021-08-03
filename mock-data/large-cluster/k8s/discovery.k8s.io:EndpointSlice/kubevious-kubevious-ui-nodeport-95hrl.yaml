@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: kubevious-ui-nodeport-95hrl
+    generateName: kubevious-ui-nodeport-
+    namespace: kubevious
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/kubevious/endpointslices/kubevious-ui-nodeport-95hrl
+    uid: f0f27fd6-684f-4b4e-857a-63fede1ad069
+    resourceVersion: '274561592'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: kubevious-ui-nodeport
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:44:56Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: kubevious-ui-nodeport
+            uid: 079be672-ebf8-481c-9a75-c4e201466efb
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:44:56Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"079be672-ebf8-481c-9a75-c4e201466efb"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.0.18
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: kubevious
+            name: kubevious-ui-7b479c4cf9-fvt4l
+            uid: a08b3a9a-e0fa-4762-95de-d9de0a7c151c
+            resourceVersion: '274561590'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: http
+        protocol: TCP
+        port: 80
+

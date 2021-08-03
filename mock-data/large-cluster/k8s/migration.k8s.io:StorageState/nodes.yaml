@@ -1,0 +1,18 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:14Z'
+    generation: 1
+    name: nodes
+    resourceVersion: '275527948'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/nodes
+    uid: 9190cdba-5eac-46ab-bf0f-a56b8d0d8d35
+spec:
+    resource:
+        resource: nodes
+status:
+    currentStorageVersionHash: XwShjMxG9Fs=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - XwShjMxG9Fs=
+

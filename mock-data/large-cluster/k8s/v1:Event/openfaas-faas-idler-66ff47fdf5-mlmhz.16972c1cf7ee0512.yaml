@@ -1,0 +1,56 @@
+kind: Event
+apiVersion: v1
+metadata:
+    name: faas-idler-66ff47fdf5-mlmhz.16972c1cf7ee0512
+    namespace: openfaas
+    selfLink: >-
+        /api/v1/namespaces/openfaas/events/faas-idler-66ff47fdf5-mlmhz.16972c1cf7ee0512
+    uid: 55ce7664-88b5-4091-a38d-4f00e711c4ef
+    resourceVersion: '1515855'
+    creationTimestamp: '2021-08-01T11:44:53Z'
+    managedFields:
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:44:53Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:count': {}
+                'f:firstTimestamp': {}
+                'f:involvedObject':
+                    'f:apiVersion': {}
+                    'f:fieldPath': {}
+                    'f:kind': {}
+                    'f:name': {}
+                    'f:namespace': {}
+                    'f:resourceVersion': {}
+                    'f:uid': {}
+                'f:lastTimestamp': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:source':
+                    'f:component': {}
+                    'f:host': {}
+                'f:type': {}
+involvedObject:
+    kind: Pod
+    namespace: openfaas
+    name: faas-idler-66ff47fdf5-mlmhz
+    uid: f6f450ea-df1b-4195-974c-d0b3c3568abe
+    apiVersion: v1
+    resourceVersion: '274560302'
+    fieldPath: 'spec.containers{faas-idler}'
+reason: Failed
+message: 'Error: ImagePullBackOff'
+source:
+    component: kubelet
+    host: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+firstTimestamp: '2021-08-01T11:44:53Z'
+lastTimestamp: '2021-08-03T01:18:24Z'
+count: 9930
+type: Warning
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''
+

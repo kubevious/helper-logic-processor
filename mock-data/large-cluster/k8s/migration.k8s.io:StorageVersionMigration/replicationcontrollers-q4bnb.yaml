@@ -1,0 +1,22 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:07Z'
+    generateName: replicationcontrollers-
+    generation: 1
+    name: replicationcontrollers-q4bnb
+    resourceVersion: '166749082'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/replicationcontrollers-q4bnb
+    uid: 198be2d4-c412-45c9-8f34-3d00fa3b79d8
+spec:
+    resource:
+        resource: replicationcontrollers
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:21:21Z'
+            status: 'True'
+            type: Succeeded
+

@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: ingress-controller-leader-gitlab-nginx
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/configmaps/ingress-controller-leader-gitlab-nginx
+    uid: a029393d-398b-11ea-b115-42010a8001d6
+    resourceVersion: '275531469'
+    creationTimestamp: '2020-01-18T00:44:03Z'
+    annotations:
+        control-plane.alpha.kubernetes.io/leader: >-
+            {"holderIdentity":"gitlab-nginx-ingress-controller-7db754f856-9cnfp","leaseDurationSeconds":30,"acquireTime":"2021-08-01T11:43:54Z","renewTime":"2021-08-03T01:21:15Z","leaderTransitions":95}
+

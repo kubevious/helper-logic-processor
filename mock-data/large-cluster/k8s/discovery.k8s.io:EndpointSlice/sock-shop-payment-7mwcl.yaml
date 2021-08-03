@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: payment-7mwcl
+    generateName: payment-
+    namespace: sock-shop
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/sock-shop/endpointslices/payment-7mwcl
+    uid: 81754266-caa3-437d-8cdd-2a02bde7107d
+    resourceVersion: '274559314'
+    generation: 11
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: payment
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:50Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: payment
+            uid: cdfec943-396f-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:41:50Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"cdfec943-396f-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.27
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: sock-shop
+            name: payment-7d8497bcd7-r6lq4
+            uid: 20070fec-58e0-49b8-83c7-be2130bbe88c
+            resourceVersion: '274559312'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: ''
+        protocol: TCP
+        port: 80
+

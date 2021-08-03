@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:12Z'
+    generation: 1
+    name: felixconfigurations.crd.projectcalico.org
+    resourceVersion: '275528187'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/felixconfigurations.crd.projectcalico.org
+    uid: 102e3fbc-236c-4d5d-800c-5b2b377f8c21
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: felixconfigurations
+status:
+    currentStorageVersionHash: 3qRBCjXVVr0=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - 3qRBCjXVVr0=
+

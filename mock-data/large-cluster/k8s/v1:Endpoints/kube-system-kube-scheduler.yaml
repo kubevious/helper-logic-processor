@@ -1,0 +1,13 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: kube-scheduler
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/endpoints/kube-scheduler
+    uid: b0df08dc-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '275531505'
+    creationTimestamp: '2020-01-11T06:00:38Z'
+    annotations:
+        control-plane.alpha.kubernetes.io/leader: >-
+            {"holderIdentity":"gke-f005108ec19aa6d238be-199c-0b48-vm_2d25e6cc-90bb-42eb-995d-70462ba3678b","leaseDurationSeconds":15,"acquireTime":"2021-07-30T21:43:08Z","renewTime":"2021-08-03T01:21:20Z","leaderTransitions":40}
+

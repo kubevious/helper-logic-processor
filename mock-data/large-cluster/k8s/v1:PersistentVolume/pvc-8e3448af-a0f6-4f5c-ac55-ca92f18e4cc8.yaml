@@ -1,0 +1,53 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+    name: pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+    selfLink: /api/v1/persistentvolumes/pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+    uid: 405a3993-1ff1-4c26-8c50-7e6b815b99f1
+    resourceVersion: '140027525'
+    creationTimestamp: '2020-11-15T00:14:31Z'
+    labels:
+        failure-domain.beta.kubernetes.io/region: us-central1
+        failure-domain.beta.kubernetes.io/zone: us-central1-a
+    annotations:
+        kubernetes.io/createdby: gce-pd-dynamic-provisioner
+        pv.kubernetes.io/bound-by-controller: 'yes'
+        pv.kubernetes.io/provisioned-by: kubernetes.io/gce-pd
+    finalizers:
+        - kubernetes.io/pv-protection
+spec:
+    capacity:
+        storage: 40Gi
+    gcePersistentDisk:
+        pdName: gke-kubevious-samples--pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+        fsType: ext4
+    accessModes:
+        - ReadWriteOnce
+    claimRef:
+        kind: PersistentVolumeClaim
+        namespace: kubevious
+        name: data-kubevious-mysql-0
+        uid: 8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+        apiVersion: v1
+        resourceVersion: '135156479'
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: standard
+    volumeMode: Filesystem
+    nodeAffinity:
+        required:
+            nodeSelectorTerms:
+                -
+                    matchExpressions:
+                        -
+                            key: failure-domain.beta.kubernetes.io/zone
+                            operator: In
+                            values:
+                                - us-central1-a
+                        -
+                            key: failure-domain.beta.kubernetes.io/region
+                            operator: In
+                            values:
+                                - us-central1
+status:
+    phase: Bound
+

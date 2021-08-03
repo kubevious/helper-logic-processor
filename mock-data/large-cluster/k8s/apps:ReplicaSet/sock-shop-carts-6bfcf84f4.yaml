@@ -1,0 +1,92 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: carts-6bfcf84f4
+    namespace: sock-shop
+    selfLink: /apis/apps/v1/namespaces/sock-shop/replicasets/carts-6bfcf84f4
+    uid: cc4356c4-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274559247'
+    generation: 1
+    creationTimestamp: '2020-01-17T21:24:51Z'
+    labels:
+        name: carts
+        pod-template-hash: 6bfcf84f4
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: carts
+            uid: cc4244d8-396f-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            name: carts
+            pod-template-hash: 6bfcf84f4
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                name: carts
+                pod-template-hash: 6bfcf84f4
+        spec:
+            volumes:
+                -
+                    name: tmp-volume
+                    emptyDir:
+                        medium: Memory
+            containers:
+                -
+                    name: carts
+                    image: 'weaveworksdemos/carts:0.4.8'
+                    ports:
+                        -
+                            containerPort: 80
+                            protocol: TCP
+                    env:
+                        -
+                            name: ZIPKIN
+                            value: zipkin.jaeger.svc.cluster.local
+                        -
+                            name: JAVA_OPTS
+                            value: >-
+                                -Xms64m -Xmx128m -XX:PermSize=32m
+                                -XX:MaxPermSize=64m -XX:+UseG1GC
+                                -Djava.security.egd=file:/dev/urandom
+                    resources: {}
+                    volumeMounts:
+                        -
+                            name: tmp-volume
+                            mountPath: /tmp
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        capabilities:
+                            add:
+                                - NET_BIND_SERVICE
+                            drop:
+                                - all
+                        runAsUser: 10001
+                        runAsNonRoot: true
+                        readOnlyRootFilesystem: true
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            nodeSelector:
+                beta.kubernetes.io/os: linux
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

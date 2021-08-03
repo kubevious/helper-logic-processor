@@ -1,0 +1,28 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system::extension-apiserver-authentication-reader'
+    namespace: kube-system
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings/system::extension-apiserver-authentication-reader
+    uid: f4beb699-6f57-11ea-8ebf-42010a800207
+    resourceVersion: '31420226'
+    creationTimestamp: '2020-03-26T11:50:14Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:kube-controller-manager'
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:kube-scheduler'
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: extension-apiserver-authentication-reader
+

@@ -1,0 +1,34 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: gitlab-cert-manager
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/endpoints/gitlab-cert-manager
+    uid: 99456124-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274560614'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: cert-manager
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager
+        helm.sh/chart: certmanager-v0.10.1
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:43:21Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.2
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-cert-manager-5ffcc7f99f-2kr6b
+                    uid: 4abea487-e125-41d2-a4b4-e9495d1c37a4
+                    resourceVersion: '274560612'
+        ports:
+            -
+                port: 9402
+                protocol: TCP
+

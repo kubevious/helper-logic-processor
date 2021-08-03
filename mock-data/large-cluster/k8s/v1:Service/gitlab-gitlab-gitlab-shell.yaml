@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: gitlab-gitlab-shell
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/services/gitlab-gitlab-shell
+    uid: 994749a3-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016282'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: gitlab-shell
+        chart: gitlab-shell-2.6.5
+        heritage: Helm
+        release: gitlab
+spec:
+    ports:
+        -
+            name: ssh
+            protocol: TCP
+            port: 22
+            targetPort: 2222
+    selector:
+        app: gitlab-shell
+        release: gitlab
+    clusterIP: 10.75.6.248
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

@@ -1,0 +1,49 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:root-ca-cert-publisher'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acontroller%3Aroot-ca-cert-publisher
+    uid: 13eb6ac1-bfc2-4e7a-a85a-afaf8768eb63
+    resourceVersion: '223929054'
+    creationTimestamp: '2021-05-11T16:14:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+    managedFields:
+        -
+            manager: kube-apiserver
+            operation: Update
+            apiVersion: rbac.authorization.k8s.io/v1
+            time: '2021-05-11T16:14:35Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:rbac.authorization.kubernetes.io/autoupdate': {}
+                    'f:labels':
+                        .: {}
+                        'f:kubernetes.io/bootstrapping': {}
+                'f:rules': {}
+rules:
+    -
+        verbs:
+            - create
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - configmaps
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+            - events.k8s.io
+        resources:
+            - events
+

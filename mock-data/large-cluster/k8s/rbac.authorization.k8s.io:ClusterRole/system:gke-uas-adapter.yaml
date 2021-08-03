@@ -1,0 +1,55 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:gke-uas-adapter'
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Agke-uas-adapter
+    uid: 891cf2fb-b8a8-4676-aacb-4480e6fbe11e
+    resourceVersion: '61444998'
+    creationTimestamp: '2020-06-13T07:50:47Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:gke-uas-adapter"},"rules":[{"apiGroups":[""],"resources":["endpoints"],"verbs":["create"]},{"apiGroups":[""],"resourceNames":["vpa-recommender"],"resources":["endpoints"],"verbs":["get","update","patch","delete"]},{"apiGroups":[""],"resources":["limitranges","nodes","pods"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["events"],"verbs":["get","list","watch","create"]}]}
+rules:
+    -
+        verbs:
+            - create
+        apiGroups:
+            - ''
+        resources:
+            - endpoints
+    -
+        verbs:
+            - get
+            - update
+            - patch
+            - delete
+        apiGroups:
+            - ''
+        resources:
+            - endpoints
+        resourceNames:
+            - vpa-recommender
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - limitranges
+            - nodes
+            - pods
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - create
+        apiGroups:
+            - ''
+        resources:
+            - events
+

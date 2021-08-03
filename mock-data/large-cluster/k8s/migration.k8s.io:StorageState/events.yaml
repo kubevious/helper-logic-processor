@@ -1,0 +1,18 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:03Z'
+    generation: 1
+    name: events
+    resourceVersion: '275527999'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/events
+    uid: 9f479202-6c77-4029-abab-6b29b141aaf1
+spec:
+    resource:
+        resource: events
+status:
+    currentStorageVersionHash: r2yiGXH7wu8=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - r2yiGXH7wu8=
+

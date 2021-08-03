@@ -1,0 +1,324 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: polaris-dashboard-8554786c49-fb5mr
+    generateName: polaris-dashboard-8554786c49-
+    namespace: polaris
+    selfLink: /api/v1/namespaces/polaris/pods/polaris-dashboard-8554786c49-fb5mr
+    uid: be272a4a-b28f-4069-9dc5-86ec9339d5d5
+    resourceVersion: '274561410'
+    creationTimestamp: '2021-08-01T11:39:52Z'
+    labels:
+        app: polaris
+        component: dashboard
+        pod-template-hash: 8554786c49
+    annotations:
+        checksum/config: 8aa5a565fba7a2db98d46752087de8c1dcc83b70cd762c5829d5ba01270d54a2
+        cni.projectcalico.org/podIP: 10.8.1.33/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: polaris-dashboard-8554786c49
+            uid: b00f0760-6bcf-11ea-923a-42010a800150
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:52Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:checksum/config': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:component': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"b00f0760-6bcf-11ea-923a-42010a800150"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"dashboard"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:livenessProbe':
+                                .: {}
+                                'f:failureThreshold': {}
+                                'f:httpGet':
+                                    .: {}
+                                    'f:path': {}
+                                    'f:port': {}
+                                    'f:scheme': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":8080,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:readinessProbe':
+                                .: {}
+                                'f:failureThreshold': {}
+                                'f:httpGet':
+                                    .: {}
+                                    'f:path': {}
+                                    'f:port': {}
+                                    'f:scheme': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:resources':
+                                .: {}
+                                'f:limits':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:allowPrivilegeEscalation': {}
+                                'f:capabilities':
+                                    .: {}
+                                    'f:drop': {}
+                                'f:privileged': {}
+                                'f:readOnlyRootFilesystem': {}
+                                'f:runAsNonRoot': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/opt/app/config.yaml"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                    'f:subPath': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"config"}':
+                            .: {}
+                            'f:configMap':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:name': {}
+                            'f:name': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:04Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:44:34Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.33"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: config
+            configMap:
+                name: polaris
+                defaultMode: 420
+        -
+            name: polaris-dashboard-token-phrlm
+            secret:
+                secretName: polaris-dashboard-token-phrlm
+                defaultMode: 420
+    containers:
+        -
+            name: dashboard
+            image: 'quay.io/fairwinds/polaris:0.6'
+            command:
+                - polaris
+                - '--dashboard'
+                - '--config'
+                - /opt/app/config.yaml
+            ports:
+                -
+                    containerPort: 8080
+                    protocol: TCP
+            resources:
+                limits:
+                    cpu: 50m
+                    memory: 128Mi
+                requests:
+                    cpu: 10m
+                    memory: 128Mi
+            volumeMounts:
+                -
+                    name: config
+                    readOnly: true
+                    mountPath: /opt/app/config.yaml
+                    subPath: config.yaml
+                -
+                    name: polaris-dashboard-token-phrlm
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            livenessProbe:
+                httpGet:
+                    path: /health
+                    port: 8080
+                    scheme: HTTP
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+                periodSeconds: 20
+                successThreshold: 1
+                failureThreshold: 3
+            readinessProbe:
+                httpGet:
+                    path: /health
+                    port: 8080
+                    scheme: HTTP
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+                periodSeconds: 20
+                successThreshold: 1
+                failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+            securityContext:
+                capabilities:
+                    drop:
+                        - ALL
+                privileged: false
+                runAsNonRoot: true
+                readOnlyRootFilesystem: true
+                allowPrivilegeEscalation: false
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: polaris-dashboard
+    serviceAccount: polaris-dashboard
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:53Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:44:34Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:44:34Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:52Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.33
+    podIPs:
+        -
+            ip: 10.8.1.33
+    startTime: '2021-08-01T11:39:53Z'
+    containerStatuses:
+        -
+            name: dashboard
+            state:
+                running:
+                    startedAt: '2021-08-01T11:43:27Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'quay.io/fairwinds/polaris:0.6'
+            imageID: >-
+                docker-pullable://quay.io/fairwinds/polaris@sha256:d48993260cae9d1282ca4b20179efa91123599445e1b6cdabf2db6e0ccc62070
+            containerID: >-
+                docker://bee0a212bdea86c6cc3fe72801482321027d9a6fd82347c3059f4529662e6e0f
+            started: true
+    qosClass: Burstable
+

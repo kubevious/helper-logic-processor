@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:20Z'
+    generation: 1
+    name: ippools.crd.projectcalico.org
+    resourceVersion: '275528260'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/ippools.crd.projectcalico.org
+    uid: 7e3b34d9-4f93-4524-b719-a47748ff51e6
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: ippools
+status:
+    currentStorageVersionHash: 3/m0Z1pQb+k=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - 3/m0Z1pQb+k=
+

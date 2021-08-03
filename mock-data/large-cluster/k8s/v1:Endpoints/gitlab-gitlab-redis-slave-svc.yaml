@@ -1,0 +1,15 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: gitlab-redis-slave-svc
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/endpoints/gitlab-redis-slave-svc
+    uid: 993988d9-398b-11ea-b115-42010a8001d6
+    resourceVersion: '29702877'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: redis
+        chart: redis-ha-0.1.0
+        heritage: Helm
+        release: gitlab
+

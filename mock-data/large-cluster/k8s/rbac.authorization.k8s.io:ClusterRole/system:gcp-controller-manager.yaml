@@ -1,0 +1,74 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:gcp-controller-manager'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Agcp-controller-manager
+    uid: 42da1ab6-dea7-4997-8715-6939d77b09c2
+    resourceVersion: '223929777'
+    creationTimestamp: '2020-06-13T07:50:41Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-name: gcp-controller-manager-combined
+        components.gke.io/component-version: 2.1.0
+        components.gke.io/layer: addon
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"components.gke.io/component-name":"gcp-controller-manager-combined","components.gke.io/component-version":"2.1.0","components.gke.io/layer":"addon"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:gcp-controller-manager"},"rules":[{"apiGroups":[""],"resources":["serviceaccounts","pods"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["nodes","endpoints","configmaps"],"verbs":["*"]},{"apiGroups":[""],"resources":["events"],"verbs":["create"]},{"apiGroups":["certificates.k8s.io"],"resources":["certificatesigningrequests","certificatesigningrequests/approval","certificatesigningrequests/status"],"verbs":["*"]},{"apiGroups":["certificates.k8s.io"],"resourceNames":["kubernetes.io/kube-apiserver-client","kubernetes.io/kube-apiserver-client-kubelet","kubernetes.io/kubelet-serving","kubernetes.io/legacy-unknown"],"resources":["signers"],"verbs":["approve","sign"]},{"apiGroups":["authorization.k8s.io"],"resources":["subjectaccessreviews"],"verbs":["create"]}]}
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - serviceaccounts
+            - pods
+    -
+        verbs:
+            - '*'
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+            - endpoints
+            - configmaps
+    -
+        verbs:
+            - create
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - '*'
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - certificatesigningrequests
+            - certificatesigningrequests/approval
+            - certificatesigningrequests/status
+    -
+        verbs:
+            - approve
+            - sign
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/kube-apiserver-client
+            - kubernetes.io/kube-apiserver-client-kubelet
+            - kubernetes.io/kubelet-serving
+            - kubernetes.io/legacy-unknown
+    -
+        verbs:
+            - create
+        apiGroups:
+            - authorization.k8s.io
+        resources:
+            - subjectaccessreviews
+

@@ -1,0 +1,91 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: emailservice-84dbb97b49
+    namespace: hipster
+    selfLink: /apis/apps/v1/namespaces/hipster/replicasets/emailservice-84dbb97b49
+    uid: 27c8dcc1-431b-11ea-96d3-42010a80017a
+    resourceVersion: '7570085'
+    generation: 2
+    creationTimestamp: '2020-01-30T04:44:09Z'
+    labels:
+        app: emailservice
+        pod-template-hash: 84dbb97b49
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '2'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: emailservice
+            uid: a0685217-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            app: emailservice
+            pod-template-hash: 84dbb97b49
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: emailservice
+                pod-template-hash: 84dbb97b49
+        spec:
+            containers:
+                -
+                    name: server
+                    image: >-
+                        gcr.io/google-samples/microservices-demo/emailservice:v0.1.3
+                    ports:
+                        -
+                            containerPort: 8080
+                            protocol: TCP
+                    env:
+                        -
+                            name: PORT
+                            value: '8080'
+                        -
+                            name: ENABLE_PROFILER
+                            value: '0'
+                    resources:
+                        limits:
+                            cpu: 20m
+                            memory: 128Mi
+                        requests:
+                            cpu: 5m
+                            memory: 64Mi
+                    livenessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:8080'
+                        timeoutSeconds: 1
+                        periodSeconds: 5
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:8080'
+                        timeoutSeconds: 1
+                        periodSeconds: 5
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 5
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 0
+    observedGeneration: 2
+

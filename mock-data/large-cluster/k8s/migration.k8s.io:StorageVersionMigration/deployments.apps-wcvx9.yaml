@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:22Z'
+    generateName: deployments.apps-
+    generation: 1
+    name: deployments.apps-wcvx9
+    resourceVersion: '166748398'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/deployments.apps-wcvx9
+    uid: 9cbdd63f-4ca0-4bd7-b21d-486e675c66fc
+spec:
+    resource:
+        group: apps
+        resource: deployments
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:19:41Z'
+            status: 'True'
+            type: Succeeded
+

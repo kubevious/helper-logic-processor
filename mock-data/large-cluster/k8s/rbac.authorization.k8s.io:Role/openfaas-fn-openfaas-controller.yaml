@@ -1,0 +1,68 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: openfaas-controller
+    namespace: openfaas-fn
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/openfaas-fn/roles/openfaas-controller
+    uid: 48237733-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007021'
+    creationTimestamp: '2020-01-18T00:05:48Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: faas-controller
+        heritage: Helm
+        release: openfaas
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - create
+            - delete
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - services
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - create
+            - delete
+            - update
+        apiGroups:
+            - extensions
+            - apps
+        resources:
+            - deployments
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
+        apiGroups:
+            - ''
+        resources:
+            - secrets
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - pods
+            - pods/log
+            - namespaces
+            - endpoints
+

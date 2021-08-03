@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
 import { ConcreteParser } from '../parser-builder';
 
-import { makeRelativeName } from "../utils/name-helpers.js";
+import { makeRelativeName } from "../utils/name-helpers";
 import { LogicItem } from '../item';
 
 export default ConcreteParser()

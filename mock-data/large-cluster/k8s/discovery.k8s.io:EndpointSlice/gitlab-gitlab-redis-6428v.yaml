@@ -1,0 +1,83 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: gitlab-redis-6428v
+    generateName: gitlab-redis-
+    namespace: gitlab
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/gitlab/endpointslices/gitlab-redis-6428v
+    uid: 487cdec0-ab36-407a-8df4-b0c17551b6dc
+    resourceVersion: '274562772'
+    generation: 15
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: gitlab-redis
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:47:24Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: gitlab-redis
+            uid: 994bad3a-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:47:17Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"994bad3a-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.0.35
+        conditions:
+            ready: true
+        hostname: gitlab-redis-server-0
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-redis-server-0
+            uid: 4cf4d10c-245a-473c-8b24-65a4586b41b9
+            resourceVersion: '274562771'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: redis
+        protocol: TCP
+        port: 6379
+    -
+        name: metrics
+        protocol: TCP
+        port: 9121
+

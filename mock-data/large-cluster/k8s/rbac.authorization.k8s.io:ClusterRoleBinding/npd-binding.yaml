@@ -1,0 +1,24 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: npd-binding
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/npd-binding
+    uid: c0fb92ee-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '31420528'
+    creationTimestamp: '2020-01-11T06:01:05Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"npd-binding"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"system:node-problem-detector"},"subjects":[{"apiGroup":"rbac.authorization.k8s.io","kind":"User","name":"system:node-problem-detector"}]}
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:node-problem-detector'
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:node-problem-detector'
+

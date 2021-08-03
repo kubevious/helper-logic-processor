@@ -1,0 +1,29 @@
+kind: PodDisruptionBudget
+apiVersion: policy/v1beta1
+metadata:
+    name: gitlab-sidekiq
+    namespace: gitlab
+    selfLink: >-
+        /apis/policy/v1beta1/namespaces/gitlab/poddisruptionbudgets/gitlab-sidekiq
+    uid: 97fa1b0f-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274567442'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: sidekiq
+        chart: sidekiq-2.6.5
+        heritage: Helm
+        release: gitlab
+spec:
+    selector:
+        matchLabels:
+            app: sidekiq
+            release: gitlab
+    maxUnavailable: 1
+status:
+    observedGeneration: 1
+    disruptionsAllowed: 1
+    currentHealthy: 1
+    desiredHealthy: 0
+    expectedPods: 1
+

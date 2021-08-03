@@ -1,0 +1,30 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: calico-typha-horizontal-autoscaler
+    namespace: kube-system
+    selfLink: >-
+        /api/v1/namespaces/kube-system/configmaps/calico-typha-horizontal-autoscaler
+    uid: c6d00f95-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '4122739'
+    creationTimestamp: '2020-01-22T17:44:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: EnsureExists
+        kubernetes.io/cluster-service: 'true'
+data:
+    ladder: |-
+        {
+          "coresToReplicas": [],
+          "nodesToReplicas":
+          [
+            [1, 1],
+            [10, 2],
+            [100, 3],
+            [250, 4],
+            [500, 5],
+            [1000, 6],
+            [1500, 7],
+            [2000, 8]
+          ]
+        }
+

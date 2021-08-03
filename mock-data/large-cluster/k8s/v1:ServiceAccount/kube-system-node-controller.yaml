@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: node-controller
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/node-controller
+    uid: b13d0927-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '168'
+    creationTimestamp: '2020-01-11T06:00:38Z'
+secrets:
+    -
+        name: node-controller-token-zlxfk
+

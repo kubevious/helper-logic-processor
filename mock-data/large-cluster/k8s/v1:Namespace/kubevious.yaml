@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: kubevious
+    selfLink: /api/v1/namespaces/kubevious
+    uid: e1568522-707e-11ea-8ebf-42010a800207
+    resourceVersion: '31986417'
+    creationTimestamp: '2020-03-27T23:01:23Z'
+spec:
+    finalizers:
+        - kubernetes
+status:
+    phase: Active
+

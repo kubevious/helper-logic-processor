@@ -1,0 +1,133 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: calico-typha-5cdd59dc44
+    namespace: kube-system
+    selfLink: /apis/apps/v1/namespaces/kube-system/replicasets/calico-typha-5cdd59dc44
+    uid: ab9ce31f-b58e-4963-823e-5d380f68f63d
+    resourceVersion: '147515819'
+    generation: 3
+    creationTimestamp: '2020-09-03T15:57:26Z'
+    labels:
+        k8s-app: calico-typha
+        pod-template-hash: 5cdd59dc44
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '1'
+        deployment.kubernetes.io/revision: '5'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: calico-typha
+            uid: c7707f92-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            k8s-app: calico-typha
+            pod-template-hash: 5cdd59dc44
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: calico-typha
+                pod-template-hash: 5cdd59dc44
+            annotations:
+                components.gke.io/component-name: networkpolicy-calico
+                components.gke.io/component-version: 1.0.7
+                scheduler.alpha.kubernetes.io/critical-pod: ''
+        spec:
+            containers:
+                -
+                    name: calico-typha
+                    image: 'gke.gcr.io/calico/typha:v3.8.8-1-gke.0-amd64'
+                    ports:
+                        -
+                            name: calico-typha
+                            hostPort: 5473
+                            containerPort: 5473
+                            protocol: TCP
+                    env:
+                        -
+                            name: TYPHA_LOGFILEPATH
+                            value: none
+                        -
+                            name: TYPHA_LOGSEVERITYSYS
+                            value: none
+                        -
+                            name: TYPHA_LOGSEVERITYSCREEN
+                            value: warning
+                        -
+                            name: TYPHA_PROMETHEUSMETRICSENABLED
+                            value: 'true'
+                        -
+                            name: TYPHA_CONNECTIONREBALANCINGMODE
+                            value: kubernetes
+                        -
+                            name: TYPHA_REPORTINGINTERVALSECS
+                            value: '0'
+                        -
+                            name: TYPHA_PROMETHEUSMETRICSPORT
+                            value: '9093'
+                        -
+                            name: TYPHA_DATASTORETYPE
+                            value: kubernetes
+                        -
+                            name: TYPHA_MAXCONNECTIONSLOWERLIMIT
+                            value: '1'
+                        -
+                            name: TYPHA_HEALTHENABLED
+                            value: 'true'
+                        -
+                            name: USE_POD_CIDR
+                            value: 'true'
+                    resources:
+                        requests:
+                            cpu: 200m
+                    livenessProbe:
+                        httpGet:
+                            path: /liveness
+                            port: 9098
+                            host: 127.0.0.1
+                            scheme: HTTP
+                        initialDelaySeconds: 30
+                        timeoutSeconds: 1
+                        periodSeconds: 30
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        httpGet:
+                            path: /readiness
+                            port: 9098
+                            host: 127.0.0.1
+                            scheme: HTTP
+                        timeoutSeconds: 1
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: calico-sa
+            serviceAccount: calico-sa
+            hostNetwork: true
+            securityContext: {}
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: CriticalAddonsOnly
+                    operator: Exists
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 0
+    observedGeneration: 3
+

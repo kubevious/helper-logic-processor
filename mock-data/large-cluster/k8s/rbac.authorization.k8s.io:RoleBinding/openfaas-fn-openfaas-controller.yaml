@@ -1,0 +1,26 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: openfaas-controller
+    namespace: openfaas-fn
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/openfaas-fn/rolebindings/openfaas-controller
+    uid: 483f2893-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007023'
+    creationTimestamp: '2020-01-18T00:05:48Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: faas-controller
+        heritage: Helm
+        release: openfaas
+subjects:
+    -
+        kind: ServiceAccount
+        name: openfaas-controller
+        namespace: openfaas
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: openfaas-controller
+

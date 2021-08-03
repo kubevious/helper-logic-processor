@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: user-db-gj4zt
+    generateName: user-db-
+    namespace: sock-shop
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/sock-shop/endpointslices/user-db-gj4zt
+    uid: 3ec4452d-4eb5-464a-8f8b-86a1ae287248
+    resourceVersion: '274562532'
+    generation: 11
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: user-db
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:46:55Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: user-db
+            uid: cf20a203-396f-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:46:55Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"cf20a203-396f-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.0.31
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: sock-shop
+            name: user-db-6d5c9f6d84-6vn28
+            uid: 89c42e7a-9335-4fbf-a51c-c71676248a85
+            resourceVersion: '274562530'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: ''
+        protocol: TCP
+        port: 27017
+

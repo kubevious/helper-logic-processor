@@ -1,0 +1,592 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: gitlab-gitaly-0
+    generateName: gitlab-gitaly-
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/pods/gitlab-gitaly-0
+    uid: 6ae1ae20-7a06-400d-9cdc-f3b599da73ba
+    resourceVersion: '274564844'
+    creationTimestamp: '2021-08-01T11:43:49Z'
+    labels:
+        app: gitaly
+        controller-revision-hash: gitlab-gitaly-7cf784db64
+        release: gitlab
+        statefulset.kubernetes.io/pod-name: gitlab-gitaly-0
+    annotations:
+        checksum/config: 164952b2fb54733dd4a2c06a3f1429e87c5410ecfcd72236bb546ddea4bf277a
+        cni.projectcalico.org/podIP: 10.8.1.39/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: StatefulSet
+            name: gitlab-gitaly
+            uid: 999dceb7-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:49Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:checksum/config': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:controller-revision-hash': {}
+                        'f:release': {}
+                        'f:statefulset.kubernetes.io/pod-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"999dceb7-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:affinity':
+                        .: {}
+                        'f:podAntiAffinity':
+                            .: {}
+                            'f:preferredDuringSchedulingIgnoredDuringExecution': {}
+                    'f:containers':
+                        'k:{"name":"gitaly"}':
+                            .: {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"CONFIG_DIRECTORY"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"CONFIG_TEMPLATE_DIRECTORY"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"GITALY_CONFIG_FILE"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"GITALY_PROMETHEUS_LISTEN_ADDR"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"POD_NAME"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:valueFrom':
+                                        .: {}
+                                        'f:fieldRef':
+                                            .: {}
+                                            'f:apiVersion': {}
+                                            'f:fieldPath': {}
+                                'k:{"name":"SSL_CERT_DIR"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:livenessProbe':
+                                .: {}
+                                'f:exec':
+                                    .: {}
+                                    'f:command': {}
+                                'f:failureThreshold': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":8075,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                                'k:{"containerPort":9236,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:readinessProbe':
+                                .: {}
+                                'f:exec':
+                                    .: {}
+                                    'f:command': {}
+                                'f:failureThreshold': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/etc/gitaly/templates"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                'k:{"mountPath":"/etc/gitlab-secrets"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/etc/ssl/certs/"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/home/git/repositories"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:hostname': {}
+                    'f:initContainers':
+                        .: {}
+                        'k:{"name":"certificates"}':
+                            .: {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/etc/ssl/certs"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                        'k:{"name":"configure"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/config"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/init-config"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/init-secrets"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext':
+                        .: {}
+                        'f:fsGroup': {}
+                        'f:runAsUser': {}
+                    'f:subdomain': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"etc-ssl-certs"}':
+                            .: {}
+                            'f:emptyDir':
+                                .: {}
+                                'f:medium': {}
+                            'f:name': {}
+                        'k:{"name":"gitaly-config"}':
+                            .: {}
+                            'f:configMap':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:name': {}
+                            'f:name': {}
+                        'k:{"name":"gitaly-secrets"}':
+                            .: {}
+                            'f:emptyDir':
+                                .: {}
+                                'f:medium': {}
+                            'f:name': {}
+                        'k:{"name":"init-gitaly-secrets"}':
+                            .: {}
+                            'f:name': {}
+                            'f:projected':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:sources': {}
+                        'k:{"name":"repo-data"}':
+                            .: {}
+                            'f:name': {}
+                            'f:persistentVolumeClaim':
+                                .: {}
+                                'f:claimName': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:44:25Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:52:07Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:initContainerStatuses': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.39"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: repo-data
+            persistentVolumeClaim:
+                claimName: repo-data-gitlab-gitaly-0
+        -
+            name: gitaly-config
+            configMap:
+                name: gitlab-gitaly
+                defaultMode: 420
+        -
+            name: gitaly-secrets
+            emptyDir:
+                medium: Memory
+        -
+            name: init-gitaly-secrets
+            projected:
+                sources:
+                    -
+                        secret:
+                            name: gitlab-gitaly-secret
+                            items:
+                                -
+                                    key: token
+                                    path: gitaly_token
+                    -
+                        secret:
+                            name: gitlab-gitlab-shell-secret
+                            items:
+                                -
+                                    key: secret
+                                    path: .gitlab_shell_secret
+                    -
+                        secret:
+                            name: gitlab-redis-secret
+                            items:
+                                -
+                                    key: secret
+                                    path: redis_password
+                defaultMode: 288
+        -
+            name: etc-ssl-certs
+            emptyDir:
+                medium: Memory
+        -
+            name: default-token-jjkq5
+            secret:
+                secretName: default-token-jjkq5
+                defaultMode: 420
+    initContainers:
+        -
+            name: certificates
+            image: >-
+                registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20171114-r3
+            resources:
+                requests:
+                    cpu: 50m
+            volumeMounts:
+                -
+                    name: etc-ssl-certs
+                    mountPath: /etc/ssl/certs
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+        -
+            name: configure
+            image: 'busybox:latest'
+            command:
+                - sh
+                - /config/configure
+            resources:
+                requests:
+                    cpu: 50m
+            volumeMounts:
+                -
+                    name: gitaly-config
+                    readOnly: true
+                    mountPath: /config
+                -
+                    name: init-gitaly-secrets
+                    readOnly: true
+                    mountPath: /init-config
+                -
+                    name: gitaly-secrets
+                    mountPath: /init-secrets
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+    containers:
+        -
+            name: gitaly
+            image: 'registry.gitlab.com/gitlab-org/build/cng/gitaly:v1.77.1'
+            ports:
+                -
+                    containerPort: 8075
+                    protocol: TCP
+                -
+                    containerPort: 9236
+                    protocol: TCP
+            env:
+                -
+                    name: CONFIG_TEMPLATE_DIRECTORY
+                    value: /etc/gitaly/templates
+                -
+                    name: CONFIG_DIRECTORY
+                    value: /etc/gitaly
+                -
+                    name: GITALY_CONFIG_FILE
+                    value: /etc/gitaly/config.toml
+                -
+                    name: SSL_CERT_DIR
+                    value: /etc/ssl/certs
+                -
+                    name: GITALY_PROMETHEUS_LISTEN_ADDR
+                    value: ':9236'
+                -
+                    name: POD_NAME
+                    valueFrom:
+                        fieldRef:
+                            apiVersion: v1
+                            fieldPath: metadata.name
+            resources:
+                requests:
+                    cpu: 50m
+                    memory: 200Mi
+            volumeMounts:
+                -
+                    name: etc-ssl-certs
+                    readOnly: true
+                    mountPath: /etc/ssl/certs/
+                -
+                    name: gitaly-config
+                    mountPath: /etc/gitaly/templates
+                -
+                    name: gitaly-secrets
+                    readOnly: true
+                    mountPath: /etc/gitlab-secrets
+                -
+                    name: repo-data
+                    mountPath: /home/git/repositories
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            livenessProbe:
+                exec:
+                    command:
+                        - /scripts/healthcheck
+                initialDelaySeconds: 30
+                timeoutSeconds: 3
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+            readinessProbe:
+                exec:
+                    command:
+                        - /scripts/healthcheck
+                initialDelaySeconds: 10
+                timeoutSeconds: 3
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+    hostname: gitlab-gitaly-0
+    subdomain: gitlab-gitaly
+    affinity:
+        podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+                -
+                    weight: 1
+                    podAffinityTerm:
+                        labelSelector:
+                            matchLabels:
+                                app: gitaly
+                                release: gitlab
+                        topologyKey: kubernetes.io/hostname
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:46:55Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:52:07Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:52:07Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:49Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.39
+    podIPs:
+        -
+            ip: 10.8.1.39
+    startTime: '2021-08-01T11:43:49Z'
+    initContainerStatuses:
+        -
+            name: certificates
+            state:
+                terminated:
+                    exitCode: 0
+                    reason: Completed
+                    startedAt: '2021-08-01T11:44:25Z'
+                    finishedAt: '2021-08-01T11:44:26Z'
+                    containerID: >-
+                        docker://aa3412f091933753a9e9b34d5d255c6141267a8f88002703f15eeca1cb59ad58
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: >-
+                registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20171114-r3
+            imageID: >-
+                docker-pullable://registry.gitlab.com/gitlab-org/build/cng/alpine-certificates@sha256:00ce9a585179e6b22c9bfea9ba82552630eab0bd25da4f13282b588b2ad022dc
+            containerID: >-
+                docker://aa3412f091933753a9e9b34d5d255c6141267a8f88002703f15eeca1cb59ad58
+        -
+            name: configure
+            state:
+                terminated:
+                    exitCode: 0
+                    reason: Completed
+                    startedAt: '2021-08-01T11:46:54Z'
+                    finishedAt: '2021-08-01T11:46:54Z'
+                    containerID: >-
+                        docker://6b1c328aaccbfdb03fc236cda56837933904d61346d8305463d55f87ebef8d95
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'busybox:latest'
+            imageID: >-
+                docker-pullable://busybox@sha256:0f354ec1728d9ff32edcd7d1b8bbdfc798277ad36120dc3dc683be44524c8b60
+            containerID: >-
+                docker://6b1c328aaccbfdb03fc236cda56837933904d61346d8305463d55f87ebef8d95
+    containerStatuses:
+        -
+            name: gitaly
+            state:
+                running:
+                    startedAt: '2021-08-01T11:51:53Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'registry.gitlab.com/gitlab-org/build/cng/gitaly:v1.77.1'
+            imageID: >-
+                docker-pullable://registry.gitlab.com/gitlab-org/build/cng/gitaly@sha256:39cba22d0752c351c71d81d5f256e4ab15775c99e1384bc44b9e49df2a87315a
+            containerID: >-
+                docker://71d5f63ac78e89dda63aa23c19e98794bf5af5ea398ed038728858921d442eef
+            started: true
+    qosClass: Burstable
+

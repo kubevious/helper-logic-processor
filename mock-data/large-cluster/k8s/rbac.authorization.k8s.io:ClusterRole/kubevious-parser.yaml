@@ -1,0 +1,107 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: kubevious-parser
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/kubevious-parser
+    uid: d728968e-c722-4ea3-af70-3d93bcb9f0f8
+    resourceVersion: '199508977'
+    creationTimestamp: '2020-11-15T00:14:28Z'
+    labels:
+        app.kubernetes.io/component: kubevious-parser
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        meta.helm.sh/release-name: kubevious
+        meta.helm.sh/release-namespace: kubevious
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - namespaces
+            - services
+            - configmaps
+            - pods
+            - nodes
+            - limitranges
+            - serviceaccounts
+            - persistentvolumeclaims
+            - persistentvolumes
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - apps
+        resources:
+            - deployments
+            - statefulsets
+            - daemonsets
+            - replicasets
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - extensions
+        resources:
+            - ingresses
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - batch
+        resources:
+            - jobs
+            - cronjobs
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - autoscaling
+        resources:
+            - horizontalpodautoscalers
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - rbac.authorization.k8s.io
+        resources:
+            - roles
+            - rolebindings
+            - clusterroles
+            - clusterrolebindings
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - policy
+        resources:
+            - podsecuritypolicies
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - networking.k8s.io
+        resources:
+            - networkpolicies
+

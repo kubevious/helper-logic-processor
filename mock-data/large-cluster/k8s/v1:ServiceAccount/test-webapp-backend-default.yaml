@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: test-webapp-backend
+    selfLink: /api/v1/namespaces/test-webapp-backend/serviceaccounts/default
+    uid: 3f963c69-6384-45eb-8e97-dc3e4464e8a7
+    resourceVersion: '140041855'
+    creationTimestamp: '2020-11-25T08:06:56Z'
+secrets:
+    -
+        name: default-token-svx9p
+

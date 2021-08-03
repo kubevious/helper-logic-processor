@@ -1,0 +1,27 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: currencyservice
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/services/currencyservice
+    uid: a33e37ea-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '16618'
+    creationTimestamp: '2020-01-11T07:11:50Z'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"currencyservice","namespace":"hipster"},"spec":{"ports":[{"name":"grpc","port":7000,"targetPort":7000}],"selector":{"app":"currencyservice"},"type":"ClusterIP"}}
+spec:
+    ports:
+        -
+            name: grpc
+            protocol: TCP
+            port: 7000
+            targetPort: 7000
+    selector:
+        app: currencyservice
+    clusterIP: 10.75.3.196
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

@@ -1,0 +1,115 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:certificate-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acontroller%3Acertificate-controller
+    uid: af9adfb4-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '223929053'
+    creationTimestamp: '2020-01-11T06:00:36Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - delete
+            - get
+            - list
+            - watch
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - certificatesigningrequests
+    -
+        verbs:
+            - update
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - certificatesigningrequests/approval
+            - certificatesigningrequests/status
+    -
+        verbs:
+            - create
+        apiGroups:
+            - authorization.k8s.io
+        resources:
+            - subjectaccessreviews
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - create
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - update
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - approve
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/kube-apiserver-client-kubelet
+    -
+        verbs:
+            - sign
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/kube-apiserver-client
+    -
+        verbs:
+            - sign
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/kube-apiserver-client-kubelet
+    -
+        verbs:
+            - sign
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/kubelet-serving
+    -
+        verbs:
+            - sign
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/legacy-unknown
+

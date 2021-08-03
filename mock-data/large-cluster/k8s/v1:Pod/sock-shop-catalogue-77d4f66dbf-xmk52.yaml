@@ -1,0 +1,231 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: catalogue-77d4f66dbf-xmk52
+    generateName: catalogue-77d4f66dbf-
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/pods/catalogue-77d4f66dbf-xmk52
+    uid: 01518b01-6e12-4d4e-8486-a39a3573efca
+    resourceVersion: '274560499'
+    creationTimestamp: '2021-08-01T11:39:53Z'
+    labels:
+        name: catalogue
+        pod-template-hash: 77d4f66dbf
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.1.32/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: catalogue-77d4f66dbf
+            uid: ccd19f94-396f-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:53Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:name': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"ccd19f94-396f-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"catalogue"}':
+                            .: {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":80,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:resources': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:capabilities':
+                                    .: {}
+                                    'f:add': {}
+                                    'f:drop': {}
+                                'f:readOnlyRootFilesystem': {}
+                                'f:runAsNonRoot': {}
+                                'f:runAsUser': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:beta.kubernetes.io/os': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:04Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:25Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.32"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: default-token-ckr79
+            secret:
+                secretName: default-token-ckr79
+                defaultMode: 420
+    containers:
+        -
+            name: catalogue
+            image: 'weaveworksdemos/catalogue:0.3.5'
+            ports:
+                -
+                    containerPort: 80
+                    protocol: TCP
+            resources: {}
+            volumeMounts:
+                -
+                    name: default-token-ckr79
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+            securityContext:
+                capabilities:
+                    add:
+                        - NET_BIND_SERVICE
+                    drop:
+                        - all
+                runAsUser: 10001
+                runAsNonRoot: true
+                readOnlyRootFilesystem: true
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        beta.kubernetes.io/os: linux
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:54Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:25Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:25Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:53Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.32
+    podIPs:
+        -
+            ip: 10.8.1.32
+    startTime: '2021-08-01T11:39:54Z'
+    containerStatuses:
+        -
+            name: catalogue
+            state:
+                running:
+                    startedAt: '2021-08-01T11:43:24Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'weaveworksdemos/catalogue:0.3.5'
+            imageID: >-
+                docker-pullable://weaveworksdemos/catalogue@sha256:0147a65b7116569439eefb1a6dbed455fe022464ef70e0c3cab75bc4a226b39b
+            containerID: >-
+                docker://ba5a0cd37ab859480fa7b1963b6a4d8b4ac15db100077a60d613a8716bcf4a6a
+            started: true
+    qosClass: BestEffort
+

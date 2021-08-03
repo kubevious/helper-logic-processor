@@ -1,0 +1,28 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: carts-db
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/services/carts-db
+    uid: cc2167f8-396f-11ea-b115-42010a8001d6
+    resourceVersion: '1973573'
+    creationTimestamp: '2020-01-17T21:24:51Z'
+    labels:
+        name: carts-db
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"name":"carts-db"},"name":"carts-db","namespace":"sock-shop"},"spec":{"ports":[{"port":27017,"targetPort":27017}],"selector":{"name":"carts-db"}}}
+spec:
+    ports:
+        -
+            protocol: TCP
+            port: 27017
+            targetPort: 27017
+    selector:
+        name: carts-db
+    clusterIP: 10.75.11.47
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

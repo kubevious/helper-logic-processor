@@ -1,0 +1,32 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: gitlab-nginx-ingress-controller-stats
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/services/gitlab-nginx-ingress-controller-stats
+    uid: 9930e8bf-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016245'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: nginx-ingress
+        chart: nginx-ingress-0.30.0-1
+        component: controller
+        heritage: Helm
+        release: gitlab
+spec:
+    ports:
+        -
+            name: stats
+            protocol: TCP
+            port: 18080
+            targetPort: stats
+    selector:
+        app: nginx-ingress
+        component: controller
+        release: gitlab
+    clusterIP: 10.75.11.120
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

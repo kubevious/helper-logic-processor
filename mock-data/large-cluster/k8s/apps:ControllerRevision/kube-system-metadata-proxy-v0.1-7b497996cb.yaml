@@ -1,0 +1,113 @@
+kind: ControllerRevision
+apiVersion: apps/v1
+metadata:
+    name: metadata-proxy-v0.1-7b497996cb
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/controllerrevisions/metadata-proxy-v0.1-7b497996cb
+    uid: 28374b67-9516-4e44-b1c5-5ca50b235850
+    resourceVersion: '61444784'
+    creationTimestamp: '2020-06-13T07:50:40Z'
+    labels:
+        controller-revision-hash: 7b497996cb
+        k8s-app: metadata-proxy
+        kubernetes.io/cluster-service: 'true'
+        version: v0.1
+    annotations:
+        deprecated.daemonset.template.generation: '3'
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","k8s-app":"metadata-proxy","kubernetes.io/cluster-service":"true","version":"v0.1"},"name":"metadata-proxy-v0.1","namespace":"kube-system"},"spec":{"selector":{"matchLabels":{"k8s-app":"metadata-proxy","version":"v0.1"}},"template":{"metadata":{"annotations":{"scheduler.alpha.kubernetes.io/critical-pod":""},"labels":{"k8s-app":"metadata-proxy","kubernetes.io/cluster-service":"true","version":"v0.1"}},"spec":{"containers":[{"image":"k8s.gcr.io/metadata-proxy:v0.1.12","name":"metadata-proxy","resources":{"limits":{"cpu":"30m","memory":"25Mi"},"requests":{"cpu":"30m","memory":"25Mi"}},"securityContext":{"privileged":true}},{"command":["/monitor","--stackdriver-prefix=container.googleapis.com/internal/addons","--api-override=https://monitoring.googleapis.com/","--source=metadata_proxy:http://127.0.0.1:989?whitelisted=request_count","--pod-id=$(POD_NAME)","--namespace-id=$(POD_NAMESPACE)"],"env":[{"name":"POD_NAME","valueFrom":{"fieldRef":{"fieldPath":"metadata.name"}}},{"name":"POD_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"k8s.gcr.io/prometheus-to-sd:v0.5.0","name":"prometheus-to-sd-exporter","resources":{"limits":{"cpu":"2m","memory":"20Mi"},"requests":{"cpu":"2m","memory":"20Mi"}}}],"dnsPolicy":"Default","hostNetwork":true,"nodeSelector":{"beta.kubernetes.io/metadata-proxy-ready":"true","beta.kubernetes.io/os":"linux"},"priorityClassName":"system-node-critical","serviceAccountName":"metadata-proxy","terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoExecute","operator":"Exists"},{"effect":"NoSchedule","operator":"Exists"}]}},"updateStrategy":{"type":"RollingUpdate"}}}
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: DaemonSet
+            name: metadata-proxy-v0.1
+            uid: bf8bd124-3437-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+data:
+    spec:
+        template:
+            $patch: replace
+            metadata:
+                annotations:
+                    scheduler.alpha.kubernetes.io/critical-pod: ''
+                creationTimestamp: null
+                labels:
+                    k8s-app: metadata-proxy
+                    kubernetes.io/cluster-service: 'true'
+                    version: v0.1
+            spec:
+                containers:
+                    -
+                        image: 'k8s.gcr.io/metadata-proxy:v0.1.12'
+                        imagePullPolicy: IfNotPresent
+                        name: metadata-proxy
+                        resources:
+                            limits:
+                                cpu: 30m
+                                memory: 25Mi
+                            requests:
+                                cpu: 30m
+                                memory: 25Mi
+                        securityContext:
+                            privileged: true
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                    -
+                        command:
+                            - /monitor
+                            - >-
+                                --stackdriver-prefix=container.googleapis.com/internal/addons
+                            - >-
+                                --api-override=https://monitoring.googleapis.com/
+                            - >-
+                                --source=metadata_proxy:http://127.0.0.1:989?whitelisted=request_count
+                            - '--pod-id=$(POD_NAME)'
+                            - '--namespace-id=$(POD_NAMESPACE)'
+                        env:
+                            -
+                                name: POD_NAME
+                                valueFrom:
+                                    fieldRef:
+                                        apiVersion: v1
+                                        fieldPath: metadata.name
+                            -
+                                name: POD_NAMESPACE
+                                valueFrom:
+                                    fieldRef:
+                                        apiVersion: v1
+                                        fieldPath: metadata.namespace
+                        image: 'k8s.gcr.io/prometheus-to-sd:v0.5.0'
+                        imagePullPolicy: IfNotPresent
+                        name: prometheus-to-sd-exporter
+                        resources:
+                            limits:
+                                cpu: 2m
+                                memory: 20Mi
+                            requests:
+                                cpu: 2m
+                                memory: 20Mi
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                dnsPolicy: Default
+                hostNetwork: true
+                nodeSelector:
+                    beta.kubernetes.io/metadata-proxy-ready: 'true'
+                    beta.kubernetes.io/os: linux
+                priorityClassName: system-node-critical
+                restartPolicy: Always
+                schedulerName: default-scheduler
+                securityContext: {}
+                serviceAccount: metadata-proxy
+                serviceAccountName: metadata-proxy
+                terminationGracePeriodSeconds: 30
+                tolerations:
+                    -
+                        effect: NoExecute
+                        operator: Exists
+                    -
+                        effect: NoSchedule
+                        operator: Exists
+revision: 3
+

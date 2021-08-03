@@ -1,0 +1,28 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: shipping
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/services/shipping
+    uid: cede99c6-396f-11ea-b115-42010a8001d6
+    resourceVersion: '1973738'
+    creationTimestamp: '2020-01-17T21:24:56Z'
+    labels:
+        name: shipping
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"name":"shipping"},"name":"shipping","namespace":"sock-shop"},"spec":{"ports":[{"port":80,"targetPort":80}],"selector":{"name":"shipping"}}}
+spec:
+    ports:
+        -
+            protocol: TCP
+            port: 80
+            targetPort: 80
+    selector:
+        name: shipping
+    clusterIP: 10.75.15.25
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

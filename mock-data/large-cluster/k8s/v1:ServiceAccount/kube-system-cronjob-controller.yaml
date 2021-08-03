@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: cronjob-controller
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/cronjob-controller
+    uid: b7abd0c1-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '199'
+    creationTimestamp: '2020-01-11T06:00:49Z'
+secrets:
+    -
+        name: cronjob-controller-token-b6z5m
+

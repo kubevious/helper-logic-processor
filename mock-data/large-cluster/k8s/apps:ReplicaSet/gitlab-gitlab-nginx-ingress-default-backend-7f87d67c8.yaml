@@ -1,0 +1,83 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: gitlab-nginx-ingress-default-backend-7f87d67c8
+    namespace: gitlab
+    selfLink: >-
+        /apis/apps/v1/namespaces/gitlab/replicasets/gitlab-nginx-ingress-default-backend-7f87d67c8
+    uid: 9981338c-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274560965'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: nginx-ingress
+        component: default-backend
+        pod-template-hash: 7f87d67c8
+        release: gitlab
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '2'
+        deployment.kubernetes.io/max-replicas: '3'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: gitlab-nginx-ingress-default-backend
+            uid: 99612109-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: nginx-ingress
+            component: default-backend
+            pod-template-hash: 7f87d67c8
+            release: gitlab
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: nginx-ingress
+                component: default-backend
+                pod-template-hash: 7f87d67c8
+                release: gitlab
+        spec:
+            containers:
+                -
+                    name: nginx-ingress-default-backend
+                    image: 'k8s.gcr.io/defaultbackend:1.4'
+                    ports:
+                        -
+                            name: http
+                            containerPort: 8080
+                            protocol: TCP
+                    resources:
+                        requests:
+                            cpu: 5m
+                            memory: 5Mi
+                    livenessProbe:
+                        httpGet:
+                            path: /healthz
+                            port: 8080
+                            scheme: HTTP
+                        initialDelaySeconds: 30
+                        timeoutSeconds: 5
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 60
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 2
+    fullyLabeledReplicas: 2
+    readyReplicas: 2
+    availableReplicas: 2
+    observedGeneration: 1
+

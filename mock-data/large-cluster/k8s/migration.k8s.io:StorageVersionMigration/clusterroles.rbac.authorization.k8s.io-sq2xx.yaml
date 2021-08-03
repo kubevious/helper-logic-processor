@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:38Z'
+    generateName: clusterroles.rbac.authorization.k8s.io-
+    generation: 1
+    name: clusterroles.rbac.authorization.k8s.io-sq2xx
+    resourceVersion: '166748156'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/clusterroles.rbac.authorization.k8s.io-sq2xx
+    uid: 8b5df7b6-3bf7-4ed0-bc64-7056defb1dfe
+spec:
+    resource:
+        group: rbac.authorization.k8s.io
+        resource: clusterroles
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:19:10Z'
+            status: 'True'
+            type: Succeeded
+

@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-04-09T22:11:48Z'
+    generateName: volumesnapshots.snapshot.storage.k8s.io-
+    generation: 1
+    name: volumesnapshots.snapshot.storage.k8s.io-6z4gp
+    resourceVersion: '204308950'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/volumesnapshots.snapshot.storage.k8s.io-6z4gp
+    uid: 794f8e64-310e-49d5-beac-142bc4beb4b0
+spec:
+    resource:
+        group: snapshot.storage.k8s.io
+        resource: volumesnapshots
+        version: v1beta1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-04-09T22:11:49Z'
+            status: 'True'
+            type: Succeeded
+

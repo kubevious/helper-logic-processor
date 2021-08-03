@@ -1,0 +1,34 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: gitlab-gitlab-shell
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/endpoints/gitlab-gitlab-shell
+    uid: 994c320b-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274561332'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: gitlab-shell
+        chart: gitlab-shell-2.6.5
+        heritage: Helm
+        release: gitlab
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:44:29Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.9
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-gitlab-shell-7b89877f4c-vjtrz
+                    uid: 863a821b-4272-40a5-a495-58d58dd65159
+                    resourceVersion: '274561327'
+        ports:
+            -
+                name: ssh
+                port: 2222
+                protocol: TCP
+

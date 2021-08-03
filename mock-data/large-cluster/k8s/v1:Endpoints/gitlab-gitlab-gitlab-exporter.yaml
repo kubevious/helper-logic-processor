@@ -1,0 +1,34 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: gitlab-gitlab-exporter
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/endpoints/gitlab-gitlab-exporter
+    uid: 99492c35-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274563369'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: gitlab-exporter
+        chart: gitlab-exporter-2.6.5
+        heritage: Helm
+        release: gitlab
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:48:43Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.4
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-gitlab-exporter-868bc56dd8-znxcj
+                    uid: dbcc053a-106f-4775-8030-9ca13c77ab01
+                    resourceVersion: '274563368'
+        ports:
+            -
+                name: gitlab-exporter
+                port: 9168
+                protocol: TCP
+

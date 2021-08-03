@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: pvc-protection-controller
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/pvc-protection-controller
+    uid: b7b8e905-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '206'
+    creationTimestamp: '2020-01-11T06:00:49Z'
+secrets:
+    -
+        name: pvc-protection-controller-token-gslsm
+

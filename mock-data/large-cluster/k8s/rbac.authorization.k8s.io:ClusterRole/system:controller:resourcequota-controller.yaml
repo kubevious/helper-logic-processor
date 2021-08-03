@@ -1,0 +1,60 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:resourcequota-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acontroller%3Aresourcequota-controller
+    uid: af8ae1a6-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446110'
+    creationTimestamp: '2020-01-11T06:00:36Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - list
+            - watch
+        apiGroups:
+            - '*'
+        resources:
+            - '*'
+    -
+        verbs:
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - resourcequotas/status
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - create
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - update
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+

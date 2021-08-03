@@ -1,0 +1,21 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:10Z'
+    generateName: pods-
+    generation: 1
+    name: pods-t82nk
+    resourceVersion: '166748867'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storageversionmigrations/pods-t82nk
+    uid: 7545aa9a-8945-4e16-98c9-b85cdfd38f4d
+spec:
+    resource:
+        resource: pods
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:46Z'
+            status: 'True'
+            type: Succeeded
+

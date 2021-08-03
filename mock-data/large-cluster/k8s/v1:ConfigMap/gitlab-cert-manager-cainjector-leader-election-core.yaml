@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: cert-manager-cainjector-leader-election-core
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/configmaps/cert-manager-cainjector-leader-election-core
+    uid: a01aa0f3-398b-11ea-b115-42010a8001d6
+    resourceVersion: '275531508'
+    creationTimestamp: '2020-01-18T00:44:03Z'
+    annotations:
+        control-plane.alpha.kubernetes.io/leader: >-
+            {"holderIdentity":"gitlab-cainjector-5d757b9fdd-gzn4f_16812c71-dac7-4bf1-88e2-a0ef10d873c5","leaseDurationSeconds":15,"acquireTime":"2021-08-01T11:43:56Z","renewTime":"2021-08-03T01:21:20Z","leaderTransitions":5073}
+

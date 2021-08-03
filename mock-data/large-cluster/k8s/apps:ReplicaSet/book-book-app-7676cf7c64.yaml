@@ -1,0 +1,100 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: book-app-7676cf7c64
+    namespace: book
+    selfLink: /apis/apps/v1/namespaces/book/replicasets/book-app-7676cf7c64
+    uid: 3ae4b49f-4617-11ea-96d3-42010a80017a
+    resourceVersion: '61929094'
+    generation: 2
+    creationTimestamp: '2020-02-02T23:53:37Z'
+    labels:
+        app: book-app
+        pod-template-hash: 7676cf7c64
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '0'
+        deployment.kubernetes.io/max-replicas: '0'
+        deployment.kubernetes.io/revision: '2'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: book-app
+            uid: 44d4077a-34bb-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            app: book-app
+            pod-template-hash: 7676cf7c64
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: book-app
+                pod-template-hash: 7676cf7c64
+        spec:
+            volumes:
+                -
+                    name: google-cloud-key
+                    secret:
+                        secretName: gprod-addr-main-app
+                        defaultMode: 420
+            containers:
+                -
+                    name: cloudsql-proxy
+                    image: 'gcr.io/cloudsql-docker/gce-proxy:1.11'
+                    command:
+                        - /cloud_sql_proxy
+                        - >-
+                            -instances=my-project:us-central1:mysql-db-name=tcp:3306
+                        - >-
+                            -credential_file=/var/secrets/google/service-key.json
+                    resources: {}
+                    volumeMounts:
+                        -
+                            name: google-cloud-key
+                            readOnly: true
+                            mountPath: /var/secrets/google
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        runAsUser: 2
+                        allowPrivilegeEscalation: false
+                -
+                    name: nginx
+                    image: 'nginx:1.16'
+                    ports:
+                        -
+                            name: default
+                            containerPort: 3000
+                            protocol: TCP
+                    envFrom:
+                        -
+                            configMapRef:
+                                name: my-config-1
+                    env:
+                        -
+                            name: MY_ENV_VAR_2
+                            value: abcd1234
+                    resources:
+                        limits:
+                            cpu: 10m
+                        requests:
+                            cpu: 10m
+                            memory: 100Mi
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 0
+    observedGeneration: 2
+

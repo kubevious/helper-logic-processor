@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: test-webapp-frontend
+    selfLink: /api/v1/namespaces/test-webapp-frontend/serviceaccounts/default
+    uid: 4897983f-5fc2-47ca-9a14-c8bbcd1c6fdd
+    resourceVersion: '140041861'
+    creationTimestamp: '2020-11-25T08:06:56Z'
+secrets:
+    -
+        name: default-token-bkg9c
+

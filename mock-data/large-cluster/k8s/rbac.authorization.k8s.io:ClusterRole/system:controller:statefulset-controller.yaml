@@ -1,0 +1,108 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:statefulset-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acontroller%3Astatefulset-controller
+    uid: af95e0ef-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446114'
+    creationTimestamp: '2020-01-11T06:00:36Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - apps
+        resources:
+            - statefulsets
+    -
+        verbs:
+            - update
+        apiGroups:
+            - apps
+        resources:
+            - statefulsets/status
+    -
+        verbs:
+            - update
+        apiGroups:
+            - apps
+        resources:
+            - statefulsets/finalizers
+    -
+        verbs:
+            - create
+            - delete
+            - get
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - apps
+        resources:
+            - controllerrevisions
+    -
+        verbs:
+            - create
+            - get
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumeclaims
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - create
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - update
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+

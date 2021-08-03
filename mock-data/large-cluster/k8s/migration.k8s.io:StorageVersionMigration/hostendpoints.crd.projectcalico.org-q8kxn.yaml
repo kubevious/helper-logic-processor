@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:16:10Z'
+    generateName: hostendpoints.crd.projectcalico.org-
+    generation: 1
+    name: hostendpoints.crd.projectcalico.org-q8kxn
+    resourceVersion: '166748564'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/hostendpoints.crd.projectcalico.org-q8kxn
+    uid: 0d07b15f-f500-4c49-85a4-1fe98f7d4e0a
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: hostendpoints
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:05Z'
+            status: 'True'
+            type: Succeeded
+

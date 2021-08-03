@@ -1,0 +1,56 @@
+kind: Event
+apiVersion: v1
+metadata:
+    name: gitlab-gitlab-runner-65ff67bdd8-x86sq.16972c1b695b2335
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/events/gitlab-gitlab-runner-65ff67bdd8-x86sq.16972c1b695b2335
+    uid: 6a658aaf-3e72-4e63-8b65-440a4c09ed6e
+    resourceVersion: '1515841'
+    creationTimestamp: '2021-08-02T16:43:26Z'
+    managedFields:
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-02T16:43:26Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:count': {}
+                'f:firstTimestamp': {}
+                'f:involvedObject':
+                    'f:apiVersion': {}
+                    'f:fieldPath': {}
+                    'f:kind': {}
+                    'f:name': {}
+                    'f:namespace': {}
+                    'f:resourceVersion': {}
+                    'f:uid': {}
+                'f:lastTimestamp': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:source':
+                    'f:component': {}
+                    'f:host': {}
+                'f:type': {}
+involvedObject:
+    kind: Pod
+    namespace: gitlab
+    name: gitlab-gitlab-runner-65ff67bdd8-x86sq
+    uid: 13e805a6-76b7-4aa2-9270-a8297b6f8d98
+    apiVersion: v1
+    resourceVersion: '274560082'
+    fieldPath: 'spec.containers{gitlab-gitlab-runner}'
+reason: Unhealthy
+message: 'Readiness probe failed: '
+source:
+    component: kubelet
+    host: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+firstTimestamp: '2021-08-01T11:44:46Z'
+lastTimestamp: '2021-08-03T01:08:26Z'
+count: 4092
+type: Warning
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''
+

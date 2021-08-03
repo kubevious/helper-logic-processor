@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:16Z'
+    generation: 1
+    name: ipamconfigs.crd.projectcalico.org
+    resourceVersion: '275528242'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/ipamconfigs.crd.projectcalico.org
+    uid: fed443a6-19d6-40f8-b5e1-539e699ddf26
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: ipamconfigs
+status:
+    currentStorageVersionHash: Ey7CGwJ1xJ4=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - Ey7CGwJ1xJ4=
+

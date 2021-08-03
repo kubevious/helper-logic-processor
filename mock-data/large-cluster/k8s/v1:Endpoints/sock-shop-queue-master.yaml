@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: queue-master
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/queue-master
+    uid: ce583fa7-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274559285'
+    creationTimestamp: '2020-01-17T21:24:55Z'
+    labels:
+        name: queue-master
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:46Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.26
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: queue-master-6bb75d8867-dmcb4
+                    uid: 3c4e2e4a-ee82-4d55-b1e1-0d2e370ab6fe
+                    resourceVersion: '274559282'
+        ports:
+            -
+                port: 80
+                protocol: TCP
+

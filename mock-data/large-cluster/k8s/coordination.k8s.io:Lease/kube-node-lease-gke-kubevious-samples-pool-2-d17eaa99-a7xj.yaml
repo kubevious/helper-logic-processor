@@ -1,0 +1,42 @@
+kind: Lease
+apiVersion: coordination.k8s.io/v1
+metadata:
+    name: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    namespace: kube-node-lease
+    selfLink: >-
+        /apis/coordination.k8s.io/v1/namespaces/kube-node-lease/leases/gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    uid: f38aa4f1-a240-42aa-9fa6-cc2e61b737a0
+    resourceVersion: '275531456'
+    creationTimestamp: '2021-08-01T11:39:35Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Node
+            name: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            uid: 08e77eec-658d-4e41-8374-c923edc2844b
+    managedFields:
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: coordination.k8s.io/v1
+            time: '2021-08-01T11:39:35Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"08e77eec-658d-4e41-8374-c923edc2844b"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:holderIdentity': {}
+                    'f:leaseDurationSeconds': {}
+                    'f:renewTime': {}
+spec:
+    holderIdentity: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    leaseDurationSeconds: 40
+    renewTime: '2021-08-03T01:21:13.828462Z'
+

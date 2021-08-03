@@ -1,0 +1,27 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'gitlab-cert-manager-webhook:webhook-requester'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/gitlab-cert-manager-webhook%3Awebhook-requester
+    uid: 98c6fc82-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016197'
+    creationTimestamp: '2020-01-18T00:43:51Z'
+    labels:
+        app: webhook
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: webhook
+        helm.sh/chart: certmanager-v0.10.1
+rules:
+    -
+        verbs:
+            - create
+        apiGroups:
+            - admission.certmanager.k8s.io
+        resources:
+            - certificates
+            - certificaterequests
+            - issuers
+            - clusterissuers
+

@@ -1,0 +1,25 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: storage-version-migration-migrator
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/storage-version-migration-migrator
+    uid: 049092f5-7418-4fc0-9c30-72f27b2a44f4
+    resourceVersion: '61444973'
+    creationTimestamp: '2020-06-13T07:50:45Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-version: storageversionmigrator-rbac-0.0.1
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{"components.gke.io/component-version":"storageversionmigrator-rbac-0.0.1"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"storage-version-migration-migrator"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"storage-version-migration-migrator"},"subjects":[{"kind":"User","name":"system:storageversionmigrator"}]}
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:storageversionmigrator'
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: storage-version-migration-migrator
+

@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:03Z'
+    generation: 1
+    name: networksets.crd.projectcalico.org
+    resourceVersion: '275528208'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/networksets.crd.projectcalico.org
+    uid: 72769bb7-f3ad-4ca1-a361-e0b9c1a24171
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: networksets
+status:
+    currentStorageVersionHash: v3eqVp2rlK0=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - v3eqVp2rlK0=
+

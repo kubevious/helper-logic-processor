@@ -1,0 +1,29 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: checkoutservice
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/endpoints/checkoutservice
+    uid: a0e9d882-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274559144'
+    creationTimestamp: '2020-01-11T07:11:46Z'
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:31Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.18
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: hipster
+                    name: checkoutservice-77d8f889b7-8dsgw
+                    uid: 6fe6b26d-dbc1-4e44-b71b-dc7756f48e55
+                    resourceVersion: '274559142'
+        ports:
+            -
+                name: grpc
+                port: 5050
+                protocol: TCP
+

@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: frontend-external-t5mr8
+    generateName: frontend-external-
+    namespace: hipster
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/hipster/endpointslices/frontend-external-t5mr8
+    uid: 539a6329-6044-41f5-9164-b83e1e2354e6
+    resourceVersion: '274561763'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: frontend-external
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:15Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: frontend-external
+            uid: a1b44970-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:45:15Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"a1b44970-3441-11ea-9cdc-42010a8001cf"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.0.20
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: hipster
+            name: frontend-7dbdf6c769-zwgs7
+            uid: 96de5fac-7353-419e-addb-a58a5dd01d29
+            resourceVersion: '274561761'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: http
+        protocol: TCP
+        port: 8080
+

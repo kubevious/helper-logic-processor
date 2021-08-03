@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: test-ingress-isolated-ns-01
+    selfLink: /api/v1/namespaces/test-ingress-isolated-ns-01/serviceaccounts/default
+    uid: 3d28a914-0bc1-4dbb-83d9-d2b90293e8e6
+    resourceVersion: '140056248'
+    creationTimestamp: '2020-11-25T08:49:51Z'
+secrets:
+    -
+        name: default-token-ltzqz
+

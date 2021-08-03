@@ -1,0 +1,87 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:csi-external-provisioner'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acsi-external-provisioner
+    uid: af5bbad8-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '31420222'
+    creationTimestamp: '2020-01-11T06:00:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - create
+            - delete
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumes
+    -
+        verbs:
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumeclaims
+    -
+        verbs:
+            - list
+            - watch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - storageclasses
+    -
+        verbs:
+            - create
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - get
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - list
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - watch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+

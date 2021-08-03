@@ -1,0 +1,54 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: gitlab-nginx-ingress-controller-metrics
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/endpoints/gitlab-nginx-ingress-controller-metrics
+    uid: 9932289b-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274561242'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: nginx-ingress
+        chart: nginx-ingress-0.30.0-1
+        component: controller
+        heritage: Helm
+        release: gitlab
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:44:22Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.9
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-nginx-ingress-controller-7db754f856-2zxp4
+                    uid: f5fca60f-1149-49bb-8f25-b4af833e6484
+                    resourceVersion: '274561239'
+            -
+                ip: 10.8.1.3
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-nginx-ingress-controller-7db754f856-9cnfp
+                    uid: 675274e6-6575-4461-a6a1-9bcbbf6e45fb
+                    resourceVersion: '274558835'
+            -
+                ip: 10.8.1.36
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-nginx-ingress-controller-7db754f856-kvwxm
+                    uid: 00c4ede4-d53f-48e1-a6a6-943e70c4ba1c
+                    resourceVersion: '274559092'
+        ports:
+            -
+                name: metrics
+                port: 10254
+                protocol: TCP
+

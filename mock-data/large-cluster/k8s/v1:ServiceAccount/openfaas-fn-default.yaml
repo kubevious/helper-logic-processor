@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: openfaas-fn
+    selfLink: /api/v1/namespaces/openfaas-fn/serviceaccounts/default
+    uid: 25decc5c-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2006810'
+    creationTimestamp: '2020-01-18T00:04:51Z'
+secrets:
+    -
+        name: default-token-qhqhl
+

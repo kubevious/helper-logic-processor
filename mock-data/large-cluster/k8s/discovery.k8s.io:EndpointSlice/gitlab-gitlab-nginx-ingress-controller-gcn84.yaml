@@ -1,0 +1,116 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: gitlab-nginx-ingress-controller-gcn84
+    generateName: gitlab-nginx-ingress-controller-
+    namespace: gitlab
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/gitlab/endpointslices/gitlab-nginx-ingress-controller-gcn84
+    uid: 2215aa0a-409d-45e1-8364-128815719f9b
+    resourceVersion: '274561246'
+    generation: 49
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: gitlab-nginx-ingress-controller
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:44:22Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: gitlab-nginx-ingress-controller
+            uid: 9949937c-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:44:09Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"9949937c-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.3
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-nginx-ingress-controller-7db754f856-9cnfp
+            uid: 675274e6-6575-4461-a6a1-9bcbbf6e45fb
+            resourceVersion: '274558835'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+    -
+        addresses:
+            - 10.8.1.36
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-nginx-ingress-controller-7db754f856-kvwxm
+            uid: 00c4ede4-d53f-48e1-a6a6-943e70c4ba1c
+            resourceVersion: '274559092'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+    -
+        addresses:
+            - 10.8.0.9
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-nginx-ingress-controller-7db754f856-2zxp4
+            uid: f5fca60f-1149-49bb-8f25-b4af833e6484
+            resourceVersion: '274561239'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: https
+        protocol: TCP
+        port: 443
+    -
+        name: http
+        protocol: TCP
+        port: 80
+    -
+        name: gitlab-shell
+        protocol: TCP
+        port: 22
+

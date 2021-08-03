@@ -1,0 +1,18 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: polaris-dashboard
+    namespace: polaris
+    selfLink: /api/v1/namespaces/polaris/serviceaccounts/polaris-dashboard
+    uid: 9f6256cf-5916-11ea-8ab4-42010a8000a7
+    resourceVersion: '19359240'
+    creationTimestamp: '2020-02-27T04:07:08Z'
+    labels:
+        app: polaris
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{},"labels":{"app":"polaris"},"name":"polaris-dashboard","namespace":"polaris"}}
+secrets:
+    -
+        name: polaris-dashboard-token-phrlm
+

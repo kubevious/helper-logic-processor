@@ -23,6 +23,11 @@
     "the-promise": "^2.0.13"
   },
   "devDependencies": {
+    "glob": "^7.1.7",
+    "glob-promise": "^4.2.0",
+    "js-yaml": "^4.1.0",
+    "@types/glob": "^7.1.4",
+    "@types/js-yaml": "^4.0.2",
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.6.0",
     "@types/should": "^13.0.0",

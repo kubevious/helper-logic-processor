@@ -57,16 +57,16 @@ export class LogicProcessor
     {
         this.logger.info('[_extractProcessors] location: %s', location);
         let searchPath = path.resolve(__dirname, '..', location);
-        this.logger.debug('[_extractProcessors] search path: %s', searchPath);
+        this.logger.info('[_extractProcessors] search path: %s', searchPath);
         let files : string[] = readdirSync(searchPath);
-        files = _.filter(files, x => x.endsWith('.d.ts'));
+        files = _.filter(files, x => x.endsWith('.ts'));
 
         let processors : BaseParserExecutor[] = [];
 
         for(let fileName of files)
         {
-            this.logger.debug('[_extractProcessors] %s', fileName);
-            let moduleName = fileName.replace('.d.ts', '');
+            this.logger.info('[_extractProcessors] %s', fileName);
+            let moduleName = fileName.replace('.d.ts', '').replace('.ts', '');
             this._loadProcessor(moduleName, location, processors);
         }
 
@@ -78,13 +78,12 @@ export class LogicProcessor
 
         for(let processor of processors)
         {
-            this._logger.info("[_extractProcessors] HANDLER: %s -> %s, target:", 
+            this._logger.info("[_extractProcessors] HANDLER: %s -> %s", 
                 processor.order, 
                 processor.name);
 
             this._processors.push(processor);
         }
-
     }
 
     private _loadProcessor(name : string, location : string, processors : BaseParserExecutor[])

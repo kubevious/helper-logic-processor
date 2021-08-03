@@ -1,0 +1,14 @@
+kind: PriorityClass
+apiVersion: scheduling.k8s.io/v1
+metadata:
+    name: system-cluster-critical
+    selfLink: /apis/scheduling.k8s.io/v1/priorityclasses/system-cluster-critical
+    uid: aec9865b-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61929084'
+    generation: 1
+    creationTimestamp: '2020-01-11T06:00:34Z'
+value: 2000000000
+description: >-
+    Used for system critical pods that must run in the cluster, but can be moved
+    to another node if necessary.
+

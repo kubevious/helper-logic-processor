@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: carts-db
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/carts-db
+    uid: cc24713f-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274560386'
+    creationTimestamp: '2020-01-17T21:24:51Z'
+    labels:
+        name: carts-db
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:43:20Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.30
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: carts-db-6bfc588c5f-z52zl
+                    uid: 866bbbf0-86b0-4531-952c-6df53708bd17
+                    resourceVersion: '274560384'
+        ports:
+            -
+                port: 27017
+                protocol: TCP
+

@@ -1,0 +1,376 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: metrics-server-v0.3.6-7b5cdbcbb8-9dvlt
+    generateName: metrics-server-v0.3.6-7b5cdbcbb8-
+    namespace: kube-system
+    selfLink: >-
+        /api/v1/namespaces/kube-system/pods/metrics-server-v0.3.6-7b5cdbcbb8-9dvlt
+    uid: 74d8e5a1-7965-4d99-8fe2-4d1af109c3b2
+    resourceVersion: '274558763'
+    creationTimestamp: '2021-08-01T11:39:51Z'
+    labels:
+        k8s-app: metrics-server
+        pod-template-hash: 7b5cdbcbb8
+        version: v0.3.6
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.1.24/32
+        seccomp.security.alpha.kubernetes.io/pod: docker/default
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: metrics-server-v0.3.6-7b5cdbcbb8
+            uid: 7cf9a9c7-9a55-46d3-b4e7-4c3ad80f3f2e
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:51Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:seccomp.security.alpha.kubernetes.io/pod': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:k8s-app': {}
+                        'f:pod-template-hash': {}
+                        'f:version': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"7cf9a9c7-9a55-46d3-b4e7-4c3ad80f3f2e"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"metrics-server"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":443,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:name': {}
+                                    'f:protocol': {}
+                            'f:resources':
+                                .: {}
+                                'f:limits':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                        'k:{"name":"metrics-server-nanny"}':
+                            .: {}
+                            'f:command': {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"MY_POD_NAME"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:valueFrom':
+                                        .: {}
+                                        'f:fieldRef':
+                                            .: {}
+                                            'f:apiVersion': {}
+                                            'f:fieldPath': {}
+                                'k:{"name":"MY_POD_NAMESPACE"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:valueFrom':
+                                        .: {}
+                                        'f:fieldRef':
+                                            .: {}
+                                            'f:apiVersion': {}
+                                            'f:fieldPath': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:limits':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/etc/config"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:kubernetes.io/os': {}
+                    'f:priorityClassName': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:tolerations': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"metrics-server-config-volume"}':
+                            .: {}
+                            'f:configMap':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:name': {}
+                            'f:name': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:02Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:58Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.24"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: metrics-server-config-volume
+            configMap:
+                name: metrics-server-config
+                defaultMode: 420
+        -
+            name: metrics-server-token-2s5rt
+            secret:
+                secretName: metrics-server-token-2s5rt
+                defaultMode: 420
+    containers:
+        -
+            name: metrics-server
+            image: 'k8s.gcr.io/metrics-server-amd64:v0.3.6'
+            command:
+                - /metrics-server
+                - '--metric-resolution=30s'
+                - '--kubelet-port=10255'
+                - '--deprecated-kubelet-completely-insecure=true'
+                - >-
+                    --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP
+            ports:
+                -
+                    name: https
+                    containerPort: 443
+                    protocol: TCP
+            resources:
+                limits:
+                    cpu: 43m
+                    memory: 55Mi
+                requests:
+                    cpu: 43m
+                    memory: 55Mi
+            volumeMounts:
+                -
+                    name: metrics-server-token-2s5rt
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+        -
+            name: metrics-server-nanny
+            image: 'gke.gcr.io/addon-resizer:1.8.11-gke.0'
+            command:
+                - /pod_nanny
+                - '--config-dir=/etc/config'
+                - '--cpu=40m'
+                - '--extra-cpu=0.5m'
+                - '--memory=35Mi'
+                - '--extra-memory=4Mi'
+                - '--threshold=5'
+                - '--deployment=metrics-server-v0.3.6'
+                - '--container=metrics-server'
+                - '--poll-period=300000'
+                - '--estimator=exponential'
+                - '--scale-down-delay=24h'
+                - '--minClusterSize=5'
+                - '--use-metrics=true'
+            env:
+                -
+                    name: MY_POD_NAME
+                    valueFrom:
+                        fieldRef:
+                            apiVersion: v1
+                            fieldPath: metadata.name
+                -
+                    name: MY_POD_NAMESPACE
+                    valueFrom:
+                        fieldRef:
+                            apiVersion: v1
+                            fieldPath: metadata.namespace
+            resources:
+                limits:
+                    cpu: 100m
+                    memory: 300Mi
+                requests:
+                    cpu: 5m
+                    memory: 50Mi
+            volumeMounts:
+                -
+                    name: metrics-server-config-volume
+                    mountPath: /etc/config
+                -
+                    name: metrics-server-token-2s5rt
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        kubernetes.io/os: linux
+    serviceAccountName: metrics-server
+    serviceAccount: metrics-server
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: CriticalAddonsOnly
+            operator: Exists
+        -
+            key: components.gke.io/gke-managed-components
+            operator: Exists
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priorityClassName: system-cluster-critical
+    priority: 2000000000
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:52Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:40:57Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:40:57Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:51Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.24
+    podIPs:
+        -
+            ip: 10.8.1.24
+    startTime: '2021-08-01T11:39:52Z'
+    containerStatuses:
+        -
+            name: metrics-server
+            state:
+                running:
+                    startedAt: '2021-08-01T11:40:15Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'k8s.gcr.io/metrics-server-amd64:v0.3.6'
+            imageID: >-
+                docker-pullable://k8s.gcr.io/metrics-server-amd64@sha256:c9c4e95068b51d6b33a9dccc61875df07dc650abbf4ac1a19d58b4628f89288b
+            containerID: >-
+                docker://92ad085b6917292d7cdf73dca99c0b7c228c9782217d11a0719a328bdfd7ea00
+            started: true
+        -
+            name: metrics-server-nanny
+            state:
+                running:
+                    startedAt: '2021-08-01T11:40:24Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'asia.gcr.io/gke-release-staging/addon-resizer:1.8.11-gke.0'
+            imageID: >-
+                docker-pullable://asia.gcr.io/gke-release-staging/addon-resizer@sha256:fe1d103a6ccdbee3a8d32fb2b20fe400f16283767040cb295a68d61b1096e91d
+            containerID: >-
+                docker://11161d67653c96d38c04b7de6879c9385ff7106d4eb496fc4d7b11f3e369d2bf
+            started: true
+    qosClass: Burstable
+

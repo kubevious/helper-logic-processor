@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:54Z'
+    generateName: leases.coordination.k8s.io-
+    generation: 1
+    name: leases.coordination.k8s.io-wrhc9
+    resourceVersion: '166748654'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/leases.coordination.k8s.io-wrhc9
+    uid: 0e2b818a-5848-4e19-8bc6-9c79ad838641
+spec:
+    resource:
+        group: coordination.k8s.io
+        resource: leases
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:16Z'
+            status: 'True'
+            type: Succeeded
+

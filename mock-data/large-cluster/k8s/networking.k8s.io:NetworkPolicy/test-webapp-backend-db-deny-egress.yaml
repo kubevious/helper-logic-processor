@@ -1,0 +1,21 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+    name: db-deny-egress
+    namespace: test-webapp-backend
+    selfLink: >-
+        /apis/networking.k8s.io/v1/namespaces/test-webapp-backend/networkpolicies/db-deny-egress
+    uid: 02b89a5e-07ad-434a-8857-377ceef4b8cb
+    resourceVersion: '140041922'
+    generation: 1
+    creationTimestamp: '2020-11-25T08:06:57Z'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"db-deny-egress","namespace":"test-webapp-backend"},"spec":{"podSelector":{"matchLabels":{"app":"db"}},"policyTypes":["Egress"]}}
+spec:
+    podSelector:
+        matchLabels:
+            app: db
+    policyTypes:
+        - Egress
+

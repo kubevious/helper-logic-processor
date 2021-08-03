@@ -1,0 +1,30 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: cloud-provider
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/cloud-provider
+    uid: c6518c36-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '31420589'
+    creationTimestamp: '2020-01-11T06:01:14Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"kubernetes.io/deprecation":"cloud-provider
+            clusterrole is DEPRECATED in the concern of potential collisions and
+            will be removed in 1.16. Do not use this
+            role."},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"cloud-provider"},"rules":[{"apiGroups":[""],"resources":["events"],"verbs":["create","patch","update"]}]}
+        kubernetes.io/deprecation: >-
+            cloud-provider clusterrole is DEPRECATED in the concern of potential
+            collisions and will be removed in 1.16. Do not use this role.
+rules:
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+

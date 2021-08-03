@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:32Z'
+    generation: 1
+    name: networkpolicies.networking.k8s.io
+    resourceVersion: '275528072'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/networkpolicies.networking.k8s.io
+    uid: b4155bef-9127-4ba0-b3d4-4fe357e25613
+spec:
+    resource:
+        group: networking.k8s.io
+        resource: networkpolicies
+status:
+    currentStorageVersionHash: YpfwF18m1G8=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - YpfwF18m1G8=
+

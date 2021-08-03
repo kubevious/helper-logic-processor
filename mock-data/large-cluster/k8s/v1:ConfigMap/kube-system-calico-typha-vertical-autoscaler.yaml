@@ -1,0 +1,28 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: calico-typha-vertical-autoscaler
+    namespace: kube-system
+    selfLink: >-
+        /api/v1/namespaces/kube-system/configmaps/calico-typha-vertical-autoscaler
+    uid: c6d1ed97-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '4122740'
+    creationTimestamp: '2020-01-22T17:44:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: EnsureExists
+        kubernetes.io/cluster-service: 'true'
+data:
+    typha-autoscaler: |-
+        {
+          "calico-typha": {
+            "requests": {
+              "cpu": {
+                "base": "120m",
+                "step": "80m",
+                "nodesPerStep": 10,
+                "max": "1000m"
+              }
+            }
+          }
+        }
+

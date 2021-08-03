@@ -1,0 +1,84 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: calico-node-vertical-autoscaler-bcc7978d
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/replicasets/calico-node-vertical-autoscaler-bcc7978d
+    uid: 019acbd0-070b-4bdc-9c42-cfc5b442df81
+    resourceVersion: '147515797'
+    generation: 2
+    creationTimestamp: '2020-09-03T15:57:26Z'
+    labels:
+        k8s-app: calico-node-autoscaler
+        pod-template-hash: bcc7978d
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '4'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: calico-node-vertical-autoscaler
+            uid: c737192c-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            k8s-app: calico-node-autoscaler
+            pod-template-hash: bcc7978d
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: calico-node-autoscaler
+                pod-template-hash: bcc7978d
+            annotations:
+                components.gke.io/component-name: networkpolicy-calico
+                components.gke.io/component-version: 1.0.7
+        spec:
+            volumes:
+                -
+                    name: config
+                    configMap:
+                        name: calico-node-vertical-autoscaler
+                        defaultMode: 420
+            containers:
+                -
+                    name: autoscaler
+                    image: 'gke.gcr.io/cpvpa-amd64:v0.8.3-gke.0'
+                    command:
+                        - /cpvpa
+                        - '--target=daemonset/calico-node'
+                        - '--namespace=kube-system'
+                        - '--logtostderr=true'
+                        - '--poll-period-seconds=30'
+                        - '--v=2'
+                        - '--config-file=/etc/config/node-autoscaler'
+                    resources: {}
+                    volumeMounts:
+                        -
+                            name: config
+                            mountPath: /etc/config
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: calico-cpva
+            serviceAccount: calico-cpva
+            securityContext: {}
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 0
+    observedGeneration: 2
+

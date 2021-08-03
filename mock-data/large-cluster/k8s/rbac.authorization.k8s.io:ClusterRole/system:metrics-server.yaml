@@ -1,0 +1,42 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:metrics-server'
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Ametrics-server
+    uid: c07b4daf-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '223929756'
+    creationTimestamp: '2020-01-11T06:01:04Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"system:metrics-server"},"rules":[{"apiGroups":[""],"resources":["pods","nodes","namespaces"],"verbs":["get","list","watch"]},{"apiGroups":["apps"],"resources":["deployments"],"verbs":["get","list","update","watch"]},{"nonResourceURLs":["/metrics"],"verbs":["get"]}]}
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - pods
+            - nodes
+            - namespaces
+    -
+        verbs:
+            - get
+            - list
+            - update
+            - watch
+        apiGroups:
+            - apps
+        resources:
+            - deployments
+    -
+        verbs:
+            - get
+        nonResourceURLs:
+            - /metrics
+

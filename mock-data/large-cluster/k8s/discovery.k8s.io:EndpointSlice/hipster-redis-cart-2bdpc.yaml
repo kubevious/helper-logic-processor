@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: redis-cart-2bdpc
+    generateName: redis-cart-
+    namespace: hipster
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/hipster/endpointslices/redis-cart-2bdpc
+    uid: 30a95d8f-8dc4-477f-809d-714817f4ae35
+    resourceVersion: '274558955'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: redis-cart
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:13Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: redis-cart
+            uid: a402c654-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:41:13Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"a402c654-3441-11ea-9cdc-42010a8001cf"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.15
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: hipster
+            name: redis-cart-58764b9d5d-pgfzz
+            uid: 592fd8e4-154e-46b3-bca0-f8e7e2a1fbdc
+            resourceVersion: '274558952'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: redis
+        protocol: TCP
+        port: 6379
+

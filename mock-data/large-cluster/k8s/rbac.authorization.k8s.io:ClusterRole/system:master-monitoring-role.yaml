@@ -1,0 +1,22 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:master-monitoring-role'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Amaster-monitoring-role
+    uid: e4add3b3-57e8-4bb5-919d-f338de8ffb0f
+    resourceVersion: '61444991'
+    creationTimestamp: '2020-06-13T07:50:46Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:master-monitoring-role"},"rules":[{"nonResourceURLs":["/metrics","/metrics/*"],"verbs":["get"]}]}
+rules:
+    -
+        verbs:
+            - get
+        nonResourceURLs:
+            - /metrics
+            - /metrics/*
+

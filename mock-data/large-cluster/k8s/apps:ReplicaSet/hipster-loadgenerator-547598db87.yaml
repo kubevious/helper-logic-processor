@@ -1,0 +1,74 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: loadgenerator-547598db87
+    namespace: hipster
+    selfLink: /apis/apps/v1/namespaces/hipster/replicasets/loadgenerator-547598db87
+    uid: 2d2e941d-431b-11ea-96d3-42010a80017a
+    resourceVersion: '274559280'
+    generation: 1
+    creationTimestamp: '2020-01-30T04:44:18Z'
+    labels:
+        app: loadgenerator
+        pod-template-hash: 547598db87
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '2'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: loadgenerator
+            uid: a2e2343e-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: loadgenerator
+            pod-template-hash: 547598db87
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: loadgenerator
+                pod-template-hash: 547598db87
+            annotations:
+                sidecar.istio.io/rewriteAppHTTPProbers: 'true'
+        spec:
+            containers:
+                -
+                    name: main
+                    image: >-
+                        gcr.io/google-samples/microservices-demo/loadgenerator:v0.1.3
+                    env:
+                        -
+                            name: FRONTEND_ADDR
+                            value: 'frontend:80'
+                        -
+                            name: USERS
+                            value: '10'
+                    resources:
+                        limits:
+                            cpu: 50m
+                            memory: 512Mi
+                        requests:
+                            cpu: 10m
+                            memory: 256Mi
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 5
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

@@ -1,0 +1,23 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: polaris-dashboard
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/polaris-dashboard
+    uid: 9fa35c3c-5916-11ea-8ab4-42010a8000a7
+    resourceVersion: '19359244'
+    creationTimestamp: '2020-02-27T04:07:09Z'
+    labels:
+        app: polaris
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1beta1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"app":"polaris"},"name":"polaris-dashboard"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"polaris-dashboard"},"subjects":[{"kind":"ServiceAccount","name":"polaris-dashboard","namespace":"polaris"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: polaris-dashboard
+        namespace: polaris
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: polaris-dashboard
+

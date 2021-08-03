@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop
+    uid: 8e01b1fb-396f-11ea-b115-42010a8001d6
+    resourceVersion: '1973193'
+    creationTimestamp: '2020-01-17T21:23:07Z'
+spec:
+    finalizers:
+        - kubernetes
+status:
+    phase: Active
+

@@ -1,0 +1,25 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:kubestore-collector'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Akubestore-collector
+    uid: ed0a82f8-0fae-4639-b088-905e4d5d5f39
+    resourceVersion: '61444913'
+    creationTimestamp: '2020-06-13T07:50:42Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-version: kubestore-collector-rbac-1.0.0
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{"components.gke.io/component-version":"kubestore-collector-rbac-1.0.0"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:kubestore-collector"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"system:kubestore-collector"},"subjects":[{"kind":"User","name":"system:kubestore-collector"}]}
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:kubestore-collector'
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:kubestore-collector'
+

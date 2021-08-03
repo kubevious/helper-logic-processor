@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/serviceaccounts/default
+    uid: 8e03169c-396f-11ea-b115-42010a8001d6
+    resourceVersion: '1973196'
+    creationTimestamp: '2020-01-17T21:23:07Z'
+secrets:
+    -
+        name: default-token-ckr79
+

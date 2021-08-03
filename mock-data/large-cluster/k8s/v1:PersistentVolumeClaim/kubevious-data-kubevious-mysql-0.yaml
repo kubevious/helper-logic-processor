@@ -1,0 +1,40 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+    name: data-kubevious-mysql-0
+    namespace: kubevious
+    selfLink: >-
+        /api/v1/namespaces/kubevious/persistentvolumeclaims/data-kubevious-mysql-0
+    uid: 8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+    resourceVersion: '140027569'
+    creationTimestamp: '2020-11-15T00:14:29Z'
+    labels:
+        app.kubernetes.io/component: kubevious-mysql
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{"pv.kubernetes.io/bind-completed":"yes","pv.kubernetes.io/bound-by-controller":"yes","volume.beta.kubernetes.io/storage-provisioner":"kubernetes.io/gce-pd"},"creationTimestamp":"2020-11-15T00:14:29Z","finalizers":["kubernetes.io/pvc-protection"],"labels":{"app.kubernetes.io/component":"kubevious-mysql","app.kubernetes.io/instance":"kubevious","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"kubevious"},"name":"data-kubevious-mysql-0","namespace":"kubevious","selfLink":"/api/v1/namespaces/kubevious/persistentvolumeclaims/data-kubevious-mysql-0","uid":"8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"40Gi"}},"storageClassName":"standard","volumeMode":"Filesystem","volumeName":"pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8"}}
+        pv.kubernetes.io/bind-completed: 'yes'
+        pv.kubernetes.io/bound-by-controller: 'yes'
+        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
+        volume.kubernetes.io/storage-resizer: kubernetes.io/gce-pd
+    finalizers:
+        - kubernetes.io/pvc-protection
+spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 40Gi
+    volumeName: pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+    storageClassName: standard
+    volumeMode: Filesystem
+status:
+    phase: Bound
+    accessModes:
+        - ReadWriteOnce
+    capacity:
+        storage: 40Gi
+

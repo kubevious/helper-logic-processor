@@ -2,8 +2,13 @@ import _ from 'the-lodash';
 export interface IConcreteRegistry
 {
     date: Date;
-    filterItems(idFilter: any) : IConcreteItem[];
+    filterItems(filter?: ConcreteRegistryFilter | null) : IConcreteItem[];
     debugOutputCapacity() : void;
+}
+
+export interface ConcreteRegistryFilter {
+    api?: string,
+    kind?: string
 }
 
 export interface IConcreteItem

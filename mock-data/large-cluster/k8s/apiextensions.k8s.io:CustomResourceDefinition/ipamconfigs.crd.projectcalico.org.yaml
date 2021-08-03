@@ -1,0 +1,56 @@
+kind: CustomResourceDefinition
+apiVersion: apiextensions.k8s.io/v1
+metadata:
+    name: ipamconfigs.crd.projectcalico.org
+    selfLink: >-
+        /apis/apiextensions.k8s.io/v1/customresourcedefinitions/ipamconfigs.crd.projectcalico.org
+    uid: 905efed3-db3e-4bf9-9ecf-5247f2999a8b
+    resourceVersion: '223929641'
+    generation: 1
+    creationTimestamp: '2020-06-13T07:50:29Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        components.gke.io/component-name: networkpolicy-calico
+        components.gke.io/component-version: 1.0.12
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"apiextensions.k8s.io/v1beta1","kind":"CustomResourceDefinition","metadata":{"annotations":{"components.gke.io/component-name":"networkpolicy-calico","components.gke.io/component-version":"1.0.12"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"ipamconfigs.crd.projectcalico.org"},"spec":{"group":"crd.projectcalico.org","names":{"kind":"IPAMConfig","plural":"ipamconfigs","singular":"ipamconfig"},"scope":"Cluster","version":"v1"}}
+spec:
+    group: crd.projectcalico.org
+    names:
+        plural: ipamconfigs
+        singular: ipamconfig
+        kind: IPAMConfig
+        listKind: IPAMConfigList
+    scope: Cluster
+    versions:
+        -
+            name: v1
+            served: true
+            storage: true
+    conversion:
+        strategy: None
+    preserveUnknownFields: true
+status:
+    conditions:
+        -
+            type: NamesAccepted
+            status: 'True'
+            lastTransitionTime: '2020-06-13T07:50:29Z'
+            reason: NoConflicts
+            message: no conflicts found
+        -
+            type: Established
+            status: 'True'
+            lastTransitionTime: null
+            reason: InitialNamesAccepted
+            message: the initial names have been accepted
+    acceptedNames:
+        plural: ipamconfigs
+        singular: ipamconfig
+        kind: IPAMConfig
+        listKind: IPAMConfigList
+    storedVersions:
+        - v1
+

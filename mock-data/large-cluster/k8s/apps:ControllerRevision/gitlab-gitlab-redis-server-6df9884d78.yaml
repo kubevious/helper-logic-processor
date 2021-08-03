@@ -1,0 +1,191 @@
+kind: ControllerRevision
+apiVersion: apps/v1
+metadata:
+    name: gitlab-redis-server-6df9884d78
+    namespace: gitlab
+    selfLink: >-
+        /apis/apps/v1/namespaces/gitlab/controllerrevisions/gitlab-redis-server-6df9884d78
+    uid: e92b306e-470d-11ea-96d3-42010a80017a
+    resourceVersion: '9737258'
+    creationTimestamp: '2020-02-04T05:19:26Z'
+    labels:
+        app: redis
+        chart: redis-ha-0.1.0
+        controller.kubernetes.io/hash: 6df9884d78
+        heritage: Helm
+        name: redis-server
+        redis-node: 'true'
+        release: gitlab
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: StatefulSet
+            name: gitlab-redis-server
+            uid: 999be56c-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+data:
+    spec:
+        template:
+            $patch: replace
+            metadata:
+                annotations:
+                    checksum/config: >-
+                        a17ca01b2bd51c3d701b455723a4d2324df05a7ec7436349a928b62f74fbee96
+                creationTimestamp: null
+                labels:
+                    app: redis
+                    chart: redis-ha-0.1.0
+                    heritage: Helm
+                    name: redis-server
+                    redis-node: 'true'
+                    release: gitlab
+            spec:
+                affinity:
+                    podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                            -
+                                podAffinityTerm:
+                                    labelSelector:
+                                        matchExpressions:
+                                            -
+                                                key: app
+                                                operator: In
+                                                values:
+                                                    - redis
+                                            -
+                                                key: release
+                                                operator: In
+                                                values:
+                                                    - gitlab
+                                            -
+                                                key: redis-role
+                                                operator: In
+                                                values:
+                                                    - master
+                                                    - slave
+                                    topologyKey: kubernetes.io/hostname
+                                weight: 1
+                containers:
+                    -
+                        env:
+                            -
+                                name: REDIS_SENTINEL_SERVICE_HOST
+                                value: redis-sentinel
+                            -
+                                name: REDIS_CHART_PREFIX
+                                value: gitlab-redis
+                            -
+                                name: REDIS_PASSWORD_FILE
+                                value: /etc/redis/pass
+                        image: >-
+                            registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha:732704f18e34ba469df34b10c3b2465e0469d484
+                        imagePullPolicy: Always
+                        name: redis
+                        ports:
+                            -
+                                containerPort: 6379
+                                protocol: TCP
+                        resources:
+                            requests:
+                                cpu: 25m
+                                memory: 20Mi
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                        volumeMounts:
+                            -
+                                mountPath: /redis-master-data
+                                name: data
+                            -
+                                mountPath: /etc/redis/
+                                name: gitlab-config
+                    -
+                        env:
+                            -
+                                name: REDIS_FILE
+                                value: /metrics/redis
+                        image: 'oliver006/redis_exporter:v0.34.1-alpine'
+                        imagePullPolicy: IfNotPresent
+                        name: metrics
+                        ports:
+                            -
+                                containerPort: 9121
+                                name: metrics
+                                protocol: TCP
+                        resources: {}
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                        volumeMounts:
+                            -
+                                mountPath: /metrics
+                                name: gitlab-metrics
+                                readOnly: true
+                dnsPolicy: ClusterFirst
+                initContainers:
+                    -
+                        command:
+                            - sh
+                            - /config/configure
+                        image: 'busybox:latest'
+                        imagePullPolicy: Always
+                        name: configure
+                        resources:
+                            requests:
+                                cpu: 50m
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                        volumeMounts:
+                            -
+                                mountPath: /config
+                                name: gitlab
+                                readOnly: true
+                            -
+                                mountPath: /redis
+                                name: gitlab-config
+                            -
+                                mountPath: /metrics
+                                name: gitlab-metrics
+                restartPolicy: Always
+                schedulerName: default-scheduler
+                securityContext:
+                    fsGroup: 2000
+                    runAsUser: 2000
+                serviceAccount: gitlab-redis
+                serviceAccountName: gitlab-redis
+                terminationGracePeriodSeconds: 30
+                volumes:
+                    -
+                        emptyDir:
+                            medium: Memory
+                        name: gitlab-config
+                    -
+                        emptyDir:
+                            medium: Memory
+                        name: gitlab-metrics
+                    -
+                        name: gitlab
+                        projected:
+                            defaultMode: 420
+                            sources:
+                                -
+                                    configMap:
+                                        items:
+                                            -
+                                                key: redis-master.conf
+                                                path: redis-master.conf
+                                            -
+                                                key: redis-slave.conf
+                                                path: redis-slave.conf
+                                            -
+                                                key: configure
+                                                path: configure
+                                        name: gitlab-redis
+                                -
+                                    secret:
+                                        items:
+                                            -
+                                                key: secret
+                                                path: password
+                                        name: gitlab-redis-secret
+revision: 3
+

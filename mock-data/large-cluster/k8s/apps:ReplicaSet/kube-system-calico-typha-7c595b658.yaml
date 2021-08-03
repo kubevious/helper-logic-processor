@@ -1,0 +1,307 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: calico-typha-7c595b658
+    namespace: kube-system
+    selfLink: /apis/apps/v1/namespaces/kube-system/replicasets/calico-typha-7c595b658
+    uid: afc6398b-937e-4d05-9859-0e8968a0f03a
+    resourceVersion: '274558817'
+    generation: 2
+    creationTimestamp: '2021-05-11T16:15:53Z'
+    labels:
+        k8s-app: calico-typha
+        pod-template-hash: 7c595b658
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '1'
+        deployment.kubernetes.io/revision: '7'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: calico-typha
+            uid: c7707f92-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: apps/v1
+            time: '2021-08-01T11:41:03Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:deployment.kubernetes.io/desired-replicas': {}
+                        'f:deployment.kubernetes.io/max-replicas': {}
+                        'f:deployment.kubernetes.io/revision': {}
+                    'f:labels':
+                        .: {}
+                        'f:k8s-app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"c7707f92-3d3e-11ea-96d3-42010a80017a"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:replicas': {}
+                    'f:selector':
+                        'f:matchLabels':
+                            .: {}
+                            'f:k8s-app': {}
+                            'f:pod-template-hash': {}
+                    'f:template':
+                        'f:metadata':
+                            'f:annotations':
+                                .: {}
+                                'f:components.gke.io/component-name': {}
+                                'f:components.gke.io/component-version': {}
+                                'f:scheduler.alpha.kubernetes.io/critical-pod': {}
+                            'f:labels':
+                                .: {}
+                                'f:k8s-app': {}
+                                'f:pod-template-hash': {}
+                        'f:spec':
+                            'f:containers':
+                                'k:{"name":"calico-typha"}':
+                                    .: {}
+                                    'f:env':
+                                        .: {}
+                                        'k:{"name":"TYPHA_CONNECTIONREBALANCINGMODE"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_DATASTORETYPE"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_HEALTHENABLED"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_LOGFILEPATH"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_LOGSEVERITYSCREEN"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_LOGSEVERITYSYS"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_MAXCONNECTIONSLOWERLIMIT"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_PROMETHEUSMETRICSENABLED"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_PROMETHEUSMETRICSPORT"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"TYPHA_REPORTINGINTERVALSECS"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                        'k:{"name":"USE_POD_CIDR"}':
+                                            .: {}
+                                            'f:name': {}
+                                            'f:value': {}
+                                    'f:image': {}
+                                    'f:imagePullPolicy': {}
+                                    'f:livenessProbe':
+                                        .: {}
+                                        'f:failureThreshold': {}
+                                        'f:httpGet':
+                                            .: {}
+                                            'f:host': {}
+                                            'f:path': {}
+                                            'f:port': {}
+                                            'f:scheme': {}
+                                        'f:initialDelaySeconds': {}
+                                        'f:periodSeconds': {}
+                                        'f:successThreshold': {}
+                                        'f:timeoutSeconds': {}
+                                    'f:name': {}
+                                    'f:ports':
+                                        .: {}
+                                        'k:{"containerPort":5473,"protocol":"TCP"}':
+                                            .: {}
+                                            'f:containerPort': {}
+                                            'f:hostPort': {}
+                                            'f:name': {}
+                                            'f:protocol': {}
+                                    'f:readinessProbe':
+                                        .: {}
+                                        'f:failureThreshold': {}
+                                        'f:httpGet':
+                                            .: {}
+                                            'f:host': {}
+                                            'f:path': {}
+                                            'f:port': {}
+                                            'f:scheme': {}
+                                        'f:periodSeconds': {}
+                                        'f:successThreshold': {}
+                                        'f:timeoutSeconds': {}
+                                    'f:resources':
+                                        .: {}
+                                        'f:requests':
+                                            .: {}
+                                            'f:cpu': {}
+                                    'f:securityContext':
+                                        .: {}
+                                        'f:allowPrivilegeEscalation': {}
+                                        'f:capabilities':
+                                            .: {}
+                                            'f:drop': {}
+                                    'f:terminationMessagePath': {}
+                                    'f:terminationMessagePolicy': {}
+                            'f:dnsPolicy': {}
+                            'f:hostNetwork': {}
+                            'f:priorityClassName': {}
+                            'f:restartPolicy': {}
+                            'f:schedulerName': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:runAsGroup': {}
+                                'f:runAsUser': {}
+                            'f:serviceAccount': {}
+                            'f:serviceAccountName': {}
+                            'f:terminationGracePeriodSeconds': {}
+                            'f:tolerations': {}
+                'f:status':
+                    'f:availableReplicas': {}
+                    'f:fullyLabeledReplicas': {}
+                    'f:observedGeneration': {}
+                    'f:readyReplicas': {}
+                    'f:replicas': {}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            k8s-app: calico-typha
+            pod-template-hash: 7c595b658
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: calico-typha
+                pod-template-hash: 7c595b658
+            annotations:
+                components.gke.io/component-name: networkpolicy-calico
+                components.gke.io/component-version: 1.0.12
+                scheduler.alpha.kubernetes.io/critical-pod: ''
+        spec:
+            containers:
+                -
+                    name: calico-typha
+                    image: 'gke.gcr.io/calico/typha:v3.8.8-1-gke.0-amd64'
+                    ports:
+                        -
+                            name: calico-typha
+                            hostPort: 5473
+                            containerPort: 5473
+                            protocol: TCP
+                    env:
+                        -
+                            name: TYPHA_LOGFILEPATH
+                            value: none
+                        -
+                            name: TYPHA_LOGSEVERITYSYS
+                            value: none
+                        -
+                            name: TYPHA_LOGSEVERITYSCREEN
+                            value: warning
+                        -
+                            name: TYPHA_PROMETHEUSMETRICSENABLED
+                            value: 'true'
+                        -
+                            name: TYPHA_CONNECTIONREBALANCINGMODE
+                            value: kubernetes
+                        -
+                            name: TYPHA_REPORTINGINTERVALSECS
+                            value: '0'
+                        -
+                            name: TYPHA_PROMETHEUSMETRICSPORT
+                            value: '9093'
+                        -
+                            name: TYPHA_DATASTORETYPE
+                            value: kubernetes
+                        -
+                            name: TYPHA_MAXCONNECTIONSLOWERLIMIT
+                            value: '1'
+                        -
+                            name: TYPHA_HEALTHENABLED
+                            value: 'true'
+                        -
+                            name: USE_POD_CIDR
+                            value: 'true'
+                    resources:
+                        requests:
+                            cpu: 200m
+                    livenessProbe:
+                        httpGet:
+                            path: /liveness
+                            port: 9098
+                            host: 127.0.0.1
+                            scheme: HTTP
+                        initialDelaySeconds: 30
+                        timeoutSeconds: 1
+                        periodSeconds: 30
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        httpGet:
+                            path: /readiness
+                            port: 9098
+                            host: 127.0.0.1
+                            scheme: HTTP
+                        timeoutSeconds: 1
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        capabilities:
+                            drop:
+                                - all
+                        allowPrivilegeEscalation: false
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: calico-sa
+            serviceAccount: calico-sa
+            hostNetwork: true
+            securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: CriticalAddonsOnly
+                    operator: Exists
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 2
+

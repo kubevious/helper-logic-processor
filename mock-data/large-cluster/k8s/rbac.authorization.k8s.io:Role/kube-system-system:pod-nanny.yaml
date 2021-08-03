@@ -1,0 +1,33 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:pod-nanny'
+    namespace: kube-system
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system:pod-nanny
+    uid: bf42c709-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '363'
+    creationTimestamp: '2020-01-11T06:01:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"system:pod-nanny","namespace":"kube-system"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["get"]},{"apiGroups":["extensions"],"resources":["deployments"],"verbs":["get","update"]}]}
+rules:
+    -
+        verbs:
+            - get
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - get
+            - update
+        apiGroups:
+            - extensions
+        resources:
+            - deployments
+

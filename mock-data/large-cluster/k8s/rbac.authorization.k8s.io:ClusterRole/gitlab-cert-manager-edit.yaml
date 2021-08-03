@@ -1,0 +1,31 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: gitlab-cert-manager-edit
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/gitlab-cert-manager-edit
+    uid: 98c69614-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016199'
+    creationTimestamp: '2020-01-18T00:43:51Z'
+    labels:
+        app: cert-manager
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager
+        helm.sh/chart: certmanager-v0.10.1
+        rbac.authorization.k8s.io/aggregate-to-admin: 'true'
+        rbac.authorization.k8s.io/aggregate-to-edit: 'true'
+rules:
+    -
+        verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        apiGroups:
+            - certmanager.k8s.io
+        resources:
+            - certificates
+            - certificaterequests
+            - issuers
+

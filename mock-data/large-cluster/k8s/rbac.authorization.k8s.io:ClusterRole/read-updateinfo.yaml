@@ -1,0 +1,26 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: read-updateinfo
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/read-updateinfo
+    uid: c63fcf36-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '33958056'
+    creationTimestamp: '2020-01-11T06:01:14Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-name: updateinfo-crd
+        components.gke.io/component-version: 1.0.1
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"components.gke.io/component-name":"updateinfo-crd","components.gke.io/component-version":"1.0.1"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"read-updateinfo"},"rules":[{"apiGroups":["nodemanagement.gke.io"],"resources":["updateinfos"],"verbs":["get","list","watch"]}]}
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - nodemanagement.gke.io
+        resources:
+            - updateinfos
+

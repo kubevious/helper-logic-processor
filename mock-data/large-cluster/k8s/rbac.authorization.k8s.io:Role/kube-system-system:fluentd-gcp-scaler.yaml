@@ -1,0 +1,33 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:fluentd-gcp-scaler'
+    namespace: kube-system
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/roles/system:fluentd-gcp-scaler
+    uid: bf31e4f4-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '360'
+    creationTimestamp: '2020-01-11T06:01:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"system:fluentd-gcp-scaler","namespace":"kube-system"},"rules":[{"apiGroups":["extensions"],"resources":["daemonsets"],"verbs":["get","patch"]},{"apiGroups":["scalingpolicy.kope.io"],"resources":["scalingpolicies"],"verbs":["get"]}]}
+rules:
+    -
+        verbs:
+            - get
+            - patch
+        apiGroups:
+            - extensions
+        resources:
+            - daemonsets
+    -
+        verbs:
+            - get
+        apiGroups:
+            - scalingpolicy.kope.io
+        resources:
+            - scalingpolicies
+

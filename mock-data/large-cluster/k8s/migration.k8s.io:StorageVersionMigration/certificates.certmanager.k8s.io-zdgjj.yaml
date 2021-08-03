@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:16:22Z'
+    generateName: certificates.certmanager.k8s.io-
+    generation: 1
+    name: certificates.certmanager.k8s.io-zdgjj
+    resourceVersion: '166747889'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/certificates.certmanager.k8s.io-zdgjj
+    uid: fdfd9a20-d14d-4786-888f-2574b13a0917
+spec:
+    resource:
+        group: certmanager.k8s.io
+        resource: certificates
+        version: v1alpha1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:18:25Z'
+            status: 'True'
+            type: Succeeded
+

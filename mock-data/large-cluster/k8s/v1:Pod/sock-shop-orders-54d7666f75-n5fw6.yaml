@@ -1,0 +1,271 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: orders-54d7666f75-n5fw6
+    generateName: orders-54d7666f75-
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/pods/orders-54d7666f75-n5fw6
+    uid: 2f601cb3-437f-475a-8454-3aa7dd5f2ee0
+    resourceVersion: '274562090'
+    creationTimestamp: '2021-08-01T11:43:20Z'
+    labels:
+        name: orders
+        pod-template-hash: 54d7666f75
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.25/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: orders-54d7666f75
+            uid: cd9b96c2-396f-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:20Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:name': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"cd9b96c2-396f-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"orders"}':
+                            .: {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"JAVA_OPTS"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"ZIPKIN"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":80,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:resources': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:capabilities':
+                                    .: {}
+                                    'f:add': {}
+                                    'f:drop': {}
+                                'f:readOnlyRootFilesystem': {}
+                                'f:runAsNonRoot': {}
+                                'f:runAsUser': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/tmp"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:beta.kubernetes.io/os': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"tmp-volume"}':
+                            .: {}
+                            'f:emptyDir':
+                                .: {}
+                                'f:medium': {}
+                            'f:name': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:31Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:45:57Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.25"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: tmp-volume
+            emptyDir:
+                medium: Memory
+        -
+            name: default-token-ckr79
+            secret:
+                secretName: default-token-ckr79
+                defaultMode: 420
+    containers:
+        -
+            name: orders
+            image: 'weaveworksdemos/orders:0.4.7'
+            ports:
+                -
+                    containerPort: 80
+                    protocol: TCP
+            env:
+                -
+                    name: ZIPKIN
+                    value: zipkin.jaeger.svc.cluster.local
+                -
+                    name: JAVA_OPTS
+                    value: >-
+                        -Xms64m -Xmx128m -XX:PermSize=32m -XX:MaxPermSize=64m
+                        -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
+            resources: {}
+            volumeMounts:
+                -
+                    name: tmp-volume
+                    mountPath: /tmp
+                -
+                    name: default-token-ckr79
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+            securityContext:
+                capabilities:
+                    add:
+                        - NET_BIND_SERVICE
+                    drop:
+                        - all
+                runAsUser: 10001
+                runAsNonRoot: true
+                readOnlyRootFilesystem: true
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        beta.kubernetes.io/os: linux
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:21Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:45:57Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:45:57Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:20Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.25
+    podIPs:
+        -
+            ip: 10.8.0.25
+    startTime: '2021-08-01T11:43:21Z'
+    containerStatuses:
+        -
+            name: orders
+            state:
+                running:
+                    startedAt: '2021-08-01T11:45:56Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'weaveworksdemos/orders:0.4.7'
+            imageID: >-
+                docker-pullable://weaveworksdemos/orders@sha256:b622e40e83433baf6374f15e076b53893f79958640fc6667dff597622eff03b9
+            containerID: >-
+                docker://d5e32ca557ea7691a65a4da30654757c4bcb71507a70e2ef620c1cddc7543fd2
+            started: true
+    qosClass: BestEffort
+

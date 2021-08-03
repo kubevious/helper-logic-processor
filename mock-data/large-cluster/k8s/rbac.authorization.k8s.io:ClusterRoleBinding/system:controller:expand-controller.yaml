@@ -1,0 +1,23 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:expand-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Acontroller%3Aexpand-controller
+    uid: affbb0bf-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '116'
+    creationTimestamp: '2020-01-11T06:00:36Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+subjects:
+    -
+        kind: ServiceAccount
+        name: expand-controller
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:controller:expand-controller'
+

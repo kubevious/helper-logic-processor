@@ -1,0 +1,19 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: openfaas-prometheus
+    namespace: openfaas
+    selfLink: /api/v1/namespaces/openfaas/serviceaccounts/openfaas-prometheus
+    uid: 48120430-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007019'
+    creationTimestamp: '2020-01-18T00:05:48Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: prometheus
+        heritage: Helm
+        release: openfaas
+secrets:
+    -
+        name: openfaas-prometheus-token-qbf4n
+

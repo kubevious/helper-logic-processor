@@ -1,0 +1,25 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:gke-hpa-service-reader'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Agke-hpa-service-reader
+    uid: 9ad83487-a767-44d9-8911-b636e81150a1
+    resourceVersion: '204304864'
+    creationTimestamp: '2021-04-09T22:02:25Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:gke-hpa-service-reader"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"system:gke-hpa-service-reader"},"subjects":[{"kind":"User","name":"system:vpa-recommender","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:vpa-recommender'
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:gke-hpa-service-reader'
+

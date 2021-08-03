@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: gitlab-postgresql
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/configmaps/gitlab-postgresql
+    uid: 980e0681-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016131'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: postgresql
+        chart: postgresql-0.12.0
+        heritage: Helm
+        release: gitlab
+

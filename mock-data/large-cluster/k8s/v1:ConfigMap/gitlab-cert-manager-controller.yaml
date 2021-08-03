@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: cert-manager-controller
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/configmaps/cert-manager-controller
+    uid: a2549524-398b-11ea-b115-42010a8001d6
+    resourceVersion: '275531498'
+    creationTimestamp: '2020-01-18T00:44:07Z'
+    annotations:
+        control-plane.alpha.kubernetes.io/leader: >-
+            {"holderIdentity":"gitlab-cert-manager-5ffcc7f99f-2kr6b-external-cert-manager-controller","leaseDurationSeconds":60,"acquireTime":"2021-08-01T11:44:26Z","renewTime":"2021-08-03T01:21:19Z","leaderTransitions":29}
+

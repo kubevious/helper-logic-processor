@@ -1,0 +1,27 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: storage-version-migration-crd-creator
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/storage-version-migration-crd-creator
+    uid: c976bae3-5c69-40ca-a4ec-8703dba12c0e
+    resourceVersion: '120702115'
+    creationTimestamp: '2020-06-13T07:50:44Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-name: storageversionmigrator-rbac
+        components.gke.io/component-version: 0.0.3
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"components.gke.io/component-name":"storageversionmigrator-rbac","components.gke.io/component-version":"0.0.3"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"storage-version-migration-crd-creator"},"rules":[{"apiGroups":["apiextensions.k8s.io"],"resources":["customresourcedefinitions"],"verbs":["create","delete","get"]}]}
+rules:
+    -
+        verbs:
+            - create
+            - delete
+            - get
+        apiGroups:
+            - apiextensions.k8s.io
+        resources:
+            - customresourcedefinitions
+

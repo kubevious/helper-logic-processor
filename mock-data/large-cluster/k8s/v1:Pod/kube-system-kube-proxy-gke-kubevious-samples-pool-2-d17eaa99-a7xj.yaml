@@ -1,0 +1,332 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: kube-proxy-gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    namespace: kube-system
+    selfLink: >-
+        /api/v1/namespaces/kube-system/pods/kube-proxy-gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    uid: cbce2de4-ea68-4855-ad0c-8033934ddba1
+    resourceVersion: '274557355'
+    creationTimestamp: '2021-08-01T11:39:26Z'
+    labels:
+        component: kube-proxy
+        tier: node
+    annotations:
+        kubernetes.io/config.hash: 97e90aba1ab4fc9aa87ed53f84553464
+        kubernetes.io/config.mirror: 97e90aba1ab4fc9aa87ed53f84553464
+        kubernetes.io/config.seen: '2021-08-01T11:39:26.187869437Z'
+        kubernetes.io/config.source: file
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Node
+            name: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            uid: 08e77eec-658d-4e41-8374-c923edc2844b
+            controller: true
+    managedFields:
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:28Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:kubernetes.io/config.hash': {}
+                        'f:kubernetes.io/config.mirror': {}
+                        'f:kubernetes.io/config.seen': {}
+                        'f:kubernetes.io/config.source': {}
+                    'f:labels':
+                        .: {}
+                        'f:component': {}
+                        'f:tier': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"08e77eec-658d-4e41-8374-c923edc2844b"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"kube-proxy"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:privileged': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/etc/ssl/certs"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/lib/modules"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/run/xtables.lock"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                'k:{"mountPath":"/usr/share/ca-certificates"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/var/lib/kube-proxy/kubeconfig"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                'k:{"mountPath":"/var/log"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:hostNetwork': {}
+                    'f:nodeName': {}
+                    'f:priority': {}
+                    'f:priorityClassName': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:tolerations': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"etc-ssl-certs"}':
+                            .: {}
+                            'f:hostPath':
+                                .: {}
+                                'f:path': {}
+                                'f:type': {}
+                            'f:name': {}
+                        'k:{"name":"iptableslock"}':
+                            .: {}
+                            'f:hostPath':
+                                .: {}
+                                'f:path': {}
+                                'f:type': {}
+                            'f:name': {}
+                        'k:{"name":"kubeconfig"}':
+                            .: {}
+                            'f:hostPath':
+                                .: {}
+                                'f:path': {}
+                                'f:type': {}
+                            'f:name': {}
+                        'k:{"name":"lib-modules"}':
+                            .: {}
+                            'f:hostPath':
+                                .: {}
+                                'f:path': {}
+                                'f:type': {}
+                            'f:name': {}
+                        'k:{"name":"usr-ca-certs"}':
+                            .: {}
+                            'f:hostPath':
+                                .: {}
+                                'f:path': {}
+                                'f:type': {}
+                            'f:name': {}
+                        'k:{"name":"varlog"}':
+                            .: {}
+                            'f:hostPath':
+                                .: {}
+                                'f:path': {}
+                                'f:type': {}
+                            'f:name': {}
+                'f:status':
+                    'f:conditions':
+                        .: {}
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"PodScheduled"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.128.15.198"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: usr-ca-certs
+            hostPath:
+                path: /usr/share/ca-certificates
+                type: ''
+        -
+            name: etc-ssl-certs
+            hostPath:
+                path: /etc/ssl/certs
+                type: ''
+        -
+            name: kubeconfig
+            hostPath:
+                path: /var/lib/kube-proxy/kubeconfig
+                type: FileOrCreate
+        -
+            name: varlog
+            hostPath:
+                path: /var/log
+                type: ''
+        -
+            name: iptableslock
+            hostPath:
+                path: /run/xtables.lock
+                type: FileOrCreate
+        -
+            name: lib-modules
+            hostPath:
+                path: /lib/modules
+                type: ''
+    containers:
+        -
+            name: kube-proxy
+            image: 'gke.gcr.io/kube-proxy-amd64:v1.18.19-gke.1701'
+            command:
+                - /bin/sh
+                - '-c'
+                - >-
+                    exec kube-proxy --master=https://104.154.22.158
+                    --kubeconfig=/var/lib/kube-proxy/kubeconfig
+                    --cluster-cidr=10.8.0.0/14 --oom-score-adj=-998 --v=2
+                    --feature-gates=DynamicKubeletConfig=false,RotateKubeletServerCertificate=true
+                    --iptables-sync-period=1m --iptables-min-sync-period=10s
+                    --ipvs-sync-period=1m --ipvs-min-sync-period=10s
+                    --detect-local-mode=NodeCIDR 1>>/var/log/kube-proxy.log 2>&1
+            resources:
+                requests:
+                    cpu: 100m
+            volumeMounts:
+                -
+                    name: etc-ssl-certs
+                    readOnly: true
+                    mountPath: /etc/ssl/certs
+                -
+                    name: usr-ca-certs
+                    readOnly: true
+                    mountPath: /usr/share/ca-certificates
+                -
+                    name: varlog
+                    mountPath: /var/log
+                -
+                    name: kubeconfig
+                    mountPath: /var/lib/kube-proxy/kubeconfig
+                -
+                    name: iptableslock
+                    mountPath: /run/xtables.lock
+                -
+                    name: lib-modules
+                    readOnly: true
+                    mountPath: /lib/modules
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+            securityContext:
+                privileged: true
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    hostNetwork: true
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            operator: Exists
+            effect: NoExecute
+        -
+            operator: Exists
+            effect: NoSchedule
+    priorityClassName: system-node-critical
+    priority: 2000001000
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:26Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:29Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:29Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:26Z'
+    hostIP: 10.128.15.198
+    podIP: 10.128.15.198
+    podIPs:
+        -
+            ip: 10.128.15.198
+    startTime: '2021-08-01T11:39:26Z'
+    containerStatuses:
+        -
+            name: kube-proxy
+            state:
+                running:
+                    startedAt: '2021-08-01T11:39:28Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'gke.gcr.io/kube-proxy-amd64:v1.18.19-gke.1701'
+            imageID: >-
+                docker://sha256:27c67d47ff84f062caa6f1bc80de1fcfef54209746ae3d56b0825ef946a3e5b6
+            containerID: >-
+                docker://0c23f55d7a0ef5e03e1418ca7fc9aea8802332e6fc71fac1173140535d6ddee8
+            started: true
+    qosClass: Burstable
+

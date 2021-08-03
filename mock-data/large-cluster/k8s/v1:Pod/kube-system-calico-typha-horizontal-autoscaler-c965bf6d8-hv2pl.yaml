@@ -1,0 +1,247 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: calico-typha-horizontal-autoscaler-c965bf6d8-hv2pl
+    generateName: calico-typha-horizontal-autoscaler-c965bf6d8-
+    namespace: kube-system
+    selfLink: >-
+        /api/v1/namespaces/kube-system/pods/calico-typha-horizontal-autoscaler-c965bf6d8-hv2pl
+    uid: ff75cec4-5874-4382-909e-09067d36f064
+    resourceVersion: '274561190'
+    creationTimestamp: '2021-08-01T11:43:18Z'
+    labels:
+        k8s-app: calico-typha-autoscaler
+        pod-template-hash: c965bf6d8
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.13/32
+        components.gke.io/component-name: networkpolicy-calico
+        components.gke.io/component-version: 1.0.12
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: calico-typha-horizontal-autoscaler-c965bf6d8
+            uid: e22cea62-9462-4711-81d3-ff9456525058
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:18Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:components.gke.io/component-name': {}
+                        'f:components.gke.io/component-version': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:k8s-app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"e22cea62-9462-4711-81d3-ff9456525058"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"autoscaler"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                            'f:securityContext':
+                                .: {}
+                                'f:allowPrivilegeEscalation': {}
+                                'f:capabilities':
+                                    .: {}
+                                    'f:drop': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:priorityClassName': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext':
+                        .: {}
+                        'f:fsGroup': {}
+                        'f:runAsGroup': {}
+                        'f:runAsUser': {}
+                        'f:supplementalGroups': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:tolerations': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:29Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:44:16Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.13"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: typha-cpha-token-j59zj
+            secret:
+                secretName: typha-cpha-token-j59zj
+                defaultMode: 420
+    containers:
+        -
+            name: autoscaler
+            image: 'gke.gcr.io/cluster-proportional-autoscaler-amd64:1.8.1-gke.0'
+            command:
+                - /cluster-proportional-autoscaler
+                - '--namespace=kube-system'
+                - '--configmap=calico-typha-horizontal-autoscaler'
+                - '--target=deployment/calico-typha'
+                - '--logtostderr=true'
+                - '--v=2'
+            resources:
+                requests:
+                    cpu: 10m
+            volumeMounts:
+                -
+                    name: typha-cpha-token-j59zj
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+            securityContext:
+                capabilities:
+                    drop:
+                        - all
+                allowPrivilegeEscalation: false
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: typha-cpha
+    serviceAccount: typha-cpha
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        supplementalGroups:
+            - 65534
+        fsGroup: 65534
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: components.gke.io/gke-managed-components
+            operator: Exists
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priorityClassName: system-cluster-critical
+    priority: 2000000000
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:19Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:44:16Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:44:16Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:18Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.13
+    podIPs:
+        -
+            ip: 10.8.0.13
+    startTime: '2021-08-01T11:43:19Z'
+    containerStatuses:
+        -
+            name: autoscaler
+            state:
+                running:
+                    startedAt: '2021-08-01T11:44:16Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'gke.gcr.io/cluster-proportional-autoscaler-amd64:1.8.1-gke.0'
+            imageID: >-
+                docker-pullable://gke.gcr.io/cluster-proportional-autoscaler-amd64@sha256:3b600d2d5eafa6d5fcedbd783b28694af3f7dd470f3580e83200244fab32b35e
+            containerID: >-
+                docker://5af5819eff8bee438fe216d9936a94fc4a8e2f8a35c7c2f46732de4c17689fc4
+            started: true
+    qosClass: Burstable
+

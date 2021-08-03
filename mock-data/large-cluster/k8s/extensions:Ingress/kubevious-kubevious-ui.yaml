@@ -1,0 +1,50 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+    name: kubevious-ui
+    namespace: kubevious
+    selfLink: /apis/extensions/v1beta1/namespaces/kubevious/ingresses/kubevious-ui
+    uid: f644ee3b-6867-4bf5-8bc3-282c550f0e51
+    resourceVersion: '268137635'
+    generation: 1
+    creationTimestamp: '2020-11-15T00:14:29Z'
+    labels:
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        ingress.gcp.kubernetes.io/pre-shared-cert: mcrt-cc658f6a-f31a-45f8-ba34-813a0806c424
+        ingress.kubernetes.io/backends: >-
+            {"k8s-be-31689--ab64a690ed0b76be":"HEALTHY","k8s-be-31826--ab64a690ed0b76be":"HEALTHY"}
+        ingress.kubernetes.io/forwarding-rule: k8s2-fr-8v07pag5-kubevious-kubevious-ui-der1giwq
+        ingress.kubernetes.io/https-forwarding-rule: k8s2-fs-8v07pag5-kubevious-kubevious-ui-der1giwq
+        ingress.kubernetes.io/https-target-proxy: k8s2-ts-8v07pag5-kubevious-kubevious-ui-der1giwq
+        ingress.kubernetes.io/ssl-cert: mcrt-cc658f6a-f31a-45f8-ba34-813a0806c424
+        ingress.kubernetes.io/target-proxy: k8s2-tp-8v07pag5-kubevious-kubevious-ui-der1giwq
+        ingress.kubernetes.io/url-map: k8s2-um-8v07pag5-kubevious-kubevious-ui-der1giwq
+        kubernetes.io/ingress.allow-http: 'true'
+        kubernetes.io/ingress.global-static-ip-name: kubevious-ui
+        meta.helm.sh/release-name: kubevious
+        meta.helm.sh/release-namespace: kubevious
+        networking.gke.io/managed-certificates: kubevious-certificate
+    finalizers:
+        - networking.gke.io/ingress-finalizer-V2
+spec:
+    rules:
+        -
+            host: demo.kubevious.io
+            http:
+                paths:
+                    -
+                        pathType: ImplementationSpecific
+                        backend:
+                            serviceName: kubevious-ui-nodeport
+                            servicePort: 80
+status:
+    loadBalancer:
+        ingress:
+            -
+                ip: 34.107.207.168
+

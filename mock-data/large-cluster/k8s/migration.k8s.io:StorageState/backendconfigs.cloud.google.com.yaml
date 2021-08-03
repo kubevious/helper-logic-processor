@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:58Z'
+    generation: 1
+    name: backendconfigs.cloud.google.com
+    resourceVersion: '275528175'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/backendconfigs.cloud.google.com
+    uid: 77d98f68-e030-4510-9d8a-bec6cd1b7036
+spec:
+    resource:
+        group: cloud.google.com
+        resource: backendconfigs
+status:
+    currentStorageVersionHash: iT6Z2sUMGkM=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - iT6Z2sUMGkM=
+

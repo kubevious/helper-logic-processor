@@ -1,0 +1,233 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: nats-7666fb76bd-bk4bd
+    generateName: nats-7666fb76bd-
+    namespace: openfaas
+    selfLink: /api/v1/namespaces/openfaas/pods/nats-7666fb76bd-bk4bd
+    uid: 8174cd6e-a1ba-4504-a19d-e3b801a0d046
+    resourceVersion: '274558933'
+    creationTimestamp: '2021-08-01T11:39:52Z'
+    labels:
+        app: nats
+        pod-template-hash: 7666fb76bd
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.1.19/32
+        prometheus.io.scrape: 'false'
+        sidecar.istio.io/inject: 'false'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: nats-7666fb76bd
+            uid: 486f7690-3986-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:52Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:prometheus.io.scrape': {}
+                        'f:sidecar.istio.io/inject': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"486f7690-3986-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"nats"}':
+                            .: {}
+                            'f:args': {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":4222,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:beta.kubernetes.io/arch': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:01Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:41:11Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.19"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: default-token-dtcgt
+            secret:
+                secretName: default-token-dtcgt
+                defaultMode: 420
+    containers:
+        -
+            name: nats
+            image: 'nats-streaming:0.11.2'
+            command:
+                - /nats-streaming-server
+            args:
+                - '--store'
+                - memory
+                - '--cluster_id'
+                - faas-cluster
+            ports:
+                -
+                    containerPort: 4222
+                    protocol: TCP
+            resources:
+                requests:
+                    memory: 120Mi
+            volumeMounts:
+                -
+                    name: default-token-dtcgt
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        beta.kubernetes.io/arch: amd64
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:53Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:41:11Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:41:11Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:52Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.19
+    podIPs:
+        -
+            ip: 10.8.1.19
+    startTime: '2021-08-01T11:39:53Z'
+    containerStatuses:
+        -
+            name: nats
+            state:
+                running:
+                    startedAt: '2021-08-01T11:41:11Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'nats-streaming:0.11.2'
+            imageID: >-
+                docker-pullable://nats-streaming@sha256:b25585f075e6578613bd73779efb880e9a47c487ba101c0313272a7ebee38045
+            containerID: >-
+                docker://f05fdbef9fb12b7b3aacec5f7c5fffb219ef2f534e3760f157f8e205b8c338ef
+            started: true
+    qosClass: Burstable
+

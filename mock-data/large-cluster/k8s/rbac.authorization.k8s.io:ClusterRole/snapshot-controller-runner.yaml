@@ -1,0 +1,96 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: snapshot-controller-runner
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/snapshot-controller-runner
+    uid: 167a76a3-af58-4d47-b6fa-da1e98887ddc
+    resourceVersion: '223929783'
+    creationTimestamp: '2021-04-09T22:02:22Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-name: snapshot-controller-addon
+        components.gke.io/component-version: 0.3.1
+        components.gke.io/layer: addon
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"components.gke.io/component-name":"snapshot-controller-addon","components.gke.io/component-version":"0.3.1","components.gke.io/layer":"addon"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"snapshot-controller-runner"},"rules":[{"apiGroups":[""],"resources":["persistentvolumes"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["persistentvolumeclaims"],"verbs":["get","list","watch","update"]},{"apiGroups":["storage.k8s.io"],"resources":["storageclasses"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["events"],"verbs":["list","watch","create","update","patch"]},{"apiGroups":["snapshot.storage.k8s.io"],"resources":["volumesnapshotclasses"],"verbs":["get","list","watch"]},{"apiGroups":["snapshot.storage.k8s.io"],"resources":["volumesnapshotcontents"],"verbs":["create","get","list","watch","update","delete"]},{"apiGroups":["snapshot.storage.k8s.io"],"resources":["volumesnapshots"],"verbs":["get","list","watch","update"]},{"apiGroups":["snapshot.storage.k8s.io"],"resources":["volumesnapshots/status"],"verbs":["update"]}]}
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumes
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumeclaims
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - storageclasses
+    -
+        verbs:
+            - list
+            - watch
+            - create
+            - update
+            - patch
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - snapshot.storage.k8s.io
+        resources:
+            - volumesnapshotclasses
+    -
+        verbs:
+            - create
+            - get
+            - list
+            - watch
+            - update
+            - delete
+        apiGroups:
+            - snapshot.storage.k8s.io
+        resources:
+            - volumesnapshotcontents
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - update
+        apiGroups:
+            - snapshot.storage.k8s.io
+        resources:
+            - volumesnapshots
+    -
+        verbs:
+            - update
+        apiGroups:
+            - snapshot.storage.k8s.io
+        resources:
+            - volumesnapshots/status
+

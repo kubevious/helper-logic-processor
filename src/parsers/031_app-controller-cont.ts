@@ -97,7 +97,7 @@ export default LogicParser()
                     if (envObj.value) {
                         value = envObj.value;
                     } else if (envObj.valueFrom) {
-                        value = "<pre>" + yaml.safeDump(envObj.valueFrom) + "</pre>";
+                        value = "<pre>" + yaml.dump(envObj.valueFrom) + "</pre>";
                     }
                     envVars[envObj.name] = value;
                 }

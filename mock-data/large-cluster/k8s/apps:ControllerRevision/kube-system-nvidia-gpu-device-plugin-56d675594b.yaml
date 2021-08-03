@@ -1,0 +1,122 @@
+kind: ControllerRevision
+apiVersion: apps/v1
+metadata:
+    name: nvidia-gpu-device-plugin-56d675594b
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/controllerrevisions/nvidia-gpu-device-plugin-56d675594b
+    uid: e7f6d011-64d5-4ae7-b0c9-e238c33d6319
+    resourceVersion: '223930171'
+    creationTimestamp: '2021-05-11T16:16:51Z'
+    labels:
+        controller-revision-hash: 56d675594b
+        k8s-app: nvidia-gpu-device-plugin
+    annotations:
+        deprecated.daemonset.template.generation: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: DaemonSet
+            name: nvidia-gpu-device-plugin
+            uid: a93bff4f-201c-4ad6-a938-2ab3c5215e7c
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: apps/v1
+            time: '2021-05-11T16:16:51Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:data': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:deprecated.daemonset.template.generation': {}
+                    'f:labels':
+                        .: {}
+                        'f:controller-revision-hash': {}
+                        'f:k8s-app': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"a93bff4f-201c-4ad6-a938-2ab3c5215e7c"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:revision': {}
+data:
+    spec:
+        template:
+            $patch: replace
+            metadata:
+                creationTimestamp: null
+                labels:
+                    k8s-app: nvidia-gpu-device-plugin
+            spec:
+                affinity:
+                    nodeAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                            nodeSelectorTerms:
+                                -
+                                    matchExpressions:
+                                        -
+                                            key: cloud.google.com/gke-accelerator
+                                            operator: Exists
+                containers:
+                    -
+                        command:
+                            - /usr/bin/nvidia-gpu-device-plugin
+                            - '-logtostderr'
+                        image: >-
+                            gcr.io/gke-release/nvidia-gpu-device-plugin@sha256:a75ec0caa9e3038bd9886b3f36641a624574ff34b064974de6ee45048de3372b
+                        imagePullPolicy: IfNotPresent
+                        name: nvidia-gpu-device-plugin
+                        resources:
+                            limits:
+                                cpu: 50m
+                                memory: 10Mi
+                            requests:
+                                cpu: 50m
+                                memory: 10Mi
+                        securityContext:
+                            privileged: true
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                        volumeMounts:
+                            -
+                                mountPath: /device-plugin
+                                name: device-plugin
+                            -
+                                mountPath: /dev
+                                name: dev
+                dnsPolicy: ClusterFirst
+                priorityClassName: system-node-critical
+                restartPolicy: Always
+                schedulerName: default-scheduler
+                securityContext: {}
+                terminationGracePeriodSeconds: 30
+                tolerations:
+                    -
+                        effect: NoExecute
+                        operator: Exists
+                    -
+                        effect: NoSchedule
+                        operator: Exists
+                volumes:
+                    -
+                        hostPath:
+                            path: /var/lib/kubelet/device-plugins
+                            type: ''
+                        name: device-plugin
+                    -
+                        hostPath:
+                            path: /dev
+                            type: ''
+                        name: dev
+revision: 1
+

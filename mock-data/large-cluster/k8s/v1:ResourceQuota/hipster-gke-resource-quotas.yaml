@@ -1,0 +1,27 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+    name: gke-resource-quotas
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/resourcequotas/gke-resource-quotas
+    uid: 905da360-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274560722'
+    creationTimestamp: '2020-01-11T07:11:18Z'
+spec:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+status:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+    used:
+        count/ingresses.extensions: '0'
+        count/jobs.batch: '0'
+        pods: '12'
+        services: '12'
+

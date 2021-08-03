@@ -1,0 +1,83 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: gitlab-gitaly-k2d5v
+    generateName: gitlab-gitaly-
+    namespace: gitlab
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/gitlab/endpointslices/gitlab-gitaly-k2d5v
+    uid: f609956f-2355-4a4d-b79b-6cafa51cc806
+    resourceVersion: '274564846'
+    generation: 17
+    creationTimestamp: '2021-05-11T16:15:09Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: gitlab-gitaly
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:52:07Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: gitlab-gitaly
+            uid: 99293180-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:52:07Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"99293180-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.39
+        conditions:
+            ready: true
+        hostname: gitlab-gitaly-0
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-gitaly-0
+            uid: 6ae1ae20-7a06-400d-9cdc-f3b599da73ba
+            resourceVersion: '274564844'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: gitaly
+        protocol: TCP
+        port: 8075
+    -
+        name: gitaly-metrics
+        protocol: TCP
+        port: 9236
+

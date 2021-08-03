@@ -1,0 +1,275 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:node'
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Anode
+    uid: af292b5d-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '31420219'
+    creationTimestamp: '2020-01-11T06:00:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - create
+        apiGroups:
+            - authentication.k8s.io
+        resources:
+            - tokenreviews
+    -
+        verbs:
+            - create
+        apiGroups:
+            - authorization.k8s.io
+        resources:
+            - localsubjectaccessreviews
+            - subjectaccessreviews
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - services
+    -
+        verbs:
+            - create
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - nodes/status
+    -
+        verbs:
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - create
+            - delete
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - pods/status
+    -
+        verbs:
+            - create
+        apiGroups:
+            - ''
+        resources:
+            - pods/eviction
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - configmaps
+            - secrets
+    -
+        verbs:
+            - get
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumeclaims
+            - persistentvolumes
+    -
+        verbs:
+            - get
+        apiGroups:
+            - ''
+        resources:
+            - endpoints
+    -
+        verbs:
+            - create
+            - get
+            - list
+            - watch
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - certificatesigningrequests
+    -
+        verbs:
+            - get
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumeclaims/status
+    -
+        verbs:
+            - create
+        apiGroups:
+            - ''
+        resources:
+            - serviceaccounts/token
+    -
+        verbs:
+            - get
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - volumeattachments
+    -
+        verbs:
+            - get
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csidrivers
+    -
+        verbs:
+            - list
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csidrivers
+    -
+        verbs:
+            - watch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csidrivers
+    -
+        verbs:
+            - create
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - delete
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - get
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - update
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - csinodes
+    -
+        verbs:
+            - create
+        apiGroups:
+            - coordination.k8s.io
+        resources:
+            - leases
+    -
+        verbs:
+            - delete
+        apiGroups:
+            - coordination.k8s.io
+        resources:
+            - leases
+    -
+        verbs:
+            - get
+        apiGroups:
+            - coordination.k8s.io
+        resources:
+            - leases
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - coordination.k8s.io
+        resources:
+            - leases
+    -
+        verbs:
+            - update
+        apiGroups:
+            - coordination.k8s.io
+        resources:
+            - leases
+    -
+        verbs:
+            - get
+        apiGroups:
+            - node.k8s.io
+        resources:
+            - runtimeclasses
+    -
+        verbs:
+            - list
+        apiGroups:
+            - node.k8s.io
+        resources:
+            - runtimeclasses
+    -
+        verbs:
+            - watch
+        apiGroups:
+            - node.k8s.io
+        resources:
+            - runtimeclasses
+

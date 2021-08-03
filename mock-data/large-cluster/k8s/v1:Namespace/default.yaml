@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: default
+    selfLink: /api/v1/namespaces/default
+    uid: aed2f12f-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '36'
+    creationTimestamp: '2020-01-11T06:00:34Z'
+spec:
+    finalizers:
+        - kubernetes
+status:
+    phase: Active
+

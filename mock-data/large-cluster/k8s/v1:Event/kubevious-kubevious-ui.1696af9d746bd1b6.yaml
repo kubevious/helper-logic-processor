@@ -1,0 +1,51 @@
+kind: Event
+apiVersion: v1
+metadata:
+    name: kubevious-ui.1696af9d746bd1b6
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/events/kubevious-ui.1696af9d746bd1b6
+    uid: 902e5e2d-36ae-450c-93c0-83fb7e93691e
+    resourceVersion: '1515802'
+    creationTimestamp: '2021-07-30T21:43:26Z'
+    managedFields:
+        -
+            manager: glbc
+            operation: Update
+            apiVersion: v1
+            time: '2021-07-30T21:43:26Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:count': {}
+                'f:firstTimestamp': {}
+                'f:involvedObject':
+                    'f:apiVersion': {}
+                    'f:kind': {}
+                    'f:name': {}
+                    'f:namespace': {}
+                    'f:resourceVersion': {}
+                    'f:uid': {}
+                'f:lastTimestamp': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:source':
+                    'f:component': {}
+                'f:type': {}
+involvedObject:
+    kind: Ingress
+    namespace: kubevious
+    name: kubevious-ui
+    uid: f644ee3b-6867-4bf5-8bc3-282c550f0e51
+    apiVersion: networking.k8s.io/v1beta1
+    resourceVersion: '268137635'
+reason: Sync
+message: Scheduled for sync
+source:
+    component: loadbalancer-controller
+firstTimestamp: '2021-07-30T21:43:26Z'
+lastTimestamp: '2021-08-03T00:43:26Z'
+count: 91
+type: Normal
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''
+

@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: polaris-dashboard
+    namespace: polaris
+    selfLink: /api/v1/namespaces/polaris/services/polaris-dashboard
+    uid: 9fd3173c-5916-11ea-8ab4-42010a8000a7
+    resourceVersion: '19359249'
+    creationTimestamp: '2020-02-27T04:07:09Z'
+    labels:
+        app: polaris
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"polaris"},"name":"polaris-dashboard","namespace":"polaris"},"spec":{"ports":[{"name":"dashboard","port":80,"protocol":"TCP","targetPort":8080}],"selector":{"app":"polaris","component":"dashboard"},"type":"ClusterIP"}}
+spec:
+    ports:
+        -
+            name: dashboard
+            protocol: TCP
+            port: 80
+            targetPort: 8080
+    selector:
+        app: polaris
+        component: dashboard
+    clusterIP: 10.75.9.120
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

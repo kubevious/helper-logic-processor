@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:45Z'
+    generation: 1
+    name: storageclasses.storage.k8s.io
+    resourceVersion: '275528135'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/storageclasses.storage.k8s.io
+    uid: c84dd830-4a82-4feb-bd83-5b79bd026d3d
+spec:
+    resource:
+        group: storage.k8s.io
+        resource: storageclasses
+status:
+    currentStorageVersionHash: K+m6uJwbjGY=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - K+m6uJwbjGY=
+

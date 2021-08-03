@@ -1,0 +1,28 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: catalogue
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/services/catalogue
+    uid: ccf28b30-396f-11ea-b115-42010a8001d6
+    resourceVersion: '1973622'
+    creationTimestamp: '2020-01-17T21:24:53Z'
+    labels:
+        name: catalogue
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"name":"catalogue"},"name":"catalogue","namespace":"sock-shop"},"spec":{"ports":[{"port":80,"targetPort":80}],"selector":{"name":"catalogue"}}}
+spec:
+    ports:
+        -
+            protocol: TCP
+            port: 80
+            targetPort: 80
+    selector:
+        name: catalogue
+    clusterIP: 10.75.7.177
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

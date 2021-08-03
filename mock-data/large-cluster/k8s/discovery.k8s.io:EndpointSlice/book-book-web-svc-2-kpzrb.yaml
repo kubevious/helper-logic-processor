@@ -1,0 +1,52 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: book-web-svc-2-kpzrb
+    generateName: book-web-svc-2-
+    namespace: book
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/book/endpointslices/book-web-svc-2-kpzrb
+    uid: e3d3b294-292b-4495-bb1e-a52422e801ed
+    resourceVersion: '273579626'
+    generation: 1
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: book-web-svc-2
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: book-web-svc-2
+            uid: f70267ff-34c1-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-07-30T21:43:22Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"f70267ff-34c1-11ea-9cdc-42010a8001cf"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+addressType: IPv4
+endpoints: null
+ports: null
+

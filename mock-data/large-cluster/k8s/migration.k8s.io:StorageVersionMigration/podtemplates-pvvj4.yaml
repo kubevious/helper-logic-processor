@@ -1,0 +1,22 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:05Z'
+    generateName: podtemplates-
+    generation: 1
+    name: podtemplates-pvvj4
+    resourceVersion: '166748889'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/podtemplates-pvvj4
+    uid: 4a2c8af7-3dcc-4fdd-9875-47f65ca34d86
+spec:
+    resource:
+        resource: podtemplates
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:49Z'
+            status: 'True'
+            type: Succeeded
+

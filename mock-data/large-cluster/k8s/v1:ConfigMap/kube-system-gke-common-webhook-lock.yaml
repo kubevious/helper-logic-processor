@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: gke-common-webhook-lock
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/configmaps/gke-common-webhook-lock
+    uid: b370ebe1-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '275531503'
+    creationTimestamp: '2020-01-11T06:00:42Z'
+    annotations:
+        control-plane.alpha.kubernetes.io/leader: >-
+            {"holderIdentity":"gke-f005108ec19aa6d238be-199c-0b48-vm_4c94a","leaseDurationSeconds":15,"acquireTime":"2021-07-30T21:43:21Z","renewTime":"2021-08-03T01:21:20Z","leaderTransitions":40}
+

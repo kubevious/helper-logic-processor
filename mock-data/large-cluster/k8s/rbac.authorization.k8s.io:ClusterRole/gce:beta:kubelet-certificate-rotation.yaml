@@ -1,0 +1,24 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'gce:beta:kubelet-certificate-rotation'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/gce%3Abeta%3Akubelet-certificate-rotation
+    uid: c246ecd1-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446793'
+    creationTimestamp: '2020-01-11T06:01:07Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"gce:beta:kubelet-certificate-rotation"},"rules":[{"apiGroups":["certificates.k8s.io"],"resources":["certificatesigningrequests/selfnodeclient","certificatesigningrequests/selfnodeserver"],"verbs":["create"]}]}
+rules:
+    -
+        verbs:
+            - create
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - certificatesigningrequests/selfnodeclient
+            - certificatesigningrequests/selfnodeserver
+

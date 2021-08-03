@@ -1,0 +1,256 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: gitlab-cert-manager-webhook-76d9d9cc69-qvxpd
+    generateName: gitlab-cert-manager-webhook-76d9d9cc69-
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/pods/gitlab-cert-manager-webhook-76d9d9cc69-qvxpd
+    uid: 1c84bce8-25e5-4243-a387-23258244d1d4
+    resourceVersion: '274560769'
+    creationTimestamp: '2021-08-01T11:43:16Z'
+    labels:
+        app: webhook
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: webhook
+        helm.sh/chart: certmanager-v0.10.1
+        pod-template-hash: 76d9d9cc69
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.5/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: gitlab-cert-manager-webhook-76d9d9cc69
+            uid: 9992e00f-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:16Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:app.kubernetes.io/instance': {}
+                        'f:app.kubernetes.io/managed-by': {}
+                        'f:app.kubernetes.io/name': {}
+                        'f:helm.sh/chart': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"9992e00f-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"certmanager"}':
+                            .: {}
+                            'f:args': {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"POD_NAMESPACE"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:valueFrom':
+                                        .: {}
+                                        'f:fieldRef':
+                                            .: {}
+                                            'f:apiVersion': {}
+                                            'f:fieldPath': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/certs"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"certs"}':
+                            .: {}
+                            'f:name': {}
+                            'f:secret':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:secretName': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:23Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:38Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.5"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: certs
+            secret:
+                secretName: gitlab-cert-manager-webhook-tls
+                defaultMode: 420
+        -
+            name: gitlab-cert-manager-webhook-token-nx7k6
+            secret:
+                secretName: gitlab-cert-manager-webhook-token-nx7k6
+                defaultMode: 420
+    containers:
+        -
+            name: certmanager
+            image: 'quay.io/jetstack/cert-manager-webhook:v0.10.1'
+            args:
+                - '--v=2'
+                - '--secure-port=6443'
+                - '--tls-cert-file=/certs/tls.crt'
+                - '--tls-private-key-file=/certs/tls.key'
+            env:
+                -
+                    name: POD_NAMESPACE
+                    valueFrom:
+                        fieldRef:
+                            apiVersion: v1
+                            fieldPath: metadata.namespace
+            resources: {}
+            volumeMounts:
+                -
+                    name: certs
+                    mountPath: /certs
+                -
+                    name: gitlab-cert-manager-webhook-token-nx7k6
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: gitlab-cert-manager-webhook
+    serviceAccount: gitlab-cert-manager-webhook
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:17Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:39Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:39Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:16Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.5
+    podIPs:
+        -
+            ip: 10.8.0.5
+    startTime: '2021-08-01T11:43:17Z'
+    containerStatuses:
+        -
+            name: certmanager
+            state:
+                running:
+                    startedAt: '2021-08-01T11:43:38Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'quay.io/jetstack/cert-manager-webhook:v0.10.1'
+            imageID: >-
+                docker-pullable://quay.io/jetstack/cert-manager-webhook@sha256:8db898648fe921ce3d4c49a71672d608084b062c03c6295a20d26030ab6077ff
+            containerID: >-
+                docker://77711f7ad3d91c0cd6061b9e9bd986a3ac90a5e8f50ab514f5823da2ff990ec2
+            started: true
+    qosClass: BestEffort
+

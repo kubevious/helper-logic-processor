@@ -1,0 +1,96 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:deployment-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acontroller%3Adeployment-controller
+    uid: af67fbbf-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446098'
+    creationTimestamp: '2020-01-11T06:00:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - update
+            - watch
+        apiGroups:
+            - apps
+            - extensions
+        resources:
+            - deployments
+    -
+        verbs:
+            - update
+        apiGroups:
+            - apps
+            - extensions
+        resources:
+            - deployments/status
+    -
+        verbs:
+            - update
+        apiGroups:
+            - apps
+            - extensions
+        resources:
+            - deployments/finalizers
+    -
+        verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - apps
+            - extensions
+        resources:
+            - replicasets
+    -
+        verbs:
+            - get
+            - list
+            - update
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - create
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - update
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+

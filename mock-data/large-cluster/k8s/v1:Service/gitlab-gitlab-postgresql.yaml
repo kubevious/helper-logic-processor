@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: gitlab-postgresql
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/services/gitlab-postgresql
+    uid: 99353b81-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016254'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: postgresql
+        chart: postgresql-0.12.0
+        heritage: Helm
+        release: gitlab
+    annotations:
+        prometheus.io/port: '9187'
+        prometheus.io/scrape: 'true'
+spec:
+    ports:
+        -
+            name: postgresql
+            protocol: TCP
+            port: 5432
+            targetPort: postgresql
+    selector:
+        app: postgresql
+        release: gitlab
+    clusterIP: 10.75.8.76
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

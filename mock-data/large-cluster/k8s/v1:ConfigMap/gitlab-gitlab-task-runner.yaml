@@ -1,0 +1,258 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: gitlab-task-runner
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/configmaps/gitlab-task-runner
+    uid: 9812ba53-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016137'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: task-runner
+        chart: task-runner-2.6.5
+        heritage: Helm
+        release: gitlab
+data:
+    configure: |
+        set -e
+        config_dir="/init-config"
+        secret_dir="/init-secrets"
+
+        for secret in shell gitaly registry postgres rails-secrets ; do
+          mkdir -p "${secret_dir}/${secret}"
+          cp -v -r -L "${config_dir}/${secret}/." "${secret_dir}/${secret}/"
+        done
+        for secret in redis minio objectstorage ldap omniauth smtp ; do
+          if [ -e "${config_dir}/${secret}" ]; then
+            mkdir -p "${secret_dir}/${secret}"
+            cp -v -r -L "${config_dir}/${secret}/." "${secret_dir}/${secret}/"
+          fi
+        done
+
+
+
+        if [ ! -f "/${secret_dir}/objectstorage/.s3cfg" ]; then
+        cat <<EOF > "/${secret_dir}/.s3cfg"
+        [default]
+        access_key = $(cat /init-secrets/minio/accesskey)
+        secret_key = $(cat /init-secrets/minio/secretkey)
+        bucket_location = us-east-1
+        host_base = minio.example.com
+        host_bucket = minio.example.com/%(bucket)
+        default_mime_type = binary/octet-stream
+        enable_multipart = True
+        multipart_max_chunks = 10000
+        multipart_chunk_size_mb = 128
+        recursive = True
+        recv_chunk = 65536
+        send_chunk = 65536
+        server_side_encryption = False
+        signature_v2 = True
+        socket_timeout = 300
+        use_mime_magic = True
+        verbosity = WARNING
+        website_endpoint = https://minio.example.com
+        EOF
+        else
+          mv "/${secret_dir}/objectstorage/.s3cfg" "/${secret_dir}/.s3cfg"
+        fi
+    configure-gsutil: |
+        # The following script is used to configure gsutil when creating backups
+        # It provides inputs to the `gsutil config -e` prompt as follows:
+        # 1) Path to service account JSON key file
+        # 2) Do not set permissions for key file
+        # 3) GCP Project ID
+        # 4) Decline anonymous usage statistics
+        printf "$GOOGLE_APPLICATION_CREDENTIALS\nN\n\nN\n" | gsutil config -e
+    database.yml.erb: |
+        production:
+          adapter: postgresql
+          encoding: unicode
+          database: gitlabhq_production
+          pool: 10
+          username: gitlab
+          password: "<%= File.read("/etc/gitlab/postgres/psql-password").strip.dump[1..-2] %>"
+          host: "gitlab-postgresql"
+          port: 5432
+          prepared_statements: false
+          
+    gitlab.yml.erb: |
+        production: &base
+          gitlab:
+            host: gitlab.example.com
+            https: true
+            impersonation_enabled: 
+            usage_ping_enabled: true
+            default_can_create_group: true
+            username_changing_enabled: true
+            issue_closing_pattern: 
+            default_theme: 
+            default_projects_features:
+              issues: true
+              merge_requests: true
+              wiki: true
+              snippets: true
+              builds: true
+              container_registry: true
+            webhook_timeout: 
+            trusted_proxies:
+            time_zone: "UTC"        
+            email_from: "gitlab@example.com"
+            email_display_name: "GitLab"
+            email_reply_to: "noreply@example.com"
+            email_subject_suffix: ""
+          
+          artifacts:
+            enabled: true
+            object_store:
+              enabled: true
+              remote_directory: gitlab-artifacts
+              direct_upload: true
+              background_upload: false
+              proxy_download: true
+              connection:
+                provider: AWS
+                region: us-east-1
+                aws_access_key_id: "<%= File.read('/etc/gitlab/minio/accesskey').strip.dump[1..-2] %>"
+                aws_secret_access_key: "<%= File.read('/etc/gitlab/minio/secretkey').strip.dump[1..-2] %>"
+                host: minio.example.com
+                endpoint: http://gitlab-minio-svc:9000
+                path_style: true
+          lfs:
+            enabled: true
+            object_store:
+              enabled: true
+              remote_directory: git-lfs
+              direct_upload: true
+              background_upload: false
+              proxy_download: true
+              connection:
+                provider: AWS
+                region: us-east-1
+                aws_access_key_id: "<%= File.read('/etc/gitlab/minio/accesskey').strip.dump[1..-2] %>"
+                aws_secret_access_key: "<%= File.read('/etc/gitlab/minio/secretkey').strip.dump[1..-2] %>"
+                host: minio.example.com
+                endpoint: http://gitlab-minio-svc:9000
+                path_style: true
+          uploads:
+            enabled: true
+            object_store:
+              enabled: true
+              remote_directory: gitlab-uploads
+              direct_upload: true
+              background_upload: false
+              proxy_download: true
+              connection:
+                provider: AWS
+                region: us-east-1
+                aws_access_key_id: "<%= File.read('/etc/gitlab/minio/accesskey').strip.dump[1..-2] %>"
+                aws_secret_access_key: "<%= File.read('/etc/gitlab/minio/secretkey').strip.dump[1..-2] %>"
+                host: minio.example.com
+                endpoint: http://gitlab-minio-svc:9000
+                path_style: true
+          packages:
+            enabled: true
+            object_store:
+              enabled: true
+              remote_directory: gitlab-packages
+              direct_upload: true
+              background_upload: false
+              proxy_download: true
+              connection:
+                provider: AWS
+                region: us-east-1
+                aws_access_key_id: "<%= File.read('/etc/gitlab/minio/accesskey').strip.dump[1..-2] %>"
+                aws_secret_access_key: "<%= File.read('/etc/gitlab/minio/secretkey').strip.dump[1..-2] %>"
+                host: minio.example.com
+                endpoint: http://gitlab-minio-svc:9000
+                path_style: true
+          external_diffs:
+            enabled: 
+            when: 
+            object_store:
+              enabled: false
+              remote_directory: gitlab-mr-diffs
+              direct_upload: true
+              background_upload: false
+              proxy_download: true
+              connection:
+                provider: AWS
+                region: us-east-1
+                aws_access_key_id: "<%= File.read('/etc/gitlab/minio/accesskey').strip.dump[1..-2] %>"
+                aws_secret_access_key: "<%= File.read('/etc/gitlab/minio/secretkey').strip.dump[1..-2] %>"
+                host: minio.example.com
+                endpoint: http://gitlab-minio-svc:9000
+                path_style: true
+          pseudonymizer:
+            manifest: config/pseudonymizer.yml
+            upload:
+              remote_directory: gitlab-pseudo
+              connection:
+                provider: AWS
+                region: us-east-1
+                aws_access_key_id: "<%= File.read('/etc/gitlab/minio/accesskey').strip.dump[1..-2] %>"
+                aws_secret_access_key: "<%= File.read('/etc/gitlab/minio/secretkey').strip.dump[1..-2] %>"
+                host: minio.example.com
+                endpoint: http://gitlab-minio-svc:9000
+                path_style: true
+          
+          pages:
+            enabled: false
+          mattermost:
+            enabled: false
+          ## Registry Integration
+          registry:
+            enabled: true
+            host: registry.example.com
+            api_url: http://gitlab-registry:5000
+            key: /etc/gitlab/registry/gitlab-registry.key
+            issuer: gitlab-issuer
+          gitlab_ci:
+          ldap:
+            enabled: false
+          
+          omniauth:
+            enabled: false
+            sync_profile_from_provider: []
+            sync_profile_attributes: ["email"]
+            allow_single_sign_on: ["saml"]
+            block_auto_created_users: true
+            auto_link_ldap_user: false
+            auto_link_saml_user: false
+            external_providers: []
+          kerberos:
+            enabled: false
+          shared:
+          gitaly:
+            client_path: /home/git/gitaly/bin
+            token: "<%= File.read('/etc/gitlab/gitaly/gitaly_token').strip.dump[1..-2] %>"
+          repositories:
+            storages: # You must have at least a `default` storage path.
+              default:
+                path: /var/opt/gitlab/repo
+                gitaly_address: tcp://gitlab-gitaly-0.gitlab-gitaly.gitlab:8075
+              
+          backup:
+            path: "tmp/backups"   # Relative paths are relative to Rails.root (default: tmp/backups/)
+          gitlab_shell:
+            path: /home/git/gitlab-shell/
+            hooks_path: /home/git/gitlab-shell/hooks/
+            upload_pack: true
+            receive_pack: true
+            secret_file: /etc/gitlab/shell/.gitlab_shell_secret
+          workhorse:
+          git:
+            bin_path: /usr/bin/git
+          webpack:
+          monitoring:
+            ip_whitelist:
+              - 127.0.0.0/8
+            sidekiq_exporter:
+          extra:
+    resque.yml.erb: |
+        production:
+          # Redis (single instance)
+          url: redis://:<%= URI.escape(File.read("/etc/gitlab/redis/password").strip) %>@gitlab-redis:6379
+          id:
+    smtp_settings.rb: ''
+

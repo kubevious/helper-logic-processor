@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: gitlab
+    selfLink: /api/v1/namespaces/gitlab
+    uid: 7fbb771a-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2015897'
+    creationTimestamp: '2020-01-18T00:43:09Z'
+spec:
+    finalizers:
+        - kubernetes
+status:
+    phase: Active
+

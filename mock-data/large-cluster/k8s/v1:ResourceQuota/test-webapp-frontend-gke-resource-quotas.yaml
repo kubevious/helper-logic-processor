@@ -1,0 +1,28 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+    name: gke-resource-quotas
+    namespace: test-webapp-frontend
+    selfLink: >-
+        /api/v1/namespaces/test-webapp-frontend/resourcequotas/gke-resource-quotas
+    uid: d7152869-aebb-4b67-a979-018e6ae6c052
+    resourceVersion: '274560821'
+    creationTimestamp: '2020-11-25T08:06:56Z'
+spec:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+status:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+    used:
+        count/ingresses.extensions: '0'
+        count/jobs.batch: '0'
+        pods: '1'
+        services: '0'
+

@@ -1,0 +1,26 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: metrics-server-auth-reader
+    namespace: kube-system
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings/metrics-server-auth-reader
+    uid: bf90aaf5-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '398'
+    creationTimestamp: '2020-01-11T06:01:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"metrics-server-auth-reader","namespace":"kube-system"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"extension-apiserver-authentication-reader"},"subjects":[{"kind":"ServiceAccount","name":"metrics-server","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: metrics-server
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: extension-apiserver-authentication-reader
+

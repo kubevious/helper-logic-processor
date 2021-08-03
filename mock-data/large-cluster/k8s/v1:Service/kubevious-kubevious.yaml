@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: kubevious
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/services/kubevious
+    uid: 2c54bcb4-73d4-41d1-95fc-6ae3b74e7a4f
+    resourceVersion: '199508981'
+    creationTimestamp: '2020-11-15T00:14:29Z'
+    labels:
+        app.kubernetes.io/component: kubevious
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        meta.helm.sh/release-name: kubevious
+        meta.helm.sh/release-namespace: kubevious
+spec:
+    ports:
+        -
+            name: http
+            protocol: TCP
+            port: 4001
+            targetPort: http
+    selector:
+        app.kubernetes.io/component: kubevious
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    clusterIP: 10.75.5.16
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

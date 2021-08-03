@@ -1,0 +1,476 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: gitlab-registry-74c959fc8-s9484
+    generateName: gitlab-registry-74c959fc8-
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/pods/gitlab-registry-74c959fc8-s9484
+    uid: cd4f2d44-e1f7-4718-9007-f2ddc9337c62
+    resourceVersion: '274562574'
+    creationTimestamp: '2021-08-01T11:39:48Z'
+    labels:
+        app: registry
+        pod-template-hash: 74c959fc8
+        release: gitlab
+    annotations:
+        checksum/configmap: 286c8cfd6e68b01cac791db6c7970b093f059b17c007ea126964d5c8f5cc9288
+        cluster-autoscaler.kubernetes.io/safe-to-evict: 'true'
+        cni.projectcalico.org/podIP: 10.8.1.6/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: gitlab-registry-74c959fc8
+            uid: 99924f2e-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:48Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:checksum/configmap': {}
+                        'f:cluster-autoscaler.kubernetes.io/safe-to-evict': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:pod-template-hash': {}
+                        'f:release': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"99924f2e-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:affinity':
+                        .: {}
+                        'f:podAntiAffinity':
+                            .: {}
+                            'f:preferredDuringSchedulingIgnoredDuringExecution': {}
+                    'f:containers':
+                        'k:{"name":"registry"}':
+                            .: {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:livenessProbe':
+                                .: {}
+                                'f:failureThreshold': {}
+                                'f:httpGet':
+                                    .: {}
+                                    'f:path': {}
+                                    'f:port': {}
+                                    'f:scheme': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:name': {}
+                            'f:readinessProbe':
+                                .: {}
+                                'f:failureThreshold': {}
+                                'f:httpGet':
+                                    .: {}
+                                    'f:path': {}
+                                    'f:port': {}
+                                    'f:scheme': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/etc/docker/registry/"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                                'k:{"mountPath":"/etc/ssl/certs/"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:initContainers':
+                        .: {}
+                        'k:{"name":"certificates"}':
+                            .: {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/etc/ssl/certs"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                        'k:{"name":"configure"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/config"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                'k:{"mountPath":"/registry"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext':
+                        .: {}
+                        'f:fsGroup': {}
+                        'f:runAsUser': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"etc-ssl-certs"}':
+                            .: {}
+                            'f:emptyDir':
+                                .: {}
+                                'f:medium': {}
+                            'f:name': {}
+                        'k:{"name":"registry-secrets"}':
+                            .: {}
+                            'f:name': {}
+                            'f:projected':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:sources': {}
+                        'k:{"name":"registry-server-config"}':
+                            .: {}
+                            'f:emptyDir':
+                                .: {}
+                                'f:medium': {}
+                            'f:name': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:51Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:47:00Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:initContainerStatuses': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.6"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: registry-server-config
+            emptyDir:
+                medium: Memory
+        -
+            name: registry-secrets
+            projected:
+                sources:
+                    -
+                        configMap:
+                            name: gitlab-registry
+                    -
+                        secret:
+                            name: gitlab-registry-secret
+                            items:
+                                -
+                                    key: registry-auth.crt
+                                    path: certificate.crt
+                    -
+                        secret:
+                            name: gitlab-registry-httpsecret
+                            items:
+                                -
+                                    key: secret
+                                    path: httpSecret
+                    -
+                        secret:
+                            name: gitlab-minio-secret
+                defaultMode: 420
+        -
+            name: etc-ssl-certs
+            emptyDir:
+                medium: Memory
+        -
+            name: default-token-jjkq5
+            secret:
+                secretName: default-token-jjkq5
+                defaultMode: 420
+    initContainers:
+        -
+            name: certificates
+            image: >-
+                registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20171114-r3
+            resources:
+                requests:
+                    cpu: 50m
+            volumeMounts:
+                -
+                    name: etc-ssl-certs
+                    mountPath: /etc/ssl/certs
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+        -
+            name: configure
+            image: 'busybox:latest'
+            command:
+                - sh
+                - /config/configure
+            resources:
+                requests:
+                    cpu: 50m
+            volumeMounts:
+                -
+                    name: registry-secrets
+                    mountPath: /config
+                -
+                    name: registry-server-config
+                    mountPath: /registry
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    containers:
+        -
+            name: registry
+            image: 'registry:2.7.1'
+            resources:
+                requests:
+                    cpu: 50m
+                    memory: 32Mi
+            volumeMounts:
+                -
+                    name: registry-server-config
+                    readOnly: true
+                    mountPath: /etc/docker/registry/
+                -
+                    name: etc-ssl-certs
+                    readOnly: true
+                    mountPath: /etc/ssl/certs/
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            livenessProbe:
+                httpGet:
+                    path: /debug/health
+                    port: 5001
+                    scheme: HTTP
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+            readinessProbe:
+                httpGet:
+                    path: /debug/health
+                    port: 5001
+                    scheme: HTTP
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+                periodSeconds: 5
+                successThreshold: 1
+                failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+    affinity:
+        podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+                -
+                    weight: 1
+                    podAffinityTerm:
+                        labelSelector:
+                            matchLabels:
+                                app: registry
+                                release: gitlab
+                        topologyKey: kubernetes.io/hostname
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:44:27Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:47:00Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:47:00Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:49Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.6
+    podIPs:
+        -
+            ip: 10.8.1.6
+    startTime: '2021-08-01T11:39:50Z'
+    initContainerStatuses:
+        -
+            name: certificates
+            state:
+                terminated:
+                    exitCode: 0
+                    reason: Completed
+                    startedAt: '2021-08-01T11:40:29Z'
+                    finishedAt: '2021-08-01T11:40:29Z'
+                    containerID: >-
+                        docker://f1b9ffe44106963755539e203e6f889cdb0a900db79c4fd221ef20293048ab24
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: >-
+                registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20171114-r3
+            imageID: >-
+                docker-pullable://registry.gitlab.com/gitlab-org/build/cng/alpine-certificates@sha256:00ce9a585179e6b22c9bfea9ba82552630eab0bd25da4f13282b588b2ad022dc
+            containerID: >-
+                docker://f1b9ffe44106963755539e203e6f889cdb0a900db79c4fd221ef20293048ab24
+        -
+            name: configure
+            state:
+                terminated:
+                    exitCode: 0
+                    reason: Completed
+                    startedAt: '2021-08-01T11:43:29Z'
+                    finishedAt: '2021-08-01T11:43:29Z'
+                    containerID: >-
+                        docker://9cd4b02778682444c5d92ea045bee22c4ea284c98ba8319b8ab92764a3d5472d
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'busybox:latest'
+            imageID: >-
+                docker-pullable://busybox@sha256:0f354ec1728d9ff32edcd7d1b8bbdfc798277ad36120dc3dc683be44524c8b60
+            containerID: >-
+                docker://9cd4b02778682444c5d92ea045bee22c4ea284c98ba8319b8ab92764a3d5472d
+    containerStatuses:
+        -
+            name: registry
+            state:
+                running:
+                    startedAt: '2021-08-01T11:46:53Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'registry:2.7.1'
+            imageID: >-
+                docker-pullable://registry@sha256:121baf25069a56749f249819e36b386d655ba67116d9c1c6c8594061852de4da
+            containerID: >-
+                docker://8d405d1f17911aaa9f4101387ab7eac058c61d9f86c55a4b6ec3aeceedc31f12
+            started: true
+    qosClass: Burstable
+

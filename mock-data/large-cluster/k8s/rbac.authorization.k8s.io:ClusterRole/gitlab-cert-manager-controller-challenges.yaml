@@ -1,0 +1,93 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: gitlab-cert-manager-controller-challenges
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/gitlab-cert-manager-controller-challenges
+    uid: 98c95ba8-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016201'
+    creationTimestamp: '2020-01-18T00:43:51Z'
+    labels:
+        app: cert-manager
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager
+        helm.sh/chart: certmanager-v0.10.1
+rules:
+    -
+        verbs:
+            - update
+        apiGroups:
+            - certmanager.k8s.io
+        resources:
+            - challenges
+            - challenges/status
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - certmanager.k8s.io
+        resources:
+            - challenges
+            - issuers
+            - clusterissuers
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - secrets
+    -
+        verbs:
+            - create
+            - patch
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - create
+            - delete
+        apiGroups:
+            - ''
+        resources:
+            - pods
+            - services
+    -
+        verbs:
+            - get
+            - list
+            - watch
+            - create
+            - delete
+            - update
+        apiGroups:
+            - extensions
+        resources:
+            - ingresses
+    -
+        verbs:
+            - update
+        apiGroups:
+            - certmanager.k8s.io
+        resources:
+            - challenges/finalizers
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - secrets
+

@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:21Z'
+    generation: 1
+    name: clusterissuers.certmanager.k8s.io
+    resourceVersion: '275528282'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/clusterissuers.certmanager.k8s.io
+    uid: eef05a6a-1782-468b-b746-d01f790870c1
+spec:
+    resource:
+        group: certmanager.k8s.io
+        resource: clusterissuers
+status:
+    currentStorageVersionHash: reakstCytMM=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - reakstCytMM=
+

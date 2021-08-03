@@ -1,0 +1,388 @@
+synthetic: true
+apiVersion: kubevious.io/v1
+kind: ApiResourceStatus
+metadata:
+    name: default
+config:
+    resources:
+        -
+            apiName: admissionregistration.k8s.io
+            apiVersion: v1
+            kindName: MutatingWebhookConfiguration
+        -
+            apiName: admissionregistration.k8s.io
+            apiVersion: v1
+            kindName: ValidatingWebhookConfiguration
+        -
+            apiName: apiextensions.k8s.io
+            apiVersion: v1
+            kindName: CustomResourceDefinition
+        -
+            apiName: apiregistration.k8s.io
+            apiVersion: v1
+            kindName: APIService
+        -
+            apiName: apps
+            apiVersion: v1
+            kindName: ControllerRevision
+        -
+            apiName: apps
+            apiVersion: v1
+            kindName: DaemonSet
+        -
+            apiName: apps
+            apiVersion: v1
+            kindName: Deployment
+        -
+            apiName: apps
+            apiVersion: v1
+            kindName: ReplicaSet
+        -
+            apiName: apps
+            apiVersion: v1
+            kindName: StatefulSet
+        -
+            apiName: authentication.k8s.io
+            apiVersion: v1
+            kindName: TokenReview
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: authorization.k8s.io
+            apiVersion: v1
+            kindName: LocalSubjectAccessReview
+            isDisconnected: true
+            error:
+                code: 500
+                message: API returned empty result
+        -
+            apiName: authorization.k8s.io
+            apiVersion: v1
+            kindName: SelfSubjectAccessReview
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: authorization.k8s.io
+            apiVersion: v1
+            kindName: SelfSubjectRulesReview
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: authorization.k8s.io
+            apiVersion: v1
+            kindName: SubjectAccessReview
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: autoscaling
+            apiVersion: v1
+            kindName: HorizontalPodAutoscaler
+        -
+            apiName: batch
+            apiVersion: v1
+            kindName: Job
+        -
+            apiName: certificates.k8s.io
+            apiVersion: v1beta1
+            kindName: CertificateSigningRequest
+        -
+            apiName: certmanager.k8s.io
+            apiVersion: v1alpha1
+            kindName: Certificate
+        -
+            apiName: certmanager.k8s.io
+            apiVersion: v1alpha1
+            kindName: CertificateRequest
+        -
+            apiName: certmanager.k8s.io
+            apiVersion: v1alpha1
+            kindName: Challenge
+        -
+            apiName: certmanager.k8s.io
+            apiVersion: v1alpha1
+            kindName: ClusterIssuer
+        -
+            apiName: certmanager.k8s.io
+            apiVersion: v1alpha1
+            kindName: Issuer
+        -
+            apiName: certmanager.k8s.io
+            apiVersion: v1alpha1
+            kindName: Order
+        -
+            apiName: cloud.google.com
+            apiVersion: v1
+            kindName: BackendConfig
+        -
+            apiName: coordination.k8s.io
+            apiVersion: v1
+            kindName: Lease
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: BGPConfiguration
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: BGPPeer
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: BlockAffinity
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: ClusterInformation
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: FelixConfiguration
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: GlobalBGPConfig
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: GlobalFelixConfig
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: GlobalNetworkPolicy
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: GlobalNetworkSet
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: HostEndpoint
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: IPAMBlock
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: IPAMConfig
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: IPAMHandle
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: IPPool
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: NetworkPolicy
+        -
+            apiName: crd.projectcalico.org
+            apiVersion: v1
+            kindName: NetworkSet
+        -
+            apiName: discovery.k8s.io
+            apiVersion: v1beta1
+            kindName: EndpointSlice
+        -
+            apiName: extensions
+            apiVersion: v1beta1
+            kindName: Ingress
+        -
+            apiName: metrics.k8s.io
+            apiVersion: v1beta1
+            kindName: NodeMetrics
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: metrics.k8s.io
+            apiVersion: v1beta1
+            kindName: PodMetrics
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: migration.k8s.io
+            apiVersion: v1alpha1
+            kindName: StorageState
+        -
+            apiName: migration.k8s.io
+            apiVersion: v1alpha1
+            kindName: StorageVersionMigration
+        -
+            apiName: networking.gke.io
+            apiVersion: v1
+            kindName: ManagedCertificate
+        -
+            apiName: networking.k8s.io
+            apiVersion: v1
+            kindName: NetworkPolicy
+        -
+            apiName: node.k8s.io
+            apiVersion: v1beta1
+            kindName: RuntimeClass
+        -
+            apiName: nodemanagement.gke.io
+            apiVersion: v1alpha1
+            kindName: UpdateInfo
+        -
+            apiName: policy
+            apiVersion: v1beta1
+            kindName: PodDisruptionBudget
+        -
+            apiName: policy
+            apiVersion: v1beta1
+            kindName: PodSecurityPolicy
+        -
+            apiName: rbac.authorization.k8s.io
+            apiVersion: v1
+            kindName: ClusterRole
+        -
+            apiName: rbac.authorization.k8s.io
+            apiVersion: v1
+            kindName: ClusterRoleBinding
+        -
+            apiName: rbac.authorization.k8s.io
+            apiVersion: v1
+            kindName: Role
+        -
+            apiName: rbac.authorization.k8s.io
+            apiVersion: v1
+            kindName: RoleBinding
+        -
+            apiName: scalingpolicy.kope.io
+            apiVersion: v1alpha1
+            kindName: ScalingPolicy
+        -
+            apiName: scheduling.k8s.io
+            apiVersion: v1
+            kindName: PriorityClass
+        -
+            apiName: snapshot.storage.k8s.io
+            apiVersion: v1beta1
+            kindName: VolumeSnapshot
+        -
+            apiName: snapshot.storage.k8s.io
+            apiVersion: v1beta1
+            kindName: VolumeSnapshotClass
+        -
+            apiName: snapshot.storage.k8s.io
+            apiVersion: v1beta1
+            kindName: VolumeSnapshotContent
+        -
+            apiName: storage.k8s.io
+            apiVersion: v1
+            kindName: CSIDriver
+        -
+            apiName: storage.k8s.io
+            apiVersion: v1
+            kindName: CSINode
+        -
+            apiName: storage.k8s.io
+            apiVersion: v1
+            kindName: StorageClass
+        -
+            apiName: storage.k8s.io
+            apiVersion: v1
+            kindName: VolumeAttachment
+        -
+            apiName: webhook.certmanager.k8s.io
+            apiVersion: v1beta1
+            kindName: AdmissionReview
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Binding
+            isDisconnected: true
+            error:
+                code: 500
+                message: API returned empty result
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: ComponentStatus
+            isDisconnected: true
+            error:
+                code: 405
+                message: Method Not Allowed
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: ConfigMap
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Endpoints
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Event
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: LimitRange
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Namespace
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Node
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: PersistentVolume
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: PersistentVolumeClaim
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Pod
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: PodTemplate
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: ReplicationController
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: ResourceQuota
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Secret
+            isDisconnected: true
+            error:
+                code: 403
+                message: Forbidden
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: Service
+        -
+            apiName: null
+            apiVersion: v1
+            kindName: ServiceAccount
+

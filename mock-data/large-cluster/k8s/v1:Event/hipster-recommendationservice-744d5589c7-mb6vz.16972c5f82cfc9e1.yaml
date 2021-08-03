@@ -1,0 +1,58 @@
+kind: Event
+apiVersion: v1
+metadata:
+    name: recommendationservice-744d5589c7-mb6vz.16972c5f82cfc9e1
+    namespace: hipster
+    selfLink: >-
+        /api/v1/namespaces/hipster/events/recommendationservice-744d5589c7-mb6vz.16972c5f82cfc9e1
+    uid: 27dde294-0484-4abd-9cba-ee9e883daca9
+    resourceVersion: '1515804'
+    creationTimestamp: '2021-08-03T00:43:30Z'
+    managedFields:
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-03T00:43:30Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:count': {}
+                'f:firstTimestamp': {}
+                'f:involvedObject':
+                    'f:apiVersion': {}
+                    'f:fieldPath': {}
+                    'f:kind': {}
+                    'f:name': {}
+                    'f:namespace': {}
+                    'f:resourceVersion': {}
+                    'f:uid': {}
+                'f:lastTimestamp': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:source':
+                    'f:component': {}
+                    'f:host': {}
+                'f:type': {}
+involvedObject:
+    kind: Pod
+    namespace: hipster
+    name: recommendationservice-744d5589c7-mb6vz
+    uid: 14af73f1-5222-4303-b43c-9edcf9e4a5e1
+    apiVersion: v1
+    resourceVersion: '274560215'
+    fieldPath: 'spec.containers{server}'
+reason: Unhealthy
+message: >
+    (combined from similar events): Liveness probe failed: timeout: failed to
+    connect service ":8080" within 1s
+source:
+    component: kubelet
+    host: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+firstTimestamp: '2021-08-01T11:49:39Z'
+lastTimestamp: '2021-08-03T00:43:30Z'
+count: 561
+type: Warning
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''
+

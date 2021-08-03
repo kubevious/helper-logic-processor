@@ -1,0 +1,25 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:gke-uas-hpa-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Agke-uas-hpa-controller
+    uid: 748195f1-b566-48e4-9f42-4d7022694b51
+    resourceVersion: '61445006'
+    creationTimestamp: '2020-06-13T07:50:47Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:gke-uas-hpa-controller"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"system:controller:horizontal-pod-autoscaler"},"subjects":[{"kind":"User","name":"system:vpa-recommender","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: User
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:vpa-recommender'
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:controller:horizontal-pod-autoscaler'
+

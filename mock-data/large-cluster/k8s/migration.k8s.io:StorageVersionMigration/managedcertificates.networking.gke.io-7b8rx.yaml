@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-04-09T22:11:40Z'
+    generateName: managedcertificates.networking.gke.io-
+    generation: 1
+    name: managedcertificates.networking.gke.io-7b8rx
+    resourceVersion: '204308872'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/managedcertificates.networking.gke.io-7b8rx
+    uid: 60f866c7-8163-4261-a164-c2f36d286de9
+spec:
+    resource:
+        group: networking.gke.io
+        resource: managedcertificates
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-04-09T22:11:41Z'
+            status: 'True'
+            type: Succeeded
+

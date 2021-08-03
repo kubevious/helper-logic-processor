@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/default
+    uid: ba565248-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '271'
+    creationTimestamp: '2020-01-11T06:00:54Z'
+secrets:
+    -
+        name: default-token-nv2z8
+

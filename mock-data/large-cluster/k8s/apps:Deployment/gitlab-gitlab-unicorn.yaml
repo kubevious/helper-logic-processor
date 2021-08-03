@@ -1,0 +1,437 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+    name: gitlab-unicorn
+    namespace: gitlab
+    selfLink: /apis/apps/v1/namespaces/gitlab/deployments/gitlab-unicorn
+    uid: 9968e6a8-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274566478'
+    generation: 53
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: unicorn
+        chart: unicorn-2.6.5
+        heritage: Helm
+        release: gitlab
+    annotations:
+        deployment.kubernetes.io/revision: '4'
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: unicorn
+            release: gitlab
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: unicorn
+                release: gitlab
+            annotations:
+                checksum/config: >-
+                    d021e46742b5d6dd76265a6b1dd9c78cdeb6db74842f2cdaa710f411a97fbabb
+                cluster-autoscaler.kubernetes.io/safe-to-evict: 'true'
+                prometheus.io/path: /-/metrics
+                prometheus.io/port: '8080'
+                prometheus.io/scrape: 'true'
+        spec:
+            volumes:
+                -
+                    name: shared-tmp
+                    emptyDir: {}
+                -
+                    name: unicorn-metrics
+                    emptyDir:
+                        medium: Memory
+                -
+                    name: unicorn-config
+                    configMap:
+                        name: gitlab-unicorn
+                        defaultMode: 420
+                -
+                    name: workhorse-config
+                    configMap:
+                        name: gitlab-workhorse-config
+                        defaultMode: 420
+                -
+                    name: init-unicorn-secrets
+                    projected:
+                        sources:
+                            -
+                                secret:
+                                    name: gitlab-rails-secret
+                                    items:
+                                        -
+                                            key: secrets.yml
+                                            path: rails-secrets/secrets.yml
+                            -
+                                secret:
+                                    name: gitlab-gitlab-shell-secret
+                                    items:
+                                        -
+                                            key: secret
+                                            path: shell/.gitlab_shell_secret
+                            -
+                                secret:
+                                    name: gitlab-gitaly-secret
+                                    items:
+                                        -
+                                            key: token
+                                            path: gitaly/gitaly_token
+                            -
+                                secret:
+                                    name: gitlab-redis-secret
+                                    items:
+                                        -
+                                            key: secret
+                                            path: redis/password
+                            -
+                                secret:
+                                    name: gitlab-postgresql-password
+                                    items:
+                                        -
+                                            key: postgres-password
+                                            path: postgres/psql-password
+                            -
+                                secret:
+                                    name: gitlab-registry-secret
+                                    items:
+                                        -
+                                            key: registry-auth.key
+                                            path: registry/gitlab-registry.key
+                            -
+                                secret:
+                                    name: gitlab-gitlab-workhorse-secret
+                                    items:
+                                        -
+                                            key: shared_secret
+                                            path: gitlab-workhorse/secret
+                            -
+                                secret:
+                                    name: gitlab-minio-secret
+                                    items:
+                                        -
+                                            key: accesskey
+                                            path: minio/accesskey
+                                        -
+                                            key: secretkey
+                                            path: minio/secretkey
+                        defaultMode: 256
+                -
+                    name: unicorn-secrets
+                    emptyDir:
+                        medium: Memory
+                -
+                    name: workhorse-secrets
+                    emptyDir:
+                        medium: Memory
+                -
+                    name: shared-upload-directory
+                    emptyDir: {}
+                -
+                    name: shared-artifact-directory
+                    emptyDir: {}
+                -
+                    name: etc-ssl-certs
+                    emptyDir:
+                        medium: Memory
+            initContainers:
+                -
+                    name: certificates
+                    image: >-
+                        registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20171114-r3
+                    resources:
+                        requests:
+                            cpu: 50m
+                    volumeMounts:
+                        -
+                            name: etc-ssl-certs
+                            mountPath: /etc/ssl/certs
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                -
+                    name: configure
+                    image: 'busybox:latest'
+                    command:
+                        - sh
+                    args:
+                        - '-c'
+                        - >-
+                            sh -x /config-unicorn/configure ; sh -x
+                            /config-workhorse/configure ; mkdir -p -m 3770
+                            /tmp/gitlab
+                    resources:
+                        requests:
+                            cpu: 50m
+                    volumeMounts:
+                        -
+                            name: unicorn-config
+                            readOnly: true
+                            mountPath: /config-unicorn
+                        -
+                            name: workhorse-config
+                            readOnly: true
+                            mountPath: /config-workhorse
+                        -
+                            name: init-unicorn-secrets
+                            readOnly: true
+                            mountPath: /init-config
+                        -
+                            name: unicorn-secrets
+                            mountPath: /init-secrets
+                        -
+                            name: workhorse-secrets
+                            mountPath: /init-secrets-workhorse
+                        -
+                            name: shared-tmp
+                            mountPath: /tmp
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: Always
+                -
+                    name: dependencies
+                    image: >-
+                        registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee:v12.6.4
+                    args:
+                        - /scripts/wait-for-deps
+                    env:
+                        -
+                            name: GITALY_FEATURE_DEFAULT_ON
+                            value: '1'
+                        -
+                            name: CONFIG_TEMPLATE_DIRECTORY
+                            value: /var/opt/gitlab/templates
+                        -
+                            name: CONFIG_DIRECTORY
+                            value: /srv/gitlab/config
+                        -
+                            name: WORKHORSE_ARCHIVE_CACHE_DISABLED
+                            value: '1'
+                    resources:
+                        requests:
+                            cpu: 50m
+                    volumeMounts:
+                        -
+                            name: unicorn-config
+                            mountPath: /var/opt/gitlab/templates
+                        -
+                            name: unicorn-secrets
+                            readOnly: true
+                            mountPath: /etc/gitlab
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            containers:
+                -
+                    name: unicorn
+                    image: >-
+                        registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee:v12.6.4
+                    ports:
+                        -
+                            name: unicorn
+                            containerPort: 8080
+                            protocol: TCP
+                    env:
+                        -
+                            name: TMPDIR
+                            value: /tmp/gitlab
+                        -
+                            name: GITALY_FEATURE_DEFAULT_ON
+                            value: '1'
+                        -
+                            name: CONFIG_TEMPLATE_DIRECTORY
+                            value: /var/opt/gitlab/templates
+                        -
+                            name: CONFIG_DIRECTORY
+                            value: /srv/gitlab/config
+                        -
+                            name: prometheus_multiproc_dir
+                            value: /metrics
+                    resources:
+                        requests:
+                            cpu: 10m
+                            memory: 40M
+                    volumeMounts:
+                        -
+                            name: unicorn-metrics
+                            mountPath: /metrics
+                        -
+                            name: unicorn-config
+                            mountPath: /var/opt/gitlab/templates
+                        -
+                            name: unicorn-secrets
+                            readOnly: true
+                            mountPath: /etc/gitlab
+                        -
+                            name: unicorn-secrets
+                            mountPath: /srv/gitlab/config/secrets.yml
+                            subPath: rails-secrets/secrets.yml
+                        -
+                            name: unicorn-config
+                            mountPath: /srv/gitlab/config/initializers/smtp_settings.rb
+                            subPath: smtp_settings.rb
+                        -
+                            name: unicorn-config
+                            mountPath: /srv/gitlab/INSTALLATION_TYPE
+                            subPath: installation_type
+                        -
+                            name: shared-upload-directory
+                            mountPath: /srv/gitlab/public/uploads/tmp
+                        -
+                            name: shared-artifact-directory
+                            mountPath: /srv/gitlab/shared
+                        -
+                            name: shared-tmp
+                            mountPath: /tmp
+                        -
+                            name: etc-ssl-certs
+                            readOnly: true
+                            mountPath: /etc/ssl/certs/
+                    livenessProbe:
+                        httpGet:
+                            path: /-/liveness
+                            port: 8080
+                            scheme: HTTP
+                        initialDelaySeconds: 20
+                        timeoutSeconds: 30
+                        periodSeconds: 60
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        httpGet:
+                            path: /-/readiness
+                            port: 8080
+                            scheme: HTTP
+                        timeoutSeconds: 2
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    lifecycle:
+                        preStop:
+                            exec:
+                                command:
+                                    - /bin/bash
+                                    - '-c'
+                                    - pkill -SIGQUIT -f 'unicorn master'
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                -
+                    name: gitlab-workhorse
+                    image: >-
+                        registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ee:v12.6.4
+                    ports:
+                        -
+                            name: workhorse
+                            containerPort: 8181
+                            protocol: TCP
+                    env:
+                        -
+                            name: TMPDIR
+                            value: /tmp/gitlab
+                        -
+                            name: GITLAB_WORKHORSE_EXTRA_ARGS
+                        -
+                            name: GITLAB_WORKHORSE_LISTEN_PORT
+                            value: '8181'
+                        -
+                            name: CONFIG_TEMPLATE_DIRECTORY
+                            value: /var/opt/gitlab/templates
+                        -
+                            name: CONFIG_DIRECTORY
+                            value: /srv/gitlab/config
+                    resources:
+                        requests:
+                            cpu: 10m
+                            memory: 40M
+                    volumeMounts:
+                        -
+                            name: workhorse-config
+                            mountPath: /var/opt/gitlab/templates
+                        -
+                            name: workhorse-secrets
+                            readOnly: true
+                            mountPath: /etc/gitlab
+                        -
+                            name: shared-upload-directory
+                            mountPath: /srv/gitlab/public/uploads/tmp
+                        -
+                            name: shared-artifact-directory
+                            mountPath: /srv/gitlab/shared
+                        -
+                            name: shared-tmp
+                            mountPath: /tmp
+                        -
+                            name: etc-ssl-certs
+                            readOnly: true
+                            mountPath: /etc/ssl/certs/
+                    livenessProbe:
+                        exec:
+                            command:
+                                - /scripts/healthcheck
+                        initialDelaySeconds: 20
+                        timeoutSeconds: 30
+                        periodSeconds: 60
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        exec:
+                            command:
+                                - /scripts/healthcheck
+                        timeoutSeconds: 2
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            securityContext:
+                runAsUser: 1000
+                fsGroup: 1000
+            affinity:
+                podAntiAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                        -
+                            weight: 1
+                            podAffinityTerm:
+                                labelSelector:
+                                    matchLabels:
+                                        app: unicorn
+                                        release: gitlab
+                                topologyKey: kubernetes.io/hostname
+            schedulerName: default-scheduler
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 600
+status:
+    observedGeneration: 53
+    replicas: 2
+    updatedReplicas: 2
+    readyReplicas: 2
+    availableReplicas: 2
+    conditions:
+        -
+            type: Progressing
+            status: 'True'
+            lastUpdateTime: '2020-02-04T14:33:21Z'
+            lastTransitionTime: '2020-02-04T14:27:49Z'
+            reason: NewReplicaSetAvailable
+            message: >-
+                ReplicaSet "gitlab-unicorn-84d7dc6557" has successfully
+                progressed.
+        -
+            type: Available
+            status: 'True'
+            lastUpdateTime: '2021-08-01T11:55:37Z'
+            lastTransitionTime: '2021-08-01T11:55:37Z'
+            reason: MinimumReplicasAvailable
+            message: Deployment has minimum availability.
+

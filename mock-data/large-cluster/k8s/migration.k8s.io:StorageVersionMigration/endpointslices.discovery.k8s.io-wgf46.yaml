@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-04-09T22:01:30Z'
+    generateName: endpointslices.discovery.k8s.io-
+    generation: 1
+    name: endpointslices.discovery.k8s.io-wgf46
+    resourceVersion: '204304415'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/endpointslices.discovery.k8s.io-wgf46
+    uid: 7ffea56c-b57d-4526-940f-c059cb3a862e
+spec:
+    resource:
+        group: discovery.k8s.io
+        resource: endpointslices
+        version: v1beta1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-04-09T22:01:30Z'
+            status: 'True'
+            type: Succeeded
+

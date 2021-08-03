@@ -1,0 +1,32 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'gce:cloud-provider'
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/gce%3Acloud-provider
+    uid: c645880b-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '204304857'
+    creationTimestamp: '2020-01-11T06:01:14Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"gce:cloud-provider"},"rules":[{"apiGroups":[""],"resources":["events"],"verbs":["create","patch","update"]},{"apiGroups":[""],"resources":["services/status"],"verbs":["patch","update"]}]}
+rules:
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - services/status
+

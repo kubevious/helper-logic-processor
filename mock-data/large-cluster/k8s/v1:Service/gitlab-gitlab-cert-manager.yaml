@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: gitlab-cert-manager
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/services/gitlab-cert-manager
+    uid: 9942047d-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016269'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: cert-manager
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager
+        helm.sh/chart: certmanager-v0.10.1
+spec:
+    ports:
+        -
+            protocol: TCP
+            port: 9402
+            targetPort: 9402
+    selector:
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/name: cert-manager
+    clusterIP: 10.75.11.104
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

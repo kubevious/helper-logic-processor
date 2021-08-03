@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: service-controller
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/service-controller
+    uid: b9ba242c-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '250'
+    creationTimestamp: '2020-01-11T06:00:53Z'
+secrets:
+    -
+        name: service-controller-token-jbqgg
+

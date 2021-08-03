@@ -1,0 +1,81 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: kube-dns-autoscaler-bb58c6784
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/replicasets/kube-dns-autoscaler-bb58c6784
+    uid: bee846de-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '31420782'
+    generation: 2
+    creationTimestamp: '2020-01-11T06:01:01Z'
+    labels:
+        k8s-app: kube-dns-autoscaler
+        pod-template-hash: bb58c6784
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: kube-dns-autoscaler
+            uid: bee75c2d-3437-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            k8s-app: kube-dns-autoscaler
+            pod-template-hash: bb58c6784
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: kube-dns-autoscaler
+                pod-template-hash: bb58c6784
+            annotations:
+                scheduler.alpha.kubernetes.io/critical-pod: ''
+                seccomp.security.alpha.kubernetes.io/pod: docker/default
+        spec:
+            containers:
+                -
+                    name: autoscaler
+                    image: 'k8s.gcr.io/cluster-proportional-autoscaler-amd64:1.3.0'
+                    command:
+                        - /cluster-proportional-autoscaler
+                        - '--namespace=kube-system'
+                        - '--configmap=kube-dns-autoscaler'
+                        - '--target=Deployment/kube-dns'
+                        - >-
+                            --default-params={"linear":{"coresPerReplica":256,"nodesPerReplica":16,"preventSinglePointFailure":true}}
+                        - '--logtostderr=true'
+                        - '--v=2'
+                    resources:
+                        requests:
+                            cpu: 20m
+                            memory: 10Mi
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: kube-dns-autoscaler
+            serviceAccount: kube-dns-autoscaler
+            securityContext:
+                supplementalGroups:
+                    - 65534
+                fsGroup: 65534
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: CriticalAddonsOnly
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 0
+    observedGeneration: 2
+

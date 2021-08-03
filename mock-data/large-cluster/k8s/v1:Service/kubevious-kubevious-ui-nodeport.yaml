@@ -1,0 +1,41 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: kubevious-ui-nodeport
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/services/kubevious-ui-nodeport
+    uid: 079be672-ebf8-481c-9a75-c4e201466efb
+    resourceVersion: '199508985'
+    creationTimestamp: '2020-11-15T00:14:29Z'
+    labels:
+        app.kubernetes.io/component: kubevious-ui
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        meta.helm.sh/release-name: kubevious
+        meta.helm.sh/release-namespace: kubevious
+spec:
+    ports:
+        -
+            name: http
+            protocol: TCP
+            port: 80
+            targetPort: http
+            nodePort: 31826
+    selector:
+        app.kubernetes.io/component: kubevious-ui
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    clusterIP: 10.75.0.167
+    type: NodePort
+    sessionAffinity: None
+    externalTrafficPolicy: Cluster
+status:
+    loadBalancer: {}
+

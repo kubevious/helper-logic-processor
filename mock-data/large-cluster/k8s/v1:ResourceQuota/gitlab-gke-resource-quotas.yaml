@@ -1,0 +1,27 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+    name: gke-resource-quotas
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/resourcequotas/gke-resource-quotas
+    uid: 7fc0fddc-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274567479'
+    creationTimestamp: '2020-01-18T00:43:09Z'
+spec:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+status:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+    used:
+        count/ingresses.extensions: '3'
+        count/jobs.batch: '3'
+        pods: '23'
+        services: '17'
+

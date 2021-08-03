@@ -1,0 +1,26 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: openfaas-prometheus
+    namespace: openfaas
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/openfaas/rolebindings/openfaas-prometheus
+    uid: 484052dd-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007024'
+    creationTimestamp: '2020-01-18T00:05:48Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: prometheus
+        heritage: Helm
+        release: openfaas
+subjects:
+    -
+        kind: ServiceAccount
+        name: openfaas-prometheus
+        namespace: openfaas
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: openfaas-prometheus
+

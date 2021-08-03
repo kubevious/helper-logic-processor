@@ -1,0 +1,85 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+    name: gitlab-minio-create-buckets.1
+    namespace: gitlab
+    selfLink: /apis/batch/v1/namespaces/gitlab/jobs/gitlab-minio-create-buckets.1
+    uid: 99aa421b-398b-11ea-b115-42010a8001d6
+    resourceVersion: '61928830'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: minio
+        chart: minio-0.4.3
+        heritage: Helm
+        release: gitlab
+spec:
+    parallelism: 1
+    completions: 1
+    activeDeadlineSeconds: 600
+    backoffLimit: 6
+    selector:
+        matchLabels:
+            controller-uid: 99aa421b-398b-11ea-b115-42010a8001d6
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: minio
+                component: create-buckets
+                controller-uid: 99aa421b-398b-11ea-b115-42010a8001d6
+                job-name: gitlab-minio-create-buckets.1
+                release: gitlab
+        spec:
+            volumes:
+                -
+                    name: minio-configuration
+                    projected:
+                        sources:
+                            -
+                                configMap:
+                                    name: gitlab-minio-config-cm
+                            -
+                                secret:
+                                    name: gitlab-minio-secret
+                        defaultMode: 420
+            containers:
+                -
+                    name: minio-mc
+                    image: 'minio/mc:RELEASE.2018-07-13T00-53-22Z'
+                    command:
+                        - /bin/sh
+                        - /config/initialize
+                    env:
+                        -
+                            name: MINIO_ENDPOINT
+                            value: gitlab-minio-svc
+                        -
+                            name: MINIO_PORT
+                            value: '9000'
+                    resources:
+                        requests:
+                            cpu: 50m
+                    volumeMounts:
+                        -
+                            name: minio-configuration
+                            mountPath: /config
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: OnFailure
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    conditions:
+        -
+            type: Failed
+            status: 'True'
+            lastProbeTime: '2020-01-18T00:54:35Z'
+            lastTransitionTime: '2020-01-18T00:54:35Z'
+            reason: DeadlineExceeded
+            message: Job was active longer than specified deadline
+    startTime: '2020-01-18T00:43:53Z'
+    failed: 2
+

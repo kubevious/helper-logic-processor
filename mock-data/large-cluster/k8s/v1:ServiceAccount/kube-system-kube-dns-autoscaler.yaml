@@ -1,0 +1,18 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: kube-dns-autoscaler
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/kube-dns-autoscaler
+    uid: c602d967-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '470'
+    creationTimestamp: '2020-01-11T06:01:13Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"kube-dns-autoscaler","namespace":"kube-system"}}
+secrets:
+    -
+        name: kube-dns-autoscaler-token-g2fjv
+

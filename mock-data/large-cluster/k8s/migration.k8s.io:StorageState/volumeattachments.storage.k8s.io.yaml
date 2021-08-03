@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:44Z'
+    generation: 1
+    name: volumeattachments.storage.k8s.io
+    resourceVersion: '275528120'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/volumeattachments.storage.k8s.io
+    uid: 8863ff47-8e64-464a-a01e-c6695b18738e
+spec:
+    resource:
+        group: storage.k8s.io
+        resource: volumeattachments
+status:
+    currentStorageVersionHash: tJx/ezt6UDU=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - tJx/ezt6UDU=
+

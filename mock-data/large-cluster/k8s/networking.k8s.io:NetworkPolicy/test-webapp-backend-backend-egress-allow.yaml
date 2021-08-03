@@ -1,0 +1,42 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+    name: backend-egress-allow
+    namespace: test-webapp-backend
+    selfLink: >-
+        /apis/networking.k8s.io/v1/namespaces/test-webapp-backend/networkpolicies/backend-egress-allow
+    uid: 24d581b2-3303-4178-816a-5c49fa5af094
+    resourceVersion: '140041923'
+    generation: 1
+    creationTimestamp: '2020-11-25T08:06:57Z'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"backend-egress-allow","namespace":"test-webapp-backend"},"spec":{"egress":[{"ports":[{"port":3306,"protocol":"TCP"}],"to":[{"podSelector":{"matchLabels":{"app":"db"}}}]},{"ports":[{"port":53,"protocol":"UDP"}],"to":[{"namespaceSelector":{"matchLabels":{"name":"kube-system"}}}]}],"podSelector":{"matchLabels":{"app":"db"}},"policyTypes":["Egress"]}}
+spec:
+    podSelector:
+        matchLabels:
+            app: db
+    egress:
+        -
+            ports:
+                -
+                    protocol: TCP
+                    port: 3306
+            to:
+                -
+                    podSelector:
+                        matchLabels:
+                            app: db
+        -
+            ports:
+                -
+                    protocol: UDP
+                    port: 53
+            to:
+                -
+                    namespaceSelector:
+                        matchLabels:
+                            name: kube-system
+    policyTypes:
+        - Egress
+

@@ -1,0 +1,81 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: gitlab-cainjector-5d757b9fdd
+    namespace: gitlab
+    selfLink: /apis/apps/v1/namespaces/gitlab/replicasets/gitlab-cainjector-5d757b9fdd
+    uid: 99716a60-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274560759'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: cainjector
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cainjector
+        helm.sh/chart: cainjector-v0.10.1
+        pod-template-hash: 5d757b9fdd
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: gitlab-cainjector
+            uid: 995eb501-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: cainjector
+            app.kubernetes.io/instance: gitlab
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: cainjector
+            pod-template-hash: 5d757b9fdd
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: cainjector
+                app.kubernetes.io/instance: gitlab
+                app.kubernetes.io/managed-by: Helm
+                app.kubernetes.io/name: cainjector
+                helm.sh/chart: cainjector-v0.10.1
+                pod-template-hash: 5d757b9fdd
+        spec:
+            containers:
+                -
+                    name: cainjector
+                    image: 'quay.io/jetstack/cert-manager-cainjector:v0.10.1'
+                    args:
+                        - '--v=2'
+                        - '--leader-election-namespace=$(POD_NAMESPACE)'
+                    env:
+                        -
+                            name: POD_NAMESPACE
+                            valueFrom:
+                                fieldRef:
+                                    apiVersion: v1
+                                    fieldPath: metadata.namespace
+                    resources: {}
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: gitlab-cainjector
+            serviceAccount: gitlab-cainjector
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

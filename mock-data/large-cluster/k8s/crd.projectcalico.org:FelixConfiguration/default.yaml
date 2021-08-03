@@ -1,0 +1,16 @@
+apiVersion: crd.projectcalico.org/v1
+kind: FelixConfiguration
+metadata:
+    annotations:
+        projectcalico.org/metadata: >-
+            {"uid":"f4e0ef9a-3d3f-11ea-a44a-42010a80000b","creationTimestamp":"2020-01-22T17:52:28Z"}
+    creationTimestamp: '2020-01-22T17:52:28Z'
+    generation: 1
+    name: default
+    resourceVersion: '4125909'
+    selfLink: /apis/crd.projectcalico.org/v1/felixconfigurations/default
+    uid: f4dfa1e3-3d3f-11ea-96d3-42010a80017a
+spec:
+    logSeverityScreen: Info
+    reportingInterval: 0s
+

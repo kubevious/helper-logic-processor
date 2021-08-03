@@ -1,0 +1,47 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: gitlab-unicorn
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/endpoints/gitlab-unicorn
+    uid: 994dbab9-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274566476'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: unicorn
+        chart: unicorn-2.6.5
+        heritage: Helm
+        release: gitlab
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:55:37Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.36
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-unicorn-84d7dc6557-z6vzk
+                    uid: ab724b1a-a518-41d5-bdba-b4dbaf5e3254
+                    resourceVersion: '274566473'
+            -
+                ip: 10.8.1.13
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: gitlab
+                    name: gitlab-unicorn-84d7dc6557-54rmp
+                    uid: eab38f1e-3f47-4f95-b7e2-d2ce60eeeb07
+                    resourceVersion: '274565013'
+        ports:
+            -
+                name: unicorn
+                port: 8080
+                protocol: TCP
+            -
+                name: workhorse
+                port: 8181
+                protocol: TCP
+

@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: orders
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/orders
+    uid: cdbd4523-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274562092'
+    creationTimestamp: '2020-01-17T21:24:54Z'
+    labels:
+        name: orders
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:57Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.25
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: orders-54d7666f75-n5fw6
+                    uid: 2f601cb3-437f-475a-8454-3aa7dd5f2ee0
+                    resourceVersion: '274562090'
+        ports:
+            -
+                port: 80
+                protocol: TCP
+

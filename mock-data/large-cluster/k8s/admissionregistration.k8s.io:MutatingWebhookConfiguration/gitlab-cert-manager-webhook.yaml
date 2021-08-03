@@ -1,0 +1,56 @@
+kind: MutatingWebhookConfiguration
+apiVersion: admissionregistration.k8s.io/v1
+metadata:
+    name: gitlab-cert-manager-webhook
+    selfLink: >-
+        /apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations/gitlab-cert-manager-webhook
+    uid: 9a24cefe-398b-11ea-b115-42010a8001d6
+    resourceVersion: '61445330'
+    generation: 2
+    creationTimestamp: '2020-01-18T00:43:53Z'
+    labels:
+        app: webhook
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: webhook
+        helm.sh/chart: certmanager-v0.10.1
+    annotations:
+        certmanager.k8s.io/inject-apiserver-ca: 'true'
+webhooks:
+    -
+        name: webhook.certmanager.k8s.io
+        clientConfig:
+            service:
+                namespace: default
+                name: kubernetes
+                path: /apis/webhook.certmanager.k8s.io/v1beta1/mutations
+                port: 443
+            caBundle: >-
+                LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURERENDQWZTZ0F3SUJBZ0lSQU9mZXR4Uzc5VWlnUkNwdVR2Rm4xL2N3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa1ptWTVZbVkyTURVdE1EbGtOaTAwWmpCbUxXRXlabVl0WkRnek1XUTFNRFl3WVdFegpNQjRYRFRJd01ERXhNVEEwTlRneE9Wb1hEVEkxTURFd09UQTFOVGd4T1Zvd0x6RXRNQ3NHQTFVRUF4TWtabVk1ClltWTJNRFV0TURsa05pMDBaakJtTFdFeVptWXRaRGd6TVdRMU1EWXdZV0V6TUlJQklqQU5CZ2txaGtpRzl3MEIKQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBM2RsZ2FzditRWHczRWxTZVFGa3phSlF0RzhidGRSVzRnT2J5RU94cQpqOGsvVlp1Uk9TNkU2OU9EcWZQcThXSG9KbVJwcWo5WlVhUlNDY1VSMjFmTHhsVHM4cmdSbTVzTHYvR2kxaStFCjNJVllKc1ZvN0ZaYm13aXhOUnhXYkVHZlZKT0trOEVXK1VSa2RqWDU0VDBVd3BvMGdvZkI1L0tla1pnYjRKRGMKWmk3d0tzU0dlWkhCSFJtVURrT3ZYMzhscE9yZStFdFFDWENqejJidjM4NVpmMzdGZkdaYU0wTmNUREtMbnQ2NAo3ZVc3VVdKcnh6aTkzRDNBYkJkci9veGc3RTJYVGFBZDQ0MWF2NzB6UzRHd2d3dllEK1hpSHEyamtUQUpKdHorCnhGNHI4d0U5TThscHRFZXNhdGRvem5OaFYwaVhDRFlzcDJsNW5iU1c5UWxVNndJREFRQUJveU13SVRBT0JnTlYKSFE4QkFmOEVCQU1DQWdRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQQpxcXlDVUE5cWQ1RzM3aFlKZjYrTTFaWUNrT2F6SmxvTVhFQ3J1TzRjbkhQOTZhVmJhYjlBVjJ3YksyVDYvWnNzCkwxVFZpZlBrM3k5RWg1ckR6UHNlY2tsbFp4TkFvR0huVVVPZXV6VVdlOEdTU0l0K01qc2NqTjgxRkpxVWJmTmwKZWtKdGFiQnQ2THdnS1J4QnZuUVJiM214SnM4aGxEL09TcVFEMk5xcWtZN0FtL2ZyOFVtWHNtS1YvdmpqbUFNRgpteDVWYVM4Z204NnMycGhHRnBNMEFsUkRpbUk2a0hGQUdCdm1TYnFQSnk1aHBRTzJUSllTbkszeStpblpaWVdtCmsyMGxWaUROclhwazlNVTQ2M0xyamhBcXVOc1h2ZVp3QWtVMW5LMGx0cElzazVkNFQ4WXE5eFNCMFZWUTNJb1UKOUR4V3RtZjNVQ0NHUnpRMXlrc01FQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+        rules:
+            -
+                operations:
+                    - CREATE
+                    - UPDATE
+                apiGroups:
+                    - certmanager.k8s.io
+                apiVersions:
+                    - v1alpha1
+                resources:
+                    - certificates
+                    - issuers
+                    - clusterissuers
+                    - orders
+                    - challenges
+                    - certificaterequests
+                scope: '*'
+        failurePolicy: Fail
+        matchPolicy: Exact
+        namespaceSelector: {}
+        objectSelector: {}
+        sideEffects: Unknown
+        timeoutSeconds: 30
+        admissionReviewVersions:
+            - v1beta1
+        reinvocationPolicy: Never
+

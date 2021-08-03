@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: nats
+    namespace: openfaas
+    selfLink: /api/v1/namespaces/openfaas/services/nats
+    uid: 484dcc8f-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007029'
+    creationTimestamp: '2020-01-18T00:05:48Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: nats
+        heritage: Helm
+        release: openfaas
+spec:
+    ports:
+        -
+            name: clients
+            protocol: TCP
+            port: 4222
+            targetPort: 4222
+    selector:
+        app: nats
+    clusterIP: 10.75.9.94
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

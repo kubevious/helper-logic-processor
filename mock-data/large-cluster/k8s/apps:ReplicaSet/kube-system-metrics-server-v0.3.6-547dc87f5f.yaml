@@ -1,0 +1,142 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: metrics-server-v0.3.6-547dc87f5f
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/replicasets/metrics-server-v0.3.6-547dc87f5f
+    uid: ac7c0337-cfaa-4f83-a60c-5a8f3f70f7b4
+    resourceVersion: '223930210'
+    generation: 2
+    creationTimestamp: '2021-04-09T22:02:19Z'
+    labels:
+        k8s-app: metrics-server
+        pod-template-hash: 547dc87f5f
+        version: v0.3.6
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '4'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: metrics-server-v0.3.6
+            uid: 44581fa9-f9bc-4326-b56c-a4fefd4d3277
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            k8s-app: metrics-server
+            pod-template-hash: 547dc87f5f
+            version: v0.3.6
+    template:
+        metadata:
+            name: metrics-server
+            creationTimestamp: null
+            labels:
+                k8s-app: metrics-server
+                pod-template-hash: 547dc87f5f
+                version: v0.3.6
+            annotations:
+                seccomp.security.alpha.kubernetes.io/pod: docker/default
+        spec:
+            volumes:
+                -
+                    name: metrics-server-config-volume
+                    configMap:
+                        name: metrics-server-config
+                        defaultMode: 420
+            containers:
+                -
+                    name: metrics-server
+                    image: 'k8s.gcr.io/metrics-server-amd64:v0.3.6'
+                    command:
+                        - /metrics-server
+                        - '--metric-resolution=30s'
+                        - '--kubelet-port=10255'
+                        - '--deprecated-kubelet-completely-insecure=true'
+                        - >-
+                            --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP
+                    ports:
+                        -
+                            name: https
+                            containerPort: 443
+                            protocol: TCP
+                    resources:
+                        limits:
+                            cpu: 43m
+                            memory: 55Mi
+                        requests:
+                            cpu: 43m
+                            memory: 55Mi
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                -
+                    name: metrics-server-nanny
+                    image: 'gke.gcr.io/addon-resizer:1.8.8-gke.1'
+                    command:
+                        - /pod_nanny
+                        - '--config-dir=/etc/config'
+                        - '--cpu=40m'
+                        - '--extra-cpu=0.5m'
+                        - '--memory=35Mi'
+                        - '--extra-memory=4Mi'
+                        - '--threshold=5'
+                        - '--deployment=metrics-server-v0.3.6'
+                        - '--container=metrics-server'
+                        - '--poll-period=300000'
+                        - '--estimator=exponential'
+                        - '--scale-down-delay=24h'
+                        - '--minClusterSize=5'
+                    env:
+                        -
+                            name: MY_POD_NAME
+                            valueFrom:
+                                fieldRef:
+                                    apiVersion: v1
+                                    fieldPath: metadata.name
+                        -
+                            name: MY_POD_NAMESPACE
+                            valueFrom:
+                                fieldRef:
+                                    apiVersion: v1
+                                    fieldPath: metadata.namespace
+                    resources:
+                        limits:
+                            cpu: 100m
+                            memory: 300Mi
+                        requests:
+                            cpu: 5m
+                            memory: 50Mi
+                    volumeMounts:
+                        -
+                            name: metrics-server-config-volume
+                            mountPath: /etc/config
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            nodeSelector:
+                kubernetes.io/os: linux
+            serviceAccountName: metrics-server
+            serviceAccount: metrics-server
+            securityContext: {}
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: CriticalAddonsOnly
+                    operator: Exists
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 0
+    observedGeneration: 2
+

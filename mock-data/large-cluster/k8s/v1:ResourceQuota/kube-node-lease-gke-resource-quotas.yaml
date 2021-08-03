@@ -1,0 +1,27 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+    name: gke-resource-quotas
+    namespace: kube-node-lease
+    selfLink: /api/v1/namespaces/kube-node-lease/resourcequotas/gke-resource-quotas
+    uid: f8d2e546-6f57-11ea-8ebf-42010a800207
+    resourceVersion: '31420295'
+    creationTimestamp: '2020-03-26T11:50:21Z'
+spec:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+status:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+    used:
+        count/ingresses.extensions: '0'
+        count/jobs.batch: '0'
+        pods: '0'
+        services: '0'
+

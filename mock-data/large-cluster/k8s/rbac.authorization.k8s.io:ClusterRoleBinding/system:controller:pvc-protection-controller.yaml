@@ -1,0 +1,23 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:pvc-protection-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Acontroller%3Apvc-protection-controller
+    uid: b0202de3-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '133'
+    creationTimestamp: '2020-01-11T06:00:37Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+subjects:
+    -
+        kind: ServiceAccount
+        name: pvc-protection-controller
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:controller:pvc-protection-controller'
+

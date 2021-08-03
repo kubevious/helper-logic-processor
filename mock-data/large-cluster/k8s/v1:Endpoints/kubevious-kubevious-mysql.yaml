@@ -1,0 +1,37 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: kubevious-mysql
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/endpoints/kubevious-mysql
+    uid: fc854b4f-0e08-45cf-8e4c-3c815f564746
+    resourceVersion: '274561857'
+    creationTimestamp: '2020-11-15T00:14:29Z'
+    labels:
+        app.kubernetes.io/component: kubevious-mysql
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:25Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.38
+                hostname: kubevious-mysql-0
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: kubevious
+                    name: kubevious-mysql-0
+                    uid: 13b838a3-df0f-4b4e-b1d7-e6fba32b02cc
+                    resourceVersion: '274561856'
+        ports:
+            -
+                name: mysql
+                port: 3306
+                protocol: TCP
+

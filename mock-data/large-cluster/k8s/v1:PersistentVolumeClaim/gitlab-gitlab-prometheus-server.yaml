@@ -1,0 +1,38 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+    name: gitlab-prometheus-server
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/persistentvolumeclaims/gitlab-prometheus-server
+    uid: 982374b9-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016405'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: prometheus
+        chart: prometheus-9.0.0
+        component: server
+        heritage: Helm
+        release: gitlab
+    annotations:
+        pv.kubernetes.io/bind-completed: 'yes'
+        pv.kubernetes.io/bound-by-controller: 'yes'
+        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
+    finalizers:
+        - kubernetes.io/pvc-protection
+spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 8Gi
+    volumeName: pvc-982374b9-398b-11ea-b115-42010a8001d6
+    storageClassName: standard
+    volumeMode: Filesystem
+status:
+    phase: Bound
+    accessModes:
+        - ReadWriteOnce
+    capacity:
+        storage: 8Gi
+

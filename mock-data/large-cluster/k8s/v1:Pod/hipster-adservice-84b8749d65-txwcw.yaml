@@ -1,0 +1,288 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: adservice-84b8749d65-txwcw
+    generateName: adservice-84b8749d65-
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/pods/adservice-84b8749d65-txwcw
+    uid: c68c10af-55cd-4e3b-b406-10eaba1ba785
+    resourceVersion: '275531495'
+    creationTimestamp: '2021-08-01T11:43:17Z'
+    labels:
+        app: adservice
+        pod-template-hash: 84b8749d65
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.15/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: adservice-84b8749d65
+            uid: 5d739cff-431c-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:17Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"5d739cff-431c-11ea-96d3-42010a80017a"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"server"}':
+                            .: {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"PORT"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:livenessProbe':
+                                .: {}
+                                'f:exec':
+                                    .: {}
+                                    'f:command': {}
+                                'f:failureThreshold': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":9555,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:readinessProbe':
+                                .: {}
+                                'f:exec':
+                                    .: {}
+                                    'f:command': {}
+                                'f:failureThreshold': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:resources':
+                                .: {}
+                                'f:limits':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:29Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-02T13:35:18Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.15"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: default-token-pncck
+            secret:
+                secretName: default-token-pncck
+                defaultMode: 420
+    containers:
+        -
+            name: server
+            image: 'gcr.io/google-samples/microservices-demo/adservice:v0.1.3'
+            ports:
+                -
+                    containerPort: 9555
+                    protocol: TCP
+            env:
+                -
+                    name: PORT
+                    value: '9555'
+            resources:
+                limits:
+                    cpu: 100m
+                    memory: 300Mi
+                requests:
+                    cpu: 50m
+                    memory: 180Mi
+            volumeMounts:
+                -
+                    name: default-token-pncck
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            livenessProbe:
+                exec:
+                    command:
+                        - /bin/grpc_health_probe
+                        - '-addr=:9555'
+                initialDelaySeconds: 20
+                timeoutSeconds: 1
+                periodSeconds: 15
+                successThreshold: 1
+                failureThreshold: 3
+            readinessProbe:
+                exec:
+                    command:
+                        - /bin/grpc_health_probe
+                        - '-addr=:9555'
+                initialDelaySeconds: 20
+                timeoutSeconds: 1
+                periodSeconds: 15
+                successThreshold: 1
+                failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 5
+    dnsPolicy: ClusterFirst
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:18Z'
+        -
+            type: Ready
+            status: 'False'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-02T13:35:18Z'
+            reason: ContainersNotReady
+            message: 'containers with unready status: [server]'
+        -
+            type: ContainersReady
+            status: 'False'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-02T13:35:18Z'
+            reason: ContainersNotReady
+            message: 'containers with unready status: [server]'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:17Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.15
+    podIPs:
+        -
+            ip: 10.8.0.15
+    startTime: '2021-08-01T11:43:18Z'
+    containerStatuses:
+        -
+            name: server
+            state:
+                running:
+                    startedAt: '2021-08-03T01:21:18Z'
+            lastState:
+                terminated:
+                    exitCode: 143
+                    reason: Error
+                    startedAt: '2021-08-03T01:20:20Z'
+                    finishedAt: '2021-08-03T01:21:17Z'
+                    containerID: >-
+                        docker://9c5123ea4e552870f46200397b2ac8e9a79ea921925d51f97c855a8099e75c22
+            ready: false
+            restartCount: 639
+            image: 'gcr.io/google-samples/microservices-demo/adservice:v0.1.3'
+            imageID: >-
+                docker-pullable://gcr.io/google-samples/microservices-demo/adservice@sha256:5edd0b072ec9f582693a4de28a50721028868dad453910c867268c231af734e1
+            containerID: >-
+                docker://33bed54d61a76995dbe396964daf5197e2e01145a342ffdf034bd8877455b8d7
+            started: true
+    qosClass: Burstable
+

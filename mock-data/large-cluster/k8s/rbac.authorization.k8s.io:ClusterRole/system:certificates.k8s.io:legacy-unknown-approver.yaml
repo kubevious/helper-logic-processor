@@ -1,0 +1,40 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:certificates.k8s.io:legacy-unknown-approver'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acertificates.k8s.io%3Alegacy-unknown-approver
+    uid: 357f579d-3e39-49a4-a957-adbb04c50b8e
+    resourceVersion: '223929047'
+    creationTimestamp: '2021-05-11T16:14:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+    managedFields:
+        -
+            manager: kube-apiserver
+            operation: Update
+            apiVersion: rbac.authorization.k8s.io/v1
+            time: '2021-05-11T16:14:35Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:rbac.authorization.kubernetes.io/autoupdate': {}
+                    'f:labels':
+                        .: {}
+                        'f:kubernetes.io/bootstrapping': {}
+                'f:rules': {}
+rules:
+    -
+        verbs:
+            - approve
+        apiGroups:
+            - certificates.k8s.io
+        resources:
+            - signers
+        resourceNames:
+            - kubernetes.io/legacy-unknown
+

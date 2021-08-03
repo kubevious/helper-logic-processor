@@ -1,0 +1,19 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:55Z'
+    generation: 1
+    name: leases.coordination.k8s.io
+    resourceVersion: '275528161'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/leases.coordination.k8s.io
+    uid: 32c71d70-fff9-47d4-88af-3ec38cc4aee6
+spec:
+    resource:
+        group: coordination.k8s.io
+        resource: leases
+status:
+    currentStorageVersionHash: /sY7hl8ol1U=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - /sY7hl8ol1U=
+

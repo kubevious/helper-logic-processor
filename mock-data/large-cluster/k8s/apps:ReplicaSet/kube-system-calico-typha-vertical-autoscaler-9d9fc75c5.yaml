@@ -1,0 +1,84 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: calico-typha-vertical-autoscaler-9d9fc75c5
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/replicasets/calico-typha-vertical-autoscaler-9d9fc75c5
+    uid: c3b42c5f-9cf0-4f14-ab69-ae575b7cedcc
+    resourceVersion: '223929722'
+    generation: 2
+    creationTimestamp: '2020-12-11T03:12:31Z'
+    labels:
+        k8s-app: calico-typha-autoscaler
+        pod-template-hash: 9d9fc75c5
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '5'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: calico-typha-vertical-autoscaler
+            uid: c7ac1f10-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            k8s-app: calico-typha-autoscaler
+            pod-template-hash: 9d9fc75c5
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: calico-typha-autoscaler
+                pod-template-hash: 9d9fc75c5
+            annotations:
+                components.gke.io/component-name: networkpolicy-calico
+                components.gke.io/component-version: 1.0.10
+        spec:
+            volumes:
+                -
+                    name: config
+                    configMap:
+                        name: calico-typha-vertical-autoscaler
+                        defaultMode: 420
+            containers:
+                -
+                    name: autoscaler
+                    image: 'gke.gcr.io/cpvpa-amd64:v0.8.3-gke.0'
+                    command:
+                        - /cpvpa
+                        - '--target=deployment/calico-typha'
+                        - '--namespace=kube-system'
+                        - '--logtostderr=true'
+                        - '--poll-period-seconds=30'
+                        - '--v=2'
+                        - '--config-file=/etc/config/typha-autoscaler'
+                    resources: {}
+                    volumeMounts:
+                        -
+                            name: config
+                            mountPath: /etc/config
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: calico-cpva
+            serviceAccount: calico-cpva
+            securityContext: {}
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 0
+    observedGeneration: 2
+

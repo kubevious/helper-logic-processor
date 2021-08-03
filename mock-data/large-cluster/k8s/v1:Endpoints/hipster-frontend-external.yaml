@@ -1,0 +1,29 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: frontend-external
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/endpoints/frontend-external
+    uid: a1b5bde8-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274561766'
+    creationTimestamp: '2020-01-11T07:11:47Z'
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:15Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.20
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: hipster
+                    name: frontend-7dbdf6c769-zwgs7
+                    uid: 96de5fac-7353-419e-addb-a58a5dd01d29
+                    resourceVersion: '274561761'
+        ports:
+            -
+                name: http
+                port: 8080
+                protocol: TCP
+

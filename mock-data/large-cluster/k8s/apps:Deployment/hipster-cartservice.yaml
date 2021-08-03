@@ -1,0 +1,110 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+    name: cartservice
+    namespace: hipster
+    selfLink: /apis/apps/v1/namespaces/hipster/deployments/cartservice
+    uid: a29ac8cf-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274561551'
+    generation: 4
+    creationTimestamp: '2020-01-11T07:11:49Z'
+    annotations:
+        deployment.kubernetes.io/revision: '4'
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"cartservice","namespace":"hipster"},"spec":{"selector":{"matchLabels":{"app":"cartservice"}},"template":{"metadata":{"labels":{"app":"cartservice"}},"spec":{"containers":[{"env":[{"name":"REDIS_ADDR","value":"redis-cart:6379"},{"name":"PORT","value":"7070"},{"name":"LISTEN_ADDR","value":"0.0.0.0"}],"image":"gcr.io/google-samples/microservices-demo/cartservice:v0.1.3","livenessProbe":{"exec":{"command":["/bin/grpc_health_probe","-addr=:7070","-rpc-timeout=5s"]},"initialDelaySeconds":15,"periodSeconds":10},"name":"server","ports":[{"containerPort":7070}],"readinessProbe":{"exec":{"command":["/bin/grpc_health_probe","-addr=:7070","-rpc-timeout=5s"]},"initialDelaySeconds":15},"resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"64Mi"}}}],"terminationGracePeriodSeconds":5}}}}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: cartservice
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: cartservice
+        spec:
+            containers:
+                -
+                    name: server
+                    image: >-
+                        gcr.io/google-samples/microservices-demo/cartservice:v0.1.3
+                    ports:
+                        -
+                            containerPort: 7070
+                            protocol: TCP
+                    env:
+                        -
+                            name: REDIS_ADDR
+                            value: 'redis-cart:6379'
+                        -
+                            name: PORT
+                            value: '7070'
+                        -
+                            name: LISTEN_ADDR
+                            value: 0.0.0.0
+                    resources:
+                        limits:
+                            cpu: 100m
+                            memory: 128Mi
+                        requests:
+                            cpu: 25m
+                            memory: 64Mi
+                    livenessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:7070'
+                                - '-rpc-timeout=5s'
+                        initialDelaySeconds: 15
+                        timeoutSeconds: 1
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:7070'
+                                - '-rpc-timeout=5s'
+                        initialDelaySeconds: 15
+                        timeoutSeconds: 1
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 5
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 600
+status:
+    observedGeneration: 4
+    replicas: 1
+    updatedReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    conditions:
+        -
+            type: Progressing
+            status: 'True'
+            lastUpdateTime: '2020-02-02T23:59:56Z'
+            lastTransitionTime: '2020-02-02T23:56:47Z'
+            reason: NewReplicaSetAvailable
+            message: ReplicaSet "cartservice-55f8ccc8f4" has successfully progressed.
+        -
+            type: Available
+            status: 'True'
+            lastUpdateTime: '2021-08-01T11:44:51Z'
+            lastTransitionTime: '2021-08-01T11:44:51Z'
+            reason: MinimumReplicasAvailable
+            message: Deployment has minimum availability.
+

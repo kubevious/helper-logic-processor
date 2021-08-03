@@ -1,0 +1,24 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: gitlab-redis
+    namespace: gitlab
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/gitlab/rolebindings/gitlab-redis
+    uid: 9915e51a-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016224'
+    creationTimestamp: '2020-01-18T00:43:51Z'
+    labels:
+        app: redis
+        chart: redis-ha-0.1.0
+        heritage: Helm
+        release: gitlab
+subjects:
+    -
+        kind: ServiceAccount
+        name: gitlab-redis
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: gitlab-redis
+

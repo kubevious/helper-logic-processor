@@ -1,0 +1,19 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: gitlab-cert-manager-webhook
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/serviceaccounts/gitlab-cert-manager-webhook
+    uid: 982e388e-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016161'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: webhook
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: webhook
+        helm.sh/chart: certmanager-v0.10.1
+secrets:
+    -
+        name: gitlab-cert-manager-webhook-token-nx7k6
+

@@ -1,0 +1,19 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:48Z'
+    generation: 1
+    name: csidrivers.storage.k8s.io
+    resourceVersion: '275528125'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/csidrivers.storage.k8s.io
+    uid: 4f10ee0a-3931-4a47-91ea-10c9f98dbfac
+spec:
+    resource:
+        group: storage.k8s.io
+        resource: csidrivers
+status:
+    currentStorageVersionHash: Z7aeXSiaYTw=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - Z7aeXSiaYTw=
+

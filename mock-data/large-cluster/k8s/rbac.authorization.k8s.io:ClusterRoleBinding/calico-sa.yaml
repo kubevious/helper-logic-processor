@@ -1,0 +1,26 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: calico-sa
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/calico-sa
+    uid: c7320d53-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '223929650'
+    creationTimestamp: '2020-01-22T17:44:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        components.gke.io/component-name: networkpolicy-calico
+        components.gke.io/component-version: 1.0.12
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{"components.gke.io/component-name":"networkpolicy-calico","components.gke.io/component-version":"1.0.12"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"calico-sa"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"calico"},"subjects":[{"kind":"ServiceAccount","name":"calico-sa","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: calico-sa
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: calico
+

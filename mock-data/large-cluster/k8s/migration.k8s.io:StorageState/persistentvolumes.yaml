@@ -1,0 +1,18 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:14:57Z'
+    generation: 1
+    name: persistentvolumes
+    resourceVersion: '275527969'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/persistentvolumes
+    uid: d7c86a9f-7898-447c-ba58-f133a6b5f653
+spec:
+    resource:
+        resource: persistentvolumes
+status:
+    currentStorageVersionHash: HN/zwEC+JgM=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - HN/zwEC+JgM=
+

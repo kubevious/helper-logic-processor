@@ -1,0 +1,37 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+    name: data-gitlab-redis-server-2
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/persistentvolumeclaims/data-gitlab-redis-server-2
+    uid: 09728c28-398e-11ea-97ba-42010a800159
+    resourceVersion: '2021127'
+    creationTimestamp: '2020-01-18T01:01:19Z'
+    labels:
+        app: redis
+        name: redis-server
+        redis-node: 'true'
+        release: gitlab
+    annotations:
+        pv.kubernetes.io/bind-completed: 'yes'
+        pv.kubernetes.io/bound-by-controller: 'yes'
+        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
+    finalizers:
+        - kubernetes.io/pvc-protection
+spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 8Gi
+    volumeName: pvc-09728c28-398e-11ea-97ba-42010a800159
+    storageClassName: standard
+    volumeMode: Filesystem
+status:
+    phase: Bound
+    accessModes:
+        - ReadWriteOnce
+    capacity:
+        storage: 8Gi
+

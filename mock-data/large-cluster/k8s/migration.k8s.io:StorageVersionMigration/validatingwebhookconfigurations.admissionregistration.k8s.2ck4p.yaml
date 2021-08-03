@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:50Z'
+    generateName: validatingwebhookconfigurations.admissionregistration.k8s.io-
+    generation: 1
+    name: validatingwebhookconfigurations.admissionregistration.k8s.2ck4p
+    resourceVersion: '166749642'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/validatingwebhookconfigurations.admissionregistration.k8s.2ck4p
+    uid: 52ef8a97-873b-47ad-8e57-ed39fd3cfe30
+spec:
+    resource:
+        group: admissionregistration.k8s.io
+        resource: validatingwebhookconfigurations
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:22:56Z'
+            status: 'True'
+            type: Succeeded
+

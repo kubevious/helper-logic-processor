@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:53Z'
+    generateName: priorityclasses.scheduling.k8s.io-
+    generation: 1
+    name: priorityclasses.scheduling.k8s.io-s55lm
+    resourceVersion: '166748896'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/priorityclasses.scheduling.k8s.io-s55lm
+    uid: e3fe2794-d972-469f-8002-5864e952919d
+spec:
+    resource:
+        group: scheduling.k8s.io
+        resource: priorityclasses
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:50Z'
+            status: 'True'
+            type: Succeeded
+

@@ -1,0 +1,19 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:30Z'
+    generation: 1
+    name: cronjobs.batch
+    resourceVersion: '275528064'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/cronjobs.batch
+    uid: 00de0b03-2a40-439c-be1c-b41ddffb8d14
+spec:
+    resource:
+        group: batch
+        resource: cronjobs
+status:
+    currentStorageVersionHash: h/JlFAZkyyY=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - h/JlFAZkyyY=
+

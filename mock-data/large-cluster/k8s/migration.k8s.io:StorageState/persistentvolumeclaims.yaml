@@ -1,0 +1,18 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:14:57Z'
+    generation: 1
+    name: persistentvolumeclaims
+    resourceVersion: '275527994'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/persistentvolumeclaims
+    uid: e2ea034e-499a-4a9c-bbcb-8037205803d3
+spec:
+    resource:
+        resource: persistentvolumeclaims
+status:
+    currentStorageVersionHash: QWTyNDq0dC4=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - QWTyNDq0dC4=
+

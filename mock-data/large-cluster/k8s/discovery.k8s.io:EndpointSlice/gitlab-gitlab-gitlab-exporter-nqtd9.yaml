@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: gitlab-gitlab-exporter-nqtd9
+    generateName: gitlab-gitlab-exporter-
+    namespace: gitlab
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/gitlab/endpointslices/gitlab-gitlab-exporter-nqtd9
+    uid: e7d50e20-fbb5-410a-9263-1218d2365a9d
+    resourceVersion: '274563372'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: gitlab-gitlab-exporter
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:48:43Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: gitlab-gitlab-exporter
+            uid: 99454717-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:48:43Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"99454717-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.4
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-gitlab-exporter-868bc56dd8-znxcj
+            uid: dbcc053a-106f-4775-8030-9ca13c77ab01
+            resourceVersion: '274563368'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: gitlab-exporter
+        protocol: TCP
+        port: 9168
+

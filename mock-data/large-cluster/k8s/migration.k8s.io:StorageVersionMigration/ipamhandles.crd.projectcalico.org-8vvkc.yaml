@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:16:00Z'
+    generateName: ipamhandles.crd.projectcalico.org-
+    generation: 1
+    name: ipamhandles.crd.projectcalico.org-8vvkc
+    resourceVersion: '166748615'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/ipamhandles.crd.projectcalico.org-8vvkc
+    uid: b8493b65-3c65-4400-aea8-3ece5143160c
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: ipamhandles
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:11Z'
+            status: 'True'
+            type: Succeeded
+

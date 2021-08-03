@@ -1,0 +1,97 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: gitlab-unicorn-8dmgs
+    generateName: gitlab-unicorn-
+    namespace: gitlab
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/gitlab/endpointslices/gitlab-unicorn-8dmgs
+    uid: c6912fbc-03aa-44ed-ac77-1c6bc2d70c25
+    resourceVersion: '274566475'
+    generation: 38
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: gitlab-unicorn
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:55:37Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: gitlab-unicorn
+            uid: 99493854-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:52:33Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"99493854-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.13
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-unicorn-84d7dc6557-54rmp
+            uid: eab38f1e-3f47-4f95-b7e2-d2ce60eeeb07
+            resourceVersion: '274565013'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+    -
+        addresses:
+            - 10.8.0.36
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: gitlab
+            name: gitlab-unicorn-84d7dc6557-z6vzk
+            uid: ab724b1a-a518-41d5-bdba-b4dbaf5e3254
+            resourceVersion: '274566473'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: workhorse
+        protocol: TCP
+        port: 8181
+    -
+        name: unicorn
+        protocol: TCP
+        port: 8080
+

@@ -1,0 +1,27 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:discovery'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/system%3Adiscovery
+    uid: afa5068c-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '99'
+    creationTimestamp: '2020-01-11T06:00:36Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+subjects:
+    -
+        kind: Group
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:authenticated'
+    -
+        kind: Group
+        apiGroup: rbac.authorization.k8s.io
+        name: 'system:unauthenticated'
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: 'system:discovery'
+

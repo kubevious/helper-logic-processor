@@ -1,0 +1,97 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: gitlab-cert-manager-5ffcc7f99f
+    namespace: gitlab
+    selfLink: >-
+        /apis/apps/v1/namespaces/gitlab/replicasets/gitlab-cert-manager-5ffcc7f99f
+    uid: 99816455-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274560613'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: cert-manager
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager
+        helm.sh/chart: certmanager-v0.10.1
+        pod-template-hash: 5ffcc7f99f
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: gitlab-cert-manager
+            uid: 99614a55-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: cert-manager
+            app.kubernetes.io/instance: gitlab
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: cert-manager
+            pod-template-hash: 5ffcc7f99f
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: cert-manager
+                app.kubernetes.io/instance: gitlab
+                app.kubernetes.io/managed-by: Helm
+                app.kubernetes.io/name: cert-manager
+                helm.sh/chart: certmanager-v0.10.1
+                pod-template-hash: 5ffcc7f99f
+            annotations:
+                prometheus.io/path: /metrics
+                prometheus.io/port: '9402'
+                prometheus.io/scrape: 'true'
+        spec:
+            containers:
+                -
+                    name: certmanager
+                    image: 'quay.io/jetstack/cert-manager-controller:v0.10.1'
+                    args:
+                        - '--v=2'
+                        - '--cluster-resource-namespace=$(POD_NAMESPACE)'
+                        - '--leader-election-namespace=$(POD_NAMESPACE)'
+                        - '--webhook-namespace=$(POD_NAMESPACE)'
+                        - '--webhook-ca-secret=gitlab-cert-manager-webhook-ca'
+                        - >-
+                            --webhook-serving-secret=gitlab-cert-manager-webhook-tls
+                        - >-
+                            --webhook-dns-names=gitlab-cert-manager-webhook,gitlab-cert-manager-webhook.gitlab,gitlab-cert-manager-webhook.gitlab.svc
+                    ports:
+                        -
+                            containerPort: 9402
+                            protocol: TCP
+                    env:
+                        -
+                            name: POD_NAMESPACE
+                            valueFrom:
+                                fieldRef:
+                                    apiVersion: v1
+                                    fieldPath: metadata.namespace
+                    resources: {}
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: gitlab-cert-manager
+            serviceAccount: gitlab-cert-manager
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

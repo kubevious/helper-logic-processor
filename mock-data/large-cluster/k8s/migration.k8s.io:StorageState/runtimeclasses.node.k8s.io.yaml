@@ -1,0 +1,19 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:56Z'
+    generation: 1
+    name: runtimeclasses.node.k8s.io
+    resourceVersion: '275528169'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/runtimeclasses.node.k8s.io
+    uid: bf00ea49-63cf-47c3-b841-a5a6c2263e74
+spec:
+    resource:
+        group: node.k8s.io
+        resource: runtimeclasses
+status:
+    currentStorageVersionHash: 8nMHWqj34s0=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - 8nMHWqj34s0=
+

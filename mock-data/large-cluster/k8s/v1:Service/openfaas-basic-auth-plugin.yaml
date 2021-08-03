@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: basic-auth-plugin
+    namespace: openfaas
+    selfLink: /api/v1/namespaces/openfaas/services/basic-auth-plugin
+    uid: 4854d8bc-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007047'
+    creationTimestamp: '2020-01-18T00:05:49Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: basic-auth-plugin
+        heritage: Helm
+        release: openfaas
+spec:
+    ports:
+        -
+            name: http
+            protocol: TCP
+            port: 8080
+            targetPort: http
+    selector:
+        app: basic-auth-plugin
+    clusterIP: 10.75.11.119
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

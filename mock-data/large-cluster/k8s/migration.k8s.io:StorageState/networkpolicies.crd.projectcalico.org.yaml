@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:13Z'
+    generation: 1
+    name: networkpolicies.crd.projectcalico.org
+    resourceVersion: '275528224'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/networkpolicies.crd.projectcalico.org
+    uid: bf4db141-cc53-4f85-8285-c4bd3f242390
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: networkpolicies
+status:
+    currentStorageVersionHash: vyIiswN6deY=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - vyIiswN6deY=
+

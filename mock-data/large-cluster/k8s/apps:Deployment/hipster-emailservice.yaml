@@ -1,0 +1,105 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+    name: emailservice
+    namespace: hipster
+    selfLink: /apis/apps/v1/namespaces/hipster/deployments/emailservice
+    uid: a0685217-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274558788'
+    generation: 3
+    creationTimestamp: '2020-01-11T07:11:45Z'
+    annotations:
+        deployment.kubernetes.io/revision: '3'
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"emailservice","namespace":"hipster"},"spec":{"selector":{"matchLabels":{"app":"emailservice"}},"template":{"metadata":{"labels":{"app":"emailservice"}},"spec":{"containers":[{"env":[{"name":"PORT","value":"8080"},{"name":"ENABLE_PROFILER","value":"0"}],"image":"gcr.io/google-samples/microservices-demo/emailservice:v0.1.3","livenessProbe":{"exec":{"command":["/bin/grpc_health_probe","-addr=:8080"]},"periodSeconds":5},"name":"server","ports":[{"containerPort":8080}],"readinessProbe":{"exec":{"command":["/bin/grpc_health_probe","-addr=:8080"]},"periodSeconds":5},"resources":{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"64Mi"}}}],"terminationGracePeriodSeconds":5}}}}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: emailservice
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: emailservice
+        spec:
+            containers:
+                -
+                    name: server
+                    image: >-
+                        gcr.io/google-samples/microservices-demo/emailservice:v0.1.3
+                    ports:
+                        -
+                            containerPort: 8080
+                            protocol: TCP
+                    env:
+                        -
+                            name: PORT
+                            value: '8080'
+                        -
+                            name: ENABLE_PROFILER
+                            value: '0'
+                    resources:
+                        limits:
+                            cpu: 100m
+                            memory: 128Mi
+                        requests:
+                            cpu: 50m
+                            memory: 64Mi
+                    livenessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:8080'
+                        timeoutSeconds: 1
+                        periodSeconds: 5
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:8080'
+                        timeoutSeconds: 1
+                        periodSeconds: 5
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 5
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 600
+status:
+    observedGeneration: 3
+    replicas: 1
+    updatedReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    conditions:
+        -
+            type: Progressing
+            status: 'True'
+            lastUpdateTime: '2020-01-30T04:53:47Z'
+            lastTransitionTime: '2020-01-11T07:11:45Z'
+            reason: NewReplicaSetAvailable
+            message: >-
+                ReplicaSet "emailservice-6545668f4f" has successfully
+                progressed.
+        -
+            type: Available
+            status: 'True'
+            lastUpdateTime: '2021-08-01T11:41:00Z'
+            lastTransitionTime: '2021-08-01T11:41:00Z'
+            reason: MinimumReplicasAvailable
+            message: Deployment has minimum availability.
+

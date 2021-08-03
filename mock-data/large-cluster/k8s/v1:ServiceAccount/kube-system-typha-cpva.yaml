@@ -1,0 +1,19 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: typha-cpva
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/typha-cpva
+    uid: c7b6b44b-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '100939938'
+    creationTimestamp: '2020-01-22T17:44:03Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"typha-cpva","namespace":"kube-system"}}
+secrets:
+    -
+        name: typha-cpva-token-9ftmr
+

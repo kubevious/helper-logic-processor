@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: prometheus-t6s7q
+    generateName: prometheus-
+    namespace: openfaas
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/openfaas/endpointslices/prometheus-t6s7q
+    uid: 1a3c13d4-ea27-4354-bd55-7a1402b4b53a
+    resourceVersion: '274561722'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: prometheus
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:11Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: prometheus
+            uid: 484f41f2-3986-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:45:11Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"484f41f2-3986-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.0.21
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: openfaas
+            name: prometheus-6d4c6646b9-xqsrg
+            uid: 36e97fbf-7c28-46f2-a31e-02d5e5e3eb8c
+            resourceVersion: '274561720'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: ''
+        protocol: TCP
+        port: 9090
+

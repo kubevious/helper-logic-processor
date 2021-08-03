@@ -1,0 +1,51 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+    name: gitlab-unicorn
+    namespace: gitlab
+    selfLink: /apis/extensions/v1beta1/namespaces/gitlab/ingresses/gitlab-unicorn
+    uid: 99c98068-398b-11ea-b115-42010a8001d6
+    resourceVersion: '61928762'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:53Z'
+    labels:
+        app: unicorn
+        chart: unicorn-2.6.5
+        heritage: Helm
+        release: gitlab
+    annotations:
+        certmanager.k8s.io/issuer: gitlab-issuer
+        kubernetes.io/ingress.class: gitlab-nginx
+        kubernetes.io/ingress.provider: nginx
+        nginx.ingress.kubernetes.io/proxy-body-size: 512m
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: '15'
+        nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+spec:
+    tls:
+        -
+            hosts:
+                - gitlab.example.com
+            secretName: gitlab-gitlab-tls
+    rules:
+        -
+            host: gitlab.example.com
+            http:
+                paths:
+                    -
+                        path: /
+                        pathType: ImplementationSpecific
+                        backend:
+                            serviceName: gitlab-unicorn
+                            servicePort: 8181
+                    -
+                        path: /admin/sidekiq
+                        pathType: ImplementationSpecific
+                        backend:
+                            serviceName: gitlab-unicorn
+                            servicePort: 8080
+status:
+    loadBalancer:
+        ingress:
+            -
+                ip: 35.192.33.224
+

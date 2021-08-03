@@ -1,0 +1,27 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+    name: gke-resource-quotas
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/resourcequotas/gke-resource-quotas
+    uid: 8e06e31f-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274561080'
+    creationTimestamp: '2020-01-17T21:23:07Z'
+spec:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+status:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+    used:
+        count/ingresses.extensions: '0'
+        count/jobs.batch: '0'
+        pods: '13'
+        services: '13'
+

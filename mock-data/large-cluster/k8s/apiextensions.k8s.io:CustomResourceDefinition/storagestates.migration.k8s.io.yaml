@@ -1,0 +1,187 @@
+kind: CustomResourceDefinition
+apiVersion: apiextensions.k8s.io/v1
+metadata:
+    name: storagestates.migration.k8s.io
+    selfLink: >-
+        /apis/apiextensions.k8s.io/v1/customresourcedefinitions/storagestates.migration.k8s.io
+    uid: 018e2163-edc1-4452-89a2-24f6e30b4ee7
+    resourceVersion: '250268794'
+    generation: 2
+    creationTimestamp: '2020-06-13T07:50:44Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        api-approved.kubernetes.io: 'https://github.com/kubernetes/enhancements/pull/747'
+        components.gke.io/component-name: storageversionmigrator-crd
+        components.gke.io/component-version: 0.0.2
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"apiextensions.k8s.io/v1","kind":"CustomResourceDefinition","metadata":{"annotations":{"api-approved.kubernetes.io":"https://github.com/kubernetes/enhancements/pull/747","components.gke.io/component-name":"storageversionmigrator-crd","components.gke.io/component-version":"0.0.2"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"storagestates.migration.k8s.io"},"spec":{"group":"migration.k8s.io","names":{"kind":"StorageState","listKind":"StorageStateList","plural":"storagestates","singular":"storagestate"},"preserveUnknownFields":false,"scope":"Cluster","versions":[{"name":"v1alpha1","schema":{"openAPIV3Schema":{"description":"The
+            state of the storage of a specific
+            resource.","properties":{"apiVersion":{"description":"APIVersion
+            defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal
+            value, and may reject unrecognized values. More info:
+            https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources","type":"string"},"kind":{"description":"Kind
+            is a string value representing the REST resource this object
+            represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info:
+            https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds","type":"string"},"metadata":{"properties":{"name":{"description":"The
+            name must be
+            \"\u003c.spec.resource.resouce\u003e.\u003c.spec.resource.group\u003e\".","type":"string"}},"type":"object"},"spec":{"description":"Specification
+            of the storage state.","properties":{"resource":{"description":"The
+            resource this storageState is
+            about.","properties":{"group":{"description":"The name of the
+            group.","type":"string"},"resource":{"description":"The name of the
+            resource.","type":"string"}},"type":"object"}},"type":"object"},"status":{"description":"Status
+            of the storage
+            state.","properties":{"currentStorageVersionHash":{"description":"The
+            hash value of the current storage version, as shown in the discovery
+            document served by the API server. Storage Version is the version to
+            which objects are converted to before
+            persisted.","type":"string"},"lastHeartbeatTime":{"description":"LastHeartbeatTime
+            is the last time the storage migration triggering controller checks
+            the storage version hash of this resource in the discovery document
+            and updates this
+            field.","format":"date-time","type":"string"},"persistedStorageVersionHashes":{"description":"The
+            hash values of storage versions that persisted instances of
+            spec.resource might still be encoded in. \"Unknown\" is a valid
+            value in the list, and is the default value. It is not safe to
+            upgrade or downgrade to an apiserver binary that does not support
+            all versions listed in this field, or if \"Unknown\" is listed. Once
+            the storage version migration for this resource has completed, the
+            value of this field is refined to only contain the
+            currentStorageVersionHash. Once the apiserver has changed the
+            storage version, the new storage version is appended to the
+            list.","items":{"type":"string"},"type":"array"}},"type":"object"}},"type":"object"}},"served":true,"storage":true,"subresources":{"status":{}}}]}}
+spec:
+    group: migration.k8s.io
+    names:
+        plural: storagestates
+        singular: storagestate
+        kind: StorageState
+        listKind: StorageStateList
+    scope: Cluster
+    versions:
+        -
+            name: v1alpha1
+            served: true
+            storage: true
+            schema:
+                openAPIV3Schema:
+                    description: The state of the storage of a specific resource.
+                    type: object
+                    properties:
+                        apiVersion:
+                            description: >-
+                                APIVersion defines the versioned schema of this
+                                representation of an object. Servers should
+                                convert recognized schemas to the latest
+                                internal value, and may reject unrecognized
+                                values. More info:
+                                https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+                            type: string
+                        kind:
+                            description: >-
+                                Kind is a string value representing the REST
+                                resource this object represents. Servers may
+                                infer this from the endpoint the client submits
+                                requests to. Cannot be updated. In CamelCase.
+                                More info:
+                                https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+                            type: string
+                        metadata:
+                            type: object
+                            properties:
+                                name:
+                                    description: >-
+                                        The name must be
+                                        "<.spec.resource.resouce>.<.spec.resource.group>".
+                                    type: string
+                        spec:
+                            description: Specification of the storage state.
+                            type: object
+                            properties:
+                                resource:
+                                    description: The resource this storageState is about.
+                                    type: object
+                                    properties:
+                                        group:
+                                            description: The name of the group.
+                                            type: string
+                                        resource:
+                                            description: The name of the resource.
+                                            type: string
+                        status:
+                            description: Status of the storage state.
+                            type: object
+                            properties:
+                                currentStorageVersionHash:
+                                    description: >-
+                                        The hash value of the current storage
+                                        version, as shown in the discovery
+                                        document served by the API server.
+                                        Storage Version is the version to which
+                                        objects are converted to before
+                                        persisted.
+                                    type: string
+                                lastHeartbeatTime:
+                                    description: >-
+                                        LastHeartbeatTime is the last time the
+                                        storage migration triggering controller
+                                        checks the storage version hash of this
+                                        resource in the discovery document and
+                                        updates this field.
+                                    type: string
+                                    format: date-time
+                                persistedStorageVersionHashes:
+                                    description: >-
+                                        The hash values of storage versions that
+                                        persisted instances of spec.resource
+                                        might still be encoded in. "Unknown" is
+                                        a valid value in the list, and is the
+                                        default value. It is not safe to upgrade
+                                        or downgrade to an apiserver binary that
+                                        does not support all versions listed in
+                                        this field, or if "Unknown" is listed.
+                                        Once the storage version migration for
+                                        this resource has completed, the value
+                                        of this field is refined to only contain
+                                        the currentStorageVersionHash. Once the
+                                        apiserver has changed the storage
+                                        version, the new storage version is
+                                        appended to the list.
+                                    type: array
+                                    items:
+                                        type: string
+            subresources:
+                status: {}
+    conversion:
+        strategy: None
+status:
+    conditions:
+        -
+            type: NamesAccepted
+            status: 'True'
+            lastTransitionTime: '2020-06-13T07:50:44Z'
+            reason: NoConflicts
+            message: no conflicts found
+        -
+            type: Established
+            status: 'True'
+            lastTransitionTime: null
+            reason: InitialNamesAccepted
+            message: the initial names have been accepted
+        -
+            type: KubernetesAPIApprovalPolicyConformant
+            status: 'True'
+            lastTransitionTime: '2021-06-23T05:45:50Z'
+            reason: ApprovedAnnotation
+            message: 'approved in https://github.com/kubernetes/enhancements/pull/747'
+    acceptedNames:
+        plural: storagestates
+        singular: storagestate
+        kind: StorageState
+        listKind: StorageStateList
+    storedVersions:
+        - v1alpha1
+

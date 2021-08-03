@@ -1,0 +1,59 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: nginx-86c57db685
+    namespace: test-ingress-isolated-ns-01
+    selfLink: >-
+        /apis/apps/v1/namespaces/test-ingress-isolated-ns-01/replicasets/nginx-86c57db685
+    uid: 69142b5e-2bd7-4658-a6ad-00aaf8ef8e2c
+    resourceVersion: '274562245'
+    generation: 1
+    creationTimestamp: '2020-11-25T08:49:52Z'
+    labels:
+        app: nginx
+        pod-template-hash: 86c57db685
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: nginx
+            uid: bcbc8cc9-5cca-4fe1-9c0c-898fcc2eb056
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: nginx
+            pod-template-hash: 86c57db685
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: nginx
+                pod-template-hash: 86c57db685
+        spec:
+            containers:
+                -
+                    name: nginx
+                    image: nginx
+                    resources: {}
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: Always
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: hipster
+    selfLink: /api/v1/namespaces/hipster
+    uid: 9056811b-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '16360'
+    creationTimestamp: '2020-01-11T07:11:18Z'
+spec:
+    finalizers:
+        - kubernetes
+status:
+    phase: Active
+

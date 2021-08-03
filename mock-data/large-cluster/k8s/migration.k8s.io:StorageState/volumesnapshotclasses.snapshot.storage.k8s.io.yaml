@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-04-09T22:11:50Z'
+    generation: 1
+    name: volumesnapshotclasses.snapshot.storage.k8s.io
+    resourceVersion: '275528345'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/volumesnapshotclasses.snapshot.storage.k8s.io
+    uid: bcb267ee-403f-4cb8-8177-61785da805a9
+spec:
+    resource:
+        group: snapshot.storage.k8s.io
+        resource: volumesnapshotclasses
+status:
+    currentStorageVersionHash: Auz1oPjhi6Y=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - Auz1oPjhi6Y=
+

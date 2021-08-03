@@ -1,0 +1,23 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: kubevious-ui
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/serviceaccounts/kubevious-ui
+    uid: 578dcaa2-4936-4faf-a35a-a4193d67972e
+    resourceVersion: '199508962'
+    creationTimestamp: '2021-03-30T19:21:53Z'
+    labels:
+        app.kubernetes.io/component: kubevious-ui
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        meta.helm.sh/release-name: kubevious
+        meta.helm.sh/release-namespace: kubevious
+secrets:
+    -
+        name: kubevious-ui-token-jdtg6
+

@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:16:02Z'
+    generation: 1
+    name: globalbgpconfigs.crd.projectcalico.org
+    resourceVersion: '275528258'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/globalbgpconfigs.crd.projectcalico.org
+    uid: 28347f4d-25aa-48a6-b8d2-33e527a82130
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: globalbgpconfigs
+status:
+    currentStorageVersionHash: e2jv2e1LvXo=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - e2jv2e1LvXo=
+

@@ -1,0 +1,20 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:37Z'
+    generation: 1
+    name: poddisruptionbudgets.policy
+    resourceVersion: '275528094'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storagestates/poddisruptionbudgets.policy
+    uid: c44e41c9-4495-4ed0-b5dd-157676825aec
+spec:
+    resource:
+        group: policy
+        resource: poddisruptionbudgets
+status:
+    currentStorageVersionHash: 6BGBu0kpHtk=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - 6BGBu0kpHtk=
+

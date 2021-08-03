@@ -1,0 +1,245 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: gitlab-nginx-ingress-default-backend-7f87d67c8-kqkpj
+    generateName: gitlab-nginx-ingress-default-backend-7f87d67c8-
+    namespace: gitlab
+    selfLink: >-
+        /api/v1/namespaces/gitlab/pods/gitlab-nginx-ingress-default-backend-7f87d67c8-kqkpj
+    uid: d92128da-1e97-4c77-ab27-37c3bf514fba
+    resourceVersion: '274560964'
+    creationTimestamp: '2021-08-01T11:43:17Z'
+    labels:
+        app: nginx-ingress
+        component: default-backend
+        pod-template-hash: 7f87d67c8
+        release: gitlab
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.8/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: gitlab-nginx-ingress-default-backend-7f87d67c8
+            uid: 9981338c-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:17Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:component': {}
+                        'f:pod-template-hash': {}
+                        'f:release': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"9981338c-398b-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"nginx-ingress-default-backend"}':
+                            .: {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:livenessProbe':
+                                .: {}
+                                'f:failureThreshold': {}
+                                'f:httpGet':
+                                    .: {}
+                                    'f:path': {}
+                                    'f:port': {}
+                                    'f:scheme': {}
+                                'f:initialDelaySeconds': {}
+                                'f:periodSeconds': {}
+                                'f:successThreshold': {}
+                                'f:timeoutSeconds': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":8080,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:name': {}
+                                    'f:protocol': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:26Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:51Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.8"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: default-token-jjkq5
+            secret:
+                secretName: default-token-jjkq5
+                defaultMode: 420
+    containers:
+        -
+            name: nginx-ingress-default-backend
+            image: 'k8s.gcr.io/defaultbackend:1.4'
+            ports:
+                -
+                    name: http
+                    containerPort: 8080
+                    protocol: TCP
+            resources:
+                requests:
+                    cpu: 5m
+                    memory: 5Mi
+            volumeMounts:
+                -
+                    name: default-token-jjkq5
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            livenessProbe:
+                httpGet:
+                    path: /healthz
+                    port: 8080
+                    scheme: HTTP
+                initialDelaySeconds: 30
+                timeoutSeconds: 5
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 60
+    dnsPolicy: ClusterFirst
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:18Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:51Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:51Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:17Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.8
+    podIPs:
+        -
+            ip: 10.8.0.8
+    startTime: '2021-08-01T11:43:18Z'
+    containerStatuses:
+        -
+            name: nginx-ingress-default-backend
+            state:
+                running:
+                    startedAt: '2021-08-01T11:43:51Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'k8s.gcr.io/defaultbackend:1.4'
+            imageID: >-
+                docker-pullable://k8s.gcr.io/defaultbackend@sha256:865b0c35e6da393b8e80b7e3799f777572399a4cff047eb02a81fa6e7a48ed4b
+            containerID: >-
+                docker://127a992c003fdb6bf815442304148936615198435178f97db2fc6e3e4fc00725
+            started: true
+    qosClass: Burstable
+

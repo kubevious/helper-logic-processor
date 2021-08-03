@@ -1,0 +1,27 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+    name: gke-resource-quotas
+    namespace: default
+    selfLink: /api/v1/namespaces/default/resourcequotas/gke-resource-quotas
+    uid: b81ed955-3438-11ea-9cdc-42010a8001cf
+    resourceVersion: '9669353'
+    creationTimestamp: '2020-01-11T06:08:00Z'
+spec:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+status:
+    hard:
+        count/ingresses.extensions: 5k
+        count/jobs.batch: 10k
+        pods: 5k
+        services: '1500'
+    used:
+        count/ingresses.extensions: '0'
+        count/jobs.batch: '0'
+        pods: '0'
+        services: '1'
+

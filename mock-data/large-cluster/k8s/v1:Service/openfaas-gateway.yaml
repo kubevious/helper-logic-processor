@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: gateway
+    namespace: openfaas
+    selfLink: /api/v1/namespaces/openfaas/services/gateway
+    uid: 484ed27a-3986-11ea-b115-42010a8001d6
+    resourceVersion: '2007033'
+    creationTimestamp: '2020-01-18T00:05:48Z'
+    labels:
+        app: openfaas
+        chart: openfaas-5.4.1
+        component: gateway
+        heritage: Helm
+        release: openfaas
+spec:
+    ports:
+        -
+            name: http
+            protocol: TCP
+            port: 8080
+            targetPort: http
+    selector:
+        app: gateway
+    clusterIP: 10.75.13.219
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

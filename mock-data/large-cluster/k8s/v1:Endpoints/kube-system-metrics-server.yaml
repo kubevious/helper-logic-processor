@@ -1,0 +1,32 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: metrics-server
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/endpoints/metrics-server
+    uid: c09c83d7-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '274558766'
+    creationTimestamp: '2020-01-11T06:01:04Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+        kubernetes.io/name: Metrics-server
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:40:57Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.24
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: kube-system
+                    name: metrics-server-v0.3.6-7b5cdbcbb8-9dvlt
+                    uid: 74d8e5a1-7965-4d99-8fe2-4d1af109c3b2
+                    resourceVersion: '274558763'
+        ports:
+            -
+                port: 443
+                protocol: TCP
+

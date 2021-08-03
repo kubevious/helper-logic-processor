@@ -1,0 +1,92 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: productcatalogservice-7f5dc87d7
+    namespace: hipster
+    selfLink: >-
+        /apis/apps/v1/namespaces/hipster/replicasets/productcatalogservice-7f5dc87d7
+    uid: 2b65422c-431b-11ea-96d3-42010a80017a
+    resourceVersion: '274561791'
+    generation: 1
+    creationTimestamp: '2020-01-30T04:44:15Z'
+    labels:
+        app: productcatalogservice
+        pod-template-hash: 7f5dc87d7
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '2'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: productcatalogservice
+            uid: a2397ecc-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: productcatalogservice
+            pod-template-hash: 7f5dc87d7
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: productcatalogservice
+                pod-template-hash: 7f5dc87d7
+        spec:
+            containers:
+                -
+                    name: server
+                    image: >-
+                        gcr.io/google-samples/microservices-demo/productcatalogservice:v0.1.3
+                    ports:
+                        -
+                            containerPort: 3550
+                            protocol: TCP
+                    env:
+                        -
+                            name: PORT
+                            value: '3550'
+                    resources:
+                        limits:
+                            cpu: 20m
+                            memory: 128Mi
+                        requests:
+                            cpu: 5m
+                            memory: 64Mi
+                    livenessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:3550'
+                        timeoutSeconds: 1
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:3550'
+                        timeoutSeconds: 1
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 5
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

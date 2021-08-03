@@ -1,0 +1,91 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: adservice-84b8749d65
+    namespace: hipster
+    selfLink: /apis/apps/v1/namespaces/hipster/replicasets/adservice-84b8749d65
+    uid: 5d739cff-431c-11ea-96d3-42010a80017a
+    resourceVersion: '275228164'
+    generation: 2
+    creationTimestamp: '2020-01-30T04:52:49Z'
+    labels:
+        app: adservice
+        pod-template-hash: 84b8749d65
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '3'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: adservice
+            uid: a424ede3-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: adservice
+            pod-template-hash: 84b8749d65
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: adservice
+                pod-template-hash: 84b8749d65
+        spec:
+            containers:
+                -
+                    name: server
+                    image: >-
+                        gcr.io/google-samples/microservices-demo/adservice:v0.1.3
+                    ports:
+                        -
+                            containerPort: 9555
+                            protocol: TCP
+                    env:
+                        -
+                            name: PORT
+                            value: '9555'
+                    resources:
+                        limits:
+                            cpu: 100m
+                            memory: 300Mi
+                        requests:
+                            cpu: 50m
+                            memory: 180Mi
+                    livenessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:9555'
+                        initialDelaySeconds: 20
+                        timeoutSeconds: 1
+                        periodSeconds: 15
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        exec:
+                            command:
+                                - /bin/grpc_health_probe
+                                - '-addr=:9555'
+                        initialDelaySeconds: 20
+                        timeoutSeconds: 1
+                        periodSeconds: 15
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 5
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+

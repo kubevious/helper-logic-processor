@@ -1,0 +1,76 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:controller:service-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Acontroller%3Aservice-controller
+    uid: af91ca66-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446113'
+    creationTimestamp: '2020-01-11T06:00:36Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - services
+    -
+        verbs:
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - services/status
+    -
+        verbs:
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - ''
+        resources:
+            - services/status
+    -
+        verbs:
+            - create
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - update
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+

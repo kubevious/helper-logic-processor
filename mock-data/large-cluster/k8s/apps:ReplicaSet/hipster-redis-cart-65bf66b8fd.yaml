@@ -1,0 +1,87 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: redis-cart-65bf66b8fd
+    namespace: hipster
+    selfLink: /apis/apps/v1/namespaces/hipster/replicasets/redis-cart-65bf66b8fd
+    uid: a3e0ad9f-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '61929155'
+    generation: 2
+    creationTimestamp: '2020-01-11T07:11:51Z'
+    labels:
+        app: redis-cart
+        pod-template-hash: 65bf66b8fd
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: redis-cart
+            uid: a3dfa36d-3441-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            app: redis-cart
+            pod-template-hash: 65bf66b8fd
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: redis-cart
+                pod-template-hash: 65bf66b8fd
+        spec:
+            volumes:
+                -
+                    name: redis-data
+                    emptyDir: {}
+            containers:
+                -
+                    name: redis
+                    image: 'redis:alpine'
+                    ports:
+                        -
+                            containerPort: 6379
+                            protocol: TCP
+                    resources:
+                        limits:
+                            cpu: 125m
+                            memory: 256Mi
+                        requests:
+                            cpu: 70m
+                            memory: 200Mi
+                    volumeMounts:
+                        -
+                            name: redis-data
+                            mountPath: /data
+                    livenessProbe:
+                        tcpSocket:
+                            port: 6379
+                        timeoutSeconds: 1
+                        periodSeconds: 5
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        tcpSocket:
+                            port: 6379
+                        timeoutSeconds: 1
+                        periodSeconds: 5
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 0
+    observedGeneration: 2
+

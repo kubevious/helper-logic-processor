@@ -1,0 +1,82 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:persistent-volume-provisioner'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Apersistent-volume-provisioner
+    uid: af502dc4-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446092'
+    creationTimestamp: '2020-01-11T06:00:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - create
+            - delete
+            - get
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumes
+    -
+        verbs:
+            - get
+            - list
+            - update
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - persistentvolumeclaims
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - storage.k8s.io
+        resources:
+            - storageclasses
+    -
+        verbs:
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - create
+            - patch
+            - update
+        apiGroups:
+            - ''
+        resources:
+            - events
+    -
+        verbs:
+            - create
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+    -
+        verbs:
+            - update
+        apiGroups:
+            - events.k8s.io
+        resources:
+            - events
+

@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: pod-garbage-collector
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/pod-garbage-collector
+    uid: ba068a83-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '257'
+    creationTimestamp: '2020-01-11T06:00:53Z'
+secrets:
+    -
+        name: pod-garbage-collector-token-gjggf
+

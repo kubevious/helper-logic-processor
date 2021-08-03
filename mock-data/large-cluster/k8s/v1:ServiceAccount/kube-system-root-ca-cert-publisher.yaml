@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: root-ca-cert-publisher
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/root-ca-cert-publisher
+    uid: 1974425e-115b-43bc-a560-0fc8a2eb55c0
+    resourceVersion: '223929186'
+    creationTimestamp: '2021-05-11T16:15:05Z'
+secrets:
+    -
+        name: root-ca-cert-publisher-token-m5h4p
+

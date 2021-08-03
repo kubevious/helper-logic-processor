@@ -1,0 +1,29 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: cartservice
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/endpoints/cartservice
+    uid: a2c1485d-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274561549'
+    creationTimestamp: '2020-01-11T07:11:49Z'
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:44:51Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.11
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: hipster
+                    name: cartservice-55f8ccc8f4-6j6rs
+                    uid: ec9db658-965c-4a98-bb7b-618fffc2b68e
+                    resourceVersion: '274561547'
+        ports:
+            -
+                name: grpc
+                port: 7070
+                protocol: TCP
+

@@ -1,0 +1,33 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: storage-version-migration-migrator
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/storage-version-migration-migrator
+    uid: 0ef8e616-604b-48a3-ab44-ac30681abe67
+    resourceVersion: '61444968'
+    creationTimestamp: '2020-06-13T07:50:44Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-version: storageversionmigrator-rbac-0.0.1
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"components.gke.io/component-version":"storageversionmigrator-rbac-0.0.1"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"storage-version-migration-migrator"},"rules":[{"apiGroups":["*"],"resources":["*"],"verbs":["get","list","update"]},{"apiGroups":["migration.k8s.io"],"resources":["storageversionmigrations"],"verbs":["watch"]}]}
+rules:
+    -
+        verbs:
+            - get
+            - list
+            - update
+        apiGroups:
+            - '*'
+        resources:
+            - '*'
+    -
+        verbs:
+            - watch
+        apiGroups:
+            - migration.k8s.io
+        resources:
+            - storageversionmigrations
+

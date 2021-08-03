@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:16:06Z'
+    generateName: globalfelixconfigs.crd.projectcalico.org-
+    generation: 1
+    name: globalfelixconfigs.crd.projectcalico.org-4p4kx
+    resourceVersion: '166748526'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/globalfelixconfigs.crd.projectcalico.org-4p4kx
+    uid: f919a7b4-9036-4d9e-8949-76721d46e19c
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: globalfelixconfigs
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:20:01Z'
+            status: 'True'
+            type: Succeeded
+

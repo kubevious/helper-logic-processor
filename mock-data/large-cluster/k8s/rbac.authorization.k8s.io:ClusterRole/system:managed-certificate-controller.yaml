@@ -1,0 +1,43 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:managed-certificate-controller'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Amanaged-certificate-controller
+    uid: bd8685c7-530f-4ccd-b24c-fc438e32da9f
+    resourceVersion: '223929780'
+    creationTimestamp: '2020-06-13T07:50:42Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        components.gke.io/component-name: managedcertificates
+        components.gke.io/component-version: 2.0.2
+        components.gke.io/layer: addon
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{"components.gke.io/component-name":"managedcertificates","components.gke.io/component-version":"2.0.2","components.gke.io/layer":"addon"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"system:managed-certificate-controller"},"rules":[{"apiGroups":["networking.gke.io"],"resources":["managedcertificates"],"verbs":["*"]},{"apiGroups":["networking.k8s.io"],"resources":["ingresses"],"verbs":["*"]},{"apiGroups":["","extensions"],"resources":["configmaps","endpoints","events"],"verbs":["*"]}]}
+rules:
+    -
+        verbs:
+            - '*'
+        apiGroups:
+            - networking.gke.io
+        resources:
+            - managedcertificates
+    -
+        verbs:
+            - '*'
+        apiGroups:
+            - networking.k8s.io
+        resources:
+            - ingresses
+    -
+        verbs:
+            - '*'
+        apiGroups:
+            - ''
+            - extensions
+        resources:
+            - configmaps
+            - endpoints
+            - events
+

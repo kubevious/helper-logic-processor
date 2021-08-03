@@ -1,0 +1,38 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'system:aggregate-to-admin'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Aaggregate-to-admin
+    uid: af150331-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '49'
+    creationTimestamp: '2020-01-11T06:00:35Z'
+    labels:
+        kubernetes.io/bootstrapping: rbac-defaults
+        rbac.authorization.k8s.io/aggregate-to-admin: 'true'
+    annotations:
+        rbac.authorization.kubernetes.io/autoupdate: 'true'
+rules:
+    -
+        verbs:
+            - create
+        apiGroups:
+            - authorization.k8s.io
+        resources:
+            - localsubjectaccessreviews
+    -
+        verbs:
+            - create
+            - delete
+            - deletecollection
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        apiGroups:
+            - rbac.authorization.k8s.io
+        resources:
+            - rolebindings
+            - roles
+

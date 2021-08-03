@@ -1,0 +1,23 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: gke-metrics-agent
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/gke-metrics-agent
+    uid: ef6e80df-d216-44e1-9df2-62b71211458a
+    resourceVersion: '61446753'
+    creationTimestamp: '2020-06-13T08:00:12Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1beta1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"gke-metrics-agent"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"gke-metrics-agent"},"subjects":[{"kind":"ServiceAccount","name":"gke-metrics-agent","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: gke-metrics-agent
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: gke-metrics-agent
+

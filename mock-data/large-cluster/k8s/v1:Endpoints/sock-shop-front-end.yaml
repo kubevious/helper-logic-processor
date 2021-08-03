@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: front-end
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/front-end
+    uid: cd3a0de5-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274559465'
+    creationTimestamp: '2020-01-17T21:24:53Z'
+    labels:
+        name: front-end
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:42:09Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.28
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: front-end-b5f568888-mwdvc
+                    uid: d3022996-0da9-453f-a30a-119a19e5c9b0
+                    resourceVersion: '274559463'
+        ports:
+            -
+                port: 8079
+                protocol: TCP
+

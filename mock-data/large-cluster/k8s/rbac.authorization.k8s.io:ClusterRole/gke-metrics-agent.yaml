@@ -1,0 +1,39 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: gke-metrics-agent
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/gke-metrics-agent
+    uid: 3e24c9a6-4209-4244-9169-2f9a06f447d7
+    resourceVersion: '61446752'
+    creationTimestamp: '2020-06-13T08:00:12Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1beta1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"gke-metrics-agent"},"rules":[{"apiGroups":[""],"resources":["nodes"],"verbs":["get"]},{"apiGroups":[""],"resources":["pods"],"verbs":["list","watch"]},{"apiGroups":["policy"],"resourceNames":["gce.gke-metrics-agent"],"resources":["podsecuritypolicies"],"verbs":["use"]}]}
+rules:
+    -
+        verbs:
+            - get
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - list
+            - watch
+        apiGroups:
+            - ''
+        resources:
+            - pods
+    -
+        verbs:
+            - use
+        apiGroups:
+            - policy
+        resources:
+            - podsecuritypolicies
+        resourceNames:
+            - gce.gke-metrics-agent
+

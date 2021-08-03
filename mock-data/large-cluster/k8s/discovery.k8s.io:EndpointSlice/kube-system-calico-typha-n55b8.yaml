@@ -1,0 +1,78 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: calico-typha-n55b8
+    generateName: calico-typha-
+    namespace: kube-system
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/kube-system/endpointslices/calico-typha-n55b8
+    uid: 01ebde4d-b627-4ad0-a377-f0a1e22becda
+    resourceVersion: '274558819'
+    generation: 23
+    creationTimestamp: '2021-05-11T16:15:08Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: calico-typha
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:02Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: calico-typha
+            uid: c7a029f2-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:40:01Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"c7a029f2-3d3e-11ea-96d3-42010a80017a"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.128.15.198
+        conditions:
+            ready: true
+        targetRef:
+            kind: Pod
+            namespace: kube-system
+            name: calico-typha-7c595b658-gfpxc
+            uid: 2eb58eb4-bb13-48cb-8046-fb15637ff91e
+            resourceVersion: '274558816'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: calico-typha
+        protocol: TCP
+        port: 5473
+

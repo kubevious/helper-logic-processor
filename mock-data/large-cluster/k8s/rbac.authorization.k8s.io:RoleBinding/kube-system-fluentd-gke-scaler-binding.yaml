@@ -1,0 +1,28 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: fluentd-gke-scaler-binding
+    namespace: kube-system
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/namespaces/kube-system/rolebindings/fluentd-gke-scaler-binding
+    uid: 7515db3e-0b6e-4a15-af1a-4e5fea676f7d
+    resourceVersion: '147515614'
+    creationTimestamp: '2020-06-13T08:00:07Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        components.gke.io/component-name: fluentd-scaler
+        components.gke.io/component-version: 1.0.2
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{"components.gke.io/component-name":"fluentd-scaler","components.gke.io/component-version":"1.0.2"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"fluentd-gke-scaler-binding","namespace":"kube-system"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"system:fluentd-gke-scaler"},"subjects":[{"kind":"ServiceAccount","name":"fluentd-gke-scaler","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: fluentd-gke-scaler
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: 'system:fluentd-gke-scaler'
+

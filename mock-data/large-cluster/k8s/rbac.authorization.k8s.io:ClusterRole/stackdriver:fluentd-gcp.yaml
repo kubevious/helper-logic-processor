@@ -1,0 +1,27 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: 'stackdriver:fluentd-gcp'
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/stackdriver%3Afluentd-gcp
+    uid: 9593c30f-834f-43a8-92f1-48fd1b3690af
+    resourceVersion: '61444734'
+    creationTimestamp: '2020-06-13T07:50:33Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"stackdriver:fluentd-gcp"},"rules":[{"apiGroups":[""],"resources":["pods","namespaces"],"verbs":["watch","get","list"]}]}
+rules:
+    -
+        verbs:
+            - watch
+            - get
+            - list
+        apiGroups:
+            - ''
+        resources:
+            - pods
+            - namespaces
+

@@ -1,0 +1,242 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: kube-dns-autoscaler-7f89fb6b79-cz56w
+    generateName: kube-dns-autoscaler-7f89fb6b79-
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/pods/kube-dns-autoscaler-7f89fb6b79-cz56w
+    uid: 32b5d8fe-27a8-4a60-a7bf-ac3ecc976f7e
+    resourceVersion: '274560748'
+    creationTimestamp: '2021-08-01T11:43:18Z'
+    labels:
+        k8s-app: kube-dns-autoscaler
+        pod-template-hash: 7f89fb6b79
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.16/32
+        seccomp.security.alpha.kubernetes.io/pod: docker/default
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: kube-dns-autoscaler-7f89fb6b79
+            uid: e4dc62b4-6b58-49b2-980b-8e9ebf815d0f
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:18Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:seccomp.security.alpha.kubernetes.io/pod': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:k8s-app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"e4dc62b4-6b58-49b2-980b-8e9ebf815d0f"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"autoscaler"}':
+                            .: {}
+                            'f:command': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:kubernetes.io/os': {}
+                    'f:priorityClassName': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext':
+                        .: {}
+                        'f:fsGroup': {}
+                        'f:supplementalGroups': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:tolerations': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:29Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:37Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.16"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: kube-dns-autoscaler-token-g2fjv
+            secret:
+                secretName: kube-dns-autoscaler-token-g2fjv
+                defaultMode: 420
+    containers:
+        -
+            name: autoscaler
+            image: 'gke.gcr.io/cluster-proportional-autoscaler-amd64:1.7.1-gke.0'
+            command:
+                - /cluster-proportional-autoscaler
+                - '--namespace=kube-system'
+                - '--configmap=kube-dns-autoscaler'
+                - '--target=Deployment/kube-dns'
+                - >-
+                    --default-params={"linear":{"coresPerReplica":256,"nodesPerReplica":16,"preventSinglePointFailure":true}}
+                - '--logtostderr=true'
+                - '--v=2'
+            resources:
+                requests:
+                    cpu: 20m
+                    memory: 10Mi
+            volumeMounts:
+                -
+                    name: kube-dns-autoscaler-token-g2fjv
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        kubernetes.io/os: linux
+    serviceAccountName: kube-dns-autoscaler
+    serviceAccount: kube-dns-autoscaler
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext:
+        supplementalGroups:
+            - 65534
+        fsGroup: 65534
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: CriticalAddonsOnly
+            operator: Exists
+        -
+            key: components.gke.io/gke-managed-components
+            operator: Exists
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priorityClassName: system-cluster-critical
+    priority: 2000000000
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:20Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:33Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:33Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:19Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.16
+    podIPs:
+        -
+            ip: 10.8.0.16
+    startTime: '2021-08-01T11:43:20Z'
+    containerStatuses:
+        -
+            name: autoscaler
+            state:
+                running:
+                    startedAt: '2021-08-01T11:43:32Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: >-
+                asia.gcr.io/gke-release-staging/cluster-proportional-autoscaler-amd64:1.7.1-gke.0
+            imageID: >-
+                docker-pullable://asia.gcr.io/gke-release-staging/cluster-proportional-autoscaler-amd64@sha256:e3f48b3d1e49cfa3e7f002020769c9cd01cd0e77bbc99dc133c7ab0f8097e989
+            containerID: >-
+                docker://ab101e9d844efd430b79818170005fc5a506616568238615002a940730ae9cec
+            started: true
+    qosClass: Burstable
+

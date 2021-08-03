@@ -1,0 +1,94 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: gitlab-cert-manager-webhook-76d9d9cc69
+    namespace: gitlab
+    selfLink: >-
+        /apis/apps/v1/namespaces/gitlab/replicasets/gitlab-cert-manager-webhook-76d9d9cc69
+    uid: 9992e00f-398b-11ea-b115-42010a8001d6
+    resourceVersion: '274560771'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: webhook
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: webhook
+        helm.sh/chart: certmanager-v0.10.1
+        pod-template-hash: 76d9d9cc69
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: gitlab-cert-manager-webhook
+            uid: 99637e48-398b-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: webhook
+            app.kubernetes.io/instance: gitlab
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: webhook
+            pod-template-hash: 76d9d9cc69
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: webhook
+                app.kubernetes.io/instance: gitlab
+                app.kubernetes.io/managed-by: Helm
+                app.kubernetes.io/name: webhook
+                helm.sh/chart: certmanager-v0.10.1
+                pod-template-hash: 76d9d9cc69
+        spec:
+            volumes:
+                -
+                    name: certs
+                    secret:
+                        secretName: gitlab-cert-manager-webhook-tls
+                        defaultMode: 420
+            containers:
+                -
+                    name: certmanager
+                    image: 'quay.io/jetstack/cert-manager-webhook:v0.10.1'
+                    args:
+                        - '--v=2'
+                        - '--secure-port=6443'
+                        - '--tls-cert-file=/certs/tls.crt'
+                        - '--tls-private-key-file=/certs/tls.key'
+                    env:
+                        -
+                            name: POD_NAMESPACE
+                            valueFrom:
+                                fieldRef:
+                                    apiVersion: v1
+                                    fieldPath: metadata.namespace
+                    resources: {}
+                    volumeMounts:
+                        -
+                            name: certs
+                            mountPath: /certs
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: gitlab-cert-manager-webhook
+            serviceAccount: gitlab-cert-manager-webhook
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 1
+    fullyLabeledReplicas: 1
+    readyReplicas: 1
+    availableReplicas: 1
+    observedGeneration: 1
+

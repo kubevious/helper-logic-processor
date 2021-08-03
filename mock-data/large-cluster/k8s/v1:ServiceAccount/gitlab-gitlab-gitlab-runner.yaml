@@ -1,0 +1,18 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: gitlab-gitlab-runner
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/serviceaccounts/gitlab-gitlab-runner
+    uid: 982e56f5-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016163'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: gitlab-gitlab-runner
+        chart: gitlab-runner-0.12.0
+        heritage: Helm
+        release: gitlab
+secrets:
+    -
+        name: gitlab-gitlab-runner-token-c692q
+

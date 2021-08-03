@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:16:32Z'
+    generateName: updateinfos.nodemanagement.gke.io-
+    generation: 1
+    name: updateinfos.nodemanagement.gke.io-phgft
+    resourceVersion: '166749633'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/updateinfos.nodemanagement.gke.io-phgft
+    uid: 9c9e712d-ef3e-4d45-aefa-7edbf5ad92a3
+spec:
+    resource:
+        group: nodemanagement.gke.io
+        resource: updateinfos
+        version: v1alpha1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:22:55Z'
+            status: 'True'
+            type: Succeeded
+

@@ -1,0 +1,26 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: kubelet-api-admin
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/kubelet-api-admin
+    uid: c1c135d3-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '61446788'
+    creationTimestamp: '2020-01-11T06:01:06Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"kubelet-api-admin"},"rules":[{"apiGroups":[""],"resources":["nodes/proxy","nodes/log","nodes/stats","nodes/metrics","nodes/spec"],"verbs":["*"]}]}
+rules:
+    -
+        verbs:
+            - '*'
+        apiGroups:
+            - ''
+        resources:
+            - nodes/proxy
+            - nodes/log
+            - nodes/stats
+            - nodes/metrics
+            - nodes/spec
+

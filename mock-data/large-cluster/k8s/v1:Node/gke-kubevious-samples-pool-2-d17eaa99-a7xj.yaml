@@ -1,0 +1,586 @@
+kind: Node
+apiVersion: v1
+metadata:
+    name: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    selfLink: /api/v1/nodes/gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    uid: 08e77eec-658d-4e41-8374-c923edc2844b
+    resourceVersion: '275531014'
+    creationTimestamp: '2021-08-01T11:39:25Z'
+    labels:
+        beta.kubernetes.io/arch: amd64
+        beta.kubernetes.io/instance-type: n1-standard-2
+        beta.kubernetes.io/os: linux
+        cloud.google.com/gke-boot-disk: pd-standard
+        cloud.google.com/gke-container-runtime: docker
+        cloud.google.com/gke-nodepool: pool-2
+        cloud.google.com/gke-os-distribution: cos
+        cloud.google.com/machine-family: n1
+        failure-domain.beta.kubernetes.io/region: us-central1
+        failure-domain.beta.kubernetes.io/zone: us-central1-a
+        kubernetes.io/arch: amd64
+        kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+        kubernetes.io/os: linux
+        node.kubernetes.io/instance-type: n1-standard-2
+        node.kubernetes.io/masq-agent-ds-ready: 'true'
+        projectcalico.org/ds-ready: 'true'
+        topology.kubernetes.io/region: us-central1
+        topology.kubernetes.io/zone: us-central1-a
+    annotations:
+        container.googleapis.com/instance_id: '746343428088609067'
+        node.alpha.kubernetes.io/ttl: '0'
+        node.gke.io/last-applied-node-labels: >-
+            cloud.google.com/gke-boot-disk=pd-standard,cloud.google.com/gke-container-runtime=docker,cloud.google.com/gke-nodepool=pool-2,cloud.google.com/gke-os-distribution=cos,cloud.google.com/machine-family=n1,node.kubernetes.io/masq-agent-ds-ready=true,projectcalico.org/ds-ready=true
+        projectcalico.org/IPv4IPIPTunnelAddr: 10.8.1.1
+        volumes.kubernetes.io/controller-managed-attach-detach: 'true'
+    managedFields:
+        -
+            manager: gcp-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:26Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:container.googleapis.com/instance_id': {}
+                        'f:node.gke.io/last-applied-node-labels': {}
+                    'f:labels':
+                        'f:cloud.google.com/gke-boot-disk': {}
+                        'f:cloud.google.com/gke-container-runtime': {}
+                        'f:cloud.google.com/gke-nodepool': {}
+                        'f:cloud.google.com/gke-os-distribution': {}
+                        'f:cloud.google.com/machine-family': {}
+                        'f:node.kubernetes.io/masq-agent-ds-ready': {}
+                        'f:projectcalico.org/ds-ready': {}
+        -
+            manager: node-problem-detector
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:30Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"CorruptDockerOverlay2"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"FrequentContainerdRestart"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"FrequentDockerRestart"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"FrequentKubeletRestart"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"FrequentUnregisterNetDevice"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"KernelDeadlock"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"ReadonlyFilesystem"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+        -
+            manager: calico-node
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:43Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:projectcalico.org/IPv4IPIPTunnelAddr': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:57Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:volumes.kubernetes.io/controller-managed-attach-detach': {}
+                    'f:labels':
+                        .: {}
+                        'f:beta.kubernetes.io/arch': {}
+                        'f:beta.kubernetes.io/instance-type': {}
+                        'f:beta.kubernetes.io/os': {}
+                        'f:failure-domain.beta.kubernetes.io/region': {}
+                        'f:failure-domain.beta.kubernetes.io/zone': {}
+                        'f:kubernetes.io/arch': {}
+                        'f:kubernetes.io/hostname': {}
+                        'f:kubernetes.io/os': {}
+                        'f:node.kubernetes.io/instance-type': {}
+                        'f:topology.kubernetes.io/region': {}
+                        'f:topology.kubernetes.io/zone': {}
+                'f:spec':
+                    'f:providerID': {}
+                'f:status':
+                    'f:addresses':
+                        .: {}
+                        'k:{"type":"ExternalIP"}':
+                            .: {}
+                            'f:address': {}
+                            'f:type': {}
+                        'k:{"type":"Hostname"}':
+                            .: {}
+                            'f:address': {}
+                            'f:type': {}
+                        'k:{"type":"InternalDNS"}':
+                            .: {}
+                            'f:address': {}
+                            'f:type': {}
+                        'k:{"type":"InternalIP"}':
+                            .: {}
+                            'f:address': {}
+                            'f:type': {}
+                    'f:allocatable':
+                        .: {}
+                        'f:attachable-volumes-gce-pd': {}
+                        'f:cpu': {}
+                        'f:ephemeral-storage': {}
+                        'f:hugepages-2Mi': {}
+                        'f:memory': {}
+                        'f:pods': {}
+                    'f:capacity':
+                        .: {}
+                        'f:attachable-volumes-gce-pd': {}
+                        'f:cpu': {}
+                        'f:ephemeral-storage': {}
+                        'f:hugepages-2Mi': {}
+                        'f:memory': {}
+                        'f:pods': {}
+                    'f:conditions':
+                        .: {}
+                        'k:{"type":"DiskPressure"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"MemoryPressure"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"NetworkUnavailable"}':
+                            .: {}
+                            'f:lastTransitionTime': {}
+                            'f:type': {}
+                        'k:{"type":"PIDPressure"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastHeartbeatTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:daemonEndpoints':
+                        'f:kubeletEndpoint':
+                            'f:Port': {}
+                    'f:images': {}
+                    'f:nodeInfo':
+                        'f:architecture': {}
+                        'f:bootID': {}
+                        'f:containerRuntimeVersion': {}
+                        'f:kernelVersion': {}
+                        'f:kubeProxyVersion': {}
+                        'f:kubeletVersion': {}
+                        'f:machineID': {}
+                        'f:operatingSystem': {}
+                        'f:osImage': {}
+                        'f:systemUUID': {}
+                    'f:volumesInUse': {}
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:22Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:node.alpha.kubernetes.io/ttl': {}
+                'f:spec':
+                    'f:podCIDR': {}
+                    'f:podCIDRs':
+                        .: {}
+                        'v:"10.8.1.0/24"': {}
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"NetworkUnavailable"}':
+                            'f:lastHeartbeatTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                    'f:volumesAttached': {}
+spec:
+    podCIDR: 10.8.1.0/24
+    podCIDRs:
+        - 10.8.1.0/24
+    providerID: >-
+        gce://cellular-ring-264803/us-central1-a/gke-kubevious-samples-pool-2-d17eaa99-a7xj
+status:
+    capacity:
+        attachable-volumes-gce-pd: '127'
+        cpu: '2'
+        ephemeral-storage: 98868448Ki
+        hugepages-2Mi: '0'
+        memory: 7638112Ki
+        pods: '110'
+    allocatable:
+        attachable-volumes-gce-pd: '127'
+        cpu: 1930m
+        ephemeral-storage: '47093746742'
+        hugepages-2Mi: '0'
+        memory: 5758048Ki
+        pods: '110'
+    conditions:
+        -
+            type: FrequentContainerdRestart
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:30Z'
+            reason: NoFrequentContainerdRestart
+            message: containerd is functioning properly
+        -
+            type: KernelDeadlock
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:30Z'
+            reason: KernelHasNoDeadlock
+            message: kernel has no deadlock
+        -
+            type: ReadonlyFilesystem
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:30Z'
+            reason: FilesystemIsNotReadOnly
+            message: Filesystem is not read-only
+        -
+            type: CorruptDockerOverlay2
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:31Z'
+            reason: NoCorruptDockerOverlay2
+            message: docker overlay2 is functioning properly
+        -
+            type: FrequentUnregisterNetDevice
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:30Z'
+            reason: NoFrequentUnregisterNetDevice
+            message: node is functioning properly
+        -
+            type: FrequentKubeletRestart
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:30Z'
+            reason: NoFrequentKubeletRestart
+            message: kubelet is functioning properly
+        -
+            type: FrequentDockerRestart
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:18:32Z'
+            lastTransitionTime: '2021-08-01T11:39:30Z'
+            reason: NoFrequentDockerRestart
+            message: docker is functioning properly
+        -
+            type: NetworkUnavailable
+            status: 'False'
+            lastHeartbeatTime: '2021-08-01T11:39:26Z'
+            lastTransitionTime: '2021-08-01T11:39:26Z'
+            reason: RouteCreated
+            message: NodeController create implicit route
+        -
+            type: MemoryPressure
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:20:10Z'
+            lastTransitionTime: '2021-08-01T11:39:26Z'
+            reason: KubeletHasSufficientMemory
+            message: kubelet has sufficient memory available
+        -
+            type: DiskPressure
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:20:10Z'
+            lastTransitionTime: '2021-08-01T11:39:26Z'
+            reason: KubeletHasNoDiskPressure
+            message: kubelet has no disk pressure
+        -
+            type: PIDPressure
+            status: 'False'
+            lastHeartbeatTime: '2021-08-03T01:20:10Z'
+            lastTransitionTime: '2021-08-01T11:39:26Z'
+            reason: KubeletHasSufficientPID
+            message: kubelet has sufficient PID available
+        -
+            type: Ready
+            status: 'True'
+            lastHeartbeatTime: '2021-08-03T01:20:10Z'
+            lastTransitionTime: '2021-08-01T11:39:47Z'
+            reason: KubeletReady
+            message: kubelet is posting ready status. AppArmor enabled
+    addresses:
+        -
+            type: InternalIP
+            address: 10.128.15.198
+        -
+            type: ExternalIP
+            address: 34.123.61.66
+        -
+            type: InternalDNS
+            address: >-
+                gke-kubevious-samples-pool-2-d17eaa99-a7xj.us-central1-a.c.cellular-ring-264803.internal
+        -
+            type: Hostname
+            address: >-
+                gke-kubevious-samples-pool-2-d17eaa99-a7xj.us-central1-a.c.cellular-ring-264803.internal
+    daemonEndpoints:
+        kubeletEndpoint:
+            Port: 10250
+    nodeInfo:
+        machineID: d502146dbd4bd9c5c852c4d81f0a962e
+        systemUUID: d502146d-bd4b-d9c5-c852-c4d81f0a962e
+        bootID: e9d11b2c-ed49-4a85-8107-a3915d4f4a7e
+        kernelVersion: 5.4.109+
+        osImage: Container-Optimized OS from Google
+        containerRuntimeVersion: 'docker://19.3.15'
+        kubeletVersion: v1.18.19-gke.1701
+        kubeProxyVersion: v1.18.19-gke.1701
+        operatingSystem: linux
+        architecture: amd64
+    images:
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitaly@sha256:39cba22d0752c351c71d81d5f256e4ab15775c99e1384bc44b9e49df2a87315a
+                - 'registry.gitlab.com/gitlab-org/build/cng/gitaly:v1.77.1'
+            sizeBytes: 1660554186
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-task-runner-ee@sha256:d8d8050ef9af602f0f8b402a0335e2f24a0b01d4a0d8742ec14fe126b300a5d4
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-task-runner-ee:v12.6.4
+            sizeBytes: 1236906531
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee@sha256:b47d7878f286b55537822d6cf11ca4dd02796153ff0855cb5dac9f9d10991c72
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-unicorn-ee:v12.6.4
+            sizeBytes: 1158004510
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-shell@sha256:3bf341ee201c88d919c89e28c54c25ed9e1c2a0ab86ef7e0f197251e3fa13880
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-shell:v10.3.0
+            sizeBytes: 1119283307
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee@sha256:fe237c2c5e64dade77d841a034a16b84ce5afa9f619f8519fa0d846dfed5289b
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee:v12.6.4
+            sizeBytes: 1073366011
+        -
+            names:
+                - >-
+                    mongo@sha256:d78c7ace6822297a7e1c7076eb9a7560a81a6ef856ab8d9cde5d18438ca9e8bf
+                - 'mongo:latest'
+            sizeBytes: 681766472
+        -
+            names:
+                - >-
+                    quay.io/kubernetes-ingress-controller/nginx-ingress-controller@sha256:617076c3e3d4d0638a4927702530d8456bda64c67194f6daed272a59e93b992f
+                - >-
+                    quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
+            sizeBytes: 568075227
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ee@sha256:6dba4d45e8a1f975604894e9fa12c28e5d30c126480ca4346ea449c25a69c4c5
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ee:v12.6.4
+            sizeBytes: 548184528
+        -
+            names:
+                - >-
+                    mysql@sha256:0fd2898dc1c946b34dceaccc3b80d38b1049285c1dab70df7480de62265d6213
+                - 'mysql:8.0.22'
+            sizeBytes: 545305069
+        -
+            names:
+                - >-
+                    gcr.io/google-samples/microservices-demo/emailservice@sha256:d42ee712cbb4806a8b922e303a5e6734f342dfb6c92c81284a289912165b7314
+                - 'gcr.io/google-samples/microservices-demo/emailservice:v0.1.3'
+            sizeBytes: 340073854
+        -
+            names:
+                - >-
+                    gke.gcr.io/calico/node@sha256:ea105837c7d19dd79fee246e867a8edd8cac3d7836450da611eb3ce4bd52055f
+                - 'gke.gcr.io/calico/node:v3.8.8-1-gke.2-amd64'
+            sizeBytes: 235753815
+        -
+            names:
+                - >-
+                    kubevious/kubevious@sha256:f7afb770611b225b2f485e1eabe989364e1ba0965ed8ffb4c7524e03f4e44290
+                - 'kubevious/kubevious:0.9.11'
+            sizeBytes: 234678116
+        -
+            names:
+                - >-
+                    postgres@sha256:6e1efcd656386fc0c0a9893fda0c0ec6704868fbaad5ad5be3732c4f81cf21c9
+                - 'postgres:9.6.8'
+            sizeBytes: 234295589
+        -
+            names:
+                - >-
+                    gke.gcr.io/calico/cni@sha256:06ff571b3d08181a8184a621851b5151736e34d2462503518d73123ed8a3e547
+                - 'gke.gcr.io/calico/cni:v3.8.8-1-gke.2-amd64'
+            sizeBytes: 225008534
+        -
+            names:
+                - >-
+                    gcr.io/google-samples/microservices-demo/loadgenerator@sha256:d0701c6a89b4b47b90932d59f84d8840f093e54ceec1ca2d4789ed8daac752e9
+                - >-
+                    gcr.io/google-samples/microservices-demo/loadgenerator:v0.1.3
+            sizeBytes: 220425545
+        -
+            names:
+                - >-
+                    kubevious/parser@sha256:0510469de2cfe1d1a46512b8729d02c1cb2525b48cd692b2f8c2ccf2972d0f02
+                - 'kubevious/parser:0.9.11'
+            sizeBytes: 216821326
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter@sha256:a38a46a08c03e312750a885e9ad708024e6e7c47286f3d568d63467852aa271b
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter:5.1.0
+            sizeBytes: 216562521
+        -
+            names:
+                - >-
+                    weaveworksdemos/carts@sha256:434d2f5a6e0e8beef1f253fe96f45b8437a703125fc003434c5282ecf8969a4f
+                - 'weaveworksdemos/carts:0.4.8'
+            sizeBytes: 197631354
+        -
+            names:
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha@sha256:fd0cc46056de7f542953ac852265919552285a388fe2616ca593fbc147d86c4c
+                - >-
+                    registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha:732704f18e34ba469df34b10c3b2465e0469d484
+            sizeBytes: 185103554
+        -
+            names:
+                - >-
+                    rabbitmq@sha256:a9f4923559bbcd00b93b02e61615aef5eb6f1d1c98db51053bab0fa6b680db26
+                - 'rabbitmq:3.6.8'
+            sizeBytes: 179449238
+        -
+            names:
+                - >-
+                    weaveworksdemos/queue-master@sha256:6292d3095f4c7aeed8d863527f8ef6d7a75d3128f20fc61e57f398c100142712
+                - 'weaveworksdemos/queue-master:0.3.1'
+            sizeBytes: 178508575
+        -
+            names:
+                - >-
+                    gcr.io/google-samples/microservices-demo/paymentservice@sha256:c82409d85cd2006ee13537d3f404b0c85d9fbb55642450602e015f63abc571e1
+                - >-
+                    gcr.io/google-samples/microservices-demo/paymentservice:v0.1.3
+            sizeBytes: 150117861
+        -
+            names:
+                - >-
+                    nginx@sha256:8f335768880da6baf72b70c701002b45f4932acae8d574dedfddaf967fc3ac90
+                - 'nginx:latest'
+            sizeBytes: 133175501
+        -
+            names:
+                - 'gke.gcr.io/kube-proxy-amd64:v1.18.19-gke.1701'
+                - 'k8s.gcr.io/kube-proxy-amd64:v1.18.19-gke.1701'
+            sizeBytes: 127678465
+        -
+            names:
+                - >-
+                    weaveworksdemos/front-end@sha256:26a2d9b6b291dee2dca32fca3f5bff6c2fa07bb5954359afcbc8001cc70eac71
+                - 'weaveworksdemos/front-end:0.3.12'
+            sizeBytes: 119797603
+    volumesInUse:
+        - >-
+            kubernetes.io/gce-pd/gke-kubevious-samples--pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+        - >-
+            kubernetes.io/gce-pd/gke-kubevious-samples--pvc-9820ef3b-398b-11ea-b115-42010a8001d6
+        - >-
+            kubernetes.io/gce-pd/gke-kubevious-samples--pvc-9a4f5da5-398b-11ea-b115-42010a8001d6
+    volumesAttached:
+        -
+            name: >-
+                kubernetes.io/gce-pd/gke-kubevious-samples--pvc-9820ef3b-398b-11ea-b115-42010a8001d6
+            devicePath: >-
+                /dev/disk/by-id/google-gke-kubevious-samples--pvc-9820ef3b-398b-11ea-b115-42010a8001d6
+        -
+            name: >-
+                kubernetes.io/gce-pd/gke-kubevious-samples--pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+            devicePath: >-
+                /dev/disk/by-id/google-gke-kubevious-samples--pvc-8e3448af-a0f6-4f5c-ac55-ca92f18e4cc8
+        -
+            name: >-
+                kubernetes.io/gce-pd/gke-kubevious-samples--pvc-9a4f5da5-398b-11ea-b115-42010a8001d6
+            devicePath: >-
+                /dev/disk/by-id/google-gke-kubevious-samples--pvc-9a4f5da5-398b-11ea-b115-42010a8001d6
+

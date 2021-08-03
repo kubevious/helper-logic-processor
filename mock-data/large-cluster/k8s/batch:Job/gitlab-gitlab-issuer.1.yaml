@@ -1,0 +1,74 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+    name: gitlab-issuer.1
+    namespace: gitlab
+    selfLink: /apis/batch/v1/namespaces/gitlab/jobs/gitlab-issuer.1
+    uid: 99aa2209-398b-11ea-b115-42010a8001d6
+    resourceVersion: '61928828'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: certmanager-issuer
+        chart: certmanager-issuer-0.1.0
+        heritage: Helm
+        release: gitlab
+spec:
+    parallelism: 1
+    completions: 1
+    activeDeadlineSeconds: 300
+    backoffLimit: 6
+    selector:
+        matchLabels:
+            controller-uid: 99aa2209-398b-11ea-b115-42010a8001d6
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: certmanager-issuer
+                controller-uid: 99aa2209-398b-11ea-b115-42010a8001d6
+                job-name: gitlab-issuer.1
+                release: gitlab
+        spec:
+            volumes:
+                -
+                    name: scripts
+                    configMap:
+                        name: gitlab-certmanager-issuer-certmanager
+                        defaultMode: 420
+            containers:
+                -
+                    name: create-issuer
+                    image: 'registry.gitlab.com/gitlab-org/build/cng/kubectl:1.13.12'
+                    command:
+                        - /bin/bash
+                        - /scripts/create-issuer
+                        - /scripts/issuer.yml
+                    resources:
+                        requests:
+                            cpu: 50m
+                    volumeMounts:
+                        -
+                            name: scripts
+                            mountPath: /scripts
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+            restartPolicy: OnFailure
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: gitlab-certmanager-issuer
+            serviceAccount: gitlab-certmanager-issuer
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    conditions:
+        -
+            type: Failed
+            status: 'True'
+            lastProbeTime: '2020-01-18T00:49:04Z'
+            lastTransitionTime: '2020-01-18T00:49:04Z'
+            reason: DeadlineExceeded
+            message: Job was active longer than specified deadline
+    startTime: '2020-01-18T00:43:53Z'
+    failed: 1
+

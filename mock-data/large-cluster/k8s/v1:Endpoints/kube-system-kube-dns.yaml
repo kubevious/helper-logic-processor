@@ -1,0 +1,47 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: kube-dns
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/endpoints/kube-dns
+    uid: beb82360-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '274562790'
+    creationTimestamp: '2020-01-11T06:01:01Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        k8s-app: kube-dns
+        kubernetes.io/cluster-service: 'true'
+        kubernetes.io/name: KubeDNS
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:47:25Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.26
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: kube-system
+                    name: kube-dns-cd55f45d5-qn4hf
+                    uid: d0cd5f21-29c4-4660-888d-aaf851a50547
+                    resourceVersion: '274562787'
+            -
+                ip: 10.8.1.14
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: kube-system
+                    name: kube-dns-cd55f45d5-sz5ks
+                    uid: 027869a0-91fb-4ba2-8179-56de49e1d684
+                    resourceVersion: '274561402'
+        ports:
+            -
+                name: dns-tcp
+                port: 53
+                protocol: TCP
+            -
+                name: dns
+                port: 53
+                protocol: UDP
+

@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: cluster-kubestore
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/configmaps/cluster-kubestore
+    uid: 190112a7-e8b5-41bc-b23f-4ebec2e21cc3
+    resourceVersion: '275531509'
+    creationTimestamp: '2020-06-13T07:59:02Z'
+    annotations:
+        control-plane.alpha.kubernetes.io/leader: >-
+            {"holderIdentity":"gke-f005108ec19aa6d238be-199c-0b48-vm","leaseDurationSeconds":15,"acquireTime":"2021-07-30T21:43:15Z","renewTime":"2021-08-03T01:21:20Z","leaderTransitions":25}
+

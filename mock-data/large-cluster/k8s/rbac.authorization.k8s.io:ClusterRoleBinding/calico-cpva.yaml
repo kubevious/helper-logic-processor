@@ -1,0 +1,24 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: calico-cpva
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/calico-cpva
+    uid: c7234940-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '100939944'
+    creationTimestamp: '2020-01-22T17:44:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"calico-cpva"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"calico-cpva"},"subjects":[{"kind":"ServiceAccount","name":"calico-cpva","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: calico-cpva
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: calico-cpva
+

@@ -1,0 +1,78 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: gitlab-redis
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/configmaps/gitlab-redis
+    uid: 98104e21-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016136'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: redis
+        chart: redis-ha-0.1.0
+        heritage: Helm
+        release: gitlab
+data:
+    configure: >
+        set -e
+
+        cat /config/redis-master.conf > /redis/master.conf
+
+        cat /config/redis-slave.conf > /redis/slave.conf
+
+        echo "$(cat /config/password)" >> /redis/pass
+
+        echo "127.0.0.1:6379,$(cat /config/password),gitlab-redis" >
+        /metrics/redis
+    redis-master.conf: |
+        # requirepass
+        # stay in foreground
+        daemonize no
+        # listen on all interfaces
+        bind 0.0.0.0
+        port 6379
+        timeout 60
+        tcp-keepalive 300
+        # Log level
+        loglevel notice
+        # Log to stdout
+        logfile ""
+        # database count (picked from Omnibus' redis.conf)
+        databases 16
+        # Database filename
+        dbfilename gitlab-redis.rdb
+        # Working Directory (where DB is written)
+        dir /redis-master-data
+        # Configure persistence snapshotting
+        save 60 1000
+        save 300 10
+        save 900 1
+    redis-slave.conf: |
+        slaveof %master-ip% %master-port%
+        slave-priority 100
+        slave-read-only yes
+        slave-serve-stale-data yes
+        # requirepass
+        # masterauth
+        # stay in foreground
+        daemonize no
+        # listen on all interfaces
+        bind 0.0.0.0
+        port 6379
+        timeout 60
+        tcp-keepalive 300
+        # Log level
+        loglevel notice
+        # Log to stdout
+        logfile ""
+        # database count (picked from Omnibus' redis.conf)
+        databases 16
+        # Database filename
+        dbfilename gitlab-redis.rdb
+        # Working Directory (where DB is written)
+        dir /redis-master-data
+        # Configure persistence snapshotting
+        save 60 1000
+        save 300 10
+        save 900 1
+

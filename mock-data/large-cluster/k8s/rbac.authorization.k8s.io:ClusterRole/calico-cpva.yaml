@@ -1,0 +1,32 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: calico-cpva
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/calico-cpva
+    uid: c7220128-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '100939943'
+    creationTimestamp: '2020-01-22T17:44:02Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"calico-cpva"},"rules":[{"apiGroups":[""],"resources":["nodes"],"verbs":["list"]},{"apiGroups":["apps","extensions"],"resources":["deployments","daemonsets"],"verbs":["patch"]}]}
+rules:
+    -
+        verbs:
+            - list
+        apiGroups:
+            - ''
+        resources:
+            - nodes
+    -
+        verbs:
+            - patch
+        apiGroups:
+            - apps
+            - extensions
+        resources:
+            - deployments
+            - daemonsets
+

@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: job-controller
+    namespace: kube-system
+    selfLink: /api/v1/namespaces/kube-system/serviceaccounts/job-controller
+    uid: b930d75a-3437-11ea-9cdc-42010a8001cf
+    resourceVersion: '239'
+    creationTimestamp: '2020-01-11T06:00:52Z'
+secrets:
+    -
+        name: job-controller-token-wczxm
+

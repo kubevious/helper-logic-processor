@@ -1,0 +1,244 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: kube-dns-cd55f45d5
+    namespace: kube-system
+    selfLink: /apis/apps/v1/namespaces/kube-system/replicasets/kube-dns-cd55f45d5
+    uid: 264f788b-8fec-46d6-8382-36cc6c051c31
+    resourceVersion: '274562788'
+    generation: 2
+    creationTimestamp: '2021-04-09T22:02:18Z'
+    labels:
+        k8s-app: kube-dns
+        pod-template-hash: cd55f45d5
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '2'
+        deployment.kubernetes.io/max-replicas: '3'
+        deployment.kubernetes.io/revision: '10'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: kube-dns
+            uid: bec14d00-3437-11ea-9cdc-42010a8001cf
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            k8s-app: kube-dns
+            pod-template-hash: cd55f45d5
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                k8s-app: kube-dns
+                pod-template-hash: cd55f45d5
+            annotations:
+                scheduler.alpha.kubernetes.io/critical-pod: ''
+                seccomp.security.alpha.kubernetes.io/pod: runtime/default
+        spec:
+            volumes:
+                -
+                    name: kube-dns-config
+                    configMap:
+                        name: kube-dns
+                        defaultMode: 420
+                        optional: true
+            containers:
+                -
+                    name: kubedns
+                    image: 'gke.gcr.io/k8s-dns-kube-dns-amd64:1.15.16-gke.0'
+                    args:
+                        - '--domain=cluster.local.'
+                        - '--dns-port=10053'
+                        - '--config-dir=/kube-dns-config'
+                        - '--v=2'
+                    ports:
+                        -
+                            name: dns-local
+                            containerPort: 10053
+                            protocol: UDP
+                        -
+                            name: dns-tcp-local
+                            containerPort: 10053
+                            protocol: TCP
+                        -
+                            name: metrics
+                            containerPort: 10055
+                            protocol: TCP
+                    env:
+                        -
+                            name: PROMETHEUS_PORT
+                            value: '10055'
+                    resources:
+                        limits:
+                            memory: 210Mi
+                        requests:
+                            cpu: 100m
+                            memory: 70Mi
+                    volumeMounts:
+                        -
+                            name: kube-dns-config
+                            mountPath: /kube-dns-config
+                    livenessProbe:
+                        httpGet:
+                            path: /healthcheck/kubedns
+                            port: 10054
+                            scheme: HTTP
+                        initialDelaySeconds: 60
+                        timeoutSeconds: 5
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 5
+                    readinessProbe:
+                        httpGet:
+                            path: /readiness
+                            port: 8081
+                            scheme: HTTP
+                        initialDelaySeconds: 3
+                        timeoutSeconds: 5
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        runAsUser: 1001
+                        runAsGroup: 1001
+                        readOnlyRootFilesystem: true
+                        allowPrivilegeEscalation: false
+                -
+                    name: dnsmasq
+                    image: 'gke.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.15.16-gke.0'
+                    args:
+                        - '-v=2'
+                        - '-logtostderr'
+                        - '-configDir=/etc/k8s/dns/dnsmasq-nanny'
+                        - '-restartDnsmasq=true'
+                        - '--'
+                        - '-k'
+                        - '--cache-size=1000'
+                        - '--no-negcache'
+                        - '--dns-forward-max=1500'
+                        - '--log-facility=-'
+                        - '--server=/cluster.local/127.0.0.1#10053'
+                        - '--server=/in-addr.arpa/127.0.0.1#10053'
+                        - '--server=/ip6.arpa/127.0.0.1#10053'
+                    ports:
+                        -
+                            name: dns
+                            containerPort: 53
+                            protocol: UDP
+                        -
+                            name: dns-tcp
+                            containerPort: 53
+                            protocol: TCP
+                    resources:
+                        requests:
+                            cpu: 150m
+                            memory: 20Mi
+                    volumeMounts:
+                        -
+                            name: kube-dns-config
+                            mountPath: /etc/k8s/dns/dnsmasq-nanny
+                    livenessProbe:
+                        httpGet:
+                            path: /healthcheck/dnsmasq
+                            port: 10054
+                            scheme: HTTP
+                        initialDelaySeconds: 60
+                        timeoutSeconds: 5
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 5
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        capabilities:
+                            add:
+                                - NET_BIND_SERVICE
+                                - SETGID
+                            drop:
+                                - all
+                -
+                    name: sidecar
+                    image: 'gke.gcr.io/k8s-dns-sidecar-amd64:1.15.16-gke.0'
+                    args:
+                        - '--v=2'
+                        - '--logtostderr'
+                        - >-
+                            --probe=kubedns,127.0.0.1:10053,kubernetes.default.svc.cluster.local,5,SRV
+                        - >-
+                            --probe=dnsmasq,127.0.0.1:53,kubernetes.default.svc.cluster.local,5,SRV
+                    ports:
+                        -
+                            name: metrics
+                            containerPort: 10054
+                            protocol: TCP
+                    resources:
+                        requests:
+                            cpu: 10m
+                            memory: 20Mi
+                    livenessProbe:
+                        httpGet:
+                            path: /metrics
+                            port: 10054
+                            scheme: HTTP
+                        initialDelaySeconds: 60
+                        timeoutSeconds: 5
+                        periodSeconds: 10
+                        successThreshold: 1
+                        failureThreshold: 5
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                        runAsUser: 1001
+                        runAsGroup: 1001
+                        readOnlyRootFilesystem: true
+                        allowPrivilegeEscalation: false
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: Default
+            nodeSelector:
+                kubernetes.io/os: linux
+            serviceAccountName: kube-dns
+            serviceAccount: kube-dns
+            securityContext:
+                supplementalGroups:
+                    - 65534
+                fsGroup: 65534
+            affinity:
+                podAntiAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                        -
+                            weight: 100
+                            podAffinityTerm:
+                                labelSelector:
+                                    matchExpressions:
+                                        -
+                                            key: k8s-app
+                                            operator: In
+                                            values:
+                                                - kube-dns
+                                topologyKey: kubernetes.io/hostname
+            schedulerName: default-scheduler
+            tolerations:
+                -
+                    key: CriticalAddonsOnly
+                    operator: Exists
+                -
+                    key: components.gke.io/gke-managed-components
+                    operator: Exists
+            priorityClassName: system-cluster-critical
+status:
+    replicas: 2
+    fullyLabeledReplicas: 2
+    readyReplicas: 2
+    availableReplicas: 2
+    observedGeneration: 2
+

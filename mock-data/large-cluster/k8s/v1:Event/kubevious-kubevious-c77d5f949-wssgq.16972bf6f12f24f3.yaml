@@ -1,0 +1,58 @@
+kind: Event
+apiVersion: v1
+metadata:
+    name: kubevious-c77d5f949-wssgq.16972bf6f12f24f3
+    namespace: kubevious
+    selfLink: >-
+        /api/v1/namespaces/kubevious/events/kubevious-c77d5f949-wssgq.16972bf6f12f24f3
+    uid: 490b9745-7db7-4446-9810-269b772c19f6
+    resourceVersion: '1515796'
+    creationTimestamp: '2021-08-02T15:29:39Z'
+    managedFields:
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-02T15:29:39Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:count': {}
+                'f:firstTimestamp': {}
+                'f:involvedObject':
+                    'f:apiVersion': {}
+                    'f:fieldPath': {}
+                    'f:kind': {}
+                    'f:name': {}
+                    'f:namespace': {}
+                    'f:resourceVersion': {}
+                    'f:uid': {}
+                'f:lastTimestamp': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:source':
+                    'f:component': {}
+                    'f:host': {}
+                'f:type': {}
+involvedObject:
+    kind: Pod
+    namespace: kubevious
+    name: kubevious-c77d5f949-wssgq
+    uid: c161c2e8-c0b0-4585-a32a-cacf6dd5bb26
+    apiVersion: v1
+    resourceVersion: '274557781'
+    fieldPath: 'spec.containers{kubevious}'
+reason: Unhealthy
+message: >-
+    Readiness probe failed: Get http://10.8.1.23:4001/: net/http: request
+    canceled (Client.Timeout exceeded while awaiting headers)
+source:
+    component: kubelet
+    host: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+firstTimestamp: '2021-08-01T11:42:09Z'
+lastTimestamp: '2021-08-03T00:39:29Z'
+count: 93
+type: Warning
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''
+

@@ -1,0 +1,29 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: productcatalogservice
+    namespace: hipster
+    selfLink: /api/v1/namespaces/hipster/endpoints/productcatalogservice
+    uid: a25ec00a-3441-11ea-9cdc-42010a8001cf
+    resourceVersion: '274561792'
+    creationTimestamp: '2020-01-11T07:11:48Z'
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:19Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.0.22
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+                targetRef:
+                    kind: Pod
+                    namespace: hipster
+                    name: productcatalogservice-7f5dc87d7-mpcl9
+                    uid: 6f409b6b-f1a5-4245-95ff-9bd3c04fe25a
+                    resourceVersion: '274561790'
+        ports:
+            -
+                name: grpc
+                port: 3550
+                protocol: TCP
+

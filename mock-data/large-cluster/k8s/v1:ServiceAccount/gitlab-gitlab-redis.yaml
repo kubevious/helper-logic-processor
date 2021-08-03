@@ -1,0 +1,18 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: gitlab-redis
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/serviceaccounts/gitlab-redis
+    uid: 982e4a36-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016156'
+    creationTimestamp: '2020-01-18T00:43:50Z'
+    labels:
+        app: redis
+        chart: redis-ha-0.1.0
+        heritage: Helm
+        release: gitlab
+secrets:
+    -
+        name: gitlab-redis-token-78ffj
+

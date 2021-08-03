@@ -1,0 +1,89 @@
+kind: ControllerRevision
+apiVersion: apps/v1
+metadata:
+    name: ip-masq-agent-785569759b
+    namespace: kube-system
+    selfLink: >-
+        /apis/apps/v1/namespaces/kube-system/controllerrevisions/ip-masq-agent-785569759b
+    uid: c9928dfa-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '4122879'
+    creationTimestamp: '2020-01-22T17:44:06Z'
+    labels:
+        controller-revision-hash: 785569759b
+        k8s-app: ip-masq-agent
+    annotations:
+        deprecated.daemonset.template.generation: '1'
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"extensions/v1beta1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"ip-masq-agent","namespace":"kube-system"},"spec":{"template":{"metadata":{"annotations":{"scheduler.alpha.kubernetes.io/critical-pod":""},"labels":{"k8s-app":"ip-masq-agent"}},"spec":{"containers":[{"args":["--masq-chain=IP-MASQ"],"image":"k8s.gcr.io/ip-masq-agent-amd64:v2.3.0","name":"ip-masq-agent","resources":{"requests":{"cpu":"10m","memory":"16Mi"}},"securityContext":{"privileged":true},"volumeMounts":[{"mountPath":"/etc/config","name":"config"}]}],"hostNetwork":true,"nodeSelector":{"beta.kubernetes.io/masq-agent-ds-ready":"true"},"priorityClassName":"system-node-critical","serviceAccountName":"ip-masq-agent","tolerations":[{"effect":"NoSchedule","operator":"Exists"},{"effect":"NoExecute","operator":"Exists"},{"key":"CriticalAddonsOnly","operator":"Exists"}],"volumes":[{"configMap":{"items":[{"key":"config","path":"ip-masq-agent"}],"name":"ip-masq-agent","optional":true},"name":"config"}]}}}}
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: DaemonSet
+            name: ip-masq-agent
+            uid: c99105c9-3d3e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+data:
+    spec:
+        template:
+            $patch: replace
+            metadata:
+                annotations:
+                    scheduler.alpha.kubernetes.io/critical-pod: ''
+                creationTimestamp: null
+                labels:
+                    k8s-app: ip-masq-agent
+            spec:
+                containers:
+                    -
+                        args:
+                            - '--masq-chain=IP-MASQ'
+                        image: 'k8s.gcr.io/ip-masq-agent-amd64:v2.3.0'
+                        imagePullPolicy: IfNotPresent
+                        name: ip-masq-agent
+                        resources:
+                            requests:
+                                cpu: 10m
+                                memory: 16Mi
+                        securityContext:
+                            privileged: true
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                        volumeMounts:
+                            -
+                                mountPath: /etc/config
+                                name: config
+                dnsPolicy: ClusterFirst
+                hostNetwork: true
+                nodeSelector:
+                    beta.kubernetes.io/masq-agent-ds-ready: 'true'
+                priorityClassName: system-node-critical
+                restartPolicy: Always
+                schedulerName: default-scheduler
+                securityContext: {}
+                serviceAccount: ip-masq-agent
+                serviceAccountName: ip-masq-agent
+                terminationGracePeriodSeconds: 30
+                tolerations:
+                    -
+                        effect: NoSchedule
+                        operator: Exists
+                    -
+                        effect: NoExecute
+                        operator: Exists
+                    -
+                        key: CriticalAddonsOnly
+                        operator: Exists
+                volumes:
+                    -
+                        configMap:
+                            defaultMode: 420
+                            items:
+                                -
+                                    key: config
+                                    path: ip-masq-agent
+                            name: ip-masq-agent
+                            optional: true
+                        name: config
+revision: 1
+

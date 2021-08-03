@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:39Z'
+    generateName: rolebindings.rbac.authorization.k8s.io-
+    generation: 1
+    name: rolebindings.rbac.authorization.k8s.io-976xb
+    resourceVersion: '166749125'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/rolebindings.rbac.authorization.k8s.io-976xb
+    uid: 2ffc0a9c-5d64-46ed-a2c6-9e054b553399
+spec:
+    resource:
+        group: rbac.authorization.k8s.io
+        resource: rolebindings
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:21:29Z'
+            status: 'True'
+            type: Succeeded
+

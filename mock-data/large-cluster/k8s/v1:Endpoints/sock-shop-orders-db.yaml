@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: orders-db
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/orders-db
+    uid: cd7aadeb-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274560444'
+    creationTimestamp: '2020-01-17T21:24:53Z'
+    labels:
+        name: orders-db
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:43:22Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.31
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: orders-db-7888765df9-m2sfg
+                    uid: fc8faa53-67b2-4983-b95f-f3c5fbfeab62
+                    resourceVersion: '274560442'
+        ports:
+            -
+                port: 27017
+                protocol: TCP
+

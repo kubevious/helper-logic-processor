@@ -1,0 +1,272 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: kubevious-parser-654c8f548f-p28d7
+    generateName: kubevious-parser-654c8f548f-
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/pods/kubevious-parser-654c8f548f-p28d7
+    uid: 5c2256e8-747e-48e1-b950-685c69ea7857
+    resourceVersion: '274559213'
+    creationTimestamp: '2021-08-01T11:39:51Z'
+    labels:
+        app.kubernetes.io/component: kubevious-parser
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+        pod-template-hash: 654c8f548f
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.1.16/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: kubevious-parser-654c8f548f
+            uid: f516cd19-ed45-48d7-a884-5d365f34667a
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:39:51Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app.kubernetes.io/component': {}
+                        'f:app.kubernetes.io/instance': {}
+                        'f:app.kubernetes.io/managed-by': {}
+                        'f:app.kubernetes.io/name': {}
+                        'f:app.kubernetes.io/version': {}
+                        'f:helm.sh/chart': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"f516cd19-ed45-48d7-a884-5d365f34667a"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"kubevious"}':
+                            .: {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"KUBEVIOUS_COLLECTOR"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"LOG_LEVEL"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"NODE_ENV"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:envFrom': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":4002,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:name': {}
+                                    'f:protocol': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:securityContext': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:40:00Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:41:39Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.1.16"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: kubevious-parser-token-xvbcf
+            secret:
+                secretName: kubevious-parser-token-xvbcf
+                defaultMode: 420
+    containers:
+        -
+            name: kubevious
+            image: 'kubevious/parser:0.9.11'
+            ports:
+                -
+                    name: http
+                    containerPort: 4002
+                    protocol: TCP
+            envFrom:
+                -
+                    configMapRef:
+                        name: kubevious-worldvious
+                -
+                    secretRef:
+                        name: kubevious-worldvious
+            env:
+                -
+                    name: NODE_ENV
+                    value: production
+                -
+                    name: LOG_LEVEL
+                    value: info
+                -
+                    name: KUBEVIOUS_COLLECTOR
+                    value: >-
+                        http://kubevious.kubevious.svc.cluster.local:4001/api/v1/collect
+            resources:
+                requests:
+                    cpu: 100m
+                    memory: 200Mi
+            volumeMounts:
+                -
+                    name: kubevious-parser-token-xvbcf
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+            securityContext: {}
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: kubevious-parser
+    serviceAccount: kubevious-parser
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:53Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:41:39Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:41:39Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:39:52Z'
+    hostIP: 10.128.15.198
+    podIP: 10.8.1.16
+    podIPs:
+        -
+            ip: 10.8.1.16
+    startTime: '2021-08-01T11:39:53Z'
+    containerStatuses:
+        -
+            name: kubevious
+            state:
+                running:
+                    startedAt: '2021-08-01T11:41:38Z'
+            lastState:
+                terminated:
+                    exitCode: 1
+                    reason: Error
+                    startedAt: '2021-08-01T11:41:16Z'
+                    finishedAt: '2021-08-01T11:41:17Z'
+                    containerID: >-
+                        docker://aea3fa1f6c68561856ca9bb326a23cfdd68e6edd9d9607cf4ba154c3adb96d02
+            ready: true
+            restartCount: 2
+            image: 'kubevious/parser:0.9.11'
+            imageID: >-
+                docker-pullable://kubevious/parser@sha256:0510469de2cfe1d1a46512b8729d02c1cb2525b48cd692b2f8c2ccf2972d0f02
+            containerID: >-
+                docker://cb78a4de3bfffdfc6200ea42f7dc033a71c1b32b655736f9ed9a57054059db07
+            started: true
+    qosClass: Burstable
+

@@ -1,0 +1,79 @@
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1beta1
+metadata:
+    name: kubevious-mysql-tdn76
+    generateName: kubevious-mysql-
+    namespace: kubevious
+    selfLink: >-
+        /apis/discovery.k8s.io/v1beta1/namespaces/kubevious/endpointslices/kubevious-mysql-tdn76
+    uid: d4d2428d-ae1a-4415-8c72-3cd99ac0a31b
+    resourceVersion: '274561858'
+    generation: 16
+    creationTimestamp: '2021-05-11T16:15:07Z'
+    labels:
+        endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+        kubernetes.io/service-name: kubevious-mysql
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:45:25Z'
+    ownerReferences:
+        -
+            apiVersion: v1
+            kind: Service
+            name: kubevious-mysql
+            uid: 9920ad27-148f-4609-af8b-6172f2088132
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: discovery.k8s.io/v1beta1
+            time: '2021-08-01T11:44:58Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:addressType': {}
+                'f:endpoints': {}
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:endpoints.kubernetes.io/last-change-trigger-time': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:endpointslice.kubernetes.io/managed-by': {}
+                        'f:kubernetes.io/service-name': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"9920ad27-148f-4609-af8b-6172f2088132"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:ports': {}
+addressType: IPv4
+endpoints:
+    -
+        addresses:
+            - 10.8.1.38
+        conditions:
+            ready: true
+        hostname: kubevious-mysql-0
+        targetRef:
+            kind: Pod
+            namespace: kubevious
+            name: kubevious-mysql-0
+            uid: 13b838a3-df0f-4b4e-b1d7-e6fba32b02cc
+            resourceVersion: '274561856'
+        topology:
+            kubernetes.io/hostname: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+            topology.kubernetes.io/region: us-central1
+            topology.kubernetes.io/zone: us-central1-a
+ports:
+    -
+        name: mysql
+        protocol: TCP
+        port: 3306
+

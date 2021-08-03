@@ -1,0 +1,19 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageState
+metadata:
+    creationTimestamp: '2021-01-20T17:15:20Z'
+    generation: 1
+    name: controllerrevisions.apps
+    resourceVersion: '275528028'
+    selfLink: /apis/migration.k8s.io/v1alpha1/storagestates/controllerrevisions.apps
+    uid: b609ff1c-44c9-4de3-ad34-0b4825d39605
+spec:
+    resource:
+        group: apps
+        resource: controllerrevisions
+status:
+    currentStorageVersionHash: 85nkx63pcBU=
+    lastHeartbeatTime: '2021-08-03T01:13:05Z'
+    persistedStorageVersionHashes:
+        - 85nkx63pcBU=
+

@@ -1,0 +1,36 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: kubevious
+    namespace: kubevious
+    selfLink: /api/v1/namespaces/kubevious/endpoints/kubevious
+    uid: 0a9ad235-1fae-45ac-afce-17e5cc48533f
+    resourceVersion: '274559207'
+    creationTimestamp: '2020-11-15T00:14:29Z'
+    labels:
+        app.kubernetes.io/component: kubevious
+        app.kubernetes.io/instance: kubevious
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubevious
+        app.kubernetes.io/version: 0.9.10
+        helm.sh/chart: kubevious-0.9.10
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:41:38Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.23
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: kubevious
+                    name: kubevious-c77d5f949-wssgq
+                    uid: c161c2e8-c0b0-4585-a32a-cacf6dd5bb26
+                    resourceVersion: '274559206'
+        ports:
+            -
+                name: http
+                port: 4001
+                protocol: TCP
+

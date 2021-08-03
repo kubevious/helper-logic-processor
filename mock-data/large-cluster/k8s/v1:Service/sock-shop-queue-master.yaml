@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: queue-master
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/services/queue-master
+    uid: ce4f4da9-396f-11ea-b115-42010a8001d6
+    resourceVersion: '1973705'
+    creationTimestamp: '2020-01-17T21:24:55Z'
+    labels:
+        name: queue-master
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"prometheus.io/path":"/prometheus"},"labels":{"name":"queue-master"},"name":"queue-master","namespace":"sock-shop"},"spec":{"ports":[{"port":80,"targetPort":80}],"selector":{"name":"queue-master"}}}
+        prometheus.io/path: /prometheus
+spec:
+    ports:
+        -
+            protocol: TCP
+            port: 80
+            targetPort: 80
+    selector:
+        name: queue-master
+    clusterIP: 10.75.3.46
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

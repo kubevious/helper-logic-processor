@@ -1,0 +1,119 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+    name: polaris-dashboard-7795686ff7
+    namespace: polaris
+    selfLink: >-
+        /apis/apps/v1/namespaces/polaris/replicasets/polaris-dashboard-7795686ff7
+    uid: 9ffcdde9-5916-11ea-8ab4-42010a8000a7
+    resourceVersion: '61929233'
+    generation: 2
+    creationTimestamp: '2020-02-27T04:07:09Z'
+    labels:
+        app: polaris
+        component: dashboard
+        pod-template-hash: 7795686ff7
+    annotations:
+        deployment.kubernetes.io/desired-replicas: '1'
+        deployment.kubernetes.io/max-replicas: '2'
+        deployment.kubernetes.io/revision: '1'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: Deployment
+            name: polaris-dashboard
+            uid: 9ffb2e13-5916-11ea-8ab4-42010a8000a7
+            controller: true
+            blockOwnerDeletion: true
+spec:
+    replicas: 0
+    selector:
+        matchLabels:
+            app: polaris
+            component: dashboard
+            pod-template-hash: 7795686ff7
+    template:
+        metadata:
+            creationTimestamp: null
+            labels:
+                app: polaris
+                component: dashboard
+                pod-template-hash: 7795686ff7
+            annotations:
+                checksum/config: >-
+                    8aa5a565fba7a2db98d46752087de8c1dcc83b70cd762c5829d5ba01270d54a2
+        spec:
+            volumes:
+                -
+                    name: config
+                    configMap:
+                        name: polaris
+                        defaultMode: 420
+            containers:
+                -
+                    name: dashboard
+                    image: 'quay.io/fairwinds/polaris:0.6'
+                    command:
+                        - polaris
+                        - '--dashboard'
+                        - '--config'
+                        - /opt/app/config.yaml
+                    ports:
+                        -
+                            containerPort: 8080
+                            protocol: TCP
+                    resources:
+                        limits:
+                            cpu: 100m
+                            memory: 128Mi
+                        requests:
+                            cpu: 100m
+                            memory: 128Mi
+                    volumeMounts:
+                        -
+                            name: config
+                            readOnly: true
+                            mountPath: /opt/app/config.yaml
+                            subPath: config.yaml
+                    livenessProbe:
+                        httpGet:
+                            path: /health
+                            port: 8080
+                            scheme: HTTP
+                        initialDelaySeconds: 5
+                        timeoutSeconds: 1
+                        periodSeconds: 20
+                        successThreshold: 1
+                        failureThreshold: 3
+                    readinessProbe:
+                        httpGet:
+                            path: /health
+                            port: 8080
+                            scheme: HTTP
+                        initialDelaySeconds: 5
+                        timeoutSeconds: 1
+                        periodSeconds: 20
+                        successThreshold: 1
+                        failureThreshold: 3
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    imagePullPolicy: Always
+                    securityContext:
+                        capabilities:
+                            drop:
+                                - ALL
+                        privileged: false
+                        runAsNonRoot: true
+                        readOnlyRootFilesystem: true
+                        allowPrivilegeEscalation: false
+            restartPolicy: Always
+            terminationGracePeriodSeconds: 30
+            dnsPolicy: ClusterFirst
+            serviceAccountName: polaris-dashboard
+            serviceAccount: polaris-dashboard
+            securityContext: {}
+            schedulerName: default-scheduler
+status:
+    replicas: 0
+    observedGeneration: 2
+

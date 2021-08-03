@@ -1,0 +1,63 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: gitlab-cert-manager-controller-ingress-shim
+    selfLink: >-
+        /apis/rbac.authorization.k8s.io/v1/clusterroles/gitlab-cert-manager-controller-ingress-shim
+    uid: 98c69cf2-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016191'
+    creationTimestamp: '2020-01-18T00:43:51Z'
+    labels:
+        app: cert-manager
+        app.kubernetes.io/instance: gitlab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cert-manager
+        helm.sh/chart: certmanager-v0.10.1
+rules:
+    -
+        verbs:
+            - create
+            - update
+            - delete
+        apiGroups:
+            - certmanager.k8s.io
+        resources:
+            - certificates
+            - certificaterequests
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - certmanager.k8s.io
+        resources:
+            - certificates
+            - certificaterequests
+            - issuers
+            - clusterissuers
+    -
+        verbs:
+            - get
+            - list
+            - watch
+        apiGroups:
+            - extensions
+        resources:
+            - ingresses
+    -
+        verbs:
+            - update
+        apiGroups:
+            - extensions
+        resources:
+            - ingresses/finalizers
+    -
+        verbs:
+            - create
+            - patch
+        apiGroups:
+            - ''
+        resources:
+            - events
+

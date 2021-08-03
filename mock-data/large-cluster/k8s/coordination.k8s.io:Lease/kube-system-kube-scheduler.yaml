@@ -1,0 +1,18 @@
+kind: Lease
+apiVersion: coordination.k8s.io/v1
+metadata:
+    name: kube-scheduler
+    namespace: kube-system
+    selfLink: >-
+        /apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-scheduler
+    uid: c548105d-3348-4d11-8a35-4da4f5f17bd2
+    resourceVersion: '275531506'
+    creationTimestamp: '2021-04-09T22:01:18Z'
+spec:
+    holderIdentity: >-
+        gke-f005108ec19aa6d238be-199c-0b48-vm_2d25e6cc-90bb-42eb-995d-70462ba3678b
+    leaseDurationSeconds: 15
+    acquireTime: '2021-07-30T21:43:08.000000Z'
+    renewTime: '2021-08-03T01:21:20.453520Z'
+    leaseTransitions: 40
+

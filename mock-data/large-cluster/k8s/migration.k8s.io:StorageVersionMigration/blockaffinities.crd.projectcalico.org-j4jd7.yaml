@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:16:17Z'
+    generateName: blockaffinities.crd.projectcalico.org-
+    generation: 1
+    name: blockaffinities.crd.projectcalico.org-j4jd7
+    resourceVersion: '166747869'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/blockaffinities.crd.projectcalico.org-j4jd7
+    uid: 30acc882-714c-472d-a525-dd550cfa0cfd
+spec:
+    resource:
+        group: crd.projectcalico.org
+        resource: blockaffinities
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:18:23Z'
+            status: 'True'
+            type: Succeeded
+

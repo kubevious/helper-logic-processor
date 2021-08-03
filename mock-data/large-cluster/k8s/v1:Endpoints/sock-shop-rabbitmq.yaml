@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: rabbitmq
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/rabbitmq
+    uid: ce9d1c78-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274559640'
+    creationTimestamp: '2020-01-17T21:24:55Z'
+    labels:
+        name: rabbitmq
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:42:33Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.29
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: rabbitmq-5786759fc9-599wz
+                    uid: c7414db0-7f09-4408-b192-dda3e206034e
+                    resourceVersion: '274559639'
+        ports:
+            -
+                port: 5672
+                protocol: TCP
+

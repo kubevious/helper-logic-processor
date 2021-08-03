@@ -1,0 +1,23 @@
+apiVersion: migration.k8s.io/v1alpha1
+kind: StorageVersionMigration
+metadata:
+    creationTimestamp: '2021-01-20T17:15:19Z'
+    generateName: controllerrevisions.apps-
+    generation: 1
+    name: controllerrevisions.apps-45gfv
+    resourceVersion: '166748235'
+    selfLink: >-
+        /apis/migration.k8s.io/v1alpha1/storageversionmigrations/controllerrevisions.apps-45gfv
+    uid: 351c2baa-346d-4e54-b60e-781f20607b46
+spec:
+    resource:
+        group: apps
+        resource: controllerrevisions
+        version: v1
+status:
+    conditions:
+        -
+            lastUpdateTime: '2021-01-20T17:19:18Z'
+            status: 'True'
+            type: Succeeded
+

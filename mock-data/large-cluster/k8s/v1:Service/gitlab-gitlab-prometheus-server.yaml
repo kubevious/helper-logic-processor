@@ -1,0 +1,32 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: gitlab-prometheus-server
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/services/gitlab-prometheus-server
+    uid: 99390947-398b-11ea-b115-42010a8001d6
+    resourceVersion: '2016256'
+    creationTimestamp: '2020-01-18T00:43:52Z'
+    labels:
+        app: prometheus
+        chart: prometheus-9.0.0
+        component: server
+        heritage: Helm
+        release: gitlab
+spec:
+    ports:
+        -
+            name: http
+            protocol: TCP
+            port: 80
+            targetPort: 9090
+    selector:
+        app: prometheus
+        component: server
+        release: gitlab
+    clusterIP: 10.75.4.12
+    type: ClusterIP
+    sessionAffinity: None
+status:
+    loadBalancer: {}
+

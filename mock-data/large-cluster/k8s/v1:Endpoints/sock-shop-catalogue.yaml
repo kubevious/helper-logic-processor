@@ -1,0 +1,30 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+    name: catalogue
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/endpoints/catalogue
+    uid: ccf4c16e-396f-11ea-b115-42010a8001d6
+    resourceVersion: '274560501'
+    creationTimestamp: '2020-01-17T21:24:53Z'
+    labels:
+        name: catalogue
+    annotations:
+        endpoints.kubernetes.io/last-change-trigger-time: '2021-08-01T11:43:25Z'
+subsets:
+    -
+        addresses:
+            -
+                ip: 10.8.1.32
+                nodeName: gke-kubevious-samples-pool-2-d17eaa99-a7xj
+                targetRef:
+                    kind: Pod
+                    namespace: sock-shop
+                    name: catalogue-77d4f66dbf-xmk52
+                    uid: 01518b01-6e12-4d4e-8486-a39a3573efca
+                    resourceVersion: '274560499'
+        ports:
+            -
+                port: 80
+                protocol: TCP
+

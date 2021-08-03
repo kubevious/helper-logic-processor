@@ -1,0 +1,232 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: catalogue-db-99cbcbb88-xw8mc
+    generateName: catalogue-db-99cbcbb88-
+    namespace: sock-shop
+    selfLink: /api/v1/namespaces/sock-shop/pods/catalogue-db-99cbcbb88-xw8mc
+    uid: 2565f528-c831-4faa-ba0e-d743318346da
+    resourceVersion: '274562039'
+    creationTimestamp: '2021-08-01T11:43:19Z'
+    labels:
+        name: catalogue-db
+        pod-template-hash: 99cbcbb88
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.23/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: catalogue-db-99cbcbb88
+            uid: cc905ce0-396f-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:19Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:name': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"cc905ce0-396f-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"catalogue-db"}':
+                            .: {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"MYSQL_DATABASE"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"MYSQL_ROOT_PASSWORD"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":3306,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:name': {}
+                                    'f:protocol': {}
+                            'f:resources': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:beta.kubernetes.io/os': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:31Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:45:51Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.23"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: default-token-ckr79
+            secret:
+                secretName: default-token-ckr79
+                defaultMode: 420
+    containers:
+        -
+            name: catalogue-db
+            image: 'weaveworksdemos/catalogue-db:0.3.0'
+            ports:
+                -
+                    name: mysql
+                    containerPort: 3306
+                    protocol: TCP
+            env:
+                -
+                    name: MYSQL_ROOT_PASSWORD
+                    value: fake_password
+                -
+                    name: MYSQL_DATABASE
+                    value: socksdb
+            resources: {}
+            volumeMounts:
+                -
+                    name: default-token-ckr79
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        beta.kubernetes.io/os: linux
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:21Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:45:51Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:45:51Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:19Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.23
+    podIPs:
+        -
+            ip: 10.8.0.23
+    startTime: '2021-08-01T11:43:21Z'
+    containerStatuses:
+        -
+            name: catalogue-db
+            state:
+                running:
+                    startedAt: '2021-08-01T11:45:50Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: 'weaveworksdemos/catalogue-db:0.3.0'
+            imageID: >-
+                docker-pullable://weaveworksdemos/catalogue-db@sha256:7ba74ec9adf88f6625b8d85d3323d1ee5232b39877e1590021ea485cf9457251
+            containerID: >-
+                docker://6d584ffb2fabe2a3e945795ae96b0c0e53d53315a3cf05629fdb73e58030be28
+            started: true
+    qosClass: BestEffort
+

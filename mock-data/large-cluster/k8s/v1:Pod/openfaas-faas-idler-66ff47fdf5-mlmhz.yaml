@@ -1,0 +1,284 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: faas-idler-66ff47fdf5-mlmhz
+    generateName: faas-idler-66ff47fdf5-
+    namespace: openfaas
+    selfLink: /api/v1/namespaces/openfaas/pods/faas-idler-66ff47fdf5-mlmhz
+    uid: f6f450ea-df1b-4195-974c-d0b3c3568abe
+    resourceVersion: '275529632'
+    creationTimestamp: '2021-08-01T11:43:19Z'
+    labels:
+        app: faas-idler
+        pod-template-hash: 66ff47fdf5
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.19/32
+        prometheus.io.scrape: 'false'
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: faas-idler-66ff47fdf5
+            uid: 48700c42-3986-11ea-b115-42010a8001d6
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:19Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:prometheus.io.scrape': {}
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:pod-template-hash': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"48700c42-3986-11ea-b115-42010a8001d6"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:containers':
+                        'k:{"name":"faas-idler"}':
+                            .: {}
+                            'f:command': {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"gateway_url"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"inactivity_duration"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"prometheus_host"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"prometheus_port"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"reconcile_interval"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:resources':
+                                .: {}
+                                'f:requests':
+                                    .: {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/var/secrets/"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                                    'f:readOnly': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:nodeSelector':
+                        .: {}
+                        'f:beta.kubernetes.io/arch': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"auth"}':
+                            .: {}
+                            'f:name': {}
+                            'f:secret':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:secretName': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:30Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:44:53Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:message': {}
+                            'f:reason': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.19"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: auth
+            secret:
+                secretName: basic-auth
+                defaultMode: 420
+        -
+            name: default-token-dtcgt
+            secret:
+                secretName: default-token-dtcgt
+                defaultMode: 420
+    containers:
+        -
+            name: faas-idler
+            image: 'openfaas/faas-idler:0.2.1'
+            command:
+                - /home/app/faas-idler
+                - '-dry-run=true'
+            env:
+                -
+                    name: gateway_url
+                    value: 'http://gateway.openfaas:8080/'
+                -
+                    name: prometheus_host
+                    value: prometheus.openfaas
+                -
+                    name: prometheus_port
+                    value: '9090'
+                -
+                    name: inactivity_duration
+                    value: 30m
+                -
+                    name: reconcile_interval
+                    value: 2m
+            resources:
+                requests:
+                    memory: 64Mi
+            volumeMounts:
+                -
+                    name: auth
+                    readOnly: true
+                    mountPath: /var/secrets/
+                -
+                    name: default-token-dtcgt
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    nodeSelector:
+        beta.kubernetes.io/arch: amd64
+    serviceAccountName: default
+    serviceAccount: default
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Pending
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:20Z'
+        -
+            type: Ready
+            status: 'False'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:20Z'
+            reason: ContainersNotReady
+            message: 'containers with unready status: [faas-idler]'
+        -
+            type: ContainersReady
+            status: 'False'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:20Z'
+            reason: ContainersNotReady
+            message: 'containers with unready status: [faas-idler]'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:19Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.19
+    podIPs:
+        -
+            ip: 10.8.0.19
+    startTime: '2021-08-01T11:43:20Z'
+    containerStatuses:
+        -
+            name: faas-idler
+            state:
+                waiting:
+                    reason: ImagePullBackOff
+                    message: 'Back-off pulling image "openfaas/faas-idler:0.2.1"'
+            lastState: {}
+            ready: false
+            restartCount: 0
+            image: 'openfaas/faas-idler:0.2.1'
+            imageID: ''
+            started: false
+    qosClass: Burstable
+

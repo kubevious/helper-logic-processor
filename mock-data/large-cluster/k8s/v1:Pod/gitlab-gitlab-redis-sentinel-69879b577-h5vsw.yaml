@@ -1,0 +1,329 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: gitlab-redis-sentinel-69879b577-h5vsw
+    generateName: gitlab-redis-sentinel-69879b577-
+    namespace: gitlab
+    selfLink: /api/v1/namespaces/gitlab/pods/gitlab-redis-sentinel-69879b577-h5vsw
+    uid: c1b22d2d-2e48-4e2c-a57f-f64a029c56a7
+    resourceVersion: '274560886'
+    creationTimestamp: '2021-08-01T11:43:17Z'
+    labels:
+        app: redis
+        chart: redis-ha-0.1.0
+        heritage: Helm
+        name: redis-sentinel
+        pod-template-hash: 69879b577
+        podIP: 10.8.0.6
+        redis-role: sentinel
+        release: gitlab
+    annotations:
+        cni.projectcalico.org/podIP: 10.8.0.6/32
+    ownerReferences:
+        -
+            apiVersion: apps/v1
+            kind: ReplicaSet
+            name: gitlab-redis-sentinel-69879b577
+            uid: 0061c6c4-470e-11ea-96d3-42010a80017a
+            controller: true
+            blockOwnerDeletion: true
+    managedFields:
+        -
+            manager: kube-controller-manager
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:17Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:generateName': {}
+                    'f:labels':
+                        .: {}
+                        'f:app': {}
+                        'f:chart': {}
+                        'f:heritage': {}
+                        'f:name': {}
+                        'f:pod-template-hash': {}
+                        'f:release': {}
+                    'f:ownerReferences':
+                        .: {}
+                        'k:{"uid":"0061c6c4-470e-11ea-96d3-42010a80017a"}':
+                            .: {}
+                            'f:apiVersion': {}
+                            'f:blockOwnerDeletion': {}
+                            'f:controller': {}
+                            'f:kind': {}
+                            'f:name': {}
+                            'f:uid': {}
+                'f:spec':
+                    'f:affinity':
+                        .: {}
+                        'f:podAntiAffinity':
+                            .: {}
+                            'f:preferredDuringSchedulingIgnoredDuringExecution': {}
+                    'f:containers':
+                        'k:{"name":"sentinel"}':
+                            .: {}
+                            'f:env':
+                                .: {}
+                                'k:{"name":"REDIS_CHART_PREFIX"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"REDIS_PASSWORD_FILE"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                                'k:{"name":"SENTINEL"}':
+                                    .: {}
+                                    'f:name': {}
+                                    'f:value': {}
+                            'f:image': {}
+                            'f:imagePullPolicy': {}
+                            'f:name': {}
+                            'f:ports':
+                                .: {}
+                                'k:{"containerPort":26379,"protocol":"TCP"}':
+                                    .: {}
+                                    'f:containerPort': {}
+                                    'f:protocol': {}
+                            'f:resources':
+                                .: {}
+                                'f:limits':
+                                    .: {}
+                                    'f:memory': {}
+                                'f:requests':
+                                    .: {}
+                                    'f:cpu': {}
+                                    'f:memory': {}
+                            'f:terminationMessagePath': {}
+                            'f:terminationMessagePolicy': {}
+                            'f:volumeMounts':
+                                .: {}
+                                'k:{"mountPath":"/config/"}':
+                                    .: {}
+                                    'f:mountPath': {}
+                                    'f:name': {}
+                    'f:dnsPolicy': {}
+                    'f:enableServiceLinks': {}
+                    'f:restartPolicy': {}
+                    'f:schedulerName': {}
+                    'f:securityContext': {}
+                    'f:serviceAccount': {}
+                    'f:serviceAccountName': {}
+                    'f:terminationGracePeriodSeconds': {}
+                    'f:volumes':
+                        .: {}
+                        'k:{"name":"gitlab-config"}':
+                            .: {}
+                            'f:name': {}
+                            'f:projected':
+                                .: {}
+                                'f:defaultMode': {}
+                                'f:sources': {}
+        -
+            manager: calico
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:25Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:annotations':
+                        .: {}
+                        'f:cni.projectcalico.org/podIP': {}
+        -
+            manager: kubectl
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:45Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:metadata':
+                    'f:labels':
+                        'f:podIP': {}
+                        'f:redis-role': {}
+        -
+            manager: kubelet
+            operation: Update
+            apiVersion: v1
+            time: '2021-08-01T11:43:45Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:status':
+                    'f:conditions':
+                        'k:{"type":"ContainersReady"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Initialized"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                        'k:{"type":"Ready"}':
+                            .: {}
+                            'f:lastProbeTime': {}
+                            'f:lastTransitionTime': {}
+                            'f:status': {}
+                            'f:type': {}
+                    'f:containerStatuses': {}
+                    'f:hostIP': {}
+                    'f:phase': {}
+                    'f:podIP': {}
+                    'f:podIPs':
+                        .: {}
+                        'k:{"ip":"10.8.0.6"}':
+                            .: {}
+                            'f:ip': {}
+                    'f:startTime': {}
+spec:
+    volumes:
+        -
+            name: gitlab-config
+            projected:
+                sources:
+                    -
+                        secret:
+                            name: gitlab-redis-secret
+                            items:
+                                -
+                                    key: secret
+                                    path: password
+                defaultMode: 420
+        -
+            name: gitlab-redis-token-78ffj
+            secret:
+                secretName: gitlab-redis-token-78ffj
+                defaultMode: 420
+    containers:
+        -
+            name: sentinel
+            image: >-
+                registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha:732704f18e34ba469df34b10c3b2465e0469d484
+            ports:
+                -
+                    containerPort: 26379
+                    protocol: TCP
+            env:
+                -
+                    name: SENTINEL
+                    value: 'true'
+                -
+                    name: REDIS_CHART_PREFIX
+                    value: gitlab-redis
+                -
+                    name: REDIS_PASSWORD_FILE
+                    value: /config/password
+            resources:
+                limits:
+                    memory: 30Mi
+                requests:
+                    cpu: 13m
+                    memory: 30Mi
+            volumeMounts:
+                -
+                    name: gitlab-config
+                    mountPath: /config/
+                -
+                    name: gitlab-redis-token-78ffj
+                    readOnly: true
+                    mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+    restartPolicy: Always
+    terminationGracePeriodSeconds: 30
+    dnsPolicy: ClusterFirst
+    serviceAccountName: gitlab-redis
+    serviceAccount: gitlab-redis
+    nodeName: gke-kubevious-samples-pool-2-d17eaa99-mb9q
+    securityContext: {}
+    affinity:
+        podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+                -
+                    weight: 1
+                    podAffinityTerm:
+                        labelSelector:
+                            matchExpressions:
+                                -
+                                    key: app
+                                    operator: In
+                                    values:
+                                        - redis
+                                -
+                                    key: release
+                                    operator: In
+                                    values:
+                                        - gitlab
+                                -
+                                    key: redis-role
+                                    operator: In
+                                    values:
+                                        - sentinel
+                        topologyKey: kubernetes.io/hostname
+    schedulerName: default-scheduler
+    tolerations:
+        -
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+        -
+            key: node.kubernetes.io/unreachable
+            operator: Exists
+            effect: NoExecute
+            tolerationSeconds: 300
+    priority: 0
+    enableServiceLinks: true
+status:
+    phase: Running
+    conditions:
+        -
+            type: Initialized
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:18Z'
+        -
+            type: Ready
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:45Z'
+        -
+            type: ContainersReady
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:45Z'
+        -
+            type: PodScheduled
+            status: 'True'
+            lastProbeTime: null
+            lastTransitionTime: '2021-08-01T11:43:17Z'
+    hostIP: 10.128.15.199
+    podIP: 10.8.0.6
+    podIPs:
+        -
+            ip: 10.8.0.6
+    startTime: '2021-08-01T11:43:18Z'
+    containerStatuses:
+        -
+            name: sentinel
+            state:
+                running:
+                    startedAt: '2021-08-01T11:43:45Z'
+            lastState: {}
+            ready: true
+            restartCount: 0
+            image: >-
+                registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha:732704f18e34ba469df34b10c3b2465e0469d484
+            imageID: >-
+                docker-pullable://registry.gitlab.com/gitlab-org/build/cng/gitlab-redis-ha@sha256:fd0cc46056de7f542953ac852265919552285a388fe2616ca593fbc147d86c4c
+            containerID: >-
+                docker://8a9768c50a9f3e0dbee5bb84ca2eb79c2c139a66b3deb84f1205fb1ea70f3449
+            started: true
+    qosClass: Burstable
+

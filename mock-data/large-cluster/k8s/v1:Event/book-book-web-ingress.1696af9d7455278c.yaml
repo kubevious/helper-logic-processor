@@ -1,0 +1,51 @@
+kind: Event
+apiVersion: v1
+metadata:
+    name: book-web-ingress.1696af9d7455278c
+    namespace: book
+    selfLink: /api/v1/namespaces/book/events/book-web-ingress.1696af9d7455278c
+    uid: 96af4a17-03f5-43f7-95b0-768e757754eb
+    resourceVersion: '1515801'
+    creationTimestamp: '2021-07-30T21:43:26Z'
+    managedFields:
+        -
+            manager: glbc
+            operation: Update
+            apiVersion: v1
+            time: '2021-07-30T21:43:26Z'
+            fieldsType: FieldsV1
+            fieldsV1:
+                'f:count': {}
+                'f:firstTimestamp': {}
+                'f:involvedObject':
+                    'f:apiVersion': {}
+                    'f:kind': {}
+                    'f:name': {}
+                    'f:namespace': {}
+                    'f:resourceVersion': {}
+                    'f:uid': {}
+                'f:lastTimestamp': {}
+                'f:message': {}
+                'f:reason': {}
+                'f:source':
+                    'f:component': {}
+                'f:type': {}
+involvedObject:
+    kind: Ingress
+    namespace: book
+    name: book-web-ingress
+    uid: 452bcf4c-34bb-11ea-9cdc-42010a8001cf
+    apiVersion: networking.k8s.io/v1beta1
+    resourceVersion: '84204948'
+reason: Sync
+message: Scheduled for sync
+source:
+    component: loadbalancer-controller
+firstTimestamp: '2021-07-30T21:43:26Z'
+lastTimestamp: '2021-08-03T00:43:26Z'
+count: 91
+type: Normal
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''
+

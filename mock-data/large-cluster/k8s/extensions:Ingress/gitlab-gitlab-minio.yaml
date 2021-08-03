@@ -1,0 +1,46 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+    name: gitlab-minio
+    namespace: gitlab
+    selfLink: /apis/extensions/v1beta1/namespaces/gitlab/ingresses/gitlab-minio
+    uid: 99c870e3-398b-11ea-b115-42010a8001d6
+    resourceVersion: '61928760'
+    generation: 1
+    creationTimestamp: '2020-01-18T00:43:53Z'
+    labels:
+        app: minio
+        chart: minio-0.4.3
+        heritage: Helm
+        release: gitlab
+    annotations:
+        certmanager.k8s.io/issuer: gitlab-issuer
+        kubernetes.io/ingress.class: gitlab-nginx
+        kubernetes.io/ingress.provider: nginx
+        nginx.ingress.kubernetes.io/proxy-body-size: '0'
+        nginx.ingress.kubernetes.io/proxy-buffering: 'off'
+        nginx.ingress.kubernetes.io/proxy-read-timeout: '900'
+        nginx.ingress.kubernetes.io/proxy-request-buffering: 'off'
+spec:
+    tls:
+        -
+            hosts:
+                - minio.example.com
+            secretName: gitlab-minio-tls
+    rules:
+        -
+            host: minio.example.com
+            http:
+                paths:
+                    -
+                        path: /
+                        pathType: ImplementationSpecific
+                        backend:
+                            serviceName: gitlab-minio-svc
+                            servicePort: 9000
+status:
+    loadBalancer:
+        ingress:
+            -
+                ip: 35.192.33.224
+

@@ -1,0 +1,13 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+    name: default
+    namespace: book
+    selfLink: /api/v1/namespaces/book/serviceaccounts/default
+    uid: 41334486-34bb-11ea-9cdc-42010a8001cf
+    resourceVersion: '196785'
+    creationTimestamp: '2020-01-11T21:42:24Z'
+secrets:
+    -
+        name: default-token-crbc6
+

@@ -1,0 +1,24 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: typha-cpha
+    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/typha-cpha
+    uid: c7854b0e-3d3e-11ea-96d3-42010a80017a
+    resourceVersion: '100939934'
+    creationTimestamp: '2020-01-22T17:44:03Z'
+    labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        kubernetes.io/cluster-service: 'true'
+    annotations:
+        kubectl.kubernetes.io/last-applied-configuration: >
+            {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","kubernetes.io/cluster-service":"true"},"name":"typha-cpha"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"typha-cpha"},"subjects":[{"kind":"ServiceAccount","name":"typha-cpha","namespace":"kube-system"}]}
+subjects:
+    -
+        kind: ServiceAccount
+        name: typha-cpha
+        namespace: kube-system
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: typha-cpha
+
