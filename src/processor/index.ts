@@ -166,7 +166,7 @@ export class LogicProcessor
 
             this._processParsers(scope);
             this._finalizeScope(scope);
-            this._propagete(scope);
+            this._propagate(scope);
 
             scope.debugOutputCapacity();
         })
@@ -213,12 +213,12 @@ export class LogicProcessor
         }
     }
 
-    _propagete(scope : LogicScope)
+    private _propagate(scope : LogicScope)
     {
         this._traverseTreeBottomsUp(scope, this._propagateFlags.bind(this));
     }
 
-    _propagateFlags(node : LogicItem)
+    private _propagateFlags(node : LogicItem)
     {
         this.logger.silly("[_propagateFlags] %s...", node.dn)
 
@@ -235,7 +235,7 @@ export class LogicProcessor
         }
     }
 
-    _traverseTree(scope : LogicScope, cb : (item : LogicItem) => void)
+    private _traverseTree(scope : LogicScope, cb : (item : LogicItem) => void)
     {
         let col : LogicItem[] = [scope.root];
         while (col.length)
@@ -246,7 +246,7 @@ export class LogicProcessor
         }
     }
 
-    _traverseTreeBottomsUp(scope : LogicScope, cb : (item : LogicItem) => void)
+    private _traverseTreeBottomsUp(scope : LogicScope, cb : (item : LogicItem) => void)
     {
         let col : LogicItem[] = [];
         this._traverseTree(scope, x => {
@@ -260,7 +260,7 @@ export class LogicProcessor
         }
     }
 
-    _dumpToFile(scope : LogicScope)
+    private _dumpToFile(scope : LogicScope)
     {
         return Promise.resolve()
             .then(() => {
