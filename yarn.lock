@@ -57,10 +57,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@kubevious/helpers@^1.0.57":
-  version "1.0.57"
-  resolved "https://registry.yarnpkg.com/@kubevious/helpers/-/helpers-1.0.57.tgz#17f00d17f463320bd23af64c0ae64f837d29b92e"
-  integrity sha512-baNO0/zIh1mo96eJH80+NsDIW0c0tdvtShKP2R8JXMPvWBbpVksG9AQ76LYbp24VWXXQaSOju/K98fdDYrcONQ==
+"@kubevious/helpers@^1.0.61":
+  version "1.0.61"
+  resolved "https://registry.yarnpkg.com/@kubevious/helpers/-/helpers-1.0.61.tgz#95079e05da4b1af44d42bcf526e42d4ba4bc21de"
+  integrity sha512-da+OOMMGmQYi6biYr6RI87CJGUhAS8bj9+W/nNZgzj1rXdLQEiARVMu9u7BtYN1skUB0RMYgeZPFMZP0j9bKqQ==
   dependencies:
     moment "^2.29.1"
     the-lodash "^2.0.9"

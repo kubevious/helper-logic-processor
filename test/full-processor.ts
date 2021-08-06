@@ -7,7 +7,7 @@ import { setupLogger, LoggerOptions } from 'the-logger';
 const loggerOptions = new LoggerOptions().enableFile(false).pretty(true);
 const logger = setupLogger('test', loggerOptions);
 
-import { LogicProcessor } from '../src';
+import { ParserLoader, LogicProcessor } from '../src';
 import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
 
@@ -22,12 +22,25 @@ describe('full-processor', () => {
             .then(() => registry.loadMockData('large-cluster'))
             .then(() => {
                 registry.debugOutputCapacity();
-                
-                const logicProcessor = new LogicProcessor(logger, tracker, registry);
-                return logicProcessor.process();
+
+                const parserLoader = new ParserLoader(logger);
+                return Promise.resolve()
+                    .then(() => parserLoader.init())
+                    .then(() => {
+                        const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry);
+                        return logicProcessor.process();
+                    })
             })
             .then(registryState => {
                 should(registryState).be.ok();
+
+                const registryLoggerOptions = new LoggerOptions().enableFile(true).cleanOnStart(true).pretty(true);
+                const registryLogger = setupLogger('registry-logger', registryLoggerOptions);
+
+                return registryState.debugOutputToDir(registryLogger, 'large-cluster')
+                    .then(() => registryState);
+            })
+            .then(registryState => {
 
                 {
                     const app = registryState.findByDn("root/ns-[kube-system]/app-[kube-dns]");

@@ -28,7 +28,7 @@ export class ConcreteRegistry implements IConcreteRegistry
 
     addItem(config: any)
     {
-        const item = new ConcreteItem(config);
+        const item = new ConcreteItem(this.logger, config);
         this._items[_.stableStringify(item.id)] = item;
     }
 
@@ -62,6 +62,11 @@ export class ConcreteRegistry implements IConcreteRegistry
                     })
             })
     }
+
+    // debugOutputToFileSystem(dir: string)
+    // {
+    //     return Promise.serial(_.values(this._items), x => x.debugOutputToFileSystem(dir));
+    // }
 
     private _loadYaml(filePath: string)
     {

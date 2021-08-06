@@ -9,9 +9,11 @@ export class ConcreteItem implements IConcreteItem
 {
     private _id: ItemId;
     private _config: any;
+    private logger: ILogger;
     
-    constructor(config: any)
+    constructor(logger: ILogger, config: any)
     {
+        this.logger = logger;
         this._config = config;
         
         this._id = extractK8sConfigId(config);
@@ -45,4 +47,9 @@ export class ConcreteItem implements IConcreteItem
         
         return true;
     }
+
+    // debugOutputToFileSystem(dir: string)
+    // {
+
+    // }
 }

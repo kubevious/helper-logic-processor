@@ -1,3 +1,4 @@
+export { ParserLoader } from './processor/parser-loader';
 export { LogicProcessor } from './processor'
 export { LogicItem } from './item'
 

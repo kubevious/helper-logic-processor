@@ -2,15 +2,11 @@ import _ from 'the-lodash';
 import { Promise } from 'the-promise';
 import { ILogger } from 'the-logger';
 
-import { readdirSync } from 'fs' 
-import * as path from 'path' 
-
 import { LogicScope } from "../scope";
 
 import { Helpers } from '../helpers';
 import { LogicItem } from '../item';
 
-import { BaseParserBuilder } from './base/builder'
 import { ConcreteParserInfo } from './concrete/builder'
 import { LogicParserInfo } from './logic/builder'
 import { ScopeParserInfo } from './scope/builder';
@@ -25,24 +21,27 @@ import { RegistryState } from '@kubevious/helpers/dist/registry-state';
 
 import { IConcreteRegistry } from '../registry';
 import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/helpers/dist/snapshot/types';
+import { ParserInfo, ParserLoader } from './parser-loader'
+
 
 export class LogicProcessor 
 {
     private _logger : ILogger;
     private _tracker: ProcessingTrackerScoper;
     private _registry : IConcreteRegistry;
+    private _parserLoader : ParserLoader;
 
     private _helpers : Helpers = new Helpers();
     private _processors : BaseParserExecutor[] = [];
 
-    constructor(logger: ILogger, tracker: ProcessingTrackerScoper, registry : IConcreteRegistry)
+    constructor(logger: ILogger, tracker: ProcessingTrackerScoper, parserLoader: ParserLoader, registry : IConcreteRegistry)
     {
         this._logger = logger.sublogger("LogicProcessor");
         this._tracker = tracker;
         this._registry = registry;
+        this._parserLoader = parserLoader;
 
-        this._extractProcessors('parsers');
-        this._extractProcessors('polishers');
+        this._loadProcessors();
     }
 
     get logger() {
@@ -53,21 +52,15 @@ export class LogicProcessor
         return this._helpers;
     }
 
-    private _extractProcessors(location : string)
+    private _loadProcessors()
     {
-        this.logger.info('[_extractProcessors] location: %s', location);
-        let searchPath = path.resolve(__dirname, '..', location);
-        this.logger.info('[_extractProcessors] search path: %s', searchPath);
-        let files : string[] = readdirSync(searchPath);
-        files = _.filter(files, x => x.endsWith('.ts'));
+        this.logger.info('[_loadProcessors]');
 
         let processors : BaseParserExecutor[] = [];
 
-        for(let fileName of files)
+        for(let parserModuleInfo of this._parserLoader.parsers)
         {
-            this.logger.info('[_extractProcessors] %s', fileName);
-            let moduleName = fileName.replace('.d.ts', '').replace('.ts', '');
-            this._loadProcessor(moduleName, location, processors);
+            this._loadProcessor(parserModuleInfo, processors);
         }
 
         processors = _.orderBy(processors, [
@@ -86,23 +79,9 @@ export class LogicProcessor
         }
     }
 
-    private _loadProcessor(name : string, location : string, processors : BaseParserExecutor[])
+    private _loadProcessor(parserModuleInfo : ParserInfo, processors : BaseParserExecutor[])
     {
-        this.logger.info('[_loadProcessor] %s...', name);
-
-        const moduleName = location + '/' + name;
-        const modulePath = '../' + moduleName;
-        const parserModule = require(modulePath);
-
-        let defaultExport = parserModule.default;
-        if (!defaultExport) {
-            this.logger.error("Invalid Parser: %s", modulePath);
-            throw new Error("Invalid Parser: " + modulePath);
-            return;
-        }
-
-        let baseParserBuilder = <BaseParserBuilder>defaultExport;
-        let baseParserInfos = baseParserBuilder._extract();
+        let baseParserInfos = parserModuleInfo.baseBuilder._extract();
 
         for (let baseParserInfo of baseParserInfos)
         {
@@ -112,7 +91,7 @@ export class LogicProcessor
                 let parserExecutor = new ConcreteParserExecutor(
                     this._registry,
                     this,
-                    moduleName,
+                    parserModuleInfo.moduleName,
                     parserInfo)
                 processors.push(parserExecutor);
             }
@@ -121,7 +100,7 @@ export class LogicProcessor
                 let parserInfo = <LogicParserInfo>baseParserInfo;
                 let parserExecutor = new LogicParserExecutor(
                     this,
-                    moduleName,
+                    parserModuleInfo.moduleName,
                     parserInfo)
                 processors.push(parserExecutor);
             }
@@ -130,7 +109,7 @@ export class LogicProcessor
                 let parserInfo = <ScopeParserInfo>baseParserInfo;
                 let parserExecutor = new ScopeParserExecutor(
                     this,
-                    moduleName,
+                    parserModuleInfo.moduleName,
                     parserInfo)
                 processors.push(parserExecutor);
             }

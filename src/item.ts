@@ -30,7 +30,7 @@ export class LogicItem
     private _children : Record<string, LogicItem> = {};
     private _properties : Record<string, SnapshotPropsConfig> = {};
     private _alerts : Record<string, Alert> = {};
-    private _flags : Record<string, any> = {};
+    private _flags : Record<string, FlagInfo> = {};
     private _usedBy : Record<string, any> = {};
     private _dn : string;
 
@@ -139,7 +139,7 @@ export class LogicItem
         return this.setFlag(name, { propagatable: true });
     }
 
-    setFlag(name: string, params?: any)
+    setFlag(name: string, params?: Partial<FlagInfo>)
     {
         if (params) {
             params = _.clone(params);
@@ -147,7 +147,10 @@ export class LogicItem
             params = {}
         }
         params.name = name;
-        this._flags[name] = params;
+        if (!params.propagatable) {
+            params.propagatable = false;
+        }
+        this._flags[name] = <FlagInfo>params;
     }
 
     hasFlag(name: string)
@@ -338,3 +341,8 @@ export class LogicItem
     }
 }
 
+export interface FlagInfo
+{
+    name : string;
+    propagatable : boolean;
+}
