@@ -3,7 +3,7 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target(null)
-    .handler(({ logger, scope, item, createK8sItem, infraScope, helpers }) => {
+    .handler(({ scope, item }) => {
 
         if (item.id.api == 'v1' && item.id.kind == 'Namespace')
         {

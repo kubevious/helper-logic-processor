@@ -9,7 +9,7 @@ export default LogicParser()
     .namespaceNameCb((item) => {
         return item.naming;
     })
-    .handler(({ item, namespaceScope }) => {
+    .handler(({ item, namespaceScope, logger }) => {
 
         item.buildProperties()
             .add('Applications', namespaceScope.appCount) 

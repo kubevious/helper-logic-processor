@@ -6,7 +6,7 @@ export default LogicParser()
     .target({
         path: ["infra", "storage"]
     })
-    .handler(({ item, infraScope, helpers }) => {
+    .handler(({ item }) => {
 
         let classProps : Record<string, any> = {
             'Capacity': { value: 0, unit: 'bytes' },

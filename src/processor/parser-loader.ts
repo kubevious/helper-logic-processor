@@ -47,7 +47,7 @@ export class ParserLoader
     private _loadProcessor(moduleName : string, importPath : string)
     {
         this.logger.info('[_loadProcessor] %s...', moduleName);
-        this.logger.info('[_loadProcessor] %s from %s...', moduleName, importPath);
+        this.logger.debug('[_loadProcessor] %s from %s...', moduleName, importPath);
 
         const parserModule = require(importPath);
 

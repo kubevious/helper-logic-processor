@@ -17,22 +17,22 @@ export class ScopeParserExecutor implements BaseParserExecutor
 {
     private _processor : LogicProcessor;
     private _logger : ILogger;
-    public path : string;
+    private _name : string;
 
     private _parserInfo : ScopeParserInfo;
 
-    constructor(processor : LogicProcessor, path : string, parserInfo : ScopeParserInfo)
+    constructor(processor : LogicProcessor, name : string, parserInfo : ScopeParserInfo)
     {
-        this.path = path;
+        this._name = name;
         this._processor = processor;
         this._logger = processor.logger;
         this._parserInfo = parserInfo;
     }
 
     get name() : string {
-        return this.path;
+        return this._name;
     }
-
+    
     get targetInfo() : string {
         if (!this._parserInfo.target) {
             return '';
@@ -82,7 +82,7 @@ export class ScopeParserExecutor implements BaseParserExecutor
     _processHandler(scope : LogicScope, id: string, itemScope: ItemScope, namespaceScope: NamespaceScope | null)
     {
         this._logger.silly("[_processHandler] ConcreteHandler: %s, Item: %s", 
-            this.path, 
+            this.name, 
             id);
 
         let variableArgs : ScopeProcessorVariableArgs =
@@ -111,7 +111,7 @@ export class ScopeParserExecutor implements BaseParserExecutor
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.path, reason);
+            this._logger.error("Error in %s parser. ", this.name, reason);
         }
 
     }

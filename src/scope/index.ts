@@ -7,12 +7,16 @@ import { LogicItem } from '../item';
 import { LabelMatcher } from './label-matcher';
 import { IConcreteRegistry, IConcreteItem } from '../registry';
 
+export const ROOT_NODE_LOGIC = 'root';
+// export const ROOT_NODE_INFRA = 'infra';
+
 export class LogicScope
 {
     private _logger : ILogger;
     private _concreteRegistry : IConcreteRegistry;
 
-    private _root : LogicItem;
+    private _rootNodes : Record<string, LogicItem> = {};
+    // private _root : LogicItem;
     private _itemsMap : Record<string, LogicItem> = {};
     private _itemKindMap : Record<string, Record<string, LogicItem> > = {};
 
@@ -26,7 +30,8 @@ export class LogicScope
         this._logger = logger.sublogger("LogicScope");
         this._concreteRegistry = concreteRegistry;
 
-        this._root = LogicItem.constructTop(this);
+        this._rootNodes[ROOT_NODE_LOGIC] = LogicItem.constructTop(this, ROOT_NODE_LOGIC);
+        // this._rootNodes[ROOT_NODE_INFRA] = LogicItem.constructTop(this, ROOT_NODE_INFRA);
 
         this._namespaceScopes = {};
         this._infraScope = new InfraScope(this);
@@ -42,9 +47,17 @@ export class LogicScope
         return this._concreteRegistry;
     }
 
-    get root() {
-        return this._root;
+    get rootNodes() {
+        return _.values(this._rootNodes);
     }
+
+    get logicRootNode() {
+        return this._rootNodes[ROOT_NODE_LOGIC];
+    }
+
+    // get infraRootNode() {
+    //     return this._rootNodes[ROOT_NODE_INFRA];
+    // }
 
     _acceptItem(item : LogicItem) 
     {
@@ -139,7 +152,7 @@ export class LogicScope
         }
     }
 
-    _normalizeDict(dict : Record<string, any>) : Record<string, any>
+    private _normalizeDict(dict : Record<string, any>) : Record<string, any>
     {
         dict = dict || {};
 
@@ -153,7 +166,7 @@ export class LogicScope
 
     fetchInfraRawContainer() : LogicItem
     {
-        let infra = this.root.fetchByNaming("infra", "Infrastructure");
+        let infra = this.logicRootNode.fetchByNaming("infra", "Infrastructure");
         infra.order = 1000;
         return infra;
     }
@@ -166,7 +179,7 @@ export class LogicScope
 
     fetchNamespaceRawContainer(nsName : string, name : string) : LogicItem
     {
-        let namespace = this.root.fetchByNaming("ns", nsName);
+        let namespace = this.logicRootNode.fetchByNaming("ns", nsName);
         let rawContainer = namespace.fetchByNaming("raw", "Raw Configs");
         rawContainer.order = 1000;
         let container = rawContainer.fetchByNaming("raw", name);
@@ -187,9 +200,9 @@ export class LogicScope
         ]);
     }
 
-    _findItem(itemPath : { kind: string, name: string}[]) : LogicItem | null
+    private _findItem(itemPath : { kind: string, name: string}[]) : LogicItem | null
     {
-        let item = this.root;
+        let item = this.logicRootNode;
         for(let x of itemPath) {
             let next = item.findByNaming(x.kind, x.name);
             if (!item) {

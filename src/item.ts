@@ -1,9 +1,7 @@
 import _ from 'the-lodash';
 
 import { LogicScope } from './scope';
-import { NamespaceScope } from './scope/namespace';
 import { AppScope } from './scope/app';
-import { ItemScope } from './scope/item';
 
 import { PropertiesBuilder } from './properties-builder';
 
@@ -329,8 +327,8 @@ export class LogicItem
         return _.deepClean(node);
     }
 
-    static constructTop(scope: LogicScope) : LogicItem {
-        return new LogicItem(scope, null, "root", null);
+    static constructTop(scope: LogicScope, name: string) : LogicItem {
+        return new LogicItem(scope, null, name, null);
     }
 
     static _makeRn(kind: string, naming: any) {

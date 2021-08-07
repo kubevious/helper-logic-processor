@@ -123,7 +123,7 @@ export class LogicProcessor
 
             return Promise.resolve()
                 .then(() => this._runLogic(scope, tracker))
-                .then(() => this._dumpToFile(scope))
+                // .then(() => this._dumpToFile(scope))
                 .then(() => {
                     let items = scope.extractItems();
                     let state = this._makeRegistryState(items);
@@ -160,7 +160,7 @@ export class LogicProcessor
 
     private _processParser(scope: LogicScope, handlerInfo : BaseParserExecutor)
     {
-        this._logger.debug("[_processParser] Handler: %s, Target: %s ", 
+        this._logger.info("[_processParser] Handler: %s, Target: %s ", 
             handlerInfo.name,
             handlerInfo.targetInfo);
 
@@ -215,7 +215,7 @@ export class LogicProcessor
 
     private _traverseTree(scope : LogicScope, cb : (item : LogicItem) => void)
     {
-        let col : LogicItem[] = [scope.root];
+        let col : LogicItem[] = [ scope.logicRootNode ]; // scope.rootNodes;
         while (col.length)
         {
             let node = col.shift()!;
@@ -238,31 +238,24 @@ export class LogicProcessor
         }
     }
 
-    private _dumpToFile(scope : LogicScope)
-    {
-        return Promise.resolve()
-            .then(() => {
-                let writer = this.logger.outputStream("dump-logic-tree");
-                if (writer) {
-                    scope.root.debugOutputToFile(writer);
-                    return writer.close();
-                }
-            })
-            .then(() => {
-                let writer = this.logger.outputStream("dump-logic-tree-detailed");
-                if (writer) {
-                    scope.root.debugOutputToFile(writer, { includeConfig: true });
-                    return writer.close();
-                }
-            })
-            // .then(() => {
-            //     let writer = this.logger.outputStream("exported-tree");
-            //     if (writer) {
-            //         writer.write(this._context.facadeRegistry.logicTree);
-            //         return writer.close();
-            //     }
-            // });
-    }
+    // private _dumpToFile(scope : LogicScope)
+    // {
+    //     return Promise.resolve()
+    //         .then(() => {
+    //             let writer = this.logger.outputStream("dump-logic-tree");
+    //             if (writer) {
+    //                 scope.root.debugOutputToFile(writer);
+    //                 return writer.close();
+    //             }
+    //         })
+    //         .then(() => {
+    //             let writer = this.logger.outputStream("dump-logic-tree-detailed");
+    //             if (writer) {
+    //                 scope.root.debugOutputToFile(writer, { includeConfig: true });
+    //                 return writer.close();
+    //             }
+    //         })
+    // }
 
     private _makeRegistryState(logicItems: LogicItem[]) : RegistryState
     {

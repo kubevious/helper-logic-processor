@@ -6,27 +6,30 @@ import { ItemScope } from './item';
 import { ItemsScope } from './items';
 import { AppScope } from './app';
 import { LabelMatcher } from './label-matcher';
+import { LogicScope } from '.';
 
 export class NamespaceScope
 {
-    private _parent : any;
+    private _parent : LogicScope;
     private _name : string;
     private _logger : ILogger;
 
-    private _item : ItemScope;
+    private _item : LogicItem;
     private _appScopes : Record<string, AppScope> = {};
     private _items : ItemsScope;
     
     private _appLabelMatcher : LabelMatcher<AppScope>;
     private _appOwners : Record<string, Record<string, LogicItem[]>> = {};
 
-    constructor(parent: any, name: string)
+    constructor(parent: LogicScope, name: string)
     {
         this._parent = parent;
         this._logger = parent.logger;
         this._name = name;
 
-        this._item = this._parent.root.fetchByNaming("ns", name);
+        this._item = this._parent.logicRootNode.fetchByNaming("ns", name);
+
+        this.logger.error("[NamespaceScope] constructor: %s", name)
 
         this._items = new ItemsScope(this);
 

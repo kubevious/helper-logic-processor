@@ -15,20 +15,20 @@ export class LogicParserExecutor implements BaseParserExecutor
 {
     private _processor : LogicProcessor;
     private _logger : ILogger;
-    public path : string;
+    private _name : string;
 
     private _parserInfo : LogicParserInfo;
 
-    constructor(processor : LogicProcessor, path : string, parserInfo : LogicParserInfo)
+    constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo)
     {
-        this.path = path;
+        this._name = name;
         this._processor = processor;
         this._logger = processor.logger;
         this._parserInfo = parserInfo;
     }
 
     get name() : string {
-        return this.path;
+        return this._name;
     }
 
     get targetInfo() : string {
@@ -41,6 +41,8 @@ export class LogicParserExecutor implements BaseParserExecutor
     execute(scope : LogicScope)
     {
         const path = _.clone(this._parserInfo.target!.path);
+
+        this._logger.info("[LogicParserExecutor] execute. Path: ", path);
         const items = this._extractTreeItems(scope, path);
 
         for(let item of items)
@@ -52,7 +54,7 @@ export class LogicParserExecutor implements BaseParserExecutor
     _processHandler(scope : LogicScope, item: LogicItem)
     {
         this._logger.silly("[_processHandler] LogicHandler: %s, Item: %s", 
-            this.path, 
+            this.name, 
             item.dn);
 
         let variableArgs : LogicProcessorVariableArgs =
@@ -82,7 +84,7 @@ export class LogicParserExecutor implements BaseParserExecutor
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.path, reason);
+            this._logger.error("Error in %s parser. ", this.name, reason);
         }
 
     }
@@ -143,7 +145,7 @@ export class LogicParserExecutor implements BaseParserExecutor
     private _extractTreeItems(scope : LogicScope, path : string[]) : LogicItem[]
     {
         let items : LogicItem[] = [];
-        this._visitTree(scope.root, 0, path, item => {
+        this._visitTree(scope.logicRootNode, 0, path, item => {
             items.push(item);
         });
         return items;

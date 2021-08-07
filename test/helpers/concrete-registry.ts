@@ -46,7 +46,7 @@ export class ConcreteRegistry implements IConcreteRegistry
     loadMockData(mockName : string)
     {
         let dirName = Path.resolve(__dirname, '..', '..', 'mock-data', mockName);
-        this.logger.error("Dir name: %s", dirName);
+        this.logger.info("Loading Mock Data from: %s", dirName);
 
         return Promise.resolve()
             .then(() => {

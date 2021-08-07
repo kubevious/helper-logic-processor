@@ -16,9 +16,7 @@ export class ItemScope
     private _data : Record<string, any> = {};
     private _items : LogicItem[] = [];
     private _appScopes : Record<string, AppScope> = {};
-    private _createdAlerts : {kind : string,
-        severity : string,
-        msg : string }[] = [];
+    private _createdAlerts : AlertInfo[] = [];
 
     constructor(parent : any, kind: string, name: string, config : any)
     {
@@ -195,4 +193,11 @@ export class ItemScope
         }
     }
 
+}
+
+interface AlertInfo
+{
+    kind : string,
+    severity : string,
+    msg : string
 }

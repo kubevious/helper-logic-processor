@@ -17,13 +17,13 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     private _concreteRegistry : IConcreteRegistry;
     private _processor : LogicProcessor;
     private _logger : ILogger;
-    public path : string;
+    private _name : string;
 
     private _parserInfo : ConcreteParserInfo;
 
-    constructor(concreteRegistry: IConcreteRegistry, processor : LogicProcessor, path : string, parserInfo : ConcreteParserInfo)
+    constructor(concreteRegistry: IConcreteRegistry, processor : LogicProcessor, name : string, parserInfo : ConcreteParserInfo)
     {
-        this.path = path;
+        this._name = name;
         this._processor = processor;
         this._logger = processor.logger;
         this._concreteRegistry = concreteRegistry;
@@ -31,7 +31,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     }
 
     get name() : string {
-        return this.path;
+        return this._name;
     }
 
     get targetInfo() : string {
@@ -54,7 +54,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     _processHandler(scope : LogicScope, item: IConcreteItem)
     {
         this._logger.silly("[_processHandler] ConcreteHandler: %s, Item: %s", 
-            this.path, 
+            this.name, 
             item.id);
 
         let variableArgs : ConcreteProcessorVariableArgs =
@@ -84,7 +84,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.path, reason);
+            this._logger.error("Error in %s parser. ", this.name, reason);
         }
 
     }
