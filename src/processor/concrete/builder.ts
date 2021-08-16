@@ -35,7 +35,6 @@ export class ConcreteParserBuilder implements BaseParserBuilder
 {
     private _data : ConcreteParserInfo = {
         targetKind: 'concrete',
-        // order: 0,
         target: null
     };
 
@@ -50,12 +49,6 @@ export class ConcreteParserBuilder implements BaseParserBuilder
         this._targets.push(value);
         return this;
     }
-
-    // order(value : number) : ConcreteParserBuilder
-    // {
-    //     this._data.order = value;
-    //     return this;
-    // }
 
     needAppScope(value : boolean) : ConcreteParserBuilder
     {

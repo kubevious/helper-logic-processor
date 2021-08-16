@@ -5,6 +5,5 @@ export interface BaseParserBuilder {
 export interface BaseParserInfo
 {
     targetKind: string;
-    // order: number;
     target?: any;
 }
