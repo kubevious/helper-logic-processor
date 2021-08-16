@@ -131,8 +131,8 @@ export function constructArgs(
         createK8sItem : (parent : LogicItem, params? : any) =>
         {
             params = params || {};
-            var name = params.name || item.config.metadata.name;
-            var newObj = createItem(parent, name, params);
+            let name = params.name || item.config.metadata.name;
+            let newObj = createItem(parent, name, params);
             scope.setK8sConfig(newObj, item.config);
             return newObj;
         },

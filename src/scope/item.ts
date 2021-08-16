@@ -126,7 +126,7 @@ export class ItemScope
 
     setFlag(flag: string, params: any)
     {
-        for(var item of this.items)
+        for(let item of this.items)
         {
             item.setFlag(flag, params);
         }
@@ -134,7 +134,7 @@ export class ItemScope
 
     setPropagatableFlag(flag: string)
     {
-        for(var item of this.items)
+        for(let item of this.items)
         {
             item.setPropagatableFlag(flag);
         }
@@ -142,7 +142,7 @@ export class ItemScope
 
     addPropertyGroup(groupConfig: any)
     {
-        for(var item of this.items)
+        for(let item of this.items)
         {
             item.addProperties(groupConfig);
         }
@@ -157,7 +157,7 @@ export class ItemScope
 
     addProperties(config: Record<string, any>)
     {
-        var groupConfig = {
+        let groupConfig = {
             kind: "key-value",
             id: "properties",
             title: "Properties",
@@ -169,7 +169,7 @@ export class ItemScope
 
     buildProperties()
     {
-        var builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
+        let builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
             this.addProperties(props);
             return props;
         });
@@ -186,9 +186,9 @@ export class ItemScope
 
     finalize()
     {
-        for(var alertInfo of this._createdAlerts)
+        for(let alertInfo of this._createdAlerts)
         {
-            for(var item of this.items)
+            for(let item of this.items)
             {
                 item.addAlert(alertInfo.kind, alertInfo.severity, alertInfo.msg);
             }

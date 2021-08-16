@@ -35,7 +35,7 @@ export class LabelMatcher<T>
 
 function labelsMatch(labels: Record<string, any>, selector: Record<string, any>)
 {
-    for(var key of _.keys(selector)) {
+    for(let key of _.keys(selector)) {
         if (selector[key] != labels[key]) {
             return false;
         }

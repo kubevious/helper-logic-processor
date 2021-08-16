@@ -115,7 +115,7 @@ export class LogicScope
         }
 
         {
-            var labels = _.get(config, 'metadata.labels');
+            let labels = _.get(config, 'metadata.labels');
             labels = this._normalizeDict(labels);
             logicItem.addProperties({
                 kind: "key-value",
@@ -127,7 +127,7 @@ export class LogicScope
         }
 
         {
-            var annotations = _.get(config, 'metadata.annotations');
+            let annotations = _.get(config, 'metadata.annotations');
             annotations = this._normalizeDict(annotations);
             logicItem.addProperties({
                 kind: "key-value",
@@ -144,7 +144,7 @@ export class LogicScope
         dict = dict || {};
 
         let res : Record<string, any> = {};
-        for(var key of _.sortBy(_.keys(dict)))
+        for(let key of _.sortBy(_.keys(dict)))
         {
             res[key] = dict[key];
         }
@@ -160,16 +160,16 @@ export class LogicScope
 
     fetchRawContainer(item : IConcreteItem, name : string) : LogicItem
     {
-        var nsName = item.config.metadata.namespace;
+        let nsName = item.config.metadata.namespace;
         return this.fetchNamespaceRawContainer(nsName, name)
     }
 
     fetchNamespaceRawContainer(nsName : string, name : string) : LogicItem
     {
-        var namespace = this.root.fetchByNaming("ns", nsName);
-        var rawContainer = namespace.fetchByNaming("raw", "Raw Configs");
+        let namespace = this.root.fetchByNaming("ns", nsName);
+        let rawContainer = namespace.fetchByNaming("raw", "Raw Configs");
         rawContainer.order = 1000;
-        var container = rawContainer.fetchByNaming("raw", name);
+        let container = rawContainer.fetchByNaming("raw", name);
         return container;
     }
     
@@ -190,7 +190,7 @@ export class LogicScope
     _findItem(itemPath : { kind: string, name: string}[]) : LogicItem | null
     {
         let item = this.root;
-        for(var x of itemPath) {
+        for(let x of itemPath) {
             let next = item.findByNaming(x.kind, x.name);
             if (!item) {
                 return null;
@@ -202,8 +202,8 @@ export class LogicScope
 
     extractCapacity()
     {
-        var cap = [];
-        for(var kind of _.keys(this._itemKindMap))
+        let cap = [];
+        for(let kind of _.keys(this._itemKindMap))
         {
             cap.push({
                 kind: kind,

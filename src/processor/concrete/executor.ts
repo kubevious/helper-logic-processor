@@ -45,7 +45,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     {
         let items = this._concreteRegistry.filterItems(this._parserInfo.target);
 
-        for(var item of items)
+        for(let item of items)
         {
             this._processHandler(scope, item);
         }
@@ -128,9 +128,9 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     private _postProcessHandler(runtimeData : ConcreteProcessorRuntimeData)
     {
 
-        for(var alertInfo of runtimeData.createdAlerts)
+        for(let alertInfo of runtimeData.createdAlerts)
         {
-            for(var createdItem of runtimeData.createdItems)
+            for(let createdItem of runtimeData.createdItems)
             {
                 createdItem.addAlert(
                     alertInfo.kind, 

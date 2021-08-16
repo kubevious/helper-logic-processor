@@ -59,7 +59,7 @@ export class NamespaceScope
 
     getAppAndScope(name: string, createIfMissing: boolean) : AppScope | null
     {
-        var appScope = this._appScopes[name];
+        let appScope = this._appScopes[name];
         if (!appScope)
         {
             if (!createIfMissing)
@@ -68,7 +68,7 @@ export class NamespaceScope
             }
         }
 
-        var appScope = new AppScope(this, name);
+        appScope = new AppScope(this, name);
         this._appScopes[name] = appScope;
         return appScope;
     }

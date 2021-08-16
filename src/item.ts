@@ -194,13 +194,13 @@ export class LogicItem
 
     findByNaming(kind: string, naming: any)
     {
-        var rn = LogicItem._makeRn(kind, naming);
+        let rn = LogicItem._makeRn(kind, naming);
         return this.findByRn(rn);
     }
 
     findByRn(rn: string)
     {
-        var child = this._children[rn];
+        let child = this._children[rn];
         if (child) {
             return child;
         }
@@ -209,8 +209,8 @@ export class LogicItem
 
     fetchByNaming(kind: string, naming: any) : LogicItem
     {
-        var rn = LogicItem._makeRn(kind, naming);
-        var child = this._children[rn];
+        let rn = LogicItem._makeRn(kind, naming);
+        let child = this._children[rn];
         if (child) {
             return child;
         }
@@ -236,7 +236,7 @@ export class LogicItem
 
     buildProperties()
     {
-        var builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
+        let builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
             this.addProperties({
                 kind: "key-value",
                 id: "properties",
@@ -251,24 +251,24 @@ export class LogicItem
 
     addAlert(kind: string, severity: string, msg: string)
     {
-        var info : Alert = {
+        let info : Alert = {
             id: kind,
             severity: severity,
             msg: msg
         }
-        var key = _.stableStringify(info);
+        let key = _.stableStringify(info);
         this._alerts[key] = info;
     }
 
     cloneAlertsFrom(other: LogicItem)
     {
-        for(var x of _.values(other._alerts)) {
+        for(let x of _.values(other._alerts)) {
             this._alerts[x.id] = x;
         }
     }
 
     extractProperties() : SnapshotPropsConfig[] {
-        var myProps = _.values(this._properties);
+        let myProps = _.values(this._properties);
 
         if (_.keys(this._usedBy).length > 0) {
             myProps.push({
@@ -285,7 +285,7 @@ export class LogicItem
     }
 
     extractAlerts() : Alert[] {
-        var alerts = _.values(this._alerts);
+        let alerts = _.values(this._alerts);
         alerts = _.deepClean(alerts);
         return alerts;
     }
@@ -311,7 +311,7 @@ export class LogicItem
 
         writer.unindent();
 
-        for(var child of this.getChildren())
+        for(let child of this.getChildren())
         {
             child.debugOutputToFile(writer, options);
         }

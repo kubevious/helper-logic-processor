@@ -31,7 +31,7 @@ export class ItemsScope
         {
             this._itemsDict[kind] = {};
         }
-        var item = new ItemScope(this._parent, kind, name, config);
+        let item = new ItemScope(this._parent, kind, name, config);
         this._itemsDict[kind][name] = item;
         return item;
     }
@@ -66,9 +66,9 @@ export class ItemsScope
 
     finalize()
     {
-        for(var kindDict of _.values(this._itemsDict))
+        for(let kindDict of _.values(this._itemsDict))
         {
-            for(var scopeItem of _.values(kindDict))
+            for(let scopeItem of _.values(kindDict))
             {
                 scopeItem.finalize();
             }
@@ -84,7 +84,7 @@ export class ItemsScope
     {
         if (this._itemsDict[kind])
         {
-            var value = this._itemsDict[kind][name];
+            let value = this._itemsDict[kind][name];
             if (value)
             {
                 return value;

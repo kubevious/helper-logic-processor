@@ -73,7 +73,7 @@ export class ScopeParserExecutor implements BaseParserExecutor
             }
         }
 
-        for(var target of targets)
+        for(let target of targets)
         {
             this._processHandler(scope, target.id, target.itemScope, target.namespaceScope);
         }
@@ -119,9 +119,9 @@ export class ScopeParserExecutor implements BaseParserExecutor
     private _postProcessHandler(runtimeData : ScopeProcessorRuntimeData)
     {
 
-        for(var alertInfo of runtimeData.createdAlerts)
+        for(let alertInfo of runtimeData.createdAlerts)
         {
-            for(var createdItem of runtimeData.createdItems)
+            for(let createdItem of runtimeData.createdItems)
             {
                 createdItem.addAlert(
                     alertInfo.kind, 

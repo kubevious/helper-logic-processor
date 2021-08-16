@@ -23,7 +23,7 @@ export class PropertiesBuilder
 
     fromObject(obj: any, name: string, valuePath: string, defaultValue?: any, formatter?: FormatterFunc) : PropertiesBuilder
     {
-        var value = _.get(obj, valuePath);
+        let value = _.get(obj, valuePath);
         if (_.isUndefined(value)) {
             if (!_.isUndefined(defaultValue)) {
                 value = defaultValue;

@@ -47,7 +47,7 @@ export class LogicParserExecutor implements BaseParserExecutor
         const path = _.clone(this._parserInfo.target!.path);
         const items = this._extractTreeItems(scope, path);
 
-        for(var item of items)
+        for(let item of items)
         {
             this._processHandler(scope, item);
         }
@@ -130,9 +130,9 @@ export class LogicParserExecutor implements BaseParserExecutor
     private _postProcessHandler(runtimeData : LogicProcessorRuntimeData)
     {
 
-        for(var alertInfo of runtimeData.createdAlerts)
+        for(let alertInfo of runtimeData.createdAlerts)
         {
-            for(var createdItem of runtimeData.createdItems)
+            for(let createdItem of runtimeData.createdItems)
             {
                 createdItem.addAlert(
                     alertInfo.kind, 
@@ -146,7 +146,7 @@ export class LogicParserExecutor implements BaseParserExecutor
 
     private _extractTreeItems(scope : LogicScope, path : string[]) : LogicItem[]
     {
-        var items : LogicItem[] = [];
+        let items : LogicItem[] = [];
         this._visitTree(scope.root, 0, path, item => {
             items.push(item);
         });
@@ -163,9 +163,9 @@ export class LogicParserExecutor implements BaseParserExecutor
         }
         else
         {
-            var top = path[index];
-            var children = item.getChildrenByKind(top);
-            for(var child of children)
+            let top = path[index];
+            let children = item.getChildrenByKind(top);
+            for(let child of children)
             {
                 this._visitTree(child, index + 1, path, cb);
             }
