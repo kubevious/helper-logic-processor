@@ -3,7 +3,6 @@ import { PropertyValueWithUnit } from '../../helpers/resources';
 import { LogicParser } from '../../parser-builder';
 
 export default LogicParser()
-    .order(31)
     .target({
         path: ["ns", "app"]
     })

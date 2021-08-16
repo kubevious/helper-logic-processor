@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
-    .order(120)
     .target({
         api: "rbac.authorization.k8s.io",
         kind: "RoleBinding"

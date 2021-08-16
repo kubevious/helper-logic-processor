@@ -29,7 +29,7 @@ export class LogicParserBuilder implements BaseParserBuilder
 {
     private _data : LogicParserInfo = {
         targetKind: 'logic',
-        order: 0
+        // order: 0
     };
 
     private _targets : (LogicTarget)[] = [];
@@ -44,11 +44,11 @@ export class LogicParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    order(value : number) : LogicParserBuilder
-    {
-        this._data.order = value;
-        return this;
-    }
+    // order(value : number) : LogicParserBuilder
+    // {
+    //     this._data.order = value;
+    //     return this;
+    // }
 
     needNamespaceScope(value : boolean) : LogicParserBuilder
     {

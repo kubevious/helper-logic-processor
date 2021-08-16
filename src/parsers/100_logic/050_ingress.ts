@@ -3,7 +3,6 @@ import { LogicItem } from '../../item';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
-    .order(50)
     .target({
         api: "extensions",
         kind: "Ingress"

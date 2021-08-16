@@ -33,10 +33,6 @@ export class ScopeParserExecutor implements BaseParserExecutor
         return this.path;
     }
 
-    get order() : number {
-        return this._parserInfo.order;
-    }
-
     get targetInfo() : string {
         if (!this._parserInfo.target) {
             return '';

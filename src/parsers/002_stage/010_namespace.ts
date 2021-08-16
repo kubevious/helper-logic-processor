@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
 
 export default LogicParser()
-    .order(10)
     .target({
         path: ["ns"]
     })

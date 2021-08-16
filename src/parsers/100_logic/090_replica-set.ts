@@ -5,7 +5,6 @@ import { makeRelativeName } from '../../utils/name-helpers';
 import { LogicItem } from '../../item';
 
 export default ConcreteParser()
-    .order(90)
     .target({
         api: "apps",
         kind: "ReplicaSet"

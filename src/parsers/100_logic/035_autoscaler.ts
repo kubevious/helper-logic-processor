@@ -4,7 +4,6 @@ import { ConcreteParser } from '../../parser-builder';
 const yaml = require('js-yaml');
 
 export default ConcreteParser()
-    .order(35)
     .target({
         api: "autoscaling",
         kind: "HorizontalPodAutoscaler"

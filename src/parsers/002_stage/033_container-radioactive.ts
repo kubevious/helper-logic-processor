@@ -2,9 +2,8 @@ import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
 
 export default LogicParser()
-    .order(33)
     .target({
-        path: ["ns", "app", "launcher"]
+        path: ["ns", "app", "cont"]
     })
     .handler(({ item }) => {
 
@@ -12,23 +11,6 @@ export default LogicParser()
 
         if (_.get(item.config, 'securityContext.privileged')) {
             radioactiveProps['privileged'] = true;
-        }
-        
-        let podSpec = _.get(item.config, 'spec.template.spec');
-        if (podSpec)
-        {
-            if (podSpec.hostIPC) {
-                radioactiveProps['hostIPC'] = true;
-            }
-            if (podSpec.hostNetwork) {
-                radioactiveProps['hostNetwork'] = true;
-            }
-            if (podSpec.hostPID) {
-                radioactiveProps['hostPID'] = true;
-            }
-            if (_.get(podSpec, 'securityContext.privileged')) {
-                radioactiveProps['privileged'] = true;
-            }
         }
 
         if (_.keys(radioactiveProps).length > 0)

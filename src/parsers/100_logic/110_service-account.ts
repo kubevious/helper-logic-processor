@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
-    .order(110)
     .target({
         api: "v1",
         kind: "ServiceAccount"

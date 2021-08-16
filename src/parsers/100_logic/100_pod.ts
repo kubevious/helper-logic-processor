@@ -3,7 +3,6 @@ import { ConcreteParser } from '../../parser-builder';
 import { makeRelativeName } from '../../utils/name-helpers';
 
 export default ConcreteParser()
-    .order(100)
     .target({
         api: "v1",
         kind: "Pod"

@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { ScopeParser } from '../../parser-builder';
 
 export default ScopeParser()
-    .order(101)
     .target({
         namespaced: true,
         scopeKind: 'Pod'

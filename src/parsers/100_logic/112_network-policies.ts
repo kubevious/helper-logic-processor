@@ -4,7 +4,6 @@ import { LogicParser } from '../../parser-builder';
 import { TableBuilder } from '../../table-builder';
 
 export default LogicParser()
-    .order(112)
     .target({
         path: ["ns", "app", "netpols"]
     })

@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
-    .order(1)
     .target(null)
     .handler(({ logger, scope, item, createK8sItem, infraScope, helpers }) => {
 

@@ -36,7 +36,7 @@ export class ScopeParserBuilder implements BaseParserBuilder
 {
     private _data : ScopeParserInfo = {
         targetKind: 'scope',
-        order: 0,
+        // order: 0,
         target: null
     };
 
@@ -58,11 +58,11 @@ export class ScopeParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    order(value : number) : ScopeParserBuilder
-    {
-        this._data.order = value;
-        return this;
-    }
+    // order(value : number) : ScopeParserBuilder
+    // {
+    //     this._data.order = value;
+    //     return this;
+    // }
 
     handler(value : (args : ScopeProcessorHandlerArgs) => void)
     {

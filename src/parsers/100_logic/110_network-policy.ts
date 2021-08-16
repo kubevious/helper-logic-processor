@@ -5,7 +5,6 @@ import { ScopeParser } from '../../parser-builder';
 import { TableBuilder } from '../../table-builder';
 
 export default ScopeParser()
-    .order(110)
     .target({
         namespaced: true,
         scopeKind: 'NetworkPolicy'

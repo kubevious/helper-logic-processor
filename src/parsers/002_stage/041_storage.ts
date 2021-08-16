@@ -3,7 +3,6 @@ import { PropertyValueWithUnit } from '../../helpers/resources';
 import { LogicParser } from '../../parser-builder';
 
 export default LogicParser()
-    .order(20)
     .target({
         path: ["infra", "storage"]
     })

@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
-    .order(10)
     .target({
         api: "v1",
         kind: "Namespace"

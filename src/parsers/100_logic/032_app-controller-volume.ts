@@ -3,7 +3,6 @@ import { LogicItem } from '../../item';
 import { LogicParser } from '../../parser-builder';
 
 export default LogicParser()
-    .order(32)
     .target({
         path: ["ns", "app", "launcher"]
     })

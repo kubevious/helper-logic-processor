@@ -5,7 +5,6 @@ import { LogicParser } from '../../parser-builder';
 const yaml = require('js-yaml');
 
 export default LogicParser()
-    .order(31)
     .target({
         path: ["ns", "app", "launcher"]
     })

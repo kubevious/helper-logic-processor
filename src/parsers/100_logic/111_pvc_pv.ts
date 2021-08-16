@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { ScopeParser } from '../../parser-builder';
 
 export default ScopeParser()
-    .order(111)
     .target({
         scopeKind: 'PersistentVolume'
     })

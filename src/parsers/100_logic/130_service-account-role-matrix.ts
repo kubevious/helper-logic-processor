@@ -3,7 +3,6 @@ import { ScopeParser } from '../../parser-builder';
 
 
 export default ScopeParser()
-    .order(130)
     .target({
         namespaced: true,
         scopeKind: 'ServiceAccount'

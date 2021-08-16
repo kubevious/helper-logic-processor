@@ -64,16 +64,15 @@ export class LogicProcessor
         }
 
         processors = _.orderBy(processors, [
-            x => x.order,
             x => x.name,
             x => x.targetInfo
         ]);
 
         for(let processor of processors)
         {
-            this._logger.info("[_extractProcessors] HANDLER: %s -> %s", 
-                processor.order, 
-                processor.name);
+            this._logger.info("[_extractProcessors] HANDLER: %s. Target: %s", 
+                processor.name, 
+                processor.targetInfo);
 
             this._processors.push(processor);
         }
@@ -161,9 +160,9 @@ export class LogicProcessor
 
     private _processParser(scope: LogicScope, handlerInfo : BaseParserExecutor)
     {
-        this._logger.debug("[_processParser] Handler: %s -> %s, target: %s :: ", 
-            handlerInfo.order,
-            handlerInfo.name);
+        this._logger.debug("[_processParser] Handler: %s, Target: %s ", 
+            handlerInfo.name,
+            handlerInfo.targetInfo);
 
         handlerInfo.execute(scope);
 
