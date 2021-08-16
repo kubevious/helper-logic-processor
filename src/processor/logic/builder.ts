@@ -28,8 +28,7 @@ export interface LogicParserInfo extends BaseParserInfo
 export class LogicParserBuilder implements BaseParserBuilder
 {
     private _data : LogicParserInfo = {
-        targetKind: 'logic',
-        // order: 0
+        targetKind: 'logic'
     };
 
     private _targets : (LogicTarget)[] = [];
@@ -43,12 +42,6 @@ export class LogicParserBuilder implements BaseParserBuilder
         this._targets.push(value);
         return this;
     }
-
-    // order(value : number) : LogicParserBuilder
-    // {
-    //     this._data.order = value;
-    //     return this;
-    // }
 
     needNamespaceScope(value : boolean) : LogicParserBuilder
     {
