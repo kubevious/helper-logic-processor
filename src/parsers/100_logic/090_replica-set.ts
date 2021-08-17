@@ -6,7 +6,7 @@ import { LogicItem } from '../../item';
 
 export default ConcreteParser()
     .target({
-        api: "apps",
+        apiName: "apps",
         kind: "ReplicaSet"
     })
     .kind('replicaset')

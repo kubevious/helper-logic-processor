@@ -3,11 +3,11 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target({
-        api: "rbac.authorization.k8s.io",
+        apiName: "rbac.authorization.k8s.io",
         kind: "ClusterRole"
     })
     .target({
-        api: "rbac.authorization.k8s.io",
+        apiName: "rbac.authorization.k8s.io",
         kind: "Role"
     })
     .kind((item) => {
@@ -22,7 +22,7 @@ export default ConcreteParser()
     .needNamespaceScope(true)
     .namespaceNameCb((item) => {
         if(item.config.kind == "Role") {
-            return item.config.metadata.namespace;
+            return item.config.metadata.namespace!;
         }
         if(item.config.kind == "ClusterRole") {
             return '';

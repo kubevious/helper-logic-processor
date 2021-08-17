@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { IConcreteItem } from '../../registry';
+import { ConcreteRegistryFilter, IConcreteItem } from '../../types/registry';
 
 import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
 
@@ -7,7 +7,7 @@ import { ConcreteProcessorHandlerArgs } from './handler-args';
 
 export interface ConcreteParserInfo extends BaseParserInfo
 {
-    target: null | ConcreteTarget;
+    target: null | ConcreteRegistryFilter;
 
     needAppScope?: boolean;
     canCreateAppIfMissing? : boolean;
@@ -19,11 +19,6 @@ export interface ConcreteParserInfo extends BaseParserInfo
     namespaceNameCb? : (item : IConcreteItem) => string;
 
     handler? : (args : ConcreteProcessorHandlerArgs) => void;
-}
-
-interface ConcreteTarget {
-    api: string,
-    kind: string
 }
 
 export function ConcreteParser() : ConcreteParserBuilder
@@ -38,13 +33,13 @@ export class ConcreteParserBuilder implements BaseParserBuilder
         target: null
     };
 
-    private _targets : (ConcreteTarget | null)[] = [];
+    private _targets : (ConcreteRegistryFilter | null)[] = [];
 
     constructor()
     {
     }
 
-    target(value : null | ConcreteTarget)
+    target(value : null | ConcreteRegistryFilter)
     {
         this._targets.push(value);
         return this;

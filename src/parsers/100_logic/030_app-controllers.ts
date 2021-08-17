@@ -3,19 +3,19 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target({
-        api: "apps",
+        apiName: "apps",
         kind: "Deployment"
     })
     .target({
-        api: "apps",
+        apiName: "apps",
         kind: "DaemonSet"
     })
     .target({
-        api: "apps",
+        apiName: "apps",
         kind: "StatefulSet"
     })
     .target({
-        api: "batch",
+        apiName: "batch",
         kind: "Job"
     })
     .needAppScope(true)

@@ -4,7 +4,7 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target({
-        api: "v1",
+        apiName: null,
         kind: "Service"
     })
     .kind('service')

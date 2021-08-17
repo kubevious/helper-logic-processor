@@ -12,7 +12,7 @@ import { Helpers } from '../../helpers';
 import { LogicItem } from '../../item';
 
 import { ConcreteParserInfo } from './builder'
-import { IConcreteItem } from '../../registry';
+import { IConcreteItem } from '../../types/registry';
 
 import { AlertInfo } from '../types';
 

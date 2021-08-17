@@ -5,7 +5,7 @@ export default ConcreteParser()
     .target(null)
     .handler(({ scope, item }) => {
 
-        if (item.id.api == 'v1' && item.id.kind == 'Namespace')
+        if (_.isNull(item.id.api) && item.id.kind == 'Namespace')
         {
             scope.getNamespaceScope(item.id.name);
         }

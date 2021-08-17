@@ -5,7 +5,7 @@ import { InfraScope } from './infra';
 import { NamespaceScope } from './namespace';
 import { LogicItem } from '../item';
 import { LabelMatcher } from './label-matcher';
-import { IConcreteRegistry, IConcreteItem } from '../registry';
+import { IConcreteRegistry, IConcreteItem } from '../types/registry';
 
 export const ROOT_NODE_LOGIC = 'root';
 // export const ROOT_NODE_INFRA = 'infra';
@@ -173,7 +173,7 @@ export class LogicScope
 
     fetchRawContainer(item : IConcreteItem, name : string) : LogicItem
     {
-        let nsName = item.config.metadata.namespace;
+        let nsName = item.config.metadata.namespace!;
         return this.fetchNamespaceRawContainer(nsName, name)
     }
 

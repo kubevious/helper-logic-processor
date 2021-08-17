@@ -3,11 +3,11 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target({
-        api: "rbac.authorization.k8s.io",
+        apiName: "rbac.authorization.k8s.io",
         kind: "RoleBinding"
     })
     .target({
-        api: "rbac.authorization.k8s.io",
+        apiName: "rbac.authorization.k8s.io",
         kind: "ClusterRoleBinding"
     })
     .kind((item) => {
@@ -22,7 +22,7 @@ export default ConcreteParser()
     .needNamespaceScope(true)
     .namespaceNameCb((item) => {
         if(item.config.kind == "RoleBinding") {
-            return item.config.metadata.namespace;
+            return item.config.metadata.namespace!;
         }
         if(item.config.kind == "ClusterRoleBinding") {
             return '';
@@ -65,7 +65,7 @@ export default ConcreteParser()
                             bindingScope.registerItem(logicItem);
                             bindingScope.markUsedBy(logicItem);
 
-                            if (targetNamespaceName != subjNamespaceName)
+                            if (subjNamespaceName != targetNamespaceName)
                             {
                                 logicItem.setPropagatableFlag("xnamespace");
                             }
@@ -123,7 +123,7 @@ export default ConcreteParser()
                 bindingScope.data.rules = helpers.roles.combineRulesMap(
                     bindingScope.data.rules,
                     roleScope.data.rules,
-                    targetNamespaceName);
+                    targetNamespaceName!);
             }
         }
         bindingScope.data.rules = helpers.roles.optimizeRulesMap(bindingScope.data.rules);

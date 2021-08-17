@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
-import { IConcreteItem } from '../registry';
+import { IConcreteItem } from '../types/registry';
 import { ItemScope } from './item';
 
 export class ItemsScope

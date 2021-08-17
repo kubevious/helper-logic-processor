@@ -19,7 +19,7 @@ import { ScopeParserExecutor } from './scope/executor';
 import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
 import { RegistryState } from '@kubevious/helpers/dist/registry-state';
 
-import { IConcreteRegistry } from '../registry';
+import { IConcreteRegistry } from '../types/registry';
 import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/helpers/dist/snapshot/types';
 import { ParserInfo, ParserLoader } from './parser-loader'
 

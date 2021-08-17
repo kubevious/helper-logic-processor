@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 
 export default ConcreteParser()
     .target({
-        api: "autoscaling",
+        apiName: "autoscaling",
         kind: "HorizontalPodAutoscaler"
     })
     .kind('hpa')
@@ -30,8 +30,8 @@ export default ConcreteParser()
             return;
         }
 
-        let min = item.config.spec.minReplicas;
-        let max = item.config.spec.maxReplicas;
+        let min = item.config.spec!.minReplicas;
+        let max = item.config.spec!.maxReplicas;
         let replicasInfo = "[" + min + ", " + max + "]";
 
         createK8sItem(app);

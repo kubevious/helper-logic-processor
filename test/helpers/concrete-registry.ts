@@ -8,7 +8,7 @@ import * as yaml from 'js-yaml';
 import { ILogger } from "the-logger";
 import { promise as glob } from 'glob-promise';
 import { ConcreteItem } from "./concrete-item";
-import { ConcreteRegistryFilter } from "../../src/registry";
+import { ConcreteRegistryFilter } from "../../src/types/registry";
 
 export class ConcreteRegistry implements IConcreteRegistry
 {

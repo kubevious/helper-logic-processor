@@ -29,8 +29,6 @@ export class NamespaceScope
 
         this._item = this._parent.logicRootNode.fetchByNaming("ns", name);
 
-        this.logger.error("[NamespaceScope] constructor: %s", name)
-
         this._items = new ItemsScope(this);
 
         this._appLabelMatcher = new LabelMatcher();

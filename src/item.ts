@@ -190,13 +190,13 @@ export class LogicItem
         this._parent = null;
     }
 
-    findByNaming(kind: string, naming: any)
+    findByNaming(kind: string, naming: any) : LogicItem | null
     {
         let rn = LogicItem._makeRn(kind, naming);
         return this.findByRn(rn);
     }
 
-    findByRn(rn: string)
+    findByRn(rn: string) : LogicItem | null
     {
         let child = this._children[rn];
         if (child) {

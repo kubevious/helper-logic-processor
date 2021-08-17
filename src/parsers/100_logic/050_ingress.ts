@@ -4,7 +4,7 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target({
-        api: "extensions",
+        apiName: "extensions",
         kind: "Ingress"
     })
     .kind('ingress')
