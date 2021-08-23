@@ -8,6 +8,7 @@ import { promise as glob } from 'glob-promise';
 export class ParserLoader
 {
     private logger : ILogger;
+    private _allParsers : ParserInfo[] = [];
     private _parsers : ParserInfo[] = [];
 
     constructor(logger: ILogger)
@@ -23,6 +24,7 @@ export class ParserLoader
     {
         return Promise.resolve()
             .then(() => this._extractProcessors('parsers'))
+            .then(() => this._filterParser())
             ;
     }
 
@@ -59,10 +61,22 @@ export class ParserLoader
         }
 
         let baseParserBuilder = <BaseParserBuilder>defaultExport;
-        this._parsers.push({
+        this._allParsers.push({
             moduleName: moduleName,
             baseBuilder: baseParserBuilder
         });
+    }
+
+    private _filterParser()
+    {
+        const nonSkipped = this._allParsers.filter(x => !x.baseBuilder.shouldSkip());
+        const only = this._allParsers.filter(x => x.baseBuilder.isOnly());
+
+        if (only.length > 0) {
+            this._parsers = only;
+        } else {
+            this._parsers = nonSkipped;
+        }
     }
 
 }

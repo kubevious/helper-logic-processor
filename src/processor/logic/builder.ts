@@ -27,6 +27,9 @@ export interface LogicParserInfo extends BaseParserInfo
 
 export class LogicParserBuilder implements BaseParserBuilder
 {
+    private _isOnly: boolean = false;
+    private _shouldSkip: boolean = false;
+
     private _data : LogicParserInfo = {
         targetKind: 'logic'
     };
@@ -35,6 +38,26 @@ export class LogicParserBuilder implements BaseParserBuilder
 
     constructor()
     {
+    }
+
+    only() {
+        this._isOnly = true;
+        return this;
+    }
+
+    skip() {
+        this._shouldSkip = true;
+        return this;
+    }
+
+    isOnly()
+    {
+        return this._isOnly
+    }
+
+    shouldSkip()
+    {
+        return this._shouldSkip;
     }
 
     target(value : LogicTarget) : LogicParserBuilder

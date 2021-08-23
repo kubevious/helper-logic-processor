@@ -28,6 +28,9 @@ export function ConcreteParser() : ConcreteParserBuilder
 
 export class ConcreteParserBuilder implements BaseParserBuilder
 {
+    private _isOnly: boolean = false;
+    private _shouldSkip: boolean = false;
+
     private _data : ConcreteParserInfo = {
         targetKind: 'concrete',
         target: null
@@ -37,6 +40,26 @@ export class ConcreteParserBuilder implements BaseParserBuilder
 
     constructor()
     {
+    }
+
+    only() {
+        this._isOnly = true;
+        return this;
+    }
+
+    skip() {
+        this._shouldSkip = true;
+        return this;
+    }
+
+    isOnly()
+    {
+        return this._isOnly
+    }
+
+    shouldSkip()
+    {
+        return this._shouldSkip;
     }
 
     target(value : null | ConcreteRegistryFilter)

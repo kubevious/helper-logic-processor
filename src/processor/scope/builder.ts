@@ -34,6 +34,9 @@ export function ScopeParser() : ScopeParserBuilder
 
 export class ScopeParserBuilder implements BaseParserBuilder
 {
+    private _isOnly: boolean = false;
+    private _shouldSkip: boolean = false;
+
     private _data : ScopeParserInfo = {
         targetKind: 'scope',
         target: null
@@ -43,6 +46,26 @@ export class ScopeParserBuilder implements BaseParserBuilder
 
     constructor()
     {
+    }
+
+    only() {
+        this._isOnly = true;
+        return this;
+    }
+
+    skip() {
+        this._shouldSkip = true;
+        return this;
+    }
+
+    isOnly()
+    {
+        return this._isOnly
+    }
+
+    shouldSkip()
+    {
+        return this._shouldSkip;
     }
 
     target(value : ScopeTarget) : ScopeParserBuilder

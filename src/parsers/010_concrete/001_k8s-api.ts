@@ -3,6 +3,7 @@ import { LogicItem } from '../../item';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
+    .only()
     .target({
         synthetic: true,
         apiName: 'kubevious.io',
