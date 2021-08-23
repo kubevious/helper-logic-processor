@@ -27,6 +27,10 @@ export class LogicParserExecutor implements BaseParserExecutor
         this._parserInfo = parserInfo;
     }
 
+    get kind() {
+        return 'Logic';
+    }
+
     get name() : string {
         return this._name;
     }
@@ -42,7 +46,6 @@ export class LogicParserExecutor implements BaseParserExecutor
     {
         const path = _.clone(this._parserInfo.target!.path);
 
-        this._logger.info("[LogicParserExecutor] execute. Path: ", path);
         const items = this._extractTreeItems(scope, path);
 
         for(let item of items)

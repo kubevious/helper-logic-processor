@@ -30,6 +30,10 @@ export class ConcreteParserExecutor implements BaseParserExecutor
         this._parserInfo = parserInfo;
     }
 
+    get kind() {
+        return 'Concrete';
+    }
+
     get name() : string {
         return this._name;
     }

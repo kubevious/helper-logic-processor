@@ -22,7 +22,7 @@ export default ConcreteParser()
 
         let apiRoot : LogicItem = scopeRoot;
         if (item.id.apiName) {
-            apiRoot = scopeRoot.fetchByNaming('api', item.id.apiName);
+            apiRoot = apiRoot.fetchByNaming('api', item.id.apiName);
         }
 
         let apiVersionRoot = apiRoot.fetchByNaming('version', item.id.version);

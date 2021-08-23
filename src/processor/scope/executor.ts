@@ -29,6 +29,10 @@ export class ScopeParserExecutor implements BaseParserExecutor
         this._parserInfo = parserInfo;
     }
 
+    get kind() {
+        return 'Scope';
+    }
+
     get name() : string {
         return this._name;
     }

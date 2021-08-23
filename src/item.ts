@@ -18,6 +18,8 @@ export class LogicItem
     private _kind : string;
     private _naming : any;
 
+    private _runtime : Record<string, any> = {};
+
     // private _itemScope? : ItemScope;
     // private _namespaceScope? : NamespaceScope;
     private _appScope? : AppScope;
@@ -58,6 +60,10 @@ export class LogicItem
         }
  
         this._logicScope._acceptItem(this);
+    }
+    
+    get runtime() {
+        return this._runtime;
     }
 
     get kind() {

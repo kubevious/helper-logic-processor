@@ -8,6 +8,7 @@ export interface IConcreteRegistry
 }
 
 export interface ConcreteRegistryFilter {
+    synthetic?: boolean,
     api?: string,
     apiName?: string | null,
     version?: string,
