@@ -5,7 +5,7 @@ import { LogicProcessor } from '../';
 
 import { LogicScope } from "../../scope";
 
-import { LogicParserInfo } from './builder'
+import { LogicParserInfo, LogicTargetPathElement } from './builder'
 
 import { BaseParserExecutor } from '../base/executor';
 import { LogicItem } from '../../item';
@@ -18,6 +18,7 @@ export class LogicParserExecutor implements BaseParserExecutor
     private _name : string;
 
     private _parserInfo : LogicParserInfo;
+    private _targetPath : LogicTargetPathElement[];
 
     constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo)
     {
@@ -25,6 +26,7 @@ export class LogicParserExecutor implements BaseParserExecutor
         this._processor = processor;
         this._logger = processor.logger;
         this._parserInfo = parserInfo;
+        this._targetPath = parserInfo.target!.path;
     }
 
     get kind() {
@@ -44,9 +46,7 @@ export class LogicParserExecutor implements BaseParserExecutor
 
     execute(scope : LogicScope)
     {
-        const path = _.clone(this._parserInfo.target!.path);
-
-        const items = this._extractTreeItems(scope, path);
+        const items = this._extractTreeItems(scope);
 
         for(let item of items)
         {
@@ -54,7 +54,7 @@ export class LogicParserExecutor implements BaseParserExecutor
         }
     }
 
-    _processHandler(scope : LogicScope, item: LogicItem)
+    private _processHandler(scope : LogicScope, item: LogicItem)
     {
         this._logger.silly("[_processHandler] LogicHandler: %s, Item: %s", 
             this.name, 
@@ -145,31 +145,36 @@ export class LogicParserExecutor implements BaseParserExecutor
     }
 
 
-    private _extractTreeItems(scope : LogicScope, path : string[]) : LogicItem[]
+    private _extractTreeItems(scope : LogicScope) : LogicItem[]
     {
         let items : LogicItem[] = [];
-        this._visitTree(scope.logicRootNode, 0, path, item => {
+        this._visitTree(scope.logicRootNode, 0, item => {
             items.push(item);
         });
         return items;
     }
 
-    private _visitTree(item : LogicItem, index: number, path : string[], cb : (item : LogicItem) => void)
+    private _visitTree(item : LogicItem, index: number, cb : (item : LogicItem) => void)
     {
-        this._logger.silly("[_visitTree] %s, path: %s...", item.dn, path);
+        this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
 
-        if (index >= path.length)
+        if (index >= this._targetPath.length)
         {
             cb(item);
         }
         else
         {
-            let top = path[index];
-            let children = item.getChildrenByKind(top);
+            let top = this._targetPath[index];
+            let children = item.getChildrenByKind(top.kind);
             for(let child of children)
             {
-                this._visitTree(child, index + 1, path, cb);
+                this._visitTree(child, index + 1, cb);
             }
         }
+    }
+
+    private _findNextNodes(item : LogicItem, filter: LogicTargetPathElement) : LogicItem[]
+    {
+        
     }
 }

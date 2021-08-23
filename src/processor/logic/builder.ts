@@ -5,13 +5,21 @@ import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
 
 import { LogicProcessorHandlerArgs } from './handler-args';
 
-interface LogicTarget {
-    path: string[],
+export interface LogicTarget {
+    path: (LogicTargetPathElement | string)[],
+}
+
+export interface LogicTargetFinal {
+    path: LogicTargetPathElement[]
+}
+
+export interface LogicTargetPathElement {
+    kind: string
 }
 
 export interface LogicParserInfo extends BaseParserInfo
 {
-    target?: LogicTarget;
+    target?: LogicTargetFinal;
 
     needAppScope?: boolean;
     canCreateAppIfMissing? : boolean;
@@ -94,8 +102,24 @@ export class LogicParserBuilder implements BaseParserBuilder
     {
         return this._targets.map(target => {
             let data = _.clone(this._data);
-            data.target = target;
+            data.target = this._makeTarget(target);
             return data;
         });
+    }
+
+    private _makeTarget(target: LogicTarget) : LogicTargetFinal
+    {
+        const result: LogicTargetFinal = {
+            path: target.path.map(x => {
+                if (_.isString(x)) {
+                    return {
+                        kind: x
+                    }
+                } else {
+                    return x;
+                }
+            })
+        }
+        return result;
     }
 }
