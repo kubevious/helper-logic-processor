@@ -164,8 +164,8 @@ export class LogicParserExecutor implements BaseParserExecutor
         }
         else
         {
-            let top = this._targetPath[index];
-            let children = item.getChildrenByKind(top.kind);
+            let filter = this._targetPath[index];
+            let children = this._findNextNodes(item, filter);
             for(let child of children)
             {
                 this._visitTree(child, index + 1, cb);
@@ -175,6 +175,16 @@ export class LogicParserExecutor implements BaseParserExecutor
 
     private _findNextNodes(item : LogicItem, filter: LogicTargetPathElement) : LogicItem[]
     {
-        
+        if (filter.name)
+        {
+            const child = item.findByNaming(filter.kind, filter.name);
+            if (child) {
+                return [ child ];
+            }
+            return [];
+        }
+
+        let children = item.getChildrenByKind(filter.kind);
+        return children;
     }
 }

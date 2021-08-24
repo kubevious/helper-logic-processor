@@ -14,7 +14,8 @@ export interface LogicTargetFinal {
 }
 
 export interface LogicTargetPathElement {
-    kind: string
+    kind: string;
+    name?: string;
 }
 
 export interface LogicParserInfo extends BaseParserInfo
