@@ -9,7 +9,7 @@ import { LogicParserInfo, LogicTargetPathElement } from './builder'
 
 import { BaseParserExecutor } from '../base/executor';
 import { LogicItem } from '../../item';
-import { constructArgs, LogicProcessorHandlerArgs, LogicProcessorRuntimeData, LogicProcessorVariableArgs } from './handler-args';
+import { constructArgs, LogicProcessorRuntimeData, LogicProcessorVariableArgs } from './handler-args';
 
 export class LogicParserExecutor implements BaseParserExecutor
 {
@@ -148,13 +148,22 @@ export class LogicParserExecutor implements BaseParserExecutor
     private _extractTreeItems(scope : LogicScope) : LogicItem[]
     {
         let items : LogicItem[] = [];
-        this._visitTree(scope.logicRootNode, 0, item => {
-            items.push(item);
-        });
+        if (this._targetPath.length > 0)
+        {
+            this._visitTreePath(scope.logicRootNode, 0, item => {
+                items.push(item);
+            });
+        }
+        else
+        {
+            this._visitTreeAll(scope.logicRootNode, item => {
+                items.push(item);
+            });
+        }
         return items;
     }
 
-    private _visitTree(item : LogicItem, index: number, cb : (item : LogicItem) => void)
+    private _visitTreePath(item : LogicItem, index: number, cb : (item : LogicItem) => void)
     {
         this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
 
@@ -168,8 +177,21 @@ export class LogicParserExecutor implements BaseParserExecutor
             let children = this._findNextNodes(item, filter);
             for(let child of children)
             {
-                this._visitTree(child, index + 1, cb);
+                this._visitTreePath(child, index + 1, cb);
             }
+        }
+    }
+
+    private _visitTreeAll(item : LogicItem, cb : (item : LogicItem) => void)
+    {
+        this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
+
+        cb(item);
+
+        let children = item.getChildren();
+        for(let child of children)
+        {
+            this._visitTreeAll(child, cb);
         }
     }
 

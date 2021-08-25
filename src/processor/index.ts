@@ -7,14 +7,8 @@ import { LogicScope } from "../scope";
 import { Helpers } from '../helpers';
 import { LogicItem } from '../item';
 
-import { ConcreteParserInfo } from './concrete/builder'
-import { LogicParserInfo } from './logic/builder'
-import { ScopeParserInfo } from './scope/builder';
 
 import { BaseParserExecutor } from './base/executor';
-import { ConcreteParserExecutor } from './concrete/executor';
-import { LogicParserExecutor } from './logic/executor';
-import { ScopeParserExecutor } from './scope/executor';
 
 import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
 import { RegistryState } from '@kubevious/helpers/dist/registry-state';
@@ -22,7 +16,6 @@ import { RegistryState } from '@kubevious/helpers/dist/registry-state';
 import { IConcreteRegistry } from '../types/registry';
 import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/helpers/dist/snapshot/types';
 import { ParserInfo, ParserLoader } from './parser-loader'
-
 
 export class LogicProcessor 
 {
@@ -80,38 +73,11 @@ export class LogicProcessor
 
     private _loadProcessor(parserModuleInfo : ParserInfo, processors : BaseParserExecutor[])
     {
-        let baseParserInfos = parserModuleInfo.baseBuilder._extract();
+        let baseExecutors = parserModuleInfo.baseBuilder._extract(this._registry, this, parserModuleInfo.moduleName);
 
-        for (let baseParserInfo of baseParserInfos)
+        for (let parserExecutor of baseExecutors)
         {
-            if (baseParserInfo.targetKind == 'concrete')
-            {
-                let parserInfo = <ConcreteParserInfo>baseParserInfo;
-                let parserExecutor = new ConcreteParserExecutor(
-                    this._registry,
-                    this,
-                    parserModuleInfo.moduleName,
-                    parserInfo)
-                processors.push(parserExecutor);
-            }
-            else if (baseParserInfo.targetKind == 'logic')
-            {
-                let parserInfo = <LogicParserInfo>baseParserInfo;
-                let parserExecutor = new LogicParserExecutor(
-                    this,
-                    parserModuleInfo.moduleName,
-                    parserInfo)
-                processors.push(parserExecutor);
-            }
-            else if (baseParserInfo.targetKind == 'scope')
-            {
-                let parserInfo = <ScopeParserInfo>baseParserInfo;
-                let parserExecutor = new ScopeParserExecutor(
-                    this,
-                    parserModuleInfo.moduleName,
-                    parserInfo)
-                processors.push(parserExecutor);
-            }
+            processors.push(parserExecutor);
         }
     }
 

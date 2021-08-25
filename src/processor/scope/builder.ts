@@ -1,23 +1,17 @@
 import _ from 'the-lodash';
-// import { IConcreteItem } from '../../../concrete/item';
+import { LogicProcessor } from '..';
+import { IConcreteRegistry } from '../..';
 
-import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
+import { BaseParserInfo, BaseParserBuilder, ParserBuilder } from '../base/builder';
+import { BaseParserExecutor } from '../base/executor';
+import { ScopeParserExecutor } from './executor';
 import { ScopeProcessorHandlerArgs } from './handler-args';
-
-// import { ConcreteProcessorHandlerArgs } from './handler-args';
 
 export interface ScopeParserInfo extends BaseParserInfo
 {
     target: ScopeTarget | null;
 
-    // needAppScope?: boolean;
-    // canCreateAppIfMissing? : boolean;
-    // appNameCb?: (item : IConcreteItem) => string;
-
     kind?: string;
-
-    // needNamespaceScope?: boolean;
-    // namespaceNameCb? : (item : IConcreteItem) => string;
 
     handler? : (args : ScopeProcessorHandlerArgs) => void;
 }
@@ -32,41 +26,12 @@ export function ScopeParser() : ScopeParserBuilder
     return new ScopeParserBuilder();
 }
 
-export class ScopeParserBuilder implements BaseParserBuilder
+export class ScopeParserBuilder extends BaseParserBuilder<ScopeTarget> implements ParserBuilder
 {
-    private _isOnly: boolean = false;
-    private _shouldSkip: boolean = false;
-
     private _data : ScopeParserInfo = {
         targetKind: 'scope',
         target: null
     };
-
-    private _targets : ScopeTarget[] = [];
-
-    constructor()
-    {
-    }
-
-    only() {
-        this._isOnly = true;
-        return this;
-    }
-
-    skip() {
-        this._shouldSkip = true;
-        return this;
-    }
-
-    isOnly()
-    {
-        return this._isOnly
-    }
-
-    shouldSkip()
-    {
-        return this._shouldSkip;
-    }
 
     target(value : ScopeTarget) : ScopeParserBuilder
     {
@@ -86,12 +51,18 @@ export class ScopeParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    _extract() : ScopeParserInfo[]
+    _extract(registry: IConcreteRegistry, processor : LogicProcessor, name: string) : BaseParserExecutor[]
     {
         return this._targets.map(target => {
-            let data = _.clone(this._data);
-            data.target = target;
-            return data;
+            let parserInfo = _.clone(this._data);
+            parserInfo.target = target;
+
+            let executor = new ScopeParserExecutor(
+                processor,
+                name,
+                parserInfo)
+
+            return executor;
         });
     }
 }

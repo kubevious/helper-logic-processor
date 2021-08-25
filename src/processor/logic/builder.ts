@@ -1,7 +1,11 @@
 import _ from 'the-lodash';
+import { LogicProcessor } from '..';
+import { IConcreteRegistry } from '../..';
 import { LogicItem } from '../../item';
 
-import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
+import { BaseParserInfo, ParserBuilder, BaseParserBuilder } from '../base/builder';
+import { BaseParserExecutor } from '../base/executor';
+import { LogicParserExecutor } from './executor';
 
 import { LogicProcessorHandlerArgs } from './handler-args';
 
@@ -34,40 +38,12 @@ export interface LogicParserInfo extends BaseParserInfo
     handler? : (args : LogicProcessorHandlerArgs) => void;
 }
 
-export class LogicParserBuilder implements BaseParserBuilder
+export class LogicParserBuilder extends BaseParserBuilder<LogicTarget> implements ParserBuilder
 {
-    private _isOnly: boolean = false;
-    private _shouldSkip: boolean = false;
-
     private _data : LogicParserInfo = {
         targetKind: 'logic'
     };
 
-    private _targets : (LogicTarget)[] = [];
-
-    constructor()
-    {
-    }
-
-    only() {
-        this._isOnly = true;
-        return this;
-    }
-
-    skip() {
-        this._shouldSkip = true;
-        return this;
-    }
-
-    isOnly()
-    {
-        return this._isOnly
-    }
-
-    shouldSkip()
-    {
-        return this._shouldSkip;
-    }
 
     target(value : LogicTarget) : LogicParserBuilder
     {
@@ -99,12 +75,18 @@ export class LogicParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    _extract() : LogicParserInfo[]
+    _extract(registry: IConcreteRegistry, processor : LogicProcessor, name: string) : BaseParserExecutor[]
     {
         return this._targets.map(target => {
-            let data = _.clone(this._data);
-            data.target = this._makeTarget(target);
-            return data;
+            let parserInfo = _.clone(this._data);
+            parserInfo.target = this._makeTarget(target);
+
+            let executor = new LogicParserExecutor(
+                processor,
+                name,
+                parserInfo)
+
+            return executor;
         });
     }
 

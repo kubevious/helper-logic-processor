@@ -1,7 +1,10 @@
 import _ from 'the-lodash';
-import { ConcreteRegistryFilter, IConcreteItem } from '../../types/registry';
+import { LogicProcessor } from '..';
+import { ConcreteRegistryFilter, IConcreteItem, IConcreteRegistry } from '../../types/registry';
 
-import { BaseParserInfo, BaseParserBuilder } from '../base/builder';
+import { BaseParserInfo, ParserBuilder, BaseParserBuilder } from '../base/builder';
+import { BaseParserExecutor } from '../base/executor';
+import { ConcreteParserExecutor } from './executor';
 
 import { ConcreteProcessorHandlerArgs } from './handler-args';
 
@@ -26,43 +29,14 @@ export function ConcreteParser() : ConcreteParserBuilder
     return new ConcreteParserBuilder();
 }
 
-export class ConcreteParserBuilder implements BaseParserBuilder
+export class ConcreteParserBuilder extends BaseParserBuilder<ConcreteRegistryFilter | null> implements ParserBuilder
 {
-    private _isOnly: boolean = false;
-    private _shouldSkip: boolean = false;
-
     private _data : ConcreteParserInfo = {
         targetKind: 'concrete',
         target: null
     };
 
-    private _targets : (ConcreteRegistryFilter | null)[] = [];
-
-    constructor()
-    {
-    }
-
-    only() {
-        this._isOnly = true;
-        return this;
-    }
-
-    skip() {
-        this._shouldSkip = true;
-        return this;
-    }
-
-    isOnly()
-    {
-        return this._isOnly
-    }
-
-    shouldSkip()
-    {
-        return this._shouldSkip;
-    }
-
-    target(value : null | ConcreteRegistryFilter)
+    target(value : ConcreteRegistryFilter | null)
     {
         this._targets.push(value);
         return this;
@@ -110,12 +84,19 @@ export class ConcreteParserBuilder implements BaseParserBuilder
         return this;
     }
 
-    _extract() : ConcreteParserInfo[]
+    _extract(registry: IConcreteRegistry, processor : LogicProcessor, name: string) : BaseParserExecutor[]
     {
         return this._targets.map(target => {
-            let data = _.clone(this._data);
-            data.target = target;
-            return data;
+            let parserInfo = _.clone(this._data);
+            parserInfo.target = target;
+
+            let executor = new ConcreteParserExecutor(
+                registry,
+                processor,
+                name,
+                parserInfo)
+                
+            return executor;
         });
     }
 }

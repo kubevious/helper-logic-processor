@@ -11,6 +11,8 @@ import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/helpe
 
 import { DumpWriter } from 'the-logger';
 
+import { LogicItemLinker } from './logic/item-linker';
+
 export class LogicItem
 {
     private _logicScope : LogicScope;
@@ -35,6 +37,8 @@ export class LogicItem
     private _dn : string;
 
     private _namingArray : string[] = [];
+
+    private _linker : LogicItemLinker = new LogicItemLinker();
 
     constructor(logicScope: LogicScope, parent: LogicItem | null, kind: any, naming: any)
     {
@@ -114,25 +118,24 @@ export class LogicItem
         this._order = value;
     }
 
-    // get scope() : ItemScope {
-    //     return this._itemScope!;
-    // }
-
     get appScope() : AppScope {
         return this._appScope!;
     }
 
-    // get namespaceScope() : NamespaceScope {
-    //     return this._namespaceScope!;
-    // }
+    link(kind: string, target: LogicItem)
+    {
+        this._linker.link(kind, target);
+    }
 
-    // associateScope(scope: ItemScope) {
-    //     this._itemScope = scope;
-    // }
+    findLink(kind: string)
+    {
+        return this._linker.findLink(kind);
+    }
 
-    // associateNamespaceScope(scope: NamespaceScope) {
-    //     this._namespaceScope = scope;
-    // }
+    getAllLinks()
+    {
+        return this._linker.getAllLinks();
+    }
 
     associateAppScope(scope: AppScope) {
         this._appScope = scope;

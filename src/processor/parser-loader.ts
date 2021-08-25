@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
 import { Promise } from 'the-promise';
 import { ILogger } from 'the-logger/dist';
-import { BaseParserBuilder } from './base/builder'
+import { ParserBuilder } from './base/builder'
 import * as path from 'path' 
 import { promise as glob } from 'glob-promise';
 
@@ -60,7 +60,7 @@ export class ParserLoader
             return;
         }
 
-        let baseParserBuilder = <BaseParserBuilder>defaultExport;
+        let baseParserBuilder = <ParserBuilder>defaultExport;
         this._allParsers.push({
             moduleName: moduleName,
             baseBuilder: baseParserBuilder
@@ -84,5 +84,5 @@ export class ParserLoader
 export interface ParserInfo
 {
     moduleName: string,
-    baseBuilder: BaseParserBuilder
+    baseBuilder: ParserBuilder
 }

@@ -7,7 +7,7 @@ import { LogicScope } from "../../scope";
 
 import { ScopeParserInfo } from './builder'
 
-import { constructArgs, ScopeProcessorHandlerArgs, ScopeProcessorVariableArgs, ScopeProcessorRuntimeData } from './handler-args';
+import { constructArgs, ScopeProcessorVariableArgs, ScopeProcessorRuntimeData } from './handler-args';
 
 import { BaseParserExecutor } from '../base/executor';
 import { ItemScope } from '../../scope/item';

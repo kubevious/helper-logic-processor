@@ -945,6 +945,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+kubernetes-types@^1.21.0-beta.1:
+  version "1.21.0-beta.1"
+  resolved "https://registry.yarnpkg.com/kubernetes-types/-/kubernetes-types-1.21.0-beta.1.tgz#13e054075b434494bd463d8b154554bd9e3fb890"
+  integrity sha512-dwT/D2Gs9feqCl1EP8fQ7utyML8XQCYd38bPuU8ZA3MqF74Bfz/sWcUnFtR/IQRuUIKYruQkhVKXw5GlP+CLsw==
+
 leven@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-2.1.0.tgz#c2e7a9f772094dee9d34202ae8acce4687875580"
