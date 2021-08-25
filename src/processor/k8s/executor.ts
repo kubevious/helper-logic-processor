@@ -15,7 +15,7 @@ import { LogicProcessorHandlerArgs } from '../logic/handler-args';
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sConfig } from '../..';
 
-export class K8sParserExecutor implements BaseParserExecutor
+export class K8sParserExecutor<TConfig> implements BaseParserExecutor
 {
     private _logger : ILogger;
     private _name : string;
@@ -24,9 +24,9 @@ export class K8sParserExecutor implements BaseParserExecutor
 
     private _innerExecutor : LogicParserExecutor;
 
-    private _handler? : (args : K8sProcessorHandlerArgs) => void;
+    private _handler? : (args : K8sProcessorHandlerArgs<TConfig>) => void;
 
-    constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo)
+    constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo<TConfig>)
     {
         this._name = name;
         this._logger = processor.logger;
@@ -101,7 +101,7 @@ export class K8sParserExecutor implements BaseParserExecutor
             logger : args.logger,
             scope : args.scope,
             item: args.item,
-            config: <K8sConfig>args.item.config,
+            config: <TConfig>args.item.config,
             helpers : args.helpers
         })
     }

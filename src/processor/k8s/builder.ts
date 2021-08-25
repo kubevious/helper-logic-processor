@@ -1,13 +1,11 @@
 import _ from 'the-lodash';
 import { IConcreteRegistry, LogicProcessor } from '../..';
-import { LogicItem } from '../../item';
 
 import { BaseParserInfo, BaseParserBuilder, ParserBuilder } from '../base/builder';
 import { BaseParserExecutor } from '../base/executor';
 
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sParserExecutor } from './executor';
- 
 
 export interface K8sTarget {
     api?: string,
@@ -16,24 +14,25 @@ export interface K8sTarget {
     clustered?: boolean
 }
 
-export interface K8sParserInfo extends BaseParserInfo
+export interface K8sParserInfo<TConfig> extends BaseParserInfo
 {
     target?: K8sTarget;
-    handler? : (args : K8sProcessorHandlerArgs) => void;
+    handler? : (args : K8sProcessorHandlerArgs<TConfig>) => void;
 }
 
-export class K8sParserBuilder extends BaseParserBuilder<K8sTarget> implements ParserBuilder
+export class K8sParserBuilder<TConfig> extends BaseParserBuilder<K8sTarget> implements ParserBuilder
 {
-    private _data : K8sParserInfo = {
+    private _data : K8sParserInfo<TConfig> = {
         targetKind: 'k8s'
     };
 
-    target(value : K8sTarget) : K8sParserBuilder
+    target(value : K8sTarget)
     {
         this._targets.push(value);
         return this;
     }
-    handler(value : (args : K8sProcessorHandlerArgs) => void) : K8sParserBuilder
+
+    handler(value : (args : K8sProcessorHandlerArgs<TConfig>) => void)
     {
         this._data.handler = value;
         return this;

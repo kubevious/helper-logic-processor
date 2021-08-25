@@ -8,11 +8,11 @@ import { LogicItem } from '../../item';
 
 import { K8sConfig } from '../..';
 
-export interface K8sProcessorHandlerArgs
+export interface K8sProcessorHandlerArgs<TConfig>
 {
     readonly logger : ILogger;
     readonly scope : LogicScope;
     readonly item : LogicItem;
-    readonly config : K8sConfig;
+    readonly config : TConfig;
     readonly helpers : Helpers;
 }
