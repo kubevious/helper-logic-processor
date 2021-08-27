@@ -2,8 +2,6 @@ import { Service } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 
-import { makeRelativeName } from '../../utils/name-helpers';
-
 export default K8sParser<Service>()
     .only()
     .target({
@@ -22,6 +20,8 @@ export default K8sParser<Service>()
             
             for(let targetApp of targetApps)
             {
+                item.link('app', targetApp);
+
                 const logicSvc = targetApp.fetchByNaming('service', metadata.name);
                 item.link('logic', logicSvc);
             }
