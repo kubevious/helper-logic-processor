@@ -38,7 +38,7 @@ export class LogicItem
 
     private _namingArray : string[] = [];
 
-    private _linker : LogicItemLinker = new LogicItemLinker();
+    private _linker : LogicItemLinker;
 
     constructor(logicScope: LogicScope, parent: LogicItem | null, kind: any, naming: any)
     {
@@ -46,6 +46,8 @@ export class LogicItem
         this._kind = kind;
         this._naming = naming;
         this._rn = LogicItem._makeRn(kind, naming);
+
+        this._linker =  new LogicItemLinker(logicScope);
 
         if (parent) {
             this._parent = parent;
@@ -122,14 +124,19 @@ export class LogicItem
         return this._appScope!;
     }
 
-    link(kind: string, target: LogicItem)
+    link(kind: string, targetItemOrDn: LogicItem | string)
     {
-        this._linker.link(kind, target);
+        return this._linker.link(kind, targetItemOrDn);
     }
 
     findLink(kind: string)
     {
         return this._linker.findLink(kind);
+    }
+
+    resolveLink(kind: string)
+    {
+        return this._linker.resolveLink(kind);
     }
 
     getAllLinks()

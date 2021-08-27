@@ -1,36 +1,53 @@
 import _ from 'the-lodash';
 import { LogicItem } from "..";
+import { LogicScope } from '../scope';
 
 export class LogicItemLinker
 {
+    private _logicScope: LogicScope;
     private _dict : Record<string, LinkInfo> = {};
     
-    constructor()
+    constructor(logicScope: LogicScope)
     {
-
+        this._logicScope = logicScope;
     }
 
-    link(kind: string, target: LogicItem)
+    link(kind: string, targetItemOrDn: LogicItem | string)
     {
         const link = {
             kind: kind,
-            target: target
+            targetDn: _.isString(targetItemOrDn) ? targetItemOrDn : targetItemOrDn.dn
         }
         this._dict[kind] = link;
     }
 
-    findLink(kind: string) : LogicItem | null
+    resolveLink(kind: string) : LogicItem | null
     {
         const item = this._dict[kind];
         if (item) {
-            return item.target;
+            return this._logicScope.findItem(item.targetDn);
+        }
+        return null;
+    }
+
+    findLink(kind: string) : LinkInfo | null
+    {
+        const item = this._dict[kind];
+        if (item) {
+            return item
         }
         return null;
     }
 
     getAllLinks()
     {
-        return _.values(this._dict);
+        return _.values(this._dict).map(x => {
+            return {
+                kind: x.kind,
+                targetDn: x.targetDn,
+                target: this._logicScope.findItem(x.targetDn)
+            }
+        });
     }
 
 }
@@ -38,5 +55,5 @@ export class LogicItemLinker
 export interface LinkInfo
 {
     kind: string,
-    target: LogicItem // or maybe use DN??
+    targetDn: string //LogicItem // or maybe use DN??
 }

@@ -52,7 +52,7 @@ export class ItemsScope
 
     getByConcrete(item : IConcreteItem) : ItemScope | null
     {
-        return this.get(item.config.kind, item.config.metadata.name);;
+        return this.get(item.config.kind, item.config.metadata!.name!);
     }
 
     getAll(kind: string) : ItemScope[]

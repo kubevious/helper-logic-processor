@@ -37,7 +37,7 @@ export class ParserLoader
 
         return glob(`${searchPath}/**/*.ts`)
             .then(files => {
-                return Promise.serial(files, x => {
+                return Promise.parallel(files, x => {
                     const relPath = x.substr(searchPath.length + 1);
                     const moduleName = relPath.replace('.d.ts', '').replace('.ts', '');
                     const modulePath = `${relSearchDir}/${moduleName}`;

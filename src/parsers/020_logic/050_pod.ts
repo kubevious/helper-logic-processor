@@ -7,8 +7,7 @@ import { makeRelativeName } from '../../utils/name-helpers';
 export default K8sParser<ReplicaSet>()
     .only()
     .target({
-        api: "apps",
-        kind: "ReplicaSet"
+        kind: "Pod"
     })
     .handler(({ logger, config, item, namespace, helpers }) => {
 
@@ -16,10 +15,12 @@ export default K8sParser<ReplicaSet>()
         {
             for(let ref of config.metadata!.ownerReferences)
             {
-                logger.info("REF: ", ref);
+                logger.info("POD REF: ", ref);
 
                 const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-                logger.info("ownerDn: %s", ownerDn);
+
+                logger.info("POD OWNER: %s", ownerDn);
+
                 item.link('k8s-owner', ownerDn);
 
                 const owner = item.resolveLink('k8s-owner');
@@ -30,7 +31,7 @@ export default K8sParser<ReplicaSet>()
                     const logicOwner = owner.resolveLink('logic');
                     if (logicOwner)                 
                     { 
-                        const logicItem = logicOwner.fetchByNaming('replicaset', shortName);
+                        const logicItem = logicOwner.fetchByNaming('pod', shortName);
                         item.link('logic', logicItem);
                     }
                 }

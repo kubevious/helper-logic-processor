@@ -1,6 +1,7 @@
 import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
 import { Job } from 'kubernetes-types/batch/v1';
 import _ from 'the-lodash';
+import { K8sConfig } from '../..';
 import { K8sParser } from '../../parser-builder';
 
 export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
@@ -21,7 +22,10 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         api: "batch",
         kind: "Job"
     })
-    .handler(({ logger, scope, config, item}) => {
+    .handler(({ logger, scope, config, item, helpers }) => {
+
+        helpers.k8s.labelMatcher.register(<K8sConfig>config, item);
+
         const root = scope.logicRootNode.fetchByNaming('logic', '');
 
         const metadata = config.metadata!;
@@ -33,6 +37,6 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
 
         const launcher = app.fetchByNaming('launcher', config.kind);
         launcher.setConfig(config);
-        item.link('launcher', launcher);
+        item.link('logic', launcher);
     })
     ;

@@ -1,13 +1,13 @@
 import 'mocha';
 import should = require('should');
 
-import { setupLogger, LoggerOptions } from 'the-logger';
-const loggerOptions = new LoggerOptions().enableFile(false).pretty(true);
-const logger = setupLogger('test', loggerOptions);
+import { makeLogger } from './helpers/logger';
 
 import { ParserLoader, LogicProcessor } from '../src';
 import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
+
+const logger = makeLogger('empty');
 
 const tracker = new ProcessingTracker(logger);
 

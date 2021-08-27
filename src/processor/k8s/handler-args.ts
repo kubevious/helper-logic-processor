@@ -6,8 +6,6 @@ import { LogicScope } from "../../scope";
 import { Helpers } from '../../helpers';
 import { LogicItem } from '../../item';
 
-import { K8sConfig } from '../..';
-
 export interface K8sProcessorHandlerArgs<TConfig>
 {
     readonly logger : ILogger;
@@ -15,4 +13,6 @@ export interface K8sProcessorHandlerArgs<TConfig>
     readonly item : LogicItem;
     readonly config : TConfig;
     readonly helpers : Helpers;
+
+    readonly namespace : string | null;
 }

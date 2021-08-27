@@ -17,10 +17,11 @@ export default LogicParser()
         let linksTable = new TableBuilder()
             .column('kind', 'Kind')
             .column('dn', 'Application', 'shortcut')
+            .column('resolved', 'Resolved')
         ;
         for(let link of links)
         {
-            linksTable.row({ kind: link.kind, dn: link.target.dn })
+            linksTable.row({ kind: link.kind, dn: link.targetDn, resolved: _.isNotNullOrUndefined(link.target) })
         }
 
         item.addProperties({

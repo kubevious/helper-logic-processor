@@ -4,7 +4,7 @@ import { ILogger } from 'the-logger';
 import { InfraScope } from './infra';
 import { NamespaceScope } from './namespace';
 import { LogicItem } from '../item';
-import { LabelMatcher } from './label-matcher';
+// import { LabelMatcher } from './label-matcher';
 import { IConcreteRegistry, IConcreteItem } from '../types/registry';
 
 export const ROOT_NODE_LOGIC = 'root';
@@ -23,7 +23,7 @@ export class LogicScope
     private _namespaceScopes : Record<string, NamespaceScope> = {};
     private _infraScope : InfraScope;
 
-    private _namespaceLabelMatcher : LabelMatcher<NamespaceScope>;
+    // private _namespaceLabelMatcher : LabelMatcher<NamespaceScope>;
 
     constructor(logger: ILogger, concreteRegistry: IConcreteRegistry)
     {
@@ -36,7 +36,7 @@ export class LogicScope
         this._namespaceScopes = {};
         this._infraScope = new InfraScope(this);
 
-        this._namespaceLabelMatcher = new LabelMatcher();
+        // this._namespaceLabelMatcher = new LabelMatcher();
     }
 
     get logger() {
@@ -105,13 +105,14 @@ export class LogicScope
     
     registerNamespaceLabels(name: string, labelsMap : Record<string, any>)
     {
-        let namespaceScope = this.getNamespaceScope(name);
-        this._namespaceLabelMatcher.register(labelsMap, namespaceScope);
+        // let namespaceScope = this.getNamespaceScope(name);
+        // this._namespaceLabelMatcher.register(labelsMap, namespaceScope);
     }
 
     findNamespaceScopesByLabels(selector : Record<string, any>) : NamespaceScope[]
     {
-        return this._namespaceLabelMatcher.match(selector);
+        // return this._namespaceLabelMatcher.match(selector);
+        return [];
     }
 
     setK8sConfig(logicItem : LogicItem, config : any)

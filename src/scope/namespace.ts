@@ -2,10 +2,9 @@ import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
 
 import { LogicItem } from '../item';
-import { ItemScope } from './item';
 import { ItemsScope } from './items';
 import { AppScope } from './app';
-import { LabelMatcher } from './label-matcher';
+// import { LabelMatcher } from './label-matcher';
 import { LogicScope } from '.';
 
 export class NamespaceScope
@@ -18,7 +17,7 @@ export class NamespaceScope
     private _appScopes : Record<string, AppScope> = {};
     private _items : ItemsScope;
     
-    private _appLabelMatcher : LabelMatcher<AppScope>;
+    // private _appLabelMatcher : LabelMatcher<AppScope>;
     private _appOwners : Record<string, Record<string, LogicItem[]>> = {};
 
     constructor(parent: LogicScope, name: string)
@@ -31,7 +30,7 @@ export class NamespaceScope
 
         this._items = new ItemsScope(this);
 
-        this._appLabelMatcher = new LabelMatcher();
+        // this._appLabelMatcher = new LabelMatcher();
     }
 
     get logger() {
@@ -98,11 +97,12 @@ export class NamespaceScope
 
     registerAppScopeLabels(appScope: AppScope, labelsMap: Record<string, any>)
     {
-        this._appLabelMatcher.register(labelsMap, appScope);
+        // this._appLabelMatcher.register(labelsMap, appScope);
     }
 
     findAppScopesByLabels(selector: Record<string, any>) : AppScope[]
     {
-        return this._appLabelMatcher.match(selector);
+        // return this._appLabelMatcher.match(selector);
+        return [];
     }
 }

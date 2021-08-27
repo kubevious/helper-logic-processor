@@ -3,13 +3,13 @@ import should = require('should');
 
 import _ from 'the-lodash';
 
-import { setupLogger, LoggerOptions } from 'the-logger';
-const loggerOptions = new LoggerOptions().enableFile(false).pretty(true);
-const logger = setupLogger('test', loggerOptions);
+import { makeLogger } from './helpers/logger';
 
 import { ParserLoader, LogicProcessor } from '../src';
 import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
+
+const logger = makeLogger('full-proc');
 
 const tracker = new ProcessingTracker(logger);
 
@@ -34,8 +34,9 @@ describe('full-processor', () => {
             .then(registryState => {
                 should(registryState).be.ok();
 
-                const registryLoggerOptions = new LoggerOptions().enableFile(true).cleanOnStart(true).pretty(true);
-                const registryLogger = setupLogger('registry-logger', registryLoggerOptions);
+                // const registryLoggerOptions = new LoggerOptions().enableFile(true).cleanOnStart(true).pretty(true);
+                // setupLogger('registry-logger', registryLoggerOptions);
+                const registryLogger = makeLogger('registry-logger');
 
                 return registryState.debugOutputToDir(registryLogger, 'large-cluster')
                     .then(() => registryState);

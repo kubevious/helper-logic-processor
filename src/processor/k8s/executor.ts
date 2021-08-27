@@ -95,14 +95,16 @@ export class K8sParserExecutor<TConfig> implements BaseParserExecutor
         if (!this._handler) {
             return;
         }
+
         
         this._handler({
-
             logger : args.logger,
             scope : args.scope,
             item: args.item,
             config: <TConfig>args.item.config,
-            helpers : args.helpers
+            helpers : args.helpers,
+
+            namespace : (<K8sConfig>args.item.config).metadata.namespace || null
         })
     }
 }
