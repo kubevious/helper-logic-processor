@@ -22,13 +22,11 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         api: "batch",
         kind: "Job"
     })
-    .handler(({ logger, scope, config, item, helpers }) => {
+    .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
         helpers.k8s.labelMatcher.register(<K8sConfig>config, item);
 
         const root = scope.logicRootNode.fetchByNaming('logic', '');
-
-        const metadata = config.metadata!;
 
         const ns = root.fetchByNaming('ns', metadata.namespace!);
 
@@ -38,5 +36,23 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         const launcher = app.fetchByNaming('launcher', config.kind);
         launcher.setConfig(config);
         item.link('logic', launcher);
+
+        let labelsMap = getPodLabels();
+        if (labelsMap) {
+            helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)
+        }
+
+        /*** HELPERS ***/
+        function getPodLabels()
+        {
+            if (config.spec) {
+                if (config.spec!.template.metadata) {
+                    if (config.spec!.template.metadata!.labels) {
+                        return config.spec!.template.metadata!.labels;
+                    }
+                }
+            }
+            return {};
+        }
     })
     ;

@@ -10,22 +10,19 @@ export default K8sParser<ReplicaSet>()
         api: "apps",
         kind: "ReplicaSet"
     })
-    .handler(({ logger, config, item, namespace, helpers }) => {
+    .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
-        if (config.metadata!.ownerReferences)
+        if (metadata.ownerReferences)
         {
-            for(let ref of config.metadata!.ownerReferences)
+            for(let ref of metadata.ownerReferences)
             {
-                logger.info("REF: ", ref);
-
                 const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-                logger.info("ownerDn: %s", ownerDn);
                 item.link('k8s-owner', ownerDn);
 
                 const owner = item.resolveLink('k8s-owner');
                 if (owner)
                 {                    
-                    let shortName = makeRelativeName(owner.naming, item.config.metadata.name);
+                    let shortName = makeRelativeName(owner.naming, metadata.name!);
 
                     const logicOwner = owner.resolveLink('logic');
                     if (logicOwner)                 

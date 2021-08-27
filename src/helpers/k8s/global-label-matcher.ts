@@ -27,29 +27,6 @@ export class GlobalLabelMatcher
 
     register(config: K8sConfig, item: LogicItem)
     {
-        let resourceMap = this._dict[config.kind];
-        if (!resourceMap) {
-            resourceMap = {
-                clustered: new LabelMatcher(),
-                namespaced: {}
-            };
-            this._dict[config.kind] = resourceMap;
-        }
-
-        let matcher: LabelMatcher;
-        if (config.metadata.namespace)
-        {
-            matcher = resourceMap.namespaced[config.metadata.namespace];
-            if (!matcher) {
-                matcher = new LabelMatcher();
-                resourceMap.namespaced[config.metadata.namespace] = matcher;
-            }
-        }
-        else
-        {
-            matcher = resourceMap.clustered;
-        }
-
         let labels : LabelMap;
         if (config.metadata && config.metadata.labels) {
             labels = config.metadata.labels;
@@ -57,10 +34,55 @@ export class GlobalLabelMatcher
             labels = {};
         }
 
+        this.registerManual(config.kind, config.metadata!.namespace, labels, item);
+    }
+
+    registerManual(kind: string, namespace: string | null | undefined, labels : LabelMap, item: LogicItem)
+    {
+        let resourceMap = this._dict[kind];
+        if (!resourceMap) {
+            resourceMap = {
+                clustered: new LabelMatcher(),
+                namespaced: {}
+            };
+            this._dict[kind] = resourceMap;
+        }
+
+        let matcher: LabelMatcher;
+        if (namespace)
+        {
+            matcher = resourceMap.namespaced[namespace];
+            if (!matcher) {
+                matcher = new LabelMatcher();
+                resourceMap.namespaced[namespace] = matcher;
+            }
+        }
+        else
+        {
+            matcher = resourceMap.clustered;
+        }
+
+        if (!labels) {
+            labels = {};
+        }
+
         matcher.register(labels, item);
     }
 
-    matchSelector(kind: string, namespace: string | null, selector: LabelSelector)
+
+    matchSelector(kindOrKinds: string | string[], namespace: string | null, selector: LabelSelector)
+    {
+        if (_.isString(kindOrKinds))
+        {
+            return this._matchSelector(kindOrKinds, namespace, selector);
+        }
+
+        return _.flatten(
+            kindOrKinds.map(x => this._matchSelector(x, namespace, selector))
+        );
+    }
+
+    private _matchSelector(kind: string, namespace: string | null, selector: LabelSelector)
     {
         let resourceMap = this._dict[kind];
         if (!resourceMap) {

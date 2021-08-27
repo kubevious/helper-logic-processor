@@ -96,6 +96,7 @@ export class K8sParserExecutor<TConfig> implements BaseParserExecutor
             return;
         }
 
+        const metadata = (<K8sConfig>args.item.config).metadata || {};
         
         this._handler({
             logger : args.logger,
@@ -104,7 +105,8 @@ export class K8sParserExecutor<TConfig> implements BaseParserExecutor
             config: <TConfig>args.item.config,
             helpers : args.helpers,
 
-            namespace : (<K8sConfig>args.item.config).metadata.namespace || null
+            metadata: metadata,
+            namespace : metadata.namespace || null
         })
     }
 }

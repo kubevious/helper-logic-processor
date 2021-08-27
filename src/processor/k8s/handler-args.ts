@@ -5,6 +5,7 @@ import { LogicScope } from "../../scope";
 
 import { Helpers } from '../../helpers';
 import { LogicItem } from '../../item';
+import { ObjectMeta } from 'kubernetes-types/meta/v1';
 
 export interface K8sProcessorHandlerArgs<TConfig>
 {
@@ -15,4 +16,5 @@ export interface K8sProcessorHandlerArgs<TConfig>
     readonly helpers : Helpers;
 
     readonly namespace : string | null;
+    readonly metadata: ObjectMeta;
 }
