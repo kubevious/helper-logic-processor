@@ -15,18 +15,18 @@ import { LogicProcessorHandlerArgs } from '../logic/handler-args';
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sConfig } from '../..';
 
-export class K8sParserExecutor<TConfig> implements BaseParserExecutor
+export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
     private _logger : ILogger;
     private _name : string;
 
     private _targetPath : LogicTargetPathElement[];
 
-    private _innerExecutor : LogicParserExecutor;
+    private _innerExecutor : LogicParserExecutor<TConfig, TRuntime>;
 
-    private _handler? : (args : K8sProcessorHandlerArgs<TConfig>) => void;
+    private _handler? : (args : K8sProcessorHandlerArgs<TConfig, TRuntime>) => void;
 
-    constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo<TConfig>)
+    constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo<TConfig, TRuntime>)
     {
         this._name = name;
         this._logger = processor.logger;
@@ -62,7 +62,7 @@ export class K8sParserExecutor<TConfig> implements BaseParserExecutor
         this._targetPath.push({ kind: 'resource' });
 
 
-        const logicParserInfo : LogicParserInfo = {
+        const logicParserInfo : LogicParserInfo<TConfig, TRuntime> = {
             target: { path: this._targetPath },
 
             targetKind: 'unused',
@@ -90,7 +90,7 @@ export class K8sParserExecutor<TConfig> implements BaseParserExecutor
         return this._innerExecutor.execute(scope);
     }
 
-    private _innerHandler(args : LogicProcessorHandlerArgs)
+    private _innerHandler(args : LogicProcessorHandlerArgs<TConfig, TRuntime>)
     {
         if (!this._handler) {
             return;
@@ -102,7 +102,8 @@ export class K8sParserExecutor<TConfig> implements BaseParserExecutor
             logger : args.logger,
             scope : args.scope,
             item: args.item,
-            config: <TConfig>args.item.config,
+            config: args.config,
+            runtime: args.runtime,
             helpers : args.helpers,
 
             metadata: metadata,

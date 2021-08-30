@@ -1,17 +1,16 @@
+import { Container } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
 
-export default LogicParser()
+export default LogicParser<Container>()
     .only()
     .target({
-        path: ["logic", "ns", "app", "launcher", "cont"]
+        path: ["logic", "ns", "app", "cont"]
     })
     .target({
-        path: ["logic", "ns", "app", "launcher", "initcont"]
+        path: ["logic", "ns", "app", "initcont"]
     })
-    .handler(({ logger, item, helpers}) => {
-
-        const config = helpers.k8s.container(item);
+    .handler(({ logger, item, config, helpers}) => {
 
         const fullImage = config.image;
 

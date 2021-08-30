@@ -21,7 +21,7 @@ export interface CreateItemParams
     order? : number
 }
 
-export interface LogicProcessorHandlerArgs
+export interface LogicProcessorHandlerArgs<TConfig, TRuntime>
 {
     readonly logger : ILogger;
     readonly scope : LogicScope;
@@ -33,6 +33,9 @@ export interface LogicProcessorHandlerArgs
     readonly app : LogicItem;
     readonly appScope : AppScope;
     readonly appName : string;
+
+    readonly config : TConfig;
+    readonly runtime : TRuntime;
 
     hasCreatedItems() : boolean;
     createItem(parent : LogicItem, name : string, params? : CreateItemParams) : LogicItem;
@@ -56,13 +59,13 @@ export interface LogicProcessorRuntimeData
     createdAlerts : AlertInfo[];
 }
 
-export function constructArgs(
+export function constructArgs<TConfig, TRuntime>(
     processor : LogicProcessor,
-    parserInfo : LogicParserInfo,
+    parserInfo : LogicParserInfo<TConfig, TRuntime>,
     scope : LogicScope,
     item: LogicItem,
     variableArgs : LogicProcessorVariableArgs,
-    runtimeData : LogicProcessorRuntimeData) : LogicProcessorHandlerArgs
+    runtimeData : LogicProcessorRuntimeData) : LogicProcessorHandlerArgs<TConfig, TRuntime>
 {
 
     let createItem = (parent : LogicItem, name : string, params? : CreateItemParams) =>
@@ -132,7 +135,11 @@ export function constructArgs(
                 severity,
                 msg
             });
-        }
+        },
+
+        config: <TConfig>item.config,
+
+        runtime: <TRuntime>item.runtime,
 
     }
 }

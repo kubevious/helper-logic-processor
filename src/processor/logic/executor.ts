@@ -11,16 +11,16 @@ import { BaseParserExecutor } from '../base/executor';
 import { LogicItem } from '../../item';
 import { constructArgs, LogicProcessorRuntimeData, LogicProcessorVariableArgs } from './handler-args';
 
-export class LogicParserExecutor implements BaseParserExecutor
+export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
     private _processor : LogicProcessor;
     private _logger : ILogger;
     private _name : string;
 
-    private _parserInfo : LogicParserInfo;
+    private _parserInfo : LogicParserInfo<TConfig, TRuntime>;
     private _targetPath : LogicTargetPathElement[];
 
-    constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo)
+    constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo<TConfig, TRuntime>)
     {
         this._name = name;
         this._processor = processor;

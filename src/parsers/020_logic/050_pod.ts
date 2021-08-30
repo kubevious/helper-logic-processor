@@ -27,6 +27,7 @@ export default K8sParser<Pod>()
                     if (logicOwner)                 
                     { 
                         const logicItem = logicOwner.fetchByNaming('pod', shortName);
+                        logicItem.makeShadowOf(item);
                         item.link('logic', logicItem);
                     }
                 }

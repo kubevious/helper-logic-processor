@@ -11,14 +11,14 @@ export function ConcreteParser() : ConcreteParserBuilder
     return new ConcreteParserBuilder();
 }
 
-export function K8sParser<TConfig = K8sConfig>() : K8sParserBuilder<TConfig>
+export function K8sParser<TConfig = K8sConfig, TRuntime = {}>() : K8sParserBuilder<TConfig, TRuntime>
 {
-    return new K8sParserBuilder<TConfig>();
+    return new K8sParserBuilder<TConfig, TRuntime>();
 }
 
-export function LogicParser() : LogicParserBuilder
+export function LogicParser<TConfig = {}, TRuntime = {}>() : LogicParserBuilder<TConfig, TRuntime>
 {
-    return new LogicParserBuilder();
+    return new LogicParserBuilder<TConfig, TRuntime>();
 }
 
 export function ScopeParser() : ScopeParserBuilder

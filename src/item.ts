@@ -13,34 +13,43 @@ import { DumpWriter } from 'the-logger';
 
 import { LogicItemLinker } from './logic/item-linker';
 
+export class LogicItemData
+{
+    config : Record<string, any> = {};
+    properties : Record<string, SnapshotPropsConfig> = {};
+    alerts : Record<string, Alert> = {};
+}
+
 export class LogicItem
 {
     private _logicScope : LogicScope;
     private _parent : LogicItem | null = null;
     private _kind : string;
     private _naming : any;
+    private _dn : string;
+    private _rn : string;
+    private _namingArray : string[] = [];
+
+    private _shadowOf : string | null = null;
+    private _data : LogicItemData = {
+        config: {},
+        properties: {},
+        alerts: {},
+    }
 
     private _runtime : Record<string, any> = {};
 
-    // private _itemScope? : ItemScope;
-    // private _namespaceScope? : NamespaceScope;
     private _appScope? : AppScope;
 
-    private _rn : any;
-    private _config : Record<string, any> = {};
     private _order = 100;
     private _children : Record<string, LogicItem> = {};
-    private _properties : Record<string, SnapshotPropsConfig> = {};
-    private _alerts : Record<string, Alert> = {};
+
     private _flags : Record<string, FlagInfo> = {};
     private _usedBy : Record<string, any> = {};
-    private _dn : string;
-
-    private _namingArray : string[] = [];
 
     private _linker : LogicItemLinker;
 
-    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: any, naming: any)
+    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: string, naming: any)
     {
         this._logicScope = logicScope;
         this._kind = kind;
@@ -66,6 +75,10 @@ export class LogicItem
         }
  
         this._logicScope._acceptItem(this);
+    }
+
+    get shadowOf() {
+        return this._shadowOf;
     }
     
     get runtime() {
@@ -93,7 +106,7 @@ export class LogicItem
     }
     
     get config() {
-        return this._config;
+        return this._data.config;
     }
 
     get flags() {
@@ -122,6 +135,20 @@ export class LogicItem
 
     get appScope() : AppScope {
         return this._appScope!;
+    }
+
+    get properties() {
+        return this._data.properties;
+    }
+
+    get alerts() {
+        return this._data.alerts;
+    }
+
+    makeShadowOf(other: LogicItem)
+    {
+        this._shadowOf = other.dn;
+        this._data = other._data;
     }
 
     link(kind: string, targetItemOrDn: LogicItem | string)
@@ -186,7 +213,7 @@ export class LogicItem
 
     setConfig(value: any) 
     {
-        this._config = value;
+        this._data.config = value;
     }    
 
     getChildren() : LogicItem[] {
@@ -237,13 +264,13 @@ export class LogicItem
         if (!params) {
             params.order = 10;
         }
-        this._properties[params.id] = params;
+        this.properties[params.id] = params;
     }
 
     getProperties(id: string)
     {
-        if (this._properties[id]) {
-            return this._properties[id];
+        if (this.properties[id]) {
+            return this.properties[id];
         }
         return null;
     }
@@ -271,18 +298,18 @@ export class LogicItem
             msg: msg
         }
         let key = _.stableStringify(info);
-        this._alerts[key] = info;
+        this.alerts[key] = info;
     }
 
     cloneAlertsFrom(other: LogicItem)
     {
-        for(let x of _.values(other._alerts)) {
-            this._alerts[x.id] = x;
+        for(let x of _.values(other.alerts)) {
+            this.alerts[x.id] = x;
         }
     }
 
     extractProperties() : SnapshotPropsConfig[] {
-        let myProps = _.values(this._properties);
+        let myProps = _.values(this.properties);
 
         if (_.keys(this._usedBy).length > 0) {
             myProps.push({
@@ -299,7 +326,7 @@ export class LogicItem
     }
 
     extractAlerts() : Alert[] {
-        let alerts = _.values(this._alerts);
+        let alerts = _.values(this.alerts);
         alerts = _.deepClean(alerts);
         return alerts;
     }

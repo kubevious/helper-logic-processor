@@ -2,8 +2,6 @@ import { ILogger } from "the-logger";
 
 import { K8sConfig, LogicItem, parseApiVersion } from "../..";
 
-import { Container } from 'kubernetes-types/core/v1'
-
 import { GlobalLabelMatcher } from './global-label-matcher';
 
 import { makeDn, RnInfo } from '../../utils/dn-utils';
@@ -25,11 +23,6 @@ export class KubernetesUtils {
     {
         const config = <K8sConfig>item.config;
         return config;
-    }
-
-    container(item : LogicItem) : Container
-    {
-        return <Container>item.config;
     }
 
     makeDn(namespace: string | null, apiVersion: string, kind: string, name: string)

@@ -86,6 +86,7 @@ export default K8sParser<Ingress>()
             }
 
             let ingress = parent.fetchByNaming('ingress', name);
+            ingress.makeShadowOf(item);
             return ingress;
         }
     })

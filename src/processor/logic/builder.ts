@@ -22,7 +22,7 @@ export interface LogicTargetPathElement {
     name?: string;
 }
 
-export interface LogicParserInfo extends BaseParserInfo
+export interface LogicParserInfo<TConfig, TRuntime> extends BaseParserInfo
 {
     target?: LogicTargetFinal;
 
@@ -35,41 +35,41 @@ export interface LogicParserInfo extends BaseParserInfo
     needNamespaceScope?: boolean;
     namespaceNameCb? : (item : LogicItem) => string;
 
-    handler? : (args : LogicProcessorHandlerArgs) => void;
+    handler? : (args : LogicProcessorHandlerArgs<TConfig, TRuntime>) => void;
 }
 
-export class LogicParserBuilder extends BaseParserBuilder<LogicTarget> implements ParserBuilder
+export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<LogicTarget> implements ParserBuilder
 {
-    private _data : LogicParserInfo = {
+    private _data : LogicParserInfo<TConfig, TRuntime> = {
         targetKind: 'logic'
     };
 
 
-    target(value : LogicTarget) : LogicParserBuilder
+    target(value : LogicTarget) 
     {
         this._targets.push(value);
         return this;
     }
 
-    needNamespaceScope(value : boolean) : LogicParserBuilder
+    needNamespaceScope(value : boolean)
     {
         this._data.needNamespaceScope = value;
         return this;
     }
 
-    namespaceNameCb(value : (item : LogicItem) => string) : LogicParserBuilder
+    namespaceNameCb(value : (item : LogicItem) => string)
     {
         this._data.namespaceNameCb = value;
         return this;
     }
 
-    kind(value : string) : LogicParserBuilder
+    kind(value : string)
     {
         this._data.kind = value;
         return this;
     }
 
-    handler(value : (args : LogicProcessorHandlerArgs) => void) : LogicParserBuilder
+    handler(value : (args : LogicProcessorHandlerArgs<TConfig, TRuntime>) => void)
     {
         this._data.handler = value;
         return this;

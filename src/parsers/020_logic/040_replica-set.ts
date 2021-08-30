@@ -25,9 +25,10 @@ export default K8sParser<ReplicaSet>()
                     let shortName = makeRelativeName(owner.naming, metadata.name!);
 
                     const logicOwner = owner.resolveLink('logic');
-                    if (logicOwner)                 
+                    if (logicOwner)
                     { 
                         const logicItem = logicOwner.fetchByNaming('replicaset', shortName);
+                        logicItem.makeShadowOf(item);
                         item.link('logic', logicItem);
                     }
                 }

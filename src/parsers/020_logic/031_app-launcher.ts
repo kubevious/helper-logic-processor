@@ -34,7 +34,8 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         item.link('app', app);
 
         const launcher = app.fetchByNaming('launcher', config.kind);
-        launcher.setConfig(config);
+        launcher.makeShadowOf(item);
+        // launcher.setConfig(config);
         item.link('logic', launcher);
 
         let labelsMap = getPodLabels();

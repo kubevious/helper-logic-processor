@@ -23,6 +23,7 @@ export default K8sParser<Service>()
                 item.link('app', targetApp);
 
                 const logicSvc = targetApp.fetchByNaming('service', metadata.name);
+                logicSvc.makeShadowOf(item);
                 item.link('logic', logicSvc);
             }
         }

@@ -14,15 +14,15 @@ export interface K8sTarget {
     clustered?: boolean
 }
 
-export interface K8sParserInfo<TConfig> extends BaseParserInfo
+export interface K8sParserInfo<TConfig, TRuntime> extends BaseParserInfo
 {
     target?: K8sTarget;
-    handler? : (args : K8sProcessorHandlerArgs<TConfig>) => void;
+    handler? : (args : K8sProcessorHandlerArgs<TConfig, TRuntime>) => void;
 }
 
-export class K8sParserBuilder<TConfig> extends BaseParserBuilder<K8sTarget> implements ParserBuilder
+export class K8sParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<K8sTarget> implements ParserBuilder
 {
-    private _data : K8sParserInfo<TConfig> = {
+    private _data : K8sParserInfo<TConfig, TRuntime> = {
         targetKind: 'k8s'
     };
 
@@ -32,7 +32,7 @@ export class K8sParserBuilder<TConfig> extends BaseParserBuilder<K8sTarget> impl
         return this;
     }
 
-    handler(value : (args : K8sProcessorHandlerArgs<TConfig>) => void)
+    handler(value : (args : K8sProcessorHandlerArgs<TConfig, TRuntime>) => void)
     {
         this._data.handler = value;
         return this;

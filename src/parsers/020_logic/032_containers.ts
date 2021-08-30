@@ -1,25 +1,30 @@
 import _ from 'the-lodash';
+import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
+import { Job } from 'kubernetes-types/batch/v1';
+
 import { LogicParser } from '../../parser-builder';
 
 import { Container } from 'kubernetes-types/core/v1'
 
 
-export default LogicParser()
+export default LogicParser<Deployment | DaemonSet | StatefulSet | Job>()
     .only()
     .target({
         path: ["logic", "ns", "app", "launcher"]
     })
-    .handler(({ logger, item, helpers}) => {
+    .handler(({ logger, item, config, helpers}) => {
 
-        const config = helpers.k8s.config(item);
-      
+        // const config = helpers.k8s.config(item);
+        if (!config.spec) {
+            return;
+        }
+        if (! config.spec.template.spec) {
+            return;
+        }
+        
         // Normal Containers 
         {
-            let containersConfig = _.get(config, 'spec.template.spec.containers');
-            if (!containersConfig) {
-                containersConfig = [];
-            }
-            for(let containerConfig of containersConfig)
+            for(let containerConfig of config.spec.template.spec.containers)
             {
                 processContainer(containerConfig, "cont");
             }
@@ -27,13 +32,13 @@ export default LogicParser()
 
         // Init Containers 
         {
-            let containersConfig = _.get(item.config, 'spec.template.spec.initContainers');
-            if (!containersConfig) {
-                containersConfig = [];
-            }
-            for(let containerConfig of containersConfig)
-            {
-                processContainer(containerConfig, "initcont");
+    
+            const initContainers = config.spec.template.spec.initContainers;
+            if (initContainers) {
+                for(let containerConfig of initContainers)
+                {
+                    processContainer(containerConfig, "initcont");
+                }
             }
         }
 
@@ -42,7 +47,7 @@ export default LogicParser()
 
         function processContainer(containerConfig: Container, kind : string)
         {
-            const cont = item.fetchByNaming(kind, containerConfig.name);
+            const cont = item.parent!.fetchByNaming(kind, containerConfig.name);
             cont.setConfig(containerConfig);
 
             // let envVars : Record<string, any> = {
@@ -87,6 +92,7 @@ export default LogicParser()
             //         config: envVars
             //     });    
             // }
+
            
         }
 
