@@ -5,7 +5,6 @@ import { LogicParser } from '../../parser-builder';
 import { LogicVolumeRuntime } from '../../types/parser/logic-volume';
 
 export default LogicParser<Volume, LogicVolumeRuntime>()
-    .trace()
     .target({
         path: ["logic", "ns", "app", "vols", "vol"]
     })

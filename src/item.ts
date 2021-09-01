@@ -56,7 +56,7 @@ export class LogicItem
         this._naming = naming;
         this._rn = LogicItem._makeRn(kind, naming);
 
-        this._linker =  new LogicItemLinker(logicScope);
+        this._linker = new LogicItemLinker(logicScope);
 
         if (parent) {
             this._parent = parent;

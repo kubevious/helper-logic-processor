@@ -1,16 +1,16 @@
 import _ from 'the-lodash';
 import { Pod, Volume } from 'kubernetes-types/core/v1';
 import { LogicParser } from '../../parser-builder';
+import { LogicPodRuntime } from '../../types/parser/logic-pod';
 
-export default LogicParser<Pod>()
-    // .trace()
+export default LogicParser<Pod, LogicPodRuntime>()
     .target({
         path: ["logic", "ns", "app", "launcher", "replicaset", "pod"]
     })
     .target({
         path: ["logic", "ns", "app", "launcher", "pod"]
     })
-    .handler(({ logger, config, item, helpers }) => {
+    .handler(({ logger, config, item, runtime, helpers }) => {
 
         if (!config.spec) {
             return;
@@ -23,7 +23,6 @@ export default LogicParser<Pod>()
         {
             processVolume(volume);
         }
-        
 
         /*** HELPERS ***/
         function processVolume(volume: Volume)
@@ -37,22 +36,15 @@ export default LogicParser<Pod>()
                 return;
             }
 
-            // volume.downwardAPI
-
             let pvc = item.fetchByNaming("pvc", pvcName);
 
-            // scope.setK8sConfig(pvc, pvcScope.config);
-            // pvcScope.registerItem(pvc);
-            // pvcScope.markUsedBy(pvc);
+            const k8sPvcDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'PersistentVolumeClaim', pvcName);
+            pvc.link('k8s-owner', k8sPvcDn);
 
-            // let pvcScope = itemScope.parent.items.get('PersistentVolumeClaim', pvcName);
-            // if (pvcScope)
-            // {
-            //     for(let podItem of itemScope.items)
-            //     {
-                    
-            //     }
-            // }
+            const k8sPvc = pvc.resolveLink('k8s-owner');
+            if (k8sPvc) {
+                pvc.makeShadowOf(k8sPvc);
+            }
         }
 
     })

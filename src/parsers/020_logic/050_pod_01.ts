@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 
 import { makeRelativeName } from '../../utils/name-helpers';
+import { LogicPodRuntime } from '../../types/parser/logic-pod';
 
 export default K8sParser<Pod>()
     .target({
@@ -25,9 +26,10 @@ export default K8sParser<Pod>()
                     const logicOwner = owner.resolveLink('logic');
                     if (logicOwner)                 
                     { 
-                        const logicItem = logicOwner.fetchByNaming('pod', shortName);
-                        logicItem.makeShadowOf(item);
-                        item.link('logic', logicItem);
+                        const logicPod = logicOwner.fetchByNaming('pod', shortName);
+                        logicPod.makeShadowOf(item);
+                        (<LogicPodRuntime>logicPod.runtime).namespace = namespace!; 
+                        item.link('logic', logicPod);
                     }
                 }
 
@@ -37,7 +39,7 @@ export default K8sParser<Pod>()
         // if (!hasCreatedItems()) {
         //     let rawContainer = scope.fetchRawContainer(item, "ReplicaSets");
         //     createReplicaSet(rawContainer);
-        //     createAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deploment, StatefulSet or DaemonSet instead.');
+        //     createAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
         // }
 
         // /*** HELPERS ***/
