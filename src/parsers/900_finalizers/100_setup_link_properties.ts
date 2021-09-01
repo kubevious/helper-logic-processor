@@ -3,7 +3,6 @@ import { LogicParser } from '../../parser-builder';
 import { TableBuilder } from '../../table-builder';
 
 export default LogicParser()
-    .only()
     .target({
         path: []
     })

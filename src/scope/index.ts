@@ -23,6 +23,8 @@ export class LogicScope
     private _namespaceScopes : Record<string, NamespaceScope> = {};
     private _infraScope : InfraScope;
 
+    private _lastStageItems : LogicItem[] = [];
+
     // private _namespaceLabelMatcher : LabelMatcher<NamespaceScope>;
 
     constructor(logger: ILogger, concreteRegistry: IConcreteRegistry)
@@ -59,8 +61,16 @@ export class LogicScope
     //     return this._rootNodes[ROOT_NODE_INFRA];
     // }
 
+    extractLastedStageItems() {
+        const list = this._lastStageItems;
+        this._lastStageItems = [];
+        return list;
+    }
+
     _acceptItem(item : LogicItem) 
     {
+        this._lastStageItems.push(item);
+
         this._itemsMap[item.dn] = item;
 
         if (!this._itemKindMap[item.kind]) {

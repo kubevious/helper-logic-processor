@@ -6,7 +6,6 @@ import { LogicContainerRuntime } from '../../types/parser/logic-container';
 const yaml = require('js-yaml');
 
 export default LogicParser<Container, LogicContainerRuntime>()
-    .only()
     .target({
         path: ["logic", "ns", "app","cont"]
     })

@@ -3,7 +3,6 @@ import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
 
 export default LogicParser<Container>()
-    .only()
     .target({
         path: ["logic", "ns", "app", "cont"]
     })

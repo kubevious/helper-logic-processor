@@ -3,9 +3,10 @@ import { Job } from 'kubernetes-types/batch/v1';
 import _ from 'the-lodash';
 import { K8sConfig } from '../..';
 import { K8sParser } from '../../parser-builder';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
 
 export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
-    .only()
     .target({
         api: "apps",
         kind: "Deployment"
@@ -31,11 +32,13 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         const ns = root.fetchByNaming('ns', metadata.namespace!);
 
         const app = ns.fetchByNaming('app', metadata.name);
+        (<LogicAppRuntime>app.runtime).namespace = namespace!;
         item.link('app', app);
 
         const launcher = app.fetchByNaming('launcher', config.kind);
+        (<LogicLauncherRuntime>launcher.runtime).namespace = namespace!;
+
         launcher.makeShadowOf(item);
-        // launcher.setConfig(config);
         item.link('logic', launcher);
 
         let labelsMap = getPodLabels();

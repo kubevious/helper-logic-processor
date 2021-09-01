@@ -367,6 +367,11 @@ export class LogicItem
             order: this.order,
             flags: this._flags
         };
+        (<any>node).dn = this.dn;
+
+        if (this._shadowOf) {
+            (<any>node).shadowOf = this._shadowOf;
+        }
         return _.deepClean(node);
     }
 

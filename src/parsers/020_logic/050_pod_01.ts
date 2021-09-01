@@ -5,7 +5,6 @@ import { K8sParser } from '../../parser-builder';
 import { makeRelativeName } from '../../utils/name-helpers';
 
 export default K8sParser<Pod>()
-    .only()
     .target({
         kind: "Pod"
     })

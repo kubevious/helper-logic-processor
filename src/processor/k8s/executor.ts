@@ -26,7 +26,7 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 
     private _handler? : (args : K8sProcessorHandlerArgs<TConfig, TRuntime>) => void;
 
-    constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo<TConfig, TRuntime>)
+    constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo<TConfig, TRuntime>, isTraceEnabled: boolean)
     {
         this._name = name;
         this._logger = processor.logger;
@@ -70,7 +70,7 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
             handler: this._innerHandler.bind(this)
         }
 
-        this._innerExecutor = new LogicParserExecutor(processor, name, logicParserInfo);
+        this._innerExecutor = new LogicParserExecutor(processor, name, logicParserInfo, isTraceEnabled);
     }
 
     get kind() {

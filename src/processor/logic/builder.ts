@@ -84,7 +84,9 @@ export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<Log
             let executor = new LogicParserExecutor(
                 processor,
                 name,
-                parserInfo)
+                parserInfo,
+                this.isTraceEnabled()
+                )
 
             return executor;
         });

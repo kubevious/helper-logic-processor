@@ -4,7 +4,6 @@ import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
 
 export default K8sParser<Ingress>()
-    .only()
     .target({
         api: "extensions",
         kind: "Ingress"

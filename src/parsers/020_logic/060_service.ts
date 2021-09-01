@@ -3,7 +3,6 @@ import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 
 export default K8sParser<Service>()
-    .only()
     .target({
         kind: "Service"
     })

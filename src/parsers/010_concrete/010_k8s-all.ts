@@ -3,7 +3,6 @@ import { LogicItem } from '../../item';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
-    .only()
     .target(null)
     .kind('resource')
     .handler(({ logger, scope, item, createK8sItem }) => {

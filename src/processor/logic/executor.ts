@@ -16,17 +16,19 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
     private _processor : LogicProcessor;
     private _logger : ILogger;
     private _name : string;
+    private _isTraceEnabled: boolean;
 
     private _parserInfo : LogicParserInfo<TConfig, TRuntime>;
     private _targetPath : LogicTargetPathElement[];
 
-    constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo<TConfig, TRuntime>)
+    constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo<TConfig, TRuntime>, isTraceEnabled: boolean)
     {
         this._name = name;
         this._processor = processor;
         this._logger = processor.logger;
         this._parserInfo = parserInfo;
         this._targetPath = parserInfo.target!.path;
+        this._isTraceEnabled = isTraceEnabled;
     }
 
     get kind() {
@@ -46,16 +48,28 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
 
     execute(scope : LogicScope)
     {
+        if (this._isTraceEnabled) {
+            this._logger.info(">>>> Parser Tracer :: %s :: BEGIN", this.name);
+        }
+
         const items = this._extractTreeItems(scope);
 
         for(let item of items)
         {
             this._processHandler(scope, item);
         }
+
+        if (this._isTraceEnabled) {
+            this._logger.info("<<<< Parser Tracer :: %s :: END", this.name);
+        }
     }
 
     private _processHandler(scope : LogicScope, item: LogicItem)
     {
+        if (this._isTraceEnabled) {
+            this._logger.info("    | - %s", item.dn);
+        }
+
         this._logger.silly("[_processHandler] LogicHandler: %s, Item: %s", 
             this.name, 
             item.dn);
@@ -82,6 +96,14 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
                 runtimeData);
                 
             this._parserInfo.handler!(handlerArgs);
+
+            const newItems = scope.extractLastedStageItems();
+            if (this._isTraceEnabled) {
+                for(let newItem of newItems) {
+                    this._logger.info("      >>> Added: %s", item.dn);
+                }
+            }
+    
 
             this._postProcessHandler(runtimeData);
         }

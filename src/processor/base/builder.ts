@@ -16,12 +16,19 @@ export interface BaseParserInfo
 
 export class BaseParserBuilder<TTarget>
 {
+    private _trace: boolean = false;
     private _isOnly: boolean = false;
     private _shouldSkip: boolean = false;
     protected _targets : TTarget[] = [];
 
+
     constructor()
     {
+    }
+
+    trace() {
+        this._trace = true;
+        return this;
     }
 
     only() {
@@ -32,6 +39,11 @@ export class BaseParserBuilder<TTarget>
     skip() {
         this._shouldSkip = true;
         return this;
+    }
+
+    isTraceEnabled()
+    {
+        return this._trace;
     }
 
     isOnly()
