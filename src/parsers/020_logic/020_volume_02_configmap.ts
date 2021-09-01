@@ -11,14 +11,12 @@ export default LogicParser<Volume, LogicVolumeRuntime>()
     })
     .handler(({ logger, item, config, helpers, runtime }) => {
 
-        logger.error("config: ", config)
+        if (!config.configMap) {
+            return;
+        }
 
-        if (config.configMap)
-        {
-
-            if (config.configMap.name) {
-                findAndProcessConfigMap(config.configMap.name, config.configMap.optional)
-            }
+        if (config.configMap.name) {
+            findAndProcessConfigMap(config.configMap.name, config.configMap.optional)
         }
 
         /*** HELPERS **/
@@ -26,7 +24,6 @@ export default LogicParser<Volume, LogicVolumeRuntime>()
         function findAndProcessConfigMap(name: string, isOptional?: boolean) : ConfigMap | null
         {
             const k8sConfigMapDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ConfigMap', name);
-            logger.error("COnfig DN: %s", k8sConfigMapDn)
 
             let logicConfigMap = item.fetchByNaming("configmap", name);
             logicConfigMap.link('k8s-owner', k8sConfigMapDn);

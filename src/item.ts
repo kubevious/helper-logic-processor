@@ -259,15 +259,15 @@ export class LogicItem
         return child;
     }
 
-    addProperties(params: any)
+    addProperties(params: SnapshotPropsConfig)
     {
-        if (!params) {
+        if (!params.order) {
             params.order = 10;
         }
         this.properties[params.id] = params;
     }
 
-    getProperties(id: string)
+    getProperties(id: string) : SnapshotPropsConfig | null
     {
         if (this.properties[id]) {
             return this.properties[id];

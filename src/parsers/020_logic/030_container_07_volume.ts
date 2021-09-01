@@ -19,18 +19,33 @@ export default LogicParser<Container>()
         const app = item.parent!;
         const appRuntime = <LogicAppRuntime>app.runtime;
 
-        for(let volumeMount of config.volumeMounts)
+        for(let volumeMountConfig of config.volumeMounts)
         {
-            const volumeDn = appRuntime.volumes[volumeMount.name];
+            const volumeDn = appRuntime.volumes[volumeMountConfig.name];
             if (volumeDn)
             {
                 const volume = scope.findItem(volumeDn)!;
 
-                let logicConfigMap = item.fetchByNaming("vol", volume.naming);
-                // Either make shadow, or clone stuff manually.
-                // but props will be different. so maybe clone manully better.
-                // logicConfigMap.makeShadowOf(volume);
-                // TODO: 
+                let containerVolumeMount = item.fetchByNaming("vol", volume.naming);
+                containerVolumeMount.link('volume', volume);
+
+                containerVolumeMount.addProperties({
+                    kind: "yaml",
+                    id: "env",
+                    title: "Mount Config",
+                    order: 5,
+                    config: volumeMountConfig
+                });  
+
+                {
+                    containerVolumeMount.addProperties(volume.getProperties('config')!);
+                }
+
+                for(let volumeChild of volume.getChildren())
+                {
+                    const containerVolumeChild = containerVolumeMount.fetchByNaming(volumeChild.kind, volumeChild.naming);
+                    containerVolumeChild.makeShadowOf(volumeChild);
+                }
             }
         }
 
