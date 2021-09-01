@@ -6,6 +6,7 @@ import { Job } from 'kubernetes-types/batch/v1';
 import { LogicParser } from '../../parser-builder';
 import { LogicVolumeRuntime } from '../../types/parser/logic-volume';
 import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
 
 export default LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLauncherRuntime>()
     .target({
@@ -16,7 +17,7 @@ export default LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLaun
         if (!config.spec) {
             return;
         }
-        if (! config.spec.template.spec) {
+        if (!config.spec.template.spec) {
             return;
         }
 
@@ -27,7 +28,6 @@ export default LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLaun
 
         const app = item.parent!;
         const volumesParent = app.fetchByNaming("vols", "Volumes");
-
 
         for(let volume of volumesList)
         {
@@ -41,6 +41,7 @@ export default LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLaun
             const volume = volumesParent.fetchByNaming('vol', volumeConfig.name);
             volume.setConfig(volumeConfig);
             (<LogicVolumeRuntime>volume.runtime).namespace = runtime.namespace;
+            (<LogicAppRuntime>app.runtime).volumes[volumeConfig.name] = volume.dn;
 
             volume.addProperties({
                 kind: "yaml",
