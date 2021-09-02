@@ -13,6 +13,10 @@ export class LabelMatcher
     {
     }
 
+    get allLabels() {
+        return this._labels;
+    }
+
     register(labels : LabelMap, target : LogicItem)
     {
         if (!labels) {
@@ -29,7 +33,7 @@ export class LabelMatcher
         if (selector.matchLabels){
             return this.match(selector.matchLabels);
         }
-        return [];
+        return this._labels.map(x => x.target);
     }
 
     match(selector: LabelMap) : LogicItem[]

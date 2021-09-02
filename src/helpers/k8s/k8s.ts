@@ -5,6 +5,7 @@ import { K8sConfig, LogicItem, parseApiVersion } from "../..";
 import { GlobalLabelMatcher } from './global-label-matcher';
 
 import { makeDn, RnInfo } from '../../utils/dn-utils';
+import { ObjectMeta } from "kubernetes-types/meta/v1";
 
 export class KubernetesUtils {
 
@@ -46,6 +47,11 @@ export class KubernetesUtils {
         parts.push({ kind: "resource", name: name })
         
         return makeDn(parts);
+    }
+
+    labelsMap(metadata?: ObjectMeta)
+    {
+        return metadata?.labels ?? {};
     }
     
 }   

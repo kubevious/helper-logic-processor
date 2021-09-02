@@ -42,22 +42,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         launcher.makeShadowOf(item);
         item.link('logic', launcher);
 
-        let labelsMap = getPodLabels();
-        if (labelsMap) {
-            helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)
-        }
-
-        /*** HELPERS ***/
-        function getPodLabels()
-        {
-            if (config.spec) {
-                if (config.spec!.template.metadata) {
-                    if (config.spec!.template.metadata!.labels) {
-                        return config.spec!.template.metadata!.labels;
-                    }
-                }
-            }
-            return {};
-        }
+        let labelsMap = helpers.k8s.labelsMap(config.spec?.template.metadata);
+        helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)
     })
     ;
