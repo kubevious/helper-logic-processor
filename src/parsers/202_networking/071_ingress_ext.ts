@@ -1,19 +1,19 @@
-import { Ingress, IngressBackend } from 'kubernetes-types/networking/v1';
+import { Ingress, IngressBackend } from 'kubernetes-types/extensions/v1beta1';
 import _ from 'the-lodash';
 import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
 
 export default K8sParser<Ingress>()
     .target({
-        api: "networking.k8s.io",
+        api: "extensions",
         kind: "Ingress"
     })
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
         if (config.spec)
         {
-            if (config.spec.defaultBackend) {
-                processIngressBackend(config.spec.defaultBackend);
+            if (config.spec.backend) {
+                processIngressBackend(config.spec.backend);
             }
 
             if (config.spec.rules)
@@ -35,14 +35,12 @@ export default K8sParser<Ingress>()
 
         function processIngressBackend(backend: IngressBackend)
         {
-            if (!backend.service) {
+            if (!backend.serviceName) {
                 return 
             }
 
-            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', backend.service.name);
-            item.link('k8s-owner', serviceDn);
-
-            const serviceItem = item.resolveTargetLinkItem('k8s-owner');
+            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', backend.serviceName);
+            const serviceItem = item.link('k8s-owner', serviceDn);
             if (serviceItem)
             {
                 {
@@ -77,14 +75,10 @@ export default K8sParser<Ingress>()
         function createIngress(parent : LogicItem)
         {
             let name = metadata.name!;
-            while(parent.findByNaming('ingress', name))
-            {
-                name = name + '_';
-            }
-
             let ingress = parent.fetchByNaming('ingress', name);
             ingress.makeShadowOf(item);
             return ingress;
         }
+        
     })
     ;

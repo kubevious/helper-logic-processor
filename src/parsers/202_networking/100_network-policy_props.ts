@@ -9,7 +9,7 @@ export default K8sParser<NetworkPolicy>()
         api: "networking.k8s.io",
         kind: "NetworkPolicy"
     })
-    .handler(({ logger, config, item, metadata, namespace, helpers }) => {
+    .handler(({ logger, config, item, namespace, helpers }) => {
 
         if (!config.spec) {
             return;

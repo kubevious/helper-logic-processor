@@ -1,16 +1,12 @@
-import { NetworkPolicy } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
 import { TableBuilder } from '../../table-builder';
 
-
-
 export default LogicParser()
-    .trace()
     .target({
         path: ["logic", "ns", "app", "netpols"]
     })
-    .handler(({ logger, config, item, helpers }) => {
+    .handler(({ logger, item }) => {
 
         let properties = item.buildProperties();
 

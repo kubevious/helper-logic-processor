@@ -39,9 +39,7 @@ export default LogicParser<Pod, LogicPodRuntime>()
             let pvc = item.fetchByNaming("pvc", pvcName);
 
             const k8sPvcDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'PersistentVolumeClaim', pvcName);
-            pvc.link('k8s-owner', k8sPvcDn);
-
-            const k8sPvc = pvc.resolveTargetLinkItem('k8s-owner');
+            const k8sPvc = pvc.link('k8s-owner', k8sPvcDn);
             if (!k8sPvc) {
                 return;
             }
