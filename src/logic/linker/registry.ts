@@ -21,7 +21,7 @@ export class LogicLinkRegistry
         this._logicScope = logicScope;
     }
 
-    link(sourceItemOrDn: LogicItem | string, kind: string, path: any, targetItemOrDn: LogicItem | string)
+    link(sourceItemOrDn: LogicItem | string, kind: string, path: any, targetItemOrDn: LogicItem | string) : LogicItem | null
     {
         const link : LinkInfo = {
             sourceDn: _.isString(sourceItemOrDn) ? sourceItemOrDn : sourceItemOrDn.dn,
@@ -31,13 +31,13 @@ export class LogicLinkRegistry
         }
 
         const id = _.stableStringify(link);
-        if (this._dict[id]) {
-            return;
+        if (!this._dict[id]) {
+            this._dict[id] = link;
+            this._registerLink(this._direct, link.sourceDn, link);
+            this._registerLink(this._inverted, link.targetDn, link);
         }
 
-        this._dict[id] = link;
-        this._registerLink(this._direct, link.sourceDn, link);
-        this._registerLink(this._inverted, link.targetDn, link);
+        return this._logicScope.findItem(link.targetDn) || null;
     }
 
     private _registerLink(map: TargetedLinkMap, dn: string, link: LinkInfo)

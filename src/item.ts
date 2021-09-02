@@ -148,7 +148,7 @@ export class LogicItem
         this._data = other._data;
     }
 
-    link(kind: string, targetItemOrDn: LogicItem | string)
+    link(kind: string, targetItemOrDn: LogicItem | string) : LogicItem | null
     {
         return this._linkRegistry.link(this.dn, kind, null, targetItemOrDn);
     }

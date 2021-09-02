@@ -24,25 +24,26 @@ export class PropertiesBuilder
     fromObject(obj: any, name: string, valuePath: string, defaultValue?: any, formatter?: FormatterFunc) : PropertiesBuilder
     {
         let value = _.get(obj, valuePath);
+        this.add(name, value, defaultValue, formatter);
+        return this;
+    }
+
+    add(name: string, value: any, defaultValue?: any, formatter?: FormatterFunc) : PropertiesBuilder
+    {
         if (_.isUndefined(value)) {
-            if (!_.isUndefined(defaultValue)) {
-                value = defaultValue;
-            }
+            value = defaultValue;
         }
+
         if (formatter) {
             if (!_.isUndefined(value)) {
                 value = formatter(value);
             }
         }
-        if (!_.isUndefined(value)) {
-            this.add(name, value);
-        }
-        return this;
-    }
 
-    add(name: string, value: any) : PropertiesBuilder
-    {
-        this._properties[name] = value;
+        if (!_.isUndefined(value)) {
+            this._properties[name] = value;
+        }
+
         return this;
     }
 

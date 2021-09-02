@@ -134,9 +134,9 @@ export class LogicProcessor
 
     private _processParser(scope: LogicScope, handlerInfo : BaseParserExecutor)
     {
-        this._logger.info("[_processParser] %s :: %s, Target: %s ", 
-            handlerInfo.kind,
+        this._logger.info("[_processParser] %s :: %s-Target: %s ", 
             handlerInfo.name,
+            handlerInfo.kind,
             handlerInfo.targetInfo);
 
         handlerInfo.execute(scope);

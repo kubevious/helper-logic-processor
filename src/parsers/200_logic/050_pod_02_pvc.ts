@@ -4,7 +4,6 @@ import { LogicParser } from '../../parser-builder';
 import { LogicPodRuntime } from '../../types/parser/logic-pod';
 
 export default LogicParser<Pod, LogicPodRuntime>()
-    .trace()
     .target({
         path: ["logic", "ns", "app", "launcher", "replicaset", "pod"]
     })
@@ -43,9 +42,11 @@ export default LogicParser<Pod, LogicPodRuntime>()
             pvc.link('k8s-owner', k8sPvcDn);
 
             const k8sPvc = pvc.resolveTargetLinkItem('k8s-owner');
-            if (k8sPvc) {
-                pvc.makeShadowOf(k8sPvc);
+            if (!k8sPvc) {
+                return;
             }
+
+            pvc.makeShadowOf(k8sPvc);
         }
 
     })

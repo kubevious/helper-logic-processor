@@ -33,6 +33,8 @@ export class KubernetesUtils {
 
         if (namespace) {
             parts.push({ kind: "ns", name: namespace! })
+        } else {
+            parts.push({ kind: "cluster" })
         }
 
         if (apiInfo.apiName) {
