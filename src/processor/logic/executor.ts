@@ -25,7 +25,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
     {
         this._name = name;
         this._processor = processor;
-        this._logger = processor.logger;
+        this._logger = processor.parserLogger;
         this._parserInfo = parserInfo;
         this._targetPath = parserInfo.target!.path;
         this._isTraceEnabled = isTraceEnabled;
@@ -49,7 +49,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
     execute(scope : LogicScope)
     {
         if (this._isTraceEnabled) {
-            this._logger.info(">>>> Parser Tracer :: %s :: BEGIN", this.name);
+            this._logger.debug(">>>> Parser Tracer :: %s :: BEGIN", this.name);
         }
 
         const items = this._extractTreeItems(scope);
@@ -60,14 +60,14 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         }
 
         if (this._isTraceEnabled) {
-            this._logger.info("<<<< Parser Tracer :: %s :: END", this.name);
+            this._logger.debug("<<<< Parser Tracer :: %s :: END", this.name);
         }
     }
 
     private _processHandler(scope : LogicScope, item: LogicItem)
     {
         if (this._isTraceEnabled) {
-            this._logger.info("    | - %s", item.dn);
+            this._logger.debug("    | - %s", item.dn);
         }
 
         this._logger.silly("[_processHandler] LogicHandler: %s, Item: %s", 
@@ -97,10 +97,10 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
                 
             this._parserInfo.handler!(handlerArgs);
 
-            const newItems = scope.extractLastedStageItems();
+            const createdItems = scope.extractLastedStageItems();
             if (this._isTraceEnabled) {
-                for(let newItem of newItems) {
-                    this._logger.info("      >>> Added: %s", item.dn);
+                for(let createdItem of createdItems) {
+                    this._logger.debug("      >>> Added: %s", createdItem.dn);
                 }
             }
     

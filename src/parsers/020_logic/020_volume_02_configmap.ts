@@ -27,7 +27,7 @@ export default LogicParser<Volume, LogicVolumeRuntime>()
             let logicConfigMap = item.fetchByNaming("configmap", name);
             logicConfigMap.link('k8s-owner', k8sConfigMapDn);
 
-            const k8sConfigMap = logicConfigMap.resolveLink('k8s-owner');
+            const k8sConfigMap = logicConfigMap.resolveTargetLinkItem('k8s-owner');
             if (k8sConfigMap)
             {
                 logicConfigMap.makeShadowOf(k8sConfigMap);

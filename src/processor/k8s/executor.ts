@@ -29,7 +29,7 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
     constructor(processor : LogicProcessor, name : string, parserInfo : K8sParserInfo<TConfig, TRuntime>, isTraceEnabled: boolean)
     {
         this._name = name;
-        this._logger = processor.logger;
+        this._logger = processor.parserLogger;
         this._handler = parserInfo.handler;
 
         this._targetPath = [

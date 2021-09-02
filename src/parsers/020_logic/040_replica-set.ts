@@ -18,12 +18,12 @@ export default K8sParser<ReplicaSet>()
                 const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
                 item.link('k8s-owner', ownerDn);
 
-                const owner = item.resolveLink('k8s-owner');
+                const owner = item.resolveTargetLinkItem('k8s-owner');
                 if (owner)
                 {                    
                     let shortName = makeRelativeName(owner.naming, metadata.name!);
 
-                    const logicOwner = owner.resolveLink('logic');
+                    const logicOwner = owner.resolveTargetLinkItem('logic');
                     if (logicOwner)
                     { 
                         const logicItem = logicOwner.fetchByNaming('replicaset', shortName);

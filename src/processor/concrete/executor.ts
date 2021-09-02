@@ -25,7 +25,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     {
         this._name = name;
         this._processor = processor;
-        this._logger = processor.logger;
+        this._logger = processor.parserLogger;
         this._concreteRegistry = concreteRegistry;
         this._parserInfo = parserInfo;
     }

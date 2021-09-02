@@ -6,6 +6,7 @@ import { NamespaceScope } from './namespace';
 import { LogicItem } from '../item';
 // import { LabelMatcher } from './label-matcher';
 import { IConcreteRegistry, IConcreteItem } from '../types/registry';
+import { LogicLinkRegistry } from '../logic/linker/registry';
 
 export const ROOT_NODE_LOGIC = 'root';
 // export const ROOT_NODE_INFRA = 'infra';
@@ -25,6 +26,8 @@ export class LogicScope
 
     private _lastStageItems : LogicItem[] = [];
 
+    private _linkRegistry : LogicLinkRegistry;
+
     // private _namespaceLabelMatcher : LabelMatcher<NamespaceScope>;
 
     constructor(logger: ILogger, concreteRegistry: IConcreteRegistry)
@@ -32,11 +35,14 @@ export class LogicScope
         this._logger = logger.sublogger("LogicScope");
         this._concreteRegistry = concreteRegistry;
 
+        this._linkRegistry = new LogicLinkRegistry(this);
+
         this._rootNodes[ROOT_NODE_LOGIC] = LogicItem.constructTop(this, ROOT_NODE_LOGIC);
         // this._rootNodes[ROOT_NODE_INFRA] = LogicItem.constructTop(this, ROOT_NODE_INFRA);
 
         this._namespaceScopes = {};
         this._infraScope = new InfraScope(this);
+
 
         // this._namespaceLabelMatcher = new LabelMatcher();
     }
@@ -55,6 +61,10 @@ export class LogicScope
 
     get logicRootNode() {
         return this._rootNodes[ROOT_NODE_LOGIC];
+    }
+
+    get linkRegistry() {
+        return this._linkRegistry;
     }
 
     // get infraRootNode() {

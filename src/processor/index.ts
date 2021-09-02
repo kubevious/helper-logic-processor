@@ -20,6 +20,7 @@ import { ParserInfo, ParserLoader } from './parser-loader'
 export class LogicProcessor 
 {
     private _logger : ILogger;
+    private _parserLogger : ILogger;
     private _tracker: ProcessingTrackerScoper;
     private _registry : IConcreteRegistry;
     private _parserLoader : ParserLoader;
@@ -30,6 +31,7 @@ export class LogicProcessor
     constructor(logger: ILogger, tracker: ProcessingTrackerScoper, parserLoader: ParserLoader, registry : IConcreteRegistry)
     {
         this._logger = logger.sublogger("LogicProcessor");
+        this._parserLogger = logger.sublogger("LogicParser");
         this._tracker = tracker;
         this._registry = registry;
         this._parserLoader = parserLoader;
@@ -41,6 +43,10 @@ export class LogicProcessor
 
     get logger() {
         return this._logger;
+    }
+
+    get parserLogger() {
+        return this._parserLogger;
     }
 
     get helpers() : Helpers {

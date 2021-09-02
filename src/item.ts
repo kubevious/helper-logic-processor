@@ -10,8 +10,7 @@ import * as DocsHelper from '@kubevious/helpers/dist/docs';
 import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/helpers/dist/snapshot/types'
 
 import { DumpWriter } from 'the-logger';
-
-import { LogicItemLinker } from './logic/item-linker';
+import { LogicLinkRegistry } from './logic/linker/registry';
 
 export class LogicItemData
 {
@@ -37,6 +36,8 @@ export class LogicItem
         alerts: {},
     }
 
+    private _selfProperties : Record<string, SnapshotPropsConfig> = {};
+
     private _runtime : Record<string, any> = {};
 
     private _appScope? : AppScope;
@@ -47,7 +48,7 @@ export class LogicItem
     private _flags : Record<string, FlagInfo> = {};
     private _usedBy : Record<string, any> = {};
 
-    private _linker : LogicItemLinker;
+    private _linkRegistry : LogicLinkRegistry;
 
     constructor(logicScope: LogicScope, parent: LogicItem | null, kind: string, naming: any)
     {
@@ -56,7 +57,7 @@ export class LogicItem
         this._naming = naming;
         this._rn = LogicItem._makeRn(kind, naming);
 
-        this._linker = new LogicItemLinker(logicScope);
+        this._linkRegistry = logicScope.linkRegistry;
 
         if (parent) {
             this._parent = parent;
@@ -137,10 +138,6 @@ export class LogicItem
         return this._appScope!;
     }
 
-    get properties() {
-        return this._data.properties;
-    }
-
     get alerts() {
         return this._data.alerts;
     }
@@ -153,22 +150,47 @@ export class LogicItem
 
     link(kind: string, targetItemOrDn: LogicItem | string)
     {
-        return this._linker.link(kind, targetItemOrDn);
+        return this._linkRegistry.link(this.dn, kind, null, targetItemOrDn);
     }
 
-    findLink(kind: string)
+    // findTargetLinks(kind?: string)
+    // {
+    //     return this._linkRegistry.findTargetLinks(this.dn, kind);
+    // }
+
+    // findSourceLinks(kind?: string)
+    // {
+    //     return this._linkRegistry.findSourceLinks(this.dn, kind);
+    // }
+
+    resolveTargetLinks(kind?: string)
     {
-        return this._linker.findLink(kind);
+        return this._linkRegistry.resolveTargetLinks(this.dn, kind);
     }
 
-    resolveLink(kind: string)
+    resolveSourceLinks(kind?: string)
     {
-        return this._linker.resolveLink(kind);
+        return this._linkRegistry.resolveSourceLinks(this.dn, kind);
     }
 
-    getAllLinks()
+    resolveTargetLinkItems(kind?: string)
     {
-        return this._linker.getAllLinks();
+        return this._linkRegistry.resolveTargetItems(this.dn, kind);
+    }
+
+    resolveTargetLinkItem(kind?: string)
+    {
+        const items = this._linkRegistry.resolveTargetItems(this.dn, kind);
+        if (items.length == 0) {
+            return null;
+        }
+        // TODO: Handle the case of multiple items;
+        return items[0];
+    }
+
+    resolveSourceLinkItems(kind?: string)
+    {
+        return this._linkRegistry.resolveSourceItems(this.dn, kind);
     }
 
     associateAppScope(scope: AppScope) {
@@ -259,23 +281,32 @@ export class LogicItem
         return child;
     }
 
-    addProperties(params: SnapshotPropsConfig)
+    addProperties(props: SnapshotPropsConfig, params?: NewPropsParams)
     {
-        if (!params.order) {
-            params.order = 10;
+        if (!props.order) {
+            props.order = 10;
         }
-        this.properties[params.id] = params;
+
+        params = params || {};
+        if (params.isSelfProps) {
+            this._selfProperties[props.id] = props;
+        } else {
+            this._data.properties[props.id] = props;
+        }
     }
 
     getProperties(id: string) : SnapshotPropsConfig | null
     {
-        if (this.properties[id]) {
-            return this.properties[id];
+        if (this._data.properties[id]) {
+            return this._data.properties[id];
+        }
+        if (this._selfProperties[id]) {
+            return this._selfProperties[id];
         }
         return null;
     }
 
-    buildProperties()
+    buildProperties(params?: NewPropsParams)
     {
         let builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
             this.addProperties({
@@ -284,7 +315,7 @@ export class LogicItem
                 title: "Properties",
                 order: 5,
                 config: props
-            });
+            }, params);
             return props;
         });
         return builder;
@@ -309,7 +340,10 @@ export class LogicItem
     }
 
     extractProperties() : SnapshotPropsConfig[] {
-        let myProps = _.values(this.properties);
+        let myProps = [
+            ... _.values(this._data.properties),
+            ... _.values(this._selfProperties)
+        ];
 
         if (_.keys(this._usedBy).length > 0) {
             myProps.push({
@@ -391,4 +425,9 @@ export interface FlagInfo
 {
     name : string;
     propagatable : boolean;
+}
+
+export interface NewPropsParams
+{ 
+    isSelfProps?: boolean 
 }
