@@ -37,17 +37,5 @@ export default K8sParser<ClusterRole | Role>()
 
         item.addProperties(helpers.roles.buildRoleMatrixProps(rulesMap));
 
-        /*** HELPERS ***/
-        // function fetchNamespaceName()
-        // {
-        //     if(config.kind == "Role") {
-        //         return item.config.metadata.namespace!;
-        //     }
-        //     if(config.kind == "ClusterRole") {
-        //         return '';
-        //     }
-        //     throw new Error();
-        // }
-
     })
     ;

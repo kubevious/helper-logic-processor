@@ -3,7 +3,6 @@ import { PersistentVolume } from 'kubernetes-types/core/v1';
 import { K8sParser } from '../../parser-builder';
 
 export default K8sParser<PersistentVolume>()
-    // .trace()
     .target({
         clustered: true,
         kind: "PersistentVolume"
