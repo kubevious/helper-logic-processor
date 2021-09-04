@@ -18,7 +18,12 @@ export default LogicParser()
                 ;
                 for(let link of links)
                 {
-                    linksTable.row({ kind: link.link.kind, dn: link.dn, resolved: _.isNotNullOrUndefined(link.item) })
+                    linksTable.row({ 
+                        kind: link.link.kind, 
+                        dn: link.dn, 
+                        path: link.link.path,
+                        resolved: _.isNotNullOrUndefined(link.item)
+                    })
                 }
         
                 item.addProperties({
@@ -43,7 +48,12 @@ export default LogicParser()
                 ;
                 for(let link of links)
                 {
-                    linksTable.row({ kind: link.link.kind, dn: link.dn, resolved: _.isNotNullOrUndefined(link.item) })
+                    linksTable.row({ 
+                        kind: link.link.kind,
+                        dn: link.dn,
+                        path: link.link.path,
+                        resolved: _.isNotNullOrUndefined(link.item)
+                    })
                 }
         
                 item.addProperties({

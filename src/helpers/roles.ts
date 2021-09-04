@@ -123,8 +123,8 @@ export class RoleHelper {
         return newItems;
     }
 
-    buildRoleMatrix(rulesMap : RulesMap) {
-
+    buildRoleMatrixTable(rulesMap : RulesMap)
+    {
         let usedVerbs = {};
         for(let apiRules of _.values(rulesMap))
         {
@@ -195,7 +195,14 @@ export class RoleHelper {
             headers: headers,
             rows: rows
         }
-    
+
+        return roleTableConfig;
+    }
+
+    buildRoleMatrixProps(rulesMap : RulesMap)
+    {
+        const roleTableConfig = this.buildRoleMatrixTable(rulesMap);
+        
         let config = {
             kind: "table",
             id: "resource-role-matrix",
