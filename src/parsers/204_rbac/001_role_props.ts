@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { ClusterRole, Role } from 'kubernetes-types/rbac/v1';
-import { LogicRoleRuntime } from '../../types/parser/logic-role';
+import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
 
 export default K8sParser<ClusterRole | Role>()
     .target({
