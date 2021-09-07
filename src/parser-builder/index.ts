@@ -1,10 +1,10 @@
 
-import { ConcreteParserBuilder } from './processor/concrete/builder';
-import { LogicParserBuilder } from './processor/logic/builder';
-import { ScopeParserBuilder } from './processor/scope/builder';
-import { K8sParserBuilder } from './processor/k8s/builder';
+import { ConcreteParserBuilder } from '../processor/concrete/builder';
+import { LogicParserBuilder } from '../processor/logic/builder';
+import { ScopeParserBuilder } from '../processor/scope/builder';
+import { K8sParserBuilder } from '../processor/k8s/builder';
 
-import { K8sConfig } from '.';
+import { K8sConfig } from '../';
 
 export function ConcreteParser() : ConcreteParserBuilder
 {

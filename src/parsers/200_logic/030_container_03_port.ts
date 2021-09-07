@@ -1,14 +1,7 @@
-import { Container } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
-import { LogicParser } from '../../parser-builder';
+import { LogicContainerParser } from '../../parser-builder/logic';
 
-export default LogicParser<Container>()
-    .target({
-        path: ["logic", "ns", "app", "cont"]
-    })
-    .target({
-        path: ["logic", "ns", "app", "initcont"]
-    })
+export default LogicContainerParser()
     .handler(({ logger, item, config, helpers}) => {
 
         if (!config.ports) {

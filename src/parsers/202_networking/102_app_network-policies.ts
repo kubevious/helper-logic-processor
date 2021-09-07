@@ -1,11 +1,8 @@
 import _ from 'the-lodash';
-import { LogicParser } from '../../parser-builder';
+import { LogicNetworkPoliciesParser } from '../../parser-builder/logic';
 import { TableBuilder } from '../../table-builder';
 
-export default LogicParser()
-    .target({
-        path: ["logic", "ns", "app", "netpols"]
-    })
+export default LogicNetworkPoliciesParser()
     .handler(({ logger, item }) => {
 
         let properties = item.buildProperties();

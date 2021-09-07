@@ -1,18 +1,10 @@
 import _ from 'the-lodash';
-import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
-import { Job } from 'kubernetes-types/batch/v1';
-
-import { LogicParser } from '../../parser-builder';
 
 import { Container } from 'kubernetes-types/core/v1'
 import { LogicContainerRuntime } from '../../types/parser/logic-container';
-import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
+import { LogicLauncherParser } from '../../parser-builder/logic';
 
-
-export default LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLauncherRuntime>()
-    .target({
-        path: ["logic", "ns", "app", "launcher"]
-    })
+export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime}) => {
 
         if (!config.spec) {

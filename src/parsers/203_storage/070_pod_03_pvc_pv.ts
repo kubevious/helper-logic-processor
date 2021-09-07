@@ -1,15 +1,7 @@
 import _ from 'the-lodash';
-import { PersistentVolumeClaim } from 'kubernetes-types/core/v1';
-import { LogicParser } from '../../parser-builder';
-import { LogicPodRuntime } from '../../types/parser/logic-pod';
+import { LogicPodPvcParser } from '../../parser-builder/logic';
 
-export default LogicParser<PersistentVolumeClaim, LogicPodRuntime>()
-    .target({
-        path: ["logic", "ns", "app", "launcher", "replicaset", "pod", "pvc"]
-    })
-    .target({
-        path: ["logic", "ns", "app", "launcher", "pod", "pvc"]
-    })
+export default LogicPodPvcParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
         
         if (!config.spec) {

@@ -1,13 +1,8 @@
 import _ from 'the-lodash';
-import { ConfigMap, Volume } from 'kubernetes-types/core/v1'
+import { ConfigMap } from 'kubernetes-types/core/v1'
+import { LogicVolumeParser } from '../../parser-builder/logic';
 
-import { LogicParser } from '../../parser-builder';
-import { LogicVolumeRuntime } from '../../types/parser/logic-volume';
-
-export default LogicParser<Volume, LogicVolumeRuntime>()
-    .target({
-        path: ["logic", "ns", "app", "vols", "vol"]
-    })
+export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
 
         if (!config.configMap) {

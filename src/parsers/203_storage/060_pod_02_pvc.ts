@@ -1,15 +1,8 @@
 import _ from 'the-lodash';
-import { Pod, Volume } from 'kubernetes-types/core/v1';
-import { LogicParser } from '../../parser-builder';
-import { LogicPodRuntime } from '../../types/parser/logic-pod';
+import { Volume } from 'kubernetes-types/core/v1';
+import { LogicPodParser } from '../../parser-builder/logic';
 
-export default LogicParser<Pod, LogicPodRuntime>()
-    .target({
-        path: ["logic", "ns", "app", "launcher", "replicaset", "pod"]
-    })
-    .target({
-        path: ["logic", "ns", "app", "launcher", "pod"]
-    })
+export default LogicPodParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
 
         if (!config.spec) {
