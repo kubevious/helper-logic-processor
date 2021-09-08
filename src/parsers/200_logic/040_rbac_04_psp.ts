@@ -12,8 +12,8 @@ export default LogicRoleParser()
             const config = <PodSecurityPolicy>k8sPsp.config;
 
             const logicPsp = item.fetchByNaming('psp', config.metadata!.name!);
-            logicPsp.makeShadowOf(k8sRole);
-            logicPsp.link('k8s-owner', k8sRole);
+            logicPsp.makeShadowOf(k8sPsp);
+            logicPsp.link('k8s-owner', k8sPsp);
         }
 
     })
