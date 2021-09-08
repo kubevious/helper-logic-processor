@@ -10,7 +10,7 @@ export default K8sParser<Namespace>()
     })
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
-        const root = scope.logicRootNode.fetchByNaming('logic', '');
+        const root = scope.logicRootNode.fetchByNaming('logic');
 
         const ns = root.fetchByNaming('ns', metadata.name!);
         ns.makeShadowOf(item);

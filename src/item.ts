@@ -270,7 +270,7 @@ export class LogicItem
         return null;
     }
 
-    fetchByNaming(kind: string, naming: any) : LogicItem
+    fetchByNaming(kind: string, naming?: any) : LogicItem
     {
         let rn = LogicItem._makeRn(kind, naming);
         let child = this._children[rn];
@@ -308,14 +308,20 @@ export class LogicItem
 
     buildProperties(params?: NewPropsParams)
     {
+        return this.buildCustomProperties({
+            kind: "key-value",
+            id: "properties",
+            title: "Properties",
+            order: 5,
+            config: undefined
+        }, params);
+    }
+
+    buildCustomProperties(propsConfig: SnapshotPropsConfig, params?: NewPropsParams)
+    {
         let builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
-            this.addProperties({
-                kind: "key-value",
-                id: "properties",
-                title: "Properties",
-                order: 5,
-                config: props
-            }, params);
+            propsConfig.config = props;
+            this.addProperties(propsConfig, params);
             return props;
         });
         return builder;

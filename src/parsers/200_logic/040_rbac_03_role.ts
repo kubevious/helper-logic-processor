@@ -17,7 +17,7 @@ export default LogicBindingParser()
             logicRole.link('k8s-owner', k8sRole);
         }
 
-        // /*** HELPERS **/
+        /*** HELPERS **/
 
         function getTargetKind(config : ClusterRole | Role)
         {
