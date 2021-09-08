@@ -3,7 +3,6 @@ import { LogicBindingParser } from '../../parser-builder/logic';
 import { ClusterRole, Role } from 'kubernetes-types/rbac/v1';
 
 export default LogicBindingParser()
-    .trace()
     .handler(({ logger, item, config, runtime, helpers}) => {
 
         let k8sBinding = item.resolveTargetLinkItem('k8s-owner')!;

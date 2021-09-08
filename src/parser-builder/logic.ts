@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
 import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
 import { Job } from 'kubernetes-types/batch/v1';
-import { ClusterRoleBinding, RoleBinding } from 'kubernetes-types/rbac/v1';
+import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-types/rbac/v1';
 import { Container, PersistentVolumeClaim, Pod, ServiceAccount, Volume } from 'kubernetes-types/core/v1';
 
 import { LogicLauncherRuntime } from '../types/parser/logic-launcher';
@@ -87,4 +87,20 @@ export function LogicBindingParser() {
         .target({
             path: ["logic", "ns", "app", "svcaccnt", "crlbndg" ]
         });
+}
+
+
+export function LogicRoleParser() {
+
+    return LogicParser<ClusterRole | Role>()
+        .target({
+            path: ["logic", "ns", "app", "svcaccnt", "rlbndg", "rl" ]
+        })
+        .target({
+            path: ["logic", "ns", "app", "svcaccnt", "rlbndg", "crl" ]
+        })
+        .target({
+            path: ["logic", "ns", "app", "svcaccnt", "crlbndg", "crl" ]
+        })
+        ;
 }
