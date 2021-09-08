@@ -107,7 +107,7 @@ export class LogicLinkRegistry
         }
         if (kind) {
             const kindList = dnMap[kind];
-            return kindList;
+            return kindList || [];
         } else {
             return _.flatten(_.values(dnMap));
         }

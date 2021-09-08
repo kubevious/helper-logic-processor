@@ -178,7 +178,7 @@ export class LogicItem
         return this._linkRegistry.resolveTargetItems(this.dn, kind);
     }
 
-    resolveTargetLinkItem(kind?: string)
+    resolveTargetLinkItem(kind?: string) : LogicItem | null
     {
         const items = this._linkRegistry.resolveTargetItems(this.dn, kind);
         if (items.length == 0) {
