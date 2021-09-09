@@ -1,3 +1,4 @@
+import _ from 'the-lodash';
 import { IConcreteRegistry, LogicProcessor } from "../..";
 import { BaseParserExecutor } from "./executor";
 
@@ -17,6 +18,8 @@ export interface BaseParserInfo
 export class BaseParserBuilder<TTarget>
 {
     private _trace: boolean = false;
+    private _isTraceDnFiltered: boolean = false;
+    private _traceDnList: { [dn : string] : boolean } = {};
     private _isOnly: boolean = false;
     private _shouldSkip: boolean = false;
     protected _targets : TTarget[] = [];
@@ -26,8 +29,19 @@ export class BaseParserBuilder<TTarget>
     {
     }
 
-    trace() {
+    trace(noneDnOrDns? : string | string[] ) {
         this._trace = true;
+        if (noneDnOrDns) {
+            if (_.isString(noneDnOrDns)) {
+                this._isTraceDnFiltered = true;
+                this._traceDnList[noneDnOrDns] = true;
+            } else if (_.isArray(noneDnOrDns)) {
+                for(let dn of noneDnOrDns) {
+                    this._isTraceDnFiltered = true;
+                    this._traceDnList[dn] = true;
+                }
+            }
+        }
         return this;
     }
 
@@ -44,6 +58,16 @@ export class BaseParserBuilder<TTarget>
     isTraceEnabled()
     {
         return this._trace;
+    }
+
+    isDnTraceEnabled(dn: string)
+    {
+        if (this._isTraceDnFiltered) {
+            if (this._traceDnList[dn]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     isOnly()

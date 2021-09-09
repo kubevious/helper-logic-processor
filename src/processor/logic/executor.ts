@@ -17,11 +17,16 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
     private _logger : ILogger;
     private _name : string;
     private _isTraceEnabled: boolean;
+    private _isDnTraceEnabledCb: (dn: string) => boolean;
 
     private _parserInfo : LogicParserInfo<TConfig, TRuntime>;
     private _targetPath : LogicTargetPathElement[];
 
-    constructor(processor : LogicProcessor, name : string, parserInfo : LogicParserInfo<TConfig, TRuntime>, isTraceEnabled: boolean)
+    constructor(processor : LogicProcessor, 
+        name : string,
+        parserInfo : LogicParserInfo<TConfig, TRuntime>,
+        isTraceEnabled: boolean,
+        isDnTraceEnabledCb: (dn: string) => boolean)
     {
         this._name = name;
         this._processor = processor;
@@ -29,6 +34,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         this._parserInfo = parserInfo;
         this._targetPath = parserInfo.target!.path;
         this._isTraceEnabled = isTraceEnabled;
+        this._isDnTraceEnabledCb = isDnTraceEnabledCb;
     }
 
     get kind() {
@@ -64,9 +70,17 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         }
     }
 
-    private _processHandler(scope : LogicScope, item: LogicItem)
+    private _isItemTraceEnabled(item: LogicItem)
     {
         if (this._isTraceEnabled) {
+            return this._isDnTraceEnabledCb(item.dn);
+        }
+        return false;
+    }
+
+    private _processHandler(scope : LogicScope, item: LogicItem)
+    {
+        if (this._isItemTraceEnabled(item)) {
             this._logger.debug("    | - %s", item.dn);
         }
 
@@ -98,12 +112,11 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
             this._parserInfo.handler!(handlerArgs);
 
             const createdItems = scope.extractLastedStageItems();
-            if (this._isTraceEnabled) {
+            if (this._isItemTraceEnabled(item)) {
                 for(let createdItem of createdItems) {
                     this._logger.debug("      >>> Added: %s", createdItem.dn);
                 }
             }
-    
 
             this._postProcessHandler(runtimeData);
         }

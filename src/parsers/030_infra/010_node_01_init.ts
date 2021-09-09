@@ -1,7 +1,7 @@
 import { Node } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
-
+import { InfraPoolRuntime } from '../../types/parser/infra-pool';
 
 export default K8sParser<Node>()
     .target({
@@ -16,6 +16,7 @@ export default K8sParser<Node>()
         const nodes = root.fetchByNaming('nodes');
 
         const pool = nodes.fetchByNaming('pool', nodePoolName);
+        (<InfraPoolRuntime>pool.runtime).nodeCount = 0;
 
         const node = pool.fetchByNaming('node', metadata.name!);
         node.makeShadowOf(item);

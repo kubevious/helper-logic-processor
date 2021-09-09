@@ -48,7 +48,9 @@ export class K8sParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<K8sTa
                 processor,
                 name,
                 parserInfo,
-                this.isTraceEnabled())
+                this.isTraceEnabled(),
+                this.isDnTraceEnabled.bind(this)
+                )
 
             return executor;
         });

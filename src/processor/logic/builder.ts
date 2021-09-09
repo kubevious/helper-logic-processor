@@ -85,7 +85,8 @@ export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<Log
                 processor,
                 name,
                 parserInfo,
-                this.isTraceEnabled()
+                this.isTraceEnabled(),
+                this.isDnTraceEnabled.bind(this)
                 )
 
             return executor;

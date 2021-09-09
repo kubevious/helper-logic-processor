@@ -1,5 +1,9 @@
 import _ from 'the-lodash';
 
+export const COUNTER_TYPE_ALLOCATABLE = 'allocatable';
+export const COUNTER_TYPE_CAPACITY = 'capacity';
+
+export const COUNTER_TYPES = [COUNTER_TYPE_ALLOCATABLE, COUNTER_TYPE_CAPACITY];
 export const METRICS = ['cpu', 'memory'];
 
 export const METRIC_UNITS : Record<string, string> = {
@@ -37,6 +41,23 @@ export class ResourceHelpers {
 
     get METRIC_UNITS() {
         return METRIC_UNITS;
+    }
+
+    get COUNTER_TYPES() {
+        return COUNTER_TYPES;
+    }
+
+    get COUNTER_TYPE_ALLOCATABLE() {
+        return COUNTER_TYPE_ALLOCATABLE;
+    }
+
+    get COUNTER_TYPE_CAPACITY() {
+        return COUNTER_TYPE_CAPACITY;
+    }
+
+    makeMetricProp(metric: string, counterType: string)
+    {
+        return `${metric} ${counterType}`;
     }
 
     parseCpu(value : any) : PropertyValueWithUnit

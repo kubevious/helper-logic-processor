@@ -3,52 +3,53 @@ import { PropertyValueWithUnit } from '../../helpers/resources';
 import { InfraNodePoolParser } from '../../parser-builder/infra';
 
 export default InfraNodePoolParser()
-    .trace()
-    .handler(({ logger, scope, config, item, helpers }) => {
+    .handler(({ logger, scope, config, item, runtime, helpers }) => {
 
-        let nodesResourcesProps : Record<string, PropertyValueWithUnit> = {}
-        let perNodeResources : Record<string, PropertyValueWithUnit | null> = {}
-        
+        runtime.poolResources = {};
+        runtime.nodeResources = {};
+
         for(let metric of helpers.resources.METRICS) {
-            for(let counterType of ['allocatable', 'capacity'])
+            for(let counterType of helpers.resources.COUNTER_TYPES)
             {
-                nodesResourcesProps[`${metric} ${counterType}`] = { 
+                runtime.poolResources[helpers.resources.makeMetricProp(metric, counterType)] = { 
                     value: 0,
                     unit: helpers.resources.METRIC_UNITS[metric]
                 };
             }
-            perNodeResources[metric] = null;
         }
 
         for(let node of item.getChildrenByKind('node'))
         {
+            runtime.nodeCount++;
+            
             let nodeProps = node.getProperties('resources');
             if (nodeProps)
             {
                 for(let metric of helpers.resources.METRICS)
                 {
-                    for(let counterType of ['allocatable', 'capacity'])
+                    for(let counterType of helpers.resources.COUNTER_TYPES)
                     {
-                        let value = <PropertyValueWithUnit>nodeProps.config[`${metric} ${counterType}`];
+                        let value = <PropertyValueWithUnit>nodeProps.config[helpers.resources.makeMetricProp(metric, counterType)];
                         if (value) {
-                            nodesResourcesProps[`${metric} ${counterType}`].value += value.value;
+                            runtime.poolResources[`${metric} ${counterType}`].value += value.value;
                         }
                     }
 
                     {
-                        let value = <PropertyValueWithUnit>nodeProps.config[`${metric} allocatable`];
+                        let value = <PropertyValueWithUnit>nodeProps.config[helpers.resources.makeMetricProp(metric, helpers.resources.COUNTER_TYPE_ALLOCATABLE)];
                         if (value)
                         {
-                            if (perNodeResources[metric] != null)
+                            const currPerNodeMetric = runtime.nodeResources[metric];
+                            if (currPerNodeMetric)
                             {
-                                perNodeResources[metric] = {
-                                    value: Math.min(perNodeResources[metric]!.value, value.value),
-                                    unit: perNodeResources[metric]!.unit
+                                runtime.nodeResources[metric] = {
+                                    value: Math.min(currPerNodeMetric.value, value.value),
+                                    unit: currPerNodeMetric.unit
                                 };
                             }
                             else
                             {
-                                perNodeResources[metric] = value;
+                                runtime.nodeResources[metric] = value;
                             }
                         }
                     }
@@ -56,17 +57,15 @@ export default InfraNodePoolParser()
             }
         }
 
-        let nodeResourcesProps : Record<string, PropertyValueWithUnit> = {}
         for(let metric of helpers.resources.METRICS)
         {
-            if (perNodeResources[metric] == null)
+            if (!runtime.nodeResources[metric])
             {
-                perNodeResources[metric] = {
+                runtime.nodeResources[metric] = {
                     value: 0,
                     unit: helpers.resources.METRIC_UNITS[metric]
                 }
             }
-            nodeResourcesProps[metric] = perNodeResources[metric]!;
         }
 
         item.addProperties({
@@ -74,7 +73,7 @@ export default InfraNodePoolParser()
             id: "pool-resources",
             title: "Pool Resources",
             order: 7,
-            config: nodesResourcesProps
+            config: runtime.poolResources
         });
 
         item.addProperties({
@@ -82,7 +81,7 @@ export default InfraNodePoolParser()
             id: "node-resources",
             title: "Node Resources",
             order: 8,
-            config: nodeResourcesProps
+            config: runtime.nodeResources
         });
 
         /*** HELPERS ***/

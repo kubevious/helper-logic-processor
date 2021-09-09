@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { InfraNodeParser } from '../../parser-builder/infra';
 
 export default InfraNodeParser()
-    .trace()
     .handler(({ logger, scope, config, item, helpers }) => {
 
         const propsBuilder = item.buildCustomProperties({
@@ -23,8 +22,8 @@ export default InfraNodeParser()
         /*** HELPERS ***/
         function collectResourceMetric(metric: string)
         {
-            collectResourceMetricCounter(metric, 'capacity', config.status?.capacity);
-            collectResourceMetricCounter(metric, 'allocatable', config.status?.allocatable);
+            collectResourceMetricCounter(metric, helpers.resources.COUNTER_TYPE_CAPACITY, config.status?.capacity);
+            collectResourceMetricCounter(metric, helpers.resources.COUNTER_TYPE_ALLOCATABLE, config.status?.allocatable);
         }
 
         function collectResourceMetricCounter(metric: string, counterType: string, counterDict?: { [name: string] : string })
@@ -37,7 +36,8 @@ export default InfraNodeParser()
                 return;
             }
 
-            propsBuilder.add(`${metric} ${counterType}`, helpers.resources.parse(metric, rawValue))
+            propsBuilder.add(helpers.resources.makeMetricProp(metric, counterType),
+                helpers.resources.parse(metric, rawValue))
         }
 
     })

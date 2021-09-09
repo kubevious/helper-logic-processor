@@ -10,6 +10,7 @@ import { LogicParser } from './';
 import { LogicContainerRuntime } from '../types/parser/logic-container';
 import { LogicVolumeRuntime } from '../types/parser/logic-volume';
 import { LogicPodRuntime } from '../types/parser/logic-pod';
+import { LogicAppRuntime } from '../types/parser/logic-app';
 
 export function LogicLauncherParser() {
 
@@ -17,6 +18,14 @@ export function LogicLauncherParser() {
         .target({
             path: ["logic", "ns", "app", "launcher"]
         });
+}
+
+export function LogicAppParser() {
+
+    return LogicParser<{}, LogicAppRuntime>()
+        .target({
+            path: ["logic", "ns", "app"]
+        })
 }
 
 export function LogicContainerParser() {

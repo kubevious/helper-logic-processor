@@ -33,6 +33,8 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
 
         const app = ns.fetchByNaming('app', metadata.name);
         (<LogicAppRuntime>app.runtime).namespace = namespace!;
+        (<LogicAppRuntime>app.runtime).launcherKind = config.kind!;
+        (<LogicAppRuntime>app.runtime).launcherReplicas = _.get(config, 'spec.replicas') ?? 0;
         (<LogicAppRuntime>app.runtime).volumes = {};
         item.link('app', app);
 
