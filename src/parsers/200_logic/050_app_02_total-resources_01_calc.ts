@@ -9,7 +9,7 @@ export default LogicAppParser()
         if (runtime.launcherKind == 'Deployment' || 
         runtime.launcherKind == 'StatefulSet')
         {
-            multiplier = runtime.launcherReplicas;
+            multiplier = runtime.launcherReplicas || 0;
         }
         else if (runtime.launcherKind == 'DaemonSet')
         {
