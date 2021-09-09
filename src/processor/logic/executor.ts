@@ -80,7 +80,8 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
 
     private _processHandler(scope : LogicScope, item: LogicItem)
     {
-        if (this._isItemTraceEnabled(item)) {
+        const shouldTrace = this._isItemTraceEnabled(item);
+        if (shouldTrace) {
             this._logger.debug("    | - %s", item.dn);
         }
 
@@ -107,12 +108,13 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
                 scope,
                 item,
                 variableArgs,
-                runtimeData);
+                runtimeData,
+                shouldTrace);
                 
             this._parserInfo.handler!(handlerArgs);
 
             const createdItems = scope.extractLastedStageItems();
-            if (this._isItemTraceEnabled(item)) {
+            if (shouldTrace) {
                 for(let createdItem of createdItems) {
                     this._logger.debug("      >>> Added: %s", createdItem.dn);
                 }

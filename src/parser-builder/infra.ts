@@ -2,12 +2,13 @@ import _ from 'the-lodash';
 import { Node } from 'kubernetes-types/core/v1';
 
 import { LogicParser } from './';
+import { InfraNodeRuntime } from '../types/parser/infra-node'
 import { InfraNodesRuntime } from '../types/parser/infra-nodes'
 import { InfraPoolRuntime } from '../types/parser/infra-pool';
 
 export function InfraNodeParser() {
 
-    return LogicParser<Node>()
+    return LogicParser<Node, InfraNodeRuntime>()
         .target({
             path: ["infra", "nodes", "pool", "node"]
         });

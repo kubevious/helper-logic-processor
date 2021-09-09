@@ -17,49 +17,43 @@ export default LogicAppParser()
         {
             for(let metric of helpers.resources.METRICS)
             {
-                myUsedResources[metric] = runtime.usedResources[helpers.resources.makeMetricProp(metric, 'request')];
+                myUsedResources[metric] = runtime.usedResources[metric];
             }
-            availableResources = nodesRuntime.clusterResources;
+            availableResources = nodesRuntime.resourcesAllocatable;
         }
         else if (runtime.launcherKind == 'DaemonSet')
         {
             for(let metric of helpers.resources.METRICS)
             {
-                myUsedResources[metric] = runtime.perPodResources[helpers.resources.makeMetricProp(metric, 'request')];
+                myUsedResources[metric] = runtime.perPodResources[metric];
             }
             availableResources = nodesRuntime.nodeResources;
         }
+
+        runtime.clusterConsumption = {};
 
         if (!availableResources)
         {
             return;
         }
 
-        let clusterConsumptionProps : Record<string, PropertyValueWithUnit> = {};
-        for(let metric of _.keys(myUsedResources))
+        for(let metric of helpers.resources.METRICS)
         {
-            let usedValue = myUsedResources[metric];
-            let availValue = availableResources[helpers.resources.makeMetricProp(metric, 'allocatable')];
+            const usedValue = myUsedResources[metric]?.value ?? 0;
+            const availValue = availableResources[metric]?.value;
+
             let consumption: number;
             if (!availValue) {
                 consumption = 0;
             } else {
-                consumption = usedValue.value / availValue.value;
+                consumption = usedValue / availValue;
             }
-            clusterConsumptionProps[metric] = {
+            runtime.clusterConsumption[metric] = {
                 value: consumption,
                 unit: '%'
             }
             ;
         }
-
-        item.addProperties({
-            kind: "key-value",
-            id: "cluster-consumption",
-            title: "Cluster Consumption",
-            order: 9,
-            config: clusterConsumptionProps
-        });
 
     })
     ;

@@ -65,9 +65,11 @@ export class BaseParserBuilder<TTarget>
         if (this._isTraceDnFiltered) {
             if (this._traceDnList[dn]) {
                 return true;
+            } else {
+                return false;
             }
         }
-        return false;
+        return this._trace;
     }
 
     isOnly()

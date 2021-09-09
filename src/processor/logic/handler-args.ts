@@ -37,6 +37,8 @@ export interface LogicProcessorHandlerArgs<TConfig, TRuntime>
     readonly config : TConfig;
     readonly runtime : TRuntime;
 
+    readonly trace: boolean;
+
     hasCreatedItems() : boolean;
     createItem(parent : LogicItem, name : string, params? : CreateItemParams) : LogicItem;
     createAlert(kind : string, severity : string, msg : string) : void;
@@ -65,7 +67,8 @@ export function constructArgs<TConfig, TRuntime>(
     scope : LogicScope,
     item: LogicItem,
     variableArgs : LogicProcessorVariableArgs,
-    runtimeData : LogicProcessorRuntimeData) : LogicProcessorHandlerArgs<TConfig, TRuntime>
+    runtimeData : LogicProcessorRuntimeData,
+    shouldTrace: boolean) : LogicProcessorHandlerArgs<TConfig, TRuntime>
 {
 
     let createItem = (parent : LogicItem, name : string, params? : CreateItemParams) =>
@@ -140,6 +143,8 @@ export function constructArgs<TConfig, TRuntime>(
         config: <TConfig>item.config,
 
         runtime: <TRuntime>item.runtime,
+
+        trace: shouldTrace
 
     }
 }

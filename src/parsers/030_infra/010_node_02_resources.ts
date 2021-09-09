@@ -1,8 +1,16 @@
 import _ from 'the-lodash';
+import { PropertyValueWithUnit } from '../../helpers/resources';
 import { InfraNodeParser } from '../../parser-builder/infra';
 
 export default InfraNodeParser()
-    .handler(({ logger, scope, config, item, helpers }) => {
+    .handler(({ logger, scope, config, runtime, item, helpers }) => {
+
+        runtime.resourcesCapacity = {};
+        runtime.resourcesAllocatable = {};
+
+        for(let metric of helpers.resources.METRICS) {
+            collectResourceMetric(metric);
+        }
 
         const propsBuilder = item.buildCustomProperties({
             kind: "key-value",
@@ -12,32 +20,44 @@ export default InfraNodeParser()
             config: undefined
         });
 
-        for(let metric of helpers.resources.METRICS) {
-            collectResourceMetric(metric);
+        for(let metric of helpers.resources.METRICS)
+        {
+            {
+                const value = runtime.resourcesCapacity[metric];
+                if (value)
+                {
+                    propsBuilder.add(helpers.resources.makeMetricProp(metric, helpers.resources.COUNTER_TYPE_CAPACITY), value);
+                }
+            }
+            {
+                const value = runtime.resourcesAllocatable[metric];
+                if (value)
+                {
+                    propsBuilder.add(helpers.resources.makeMetricProp(metric, helpers.resources.COUNTER_TYPE_ALLOCATABLE), value);
+                }
+            }
         }
 
         propsBuilder.build();
 
-
         /*** HELPERS ***/
         function collectResourceMetric(metric: string)
         {
-            collectResourceMetricCounter(metric, helpers.resources.COUNTER_TYPE_CAPACITY, config.status?.capacity);
-            collectResourceMetricCounter(metric, helpers.resources.COUNTER_TYPE_ALLOCATABLE, config.status?.allocatable);
+            collectResourceMetricCounter(metric, config.status?.capacity, runtime.resourcesCapacity);
+            collectResourceMetricCounter(metric, config.status?.allocatable, runtime.resourcesAllocatable);
         }
 
-        function collectResourceMetricCounter(metric: string, counterType: string, counterDict?: { [name: string] : string })
+        function collectResourceMetricCounter(metric: string, configCounterDict: { [name: string] : string } | undefined, resources : { [ metric: string] : PropertyValueWithUnit })
         {
-            if (!counterDict) {
+            if (!configCounterDict) {
                 return;
             }
-            let rawValue = counterDict[metric];
+            let rawValue = configCounterDict[metric];
             if (!rawValue) {
                 return;
             }
 
-            propsBuilder.add(helpers.resources.makeMetricProp(metric, counterType),
-                helpers.resources.parse(metric, rawValue))
+            resources[metric] = helpers.resources.parse(metric, rawValue);
         }
 
     })

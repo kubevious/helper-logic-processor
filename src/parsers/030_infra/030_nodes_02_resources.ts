@@ -5,16 +5,17 @@ import { InfraPoolRuntime } from '../../types/parser/infra-pool';
 export default InfraNodesParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
 
-        runtime.clusterResources = {};
+        runtime.resourcesAllocatable = {};
+        runtime.resourcesCapacity = {};
         runtime.nodeResources = {};
 
         for(let metric of helpers.resources.METRICS) {
-            for(let counterType of helpers.resources.COUNTER_TYPES)
+            for(let dict of [runtime.resourcesAllocatable, runtime.resourcesCapacity])
             {
-                runtime.clusterResources[helpers.resources.makeMetricProp(metric, counterType)] = { 
+                dict[metric] = { 
                     value: 0,
                     unit: helpers.resources.METRIC_UNITS[metric]
-                };
+                }
             }
         }
 
@@ -26,11 +27,16 @@ export default InfraNodesParser()
 
             for(let metric of helpers.resources.METRICS)
             {
-                for(let counterType of helpers.resources.COUNTER_TYPES)
                 {
-                    let value = poolRuntime.poolResources[helpers.resources.makeMetricProp(metric, counterType)]
+                    let value = poolRuntime.resourcesAllocatable[metric];
                     if (value) {
-                        runtime.clusterResources[helpers.resources.makeMetricProp(metric, counterType)].value += value.value;
+                        runtime.resourcesAllocatable[metric].value += value.value;
+                    }
+                }
+                {
+                    let value = poolRuntime.resourcesCapacity[metric];
+                    if (value) {
+                        runtime.resourcesCapacity[metric].value += value.value;
                     }
                 }
 
@@ -66,13 +72,31 @@ export default InfraNodesParser()
             }
         }
 
-        item.addProperties({
+        const resourcesPropsBuilder = item.buildCustomProperties({
             kind: "key-value",
             id: "cluster-resources",
             title: "Cluster Resources",
             order: 7,
-            config: runtime.clusterResources
+            config: undefined
         });
+        for(let metric of helpers.resources.METRICS)
+        {
+            {
+                const value = runtime.resourcesCapacity[metric];
+                if (value)
+                {
+                    resourcesPropsBuilder.add(helpers.resources.makeMetricProp(metric, helpers.resources.COUNTER_TYPE_CAPACITY), value);
+                }
+            }
+            {
+                const value = runtime.resourcesAllocatable[metric];
+                if (value)
+                {
+                    resourcesPropsBuilder.add(helpers.resources.makeMetricProp(metric, helpers.resources.COUNTER_TYPE_ALLOCATABLE), value);
+                }
+            }
+        }
+        resourcesPropsBuilder.build();
 
         item.addProperties({
             kind: "key-value",

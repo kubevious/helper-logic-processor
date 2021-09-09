@@ -1,6 +1,4 @@
-import { Deployment } from 'kubernetes-types/apps/v1';
 import _ from 'the-lodash';
-import { PropertyValueWithUnit } from '../../helpers/resources';
 import { LogicAppParser } from '../../parser-builder/logic'
 import { InfraNodesRuntime } from '../../types/parser/infra-nodes';
 
@@ -23,20 +21,13 @@ export default LogicAppParser()
 
         for(let metric of helpers.resources.METRICS)
         {
-            const perPod = runtime.perPodResources[helpers.resources.makeMetricProp(metric, 'request')];
-            runtime.usedResources[helpers.resources.makeMetricProp(metric, 'request')] = { 
+            const perPod = runtime.perPodResources[metric];
+            runtime.usedResources[metric] = { 
                 value: perPod.value * multiplier,
                 unit: perPod.unit
             };
         }
 
-        item.addProperties({
-            kind: "key-value",
-            id: "resources",
-            title: "Resources",
-            order: 7,
-            config: runtime.usedResources
-        });
 
     })
     ;
