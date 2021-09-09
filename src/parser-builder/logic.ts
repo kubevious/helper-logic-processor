@@ -11,6 +11,7 @@ import { LogicContainerRuntime } from '../types/parser/logic-container';
 import { LogicVolumeRuntime } from '../types/parser/logic-volume';
 import { LogicPodRuntime } from '../types/parser/logic-pod';
 import { LogicAppRuntime } from '../types/parser/logic-app';
+import { LogicNamespaceRuntime } from '../types/parser/logic-namespace';
 
 export function LogicLauncherParser() {
 
@@ -112,4 +113,12 @@ export function LogicRoleParser() {
             path: ["logic", "ns", "app", "svcaccnt", "crlbndg", "crl" ]
         })
         ;
+}
+
+export function LogicNamespaceParser() {
+
+    return LogicParser<{}, LogicNamespaceRuntime>()
+        .target({
+            path: ["logic", "ns"]
+        })
 }

@@ -3,9 +3,9 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope } from "../../scope";
+import { LogicScope, LogicTarget } from "../../scope";
 
-import { LogicParserInfo, LogicTargetPathElement } from './builder'
+import { LogicParserInfo } from './builder'
 
 import { BaseParserExecutor } from '../base/executor';
 import { LogicItem } from '../../item';
@@ -20,7 +20,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
     private _isDnTraceEnabledCb: (dn: string) => boolean;
 
     private _parserInfo : LogicParserInfo<TConfig, TRuntime>;
-    private _targetPath : LogicTargetPathElement[];
+    private _logicTarget : LogicTarget;
 
     constructor(processor : LogicProcessor, 
         name : string,
@@ -32,7 +32,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         this._processor = processor;
         this._logger = processor.parserLogger;
         this._parserInfo = parserInfo;
-        this._targetPath = parserInfo.target!.path;
+        this._logicTarget = parserInfo.target!;
         this._isTraceEnabled = isTraceEnabled;
         this._isDnTraceEnabledCb = isDnTraceEnabledCb;
     }
@@ -58,7 +58,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
             this._logger.debug(">>>> Parser Tracer :: %s :: BEGIN", this.name);
         }
 
-        const items = this._extractTreeItems(scope);
+        const items = scope.findItemsByPath(this._logicTarget);
 
         for(let item of items)
         {
@@ -179,69 +179,4 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
 
     }
 
-
-    private _extractTreeItems(scope : LogicScope) : LogicItem[]
-    {
-        let items : LogicItem[] = [];
-        if (this._targetPath.length > 0)
-        {
-            this._visitTreePath(scope.logicRootNode, 0, item => {
-                items.push(item);
-            });
-        }
-        else
-        {
-            this._visitTreeAll(scope.logicRootNode, item => {
-                items.push(item);
-            });
-        }
-        return items;
-    }
-
-    private _visitTreePath(item : LogicItem, index: number, cb : (item : LogicItem) => void)
-    {
-        this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
-
-        if (index >= this._targetPath.length)
-        {
-            cb(item);
-        }
-        else
-        {
-            let filter = this._targetPath[index];
-            let children = this._findNextNodes(item, filter);
-            for(let child of children)
-            {
-                this._visitTreePath(child, index + 1, cb);
-            }
-        }
-    }
-
-    private _visitTreeAll(item : LogicItem, cb : (item : LogicItem) => void)
-    {
-        this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
-
-        cb(item);
-
-        let children = item.getChildren();
-        for(let child of children)
-        {
-            this._visitTreeAll(child, cb);
-        }
-    }
-
-    private _findNextNodes(item : LogicItem, filter: LogicTargetPathElement) : LogicItem[]
-    {
-        if (filter.name)
-        {
-            const child = item.findByNaming(filter.kind, filter.name);
-            if (child) {
-                return [ child ];
-            }
-            return [];
-        }
-
-        let children = item.getChildrenByKind(filter.kind);
-        return children;
-    }
 }

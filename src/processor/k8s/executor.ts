@@ -3,14 +3,14 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope } from "../../scope";
+import { LogicScope, LogicTargetPathElement } from "../../scope";
 
 import { K8sParserInfo } from './builder'
 
 import { BaseParserExecutor } from '../base/executor';
 
 import { LogicParserExecutor } from '../logic/executor';
-import { LogicParserInfo, LogicTargetPathElement } from '../logic/builder';
+import { LogicParserInfo } from '../logic/builder';
 import { LogicProcessorHandlerArgs } from '../logic/handler-args';
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sConfig } from '../..';

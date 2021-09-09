@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicProcessor } from '..';
 import { IConcreteRegistry } from '../..';
 import { LogicItem } from '../../item';
+import { LogicTarget } from '../../scope';
 
 import { BaseParserInfo, ParserBuilder, BaseParserBuilder } from '../base/builder';
 import { BaseParserExecutor } from '../base/executor';
@@ -9,22 +10,9 @@ import { LogicParserExecutor } from './executor';
 
 import { LogicProcessorHandlerArgs } from './handler-args';
 
-export interface LogicTarget {
-    path: (LogicTargetPathElement | string)[],
-}
-
-export interface LogicTargetFinal {
-    path: LogicTargetPathElement[]
-}
-
-export interface LogicTargetPathElement {
-    kind: string;
-    name?: string;
-}
-
 export interface LogicParserInfo<TConfig, TRuntime> extends BaseParserInfo
 {
-    target?: LogicTargetFinal;
+    target?: LogicTarget;
 
     needAppScope?: boolean;
     canCreateAppIfMissing? : boolean;
@@ -79,7 +67,7 @@ export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<Log
     {
         return this._targets.map(target => {
             let parserInfo = _.clone(this._data);
-            parserInfo.target = this._makeTarget(target);
+            parserInfo.target = target;
 
             let executor = new LogicParserExecutor(
                 processor,
@@ -93,19 +81,4 @@ export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<Log
         });
     }
 
-    private _makeTarget(target: LogicTarget) : LogicTargetFinal
-    {
-        const result: LogicTargetFinal = {
-            path: target.path.map(x => {
-                if (_.isString(x)) {
-                    return {
-                        kind: x
-                    }
-                } else {
-                    return x;
-                }
-            })
-        }
-        return result;
-    }
 }

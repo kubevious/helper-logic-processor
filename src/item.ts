@@ -246,6 +246,14 @@ export class LogicItem
         return _.values(this._children).filter(x => x.kind == kind);
     }
 
+    countChildren() : number {
+        return this.getChildren().length;
+    }
+
+    countChildrenByKind(kind: string) : number {
+        return this.getChildrenByKind(kind).length;
+    }
+
     remove() {
         if (!this._parent) {
             return;

@@ -11,6 +11,21 @@ import { LogicLinkRegistry } from '../logic/linker/registry';
 export const ROOT_NODE_LOGIC = 'root';
 // export const ROOT_NODE_INFRA = 'infra';
 
+
+export interface LogicTarget {
+    path: (LogicTargetPathElement | string)[],
+}
+
+export interface LogicTargetFinal {
+    path: LogicTargetPathElement[]
+}
+
+export interface LogicTargetPathElement {
+    kind: string;
+    name?: string;
+}
+
+
 export class LogicScope
 {
     private _logger : ILogger;
@@ -75,6 +90,95 @@ export class LogicScope
         const list = this._lastStageItems;
         this._lastStageItems = [];
         return list;
+    }
+
+    countItemsByPath(logicTarget : LogicTarget) : number
+    {
+        return this.findItemsByPath(logicTarget).length;
+    }
+
+    findItemsByPath(logicTarget : LogicTarget) : LogicItem[]
+    {
+        const targetFinal = this._makeTarget(logicTarget);
+
+        let items : LogicItem[] = [];
+        const rootNode = this.logicRootNode;
+        if (targetFinal.path.length > 0)
+        {
+            this._visitTreePath(targetFinal, rootNode, 0, item => {
+                items.push(item);
+            });
+        }
+        else
+        {
+            this._visitTreeAll(rootNode, item => {
+                items.push(item);
+            });
+        }
+        return items;
+    }
+
+    private _makeTarget(target: LogicTarget) : LogicTargetFinal
+    {
+        const result: LogicTargetFinal = {
+            path: target.path.map(x => {
+                if (_.isString(x)) {
+                    return {
+                        kind: x
+                    }
+                } else {
+                    return x;
+                }
+            })
+        }
+        return result;
+    }
+
+    private _visitTreePath(logicTarget : LogicTargetFinal, item : LogicItem, index: number, cb : (item : LogicItem) => void)
+    {
+        this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
+
+        if (index >= logicTarget.path.length)
+        {
+            cb(item);
+        }
+        else
+        {
+            let filter = logicTarget.path[index];
+            let children = this._findNextNodes(item, filter);
+            for(let child of children)
+            {
+                this._visitTreePath(logicTarget, child, index + 1, cb);
+            }
+        }
+    }
+
+    private _findNextNodes(item : LogicItem, filter: LogicTargetPathElement) : LogicItem[]
+    {
+        if (filter.name)
+        {
+            const child = item.findByNaming(filter.kind, filter.name);
+            if (child) {
+                return [ child ];
+            }
+            return [];
+        }
+
+        let children = item.getChildrenByKind(filter.kind);
+        return children;
+    }
+
+    private _visitTreeAll(item : LogicItem, cb : (item : LogicItem) => void)
+    {
+        this._logger.silly("[_visitTree] %s, path: %s...", item.dn);
+
+        cb(item);
+
+        let children = item.getChildren();
+        for(let child of children)
+        {
+            this._visitTreeAll(child, cb);
+        }
     }
 
     _acceptItem(item : LogicItem) 
