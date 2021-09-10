@@ -19,6 +19,8 @@ export default LogicAppParser()
         builder.add('Init Container Count', runtime.initContainerCount);
         builder.add('Volumes', _.keys(runtime.volumes).length);
 
+        builder.add('Exposed', determineExposedMode());
+
         builder.build();
 
         /*** HELPERS **/
@@ -36,6 +38,19 @@ export default LogicAppParser()
             }
 
             builder.add('Replicas', parts.join(' ')) ;
+        }
+
+        function determineExposedMode()
+        {
+            if (runtime.exposedWithIngress) {
+                return 'With Ingress'
+            }
+
+            if (runtime.exposedWithService) {
+                return 'With Service'
+            }
+
+            return 'No';
         }
     })
     ;

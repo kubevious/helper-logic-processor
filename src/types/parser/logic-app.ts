@@ -17,4 +17,7 @@ export interface LogicAppRuntime
     volumes: Record<string, string>;
 
     hpa?: { min: number, max: number };
+
+    exposedWithService: boolean;
+    exposedWithIngress: boolean;
 }

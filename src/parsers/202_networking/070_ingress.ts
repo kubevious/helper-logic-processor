@@ -2,6 +2,7 @@ import { Ingress, IngressBackend } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
 
 export default K8sParser<Ingress>()
     .target({
@@ -56,15 +57,13 @@ export default K8sParser<Ingress>()
                     const app = serviceItem.resolveTargetLinkItem('app');
                     if (app)
                     {
+                        const appRuntime = <LogicAppRuntime>app.runtime;
+                        appRuntime.exposedWithIngress = true;
+        
                         item.link('app', app);
                         createIngress(app);
                     }
                 }
-
-                // for(let appScope of serviceScopeInfo.appScopes)
-                // {
-                //     appScope.properties['Exposed'] = 'With Ingress';
-                // }
             }
             else
             {

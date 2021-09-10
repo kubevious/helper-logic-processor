@@ -1,6 +1,7 @@
 import { Service } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
 
 export default K8sParser<Service>()
     .target({
@@ -20,6 +21,9 @@ export default K8sParser<Service>()
             for(let targetApp of targetApps)
             {
                 item.link('app', targetApp);
+
+                const appRuntime = <LogicAppRuntime>targetApp.runtime;
+                appRuntime.exposedWithService = true;
 
                 const logicSvc = targetApp.fetchByNaming('service', metadata.name);
                 logicSvc.makeShadowOf(item);
