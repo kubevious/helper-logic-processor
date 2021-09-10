@@ -159,11 +159,11 @@ export class LogicProcessor
 
     private _finalizeScope(scope : LogicScope)
     {
-        scope.getInfraScope().items.finalize();
-        for(let nsScope of scope.getNamespaceScopes())
-        {
-            nsScope.items.finalize();
-        }
+        // scope.getInfraScope().items.finalize();
+        // for(let nsScope of scope.getNamespaceScopes())
+        // {
+        //     nsScope.items.finalize();
+        // }
     }
 
     private _propagate(scope : LogicScope)

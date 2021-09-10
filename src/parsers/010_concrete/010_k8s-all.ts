@@ -4,7 +4,6 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target(null)
-    .kind('resource')
     .handler(({ logger, scope, item, helpers }) => {
 
         const config = item.config;

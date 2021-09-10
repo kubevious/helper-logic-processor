@@ -44,17 +44,17 @@ describe('full-processor', () => {
             .then(registryState => {
 
                 {
-                    const app = registryState.findByDn("root/ns-[kube-system]/app-[kube-dns]");
+                    const app = registryState.findByDn("root/logic/ns-[kube-system]/app-[kube-dns]");
                     should(app).be.ok();
                 }
 
                 {
-                    const cont = registryState.findByDn("root/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]");
+                    const cont = registryState.findByDn("root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]");
                     should(cont).be.ok();
                 }
 
                 {
-                    const images = registryState.childrenByKind('root/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', 'image');
+                    const images = registryState.childrenByKind('root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', 'image');
                     should(_.keys(images)).have.length(1);
 
                     const img = _.values(images)[0];

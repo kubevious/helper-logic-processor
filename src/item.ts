@@ -1,7 +1,6 @@
 import _ from 'the-lodash';
 
 import { LogicScope, LogicTarget } from './scope';
-import { AppScope } from './scope/app';
 
 import { PropertiesBuilder } from './properties-builder';
 
@@ -39,8 +38,6 @@ export class LogicItem
     private _selfProperties : Record<string, SnapshotPropsConfig> = {};
 
     private _runtime : Record<string, any> = {};
-
-    private _appScope? : AppScope;
 
     private _order = 100;
     private _children : Record<string, LogicItem> = {};
@@ -134,10 +131,6 @@ export class LogicItem
         this._order = value;
     }
 
-    get appScope() : AppScope {
-        return this._appScope!;
-    }
-
     get alerts() {
         return this._data.alerts;
     }
@@ -191,10 +184,6 @@ export class LogicItem
     resolveSourceLinkItems(kind?: string)
     {
         return this._linkRegistry.resolveSourceItems(this.dn, kind);
-    }
-
-    associateAppScope(scope: AppScope) {
-        this._appScope = scope;
     }
 
     setPropagatableFlag(name: string)

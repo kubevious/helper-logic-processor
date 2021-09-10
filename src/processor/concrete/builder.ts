@@ -12,14 +12,14 @@ export interface ConcreteParserInfo extends BaseParserInfo
 {
     target: null | ConcreteRegistryFilter;
 
-    needAppScope?: boolean;
-    canCreateAppIfMissing? : boolean;
-    appNameCb?: (item : IConcreteItem) => string;
+    // needAppScope?: boolean;
+    // canCreateAppIfMissing? : boolean;
+    // appNameCb?: (item : IConcreteItem) => string;
 
-    kind?: string | ((item: IConcreteItem) => string);
+    // kind?: string | ((item: IConcreteItem) => string);
 
-    needNamespaceScope?: boolean;
-    namespaceNameCb? : (item : IConcreteItem) => string;
+    // needNamespaceScope?: boolean;
+    // namespaceNameCb? : (item : IConcreteItem) => string;
 
     handler? : (args : ConcreteProcessorHandlerArgs) => void;
 }
@@ -39,42 +39,6 @@ export class ConcreteParserBuilder extends BaseParserBuilder<ConcreteRegistryFil
     target(value : ConcreteRegistryFilter | null)
     {
         this._targets.push(value);
-        return this;
-    }
-
-    needAppScope(value : boolean) : ConcreteParserBuilder
-    {
-        this._data.needAppScope = value;
-        return this;
-    }
-
-    canCreateAppIfMissing(value : boolean) : ConcreteParserBuilder
-    {
-        this._data.canCreateAppIfMissing = value;
-        return this;
-    }
-
-    appNameCb(value : (item : IConcreteItem) => string) : ConcreteParserBuilder
-    {
-        this._data.appNameCb = value;
-        return this;
-    }
-
-    kind(value : string | ((item: IConcreteItem) => string)) : ConcreteParserBuilder
-    {
-        this._data.kind = value;
-        return this;
-    }
-
-    needNamespaceScope(value : boolean) : ConcreteParserBuilder
-    {
-        this._data.needNamespaceScope = value;
-        return this;
-    }
-
-    namespaceNameCb(value : (item : IConcreteItem) => string) : ConcreteParserBuilder
-    {
-        this._data.namespaceNameCb = value;
         return this;
     }
 

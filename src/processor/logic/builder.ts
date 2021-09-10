@@ -14,15 +14,6 @@ export interface LogicParserInfo<TConfig, TRuntime> extends BaseParserInfo
 {
     target?: LogicTarget;
 
-    needAppScope?: boolean;
-    canCreateAppIfMissing? : boolean;
-    appNameCb?: (item : LogicItem) => string;
-
-    kind?: string,
-
-    needNamespaceScope?: boolean;
-    namespaceNameCb? : (item : LogicItem) => string;
-
     handler? : (args : LogicProcessorHandlerArgs<TConfig, TRuntime>) => void;
 }
 
@@ -32,28 +23,9 @@ export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<Log
         targetKind: 'logic'
     };
 
-
     target(value : LogicTarget) 
     {
         this._targets.push(value);
-        return this;
-    }
-
-    needNamespaceScope(value : boolean)
-    {
-        this._data.needNamespaceScope = value;
-        return this;
-    }
-
-    namespaceNameCb(value : (item : LogicItem) => string)
-    {
-        this._data.namespaceNameCb = value;
-        return this;
-    }
-
-    kind(value : string)
-    {
-        this._data.kind = value;
         return this;
     }
 

@@ -40,13 +40,5 @@ export default K8sParser<Pod>()
         //     createAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
         // }
 
-        // /*** HELPERS ***/
-        // function createReplicaSet(parent: LogicItem, params? : any)
-        // {
-        //     let k8sReplicaSet = createK8sItem(parent, params);
-        //     namespaceScope.registerAppOwner(k8sReplicaSet);
-        //     return k8sReplicaSet;
-        // }
-
     })
     ;

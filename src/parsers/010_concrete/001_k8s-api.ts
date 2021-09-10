@@ -8,7 +8,6 @@ export default ConcreteParser()
         apiName: 'kubevious.io',
         kind: 'ApiResourceStatus'
     })
-    .kind('resource')
     .handler(({ logger, scope, item }) => {
 
         const resources = _.get(item.config, 'config.resources');

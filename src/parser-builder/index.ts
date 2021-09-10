@@ -1,7 +1,6 @@
 
 import { ConcreteParserBuilder } from '../processor/concrete/builder';
 import { LogicParserBuilder } from '../processor/logic/builder';
-import { ScopeParserBuilder } from '../processor/scope/builder';
 import { K8sParserBuilder } from '../processor/k8s/builder';
 
 import { K8sConfig } from '../';
@@ -19,9 +18,4 @@ export function K8sParser<TConfig = K8sConfig, TRuntime = {}>() : K8sParserBuild
 export function LogicParser<TConfig = {}, TRuntime = {}>() : LogicParserBuilder<TConfig, TRuntime>
 {
     return new LogicParserBuilder<TConfig, TRuntime>();
-}
-
-export function ScopeParser() : ScopeParserBuilder
-{
-    return new ScopeParserBuilder();
 }
