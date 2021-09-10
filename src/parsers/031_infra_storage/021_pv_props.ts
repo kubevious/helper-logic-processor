@@ -1,19 +1,14 @@
 import _ from 'the-lodash';
-import { PersistentVolume } from 'kubernetes-types/core/v1';
-import { K8sParser } from '../../parser-builder';
+import { K8sPersistentVolumeParser } from '../../parser-builder/k8s';
 
-export default K8sParser<PersistentVolume>()
-    .target({
-        clustered: true,
-        kind: "PersistentVolume"
-    })
+export default K8sPersistentVolumeParser()
     .handler(({ logger, config, item, runtime, metadata, helpers }) => {
 
         item.buildProperties()
             .add('StorageClass', config.spec?.storageClassName)
             .add('Status', config.status?.phase)
             .add('Finalizers', metadata.finalizers)
-            .add('Capacity', config.spec?.capacity?.storage, undefined, helpers.resources.parseMemory)
+            .add('Capacity', runtime.capacity)
             .add('Access Modes', config.spec?.accessModes)
             .add('Volume Mode', config.spec?.volumeMode)
             .add('Reclaim Policy', config.spec?.persistentVolumeReclaimPolicy)
