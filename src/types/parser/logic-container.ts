@@ -8,4 +8,5 @@ export interface LogicContainerRuntime
     resourcesRequest: { [ metric: string] : PropertyValueWithUnit };
     resourcesLimit: { [ metric: string] : PropertyValueWithUnit };
 
+    radioactiveProps: { [ kind : string ] : boolean };
 }

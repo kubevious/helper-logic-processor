@@ -11,7 +11,7 @@ export default K8sParser<PodSecurityPolicy>()
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
         item.buildProperties()
-            .add('Priviledged', config.spec?.allowPrivilegeEscalation, false)
+            .add('Privileged', config.spec?.allowPrivilegeEscalation, false)
             .add('Capabilities', config.spec?.allowedCapabilities)
             .add('seLinux', config.spec?.seLinux.rule)
             .add('RunAsUser', config.spec?.runAsUser.rule)
