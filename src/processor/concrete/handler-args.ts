@@ -6,7 +6,7 @@ import { LogicProcessor } from '../';
 import { LogicScope } from "../../scope";
 
 import { Helpers } from '../../helpers';
-import { LogicItem } from '../../item';
+import { LogicItem } from '../../';
 
 import { ConcreteParserInfo } from './builder'
 import { IConcreteItem } from '../../types/registry';

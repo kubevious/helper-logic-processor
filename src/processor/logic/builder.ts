@@ -1,7 +1,6 @@
 import _ from 'the-lodash';
 import { LogicProcessor } from '..';
 import { IConcreteRegistry } from '../..';
-import { LogicItem } from '../../item';
 import { LogicTarget } from '../../scope';
 
 import { BaseParserInfo, ParserBuilder, BaseParserBuilder } from '../base/builder';

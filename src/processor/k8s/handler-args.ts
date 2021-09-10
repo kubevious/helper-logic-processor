@@ -4,7 +4,7 @@ import { ILogger } from 'the-logger';
 import { LogicScope } from "../../scope";
 
 import { Helpers } from '../../helpers';
-import { LogicItem } from '../../item';
+import { LogicItem } from '../../';
 import { ObjectMeta } from 'kubernetes-types/meta/v1';
 
 export interface K8sProcessorHandlerArgs<TConfig, TRuntime>

@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { LogicItem } from '../../item';
+import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()

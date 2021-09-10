@@ -1,15 +1,15 @@
 import _ from 'the-lodash';
 
-import { LogicScope, LogicTarget } from './scope';
+import { LogicScope, LogicTarget } from './';
 
-import { PropertiesBuilder } from './properties-builder';
+import { PropertiesBuilder } from '../utils/properties-builder';
 
 import * as DocsHelper from '@kubevious/helpers/dist/docs';
 
 import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/helpers/dist/snapshot/types'
 
 import { DumpWriter } from 'the-logger';
-import { LogicLinkRegistry } from './logic/linker/registry';
+import { LogicLinkRegistry } from '../logic/linker/registry';
 
 export class LogicItemData
 {
@@ -145,16 +145,6 @@ export class LogicItem
     {
         return this._linkRegistry.link(this.dn, kind, path, targetItemOrDn);
     }
-
-    // findTargetLinks(kind?: string)
-    // {
-    //     return this._linkRegistry.findTargetLinks(this.dn, kind);
-    // }
-
-    // findSourceLinks(kind?: string)
-    // {
-    //     return this._linkRegistry.findSourceLinks(this.dn, kind);
-    // }
 
     resolveTargetLinks(kind?: string)
     {

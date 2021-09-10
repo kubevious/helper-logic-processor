@@ -1,4 +1,4 @@
-import { LogicItem } from "../../";
+import { LogicItem } from "../../scope/item";
 
 export interface LinkInfo
 {

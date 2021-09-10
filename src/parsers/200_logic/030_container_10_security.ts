@@ -1,5 +1,4 @@
 import _ from 'the-lodash';
-import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicContainerParser } from '../../parser-builder/logic';
 
 export default LogicContainerParser()

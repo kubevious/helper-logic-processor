@@ -5,8 +5,7 @@ import { ILogger } from 'the-logger';
 import { LogicScope } from "../scope";
 
 import { Helpers } from '../helpers';
-import { LogicItem } from '../item';
-
+import { LogicItem } from '../scope/item';
 
 import { BaseParserExecutor } from './base/executor';
 

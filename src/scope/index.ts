@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
 
-import { LogicItem } from '../item';
+import { LogicItem } from './item';
 import { IConcreteRegistry, IConcreteItem } from '../types/registry';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 

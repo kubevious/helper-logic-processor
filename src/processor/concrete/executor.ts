@@ -95,38 +95,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
 
     private _preprocessHandler(scope : LogicScope, item: IConcreteItem, variableArgs : ConcreteProcessorVariableArgs)
     {
-        // variableArgs.namespaceName = null;
-        // if (this._parserInfo.needNamespaceScope || this._parserInfo.needAppScope)
-        // {
-        //     if (this._parserInfo.namespaceNameCb) {
-        //         variableArgs.namespaceName = this._parserInfo.namespaceNameCb(item);
-        //     } else {
-        //         variableArgs.namespaceName = item.config.metadata.namespace;
-        //     }
-        //     if (_.isNotNullOrUndefined(variableArgs.namespaceName))
-        //     {
-        //         variableArgs.namespaceScope = scope.getNamespaceScope(variableArgs.namespaceName!);
-        //     }
-        // }
-
-        // variableArgs.appName = null;
-        // if (this._parserInfo.appNameCb) {
-        //     variableArgs.appName = this._parserInfo.appNameCb(item);
-        // }
-        // if (variableArgs.namespaceName && variableArgs.namespaceScope)
-        // {
-        //     if (this._parserInfo.needAppScope && variableArgs.appName)
-        //     {
-        //         let appScope = variableArgs.namespaceScope.getAppAndScope(
-        //             variableArgs.appName!,
-        //             this._parserInfo.canCreateAppIfMissing!);
-
-        //         if (appScope) {
-        //             variableArgs.appScope = appScope;
-        //             variableArgs.app = appScope.item;
-        //         }
-        //     }
-        // }
+       
     }
 
     private _postProcessHandler(runtimeData : ConcreteProcessorRuntimeData)

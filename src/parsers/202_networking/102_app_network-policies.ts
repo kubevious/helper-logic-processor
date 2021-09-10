@@ -1,9 +1,8 @@
 import _ from 'the-lodash';
 import { LogicNetworkPoliciesParser } from '../../parser-builder/logic';
-import { TableBuilder } from '../../table-builder';
 
 export default LogicNetworkPoliciesParser()
-    .handler(({ logger, item }) => {
+    .handler(({ logger, item, helpers }) => {
 
         let properties = item.buildProperties();
 
@@ -20,14 +19,14 @@ export default LogicNetworkPoliciesParser()
         {
             properties.add(direction, false);
 
-            let trafficTable = new TableBuilder()
+            let trafficTable = helpers.common.tableBuilder()
                 .column('dn', 'Application', 'shortcut')
                 .column('ports')
                 .column('access')
                 .column('policy', 'Policy', 'shortcut')
                 ;
 
-            let cidrTrafficTable = new TableBuilder()
+            let cidrTrafficTable = helpers.common.tableBuilder()
                 .column('target')
                 .column('ports')
                 .column('access')

@@ -1,7 +1,6 @@
 import { NetworkPolicy, NetworkPolicyEgressRule, NetworkPolicyIngressRule, NetworkPolicyPeer } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
-import { TableBuilder } from '../../table-builder';
 import { LogicNamespaceRuntime } from '../../types/parser/logic-namespace';
 
 export default K8sParser<NetworkPolicy>()
@@ -47,12 +46,12 @@ export default K8sParser<NetworkPolicy>()
 
             propsBuilder.add(policyType, true);
 
-            let trafficTable = new TableBuilder()
+            let trafficTable = helpers.common.tableBuilder()
                 .column('dn', 'Application', 'shortcut')
                 .column('ports')
                 .column('access');
 
-            let cidrTrafficTable = new TableBuilder()
+            let cidrTrafficTable = helpers.common.tableBuilder()
                 .column('target')
                 .column('ports')
                 .column('access');

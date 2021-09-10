@@ -1,17 +1,16 @@
 import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
-import { TableBuilder } from '../../table-builder';
 
 export default LogicParser()
     .target({
         path: []
     })
-    .handler(({ logger, item }) => {
+    .handler(({ logger, item, helpers }) => {
 
         {
             const links = item.resolveTargetLinks();
             if (links.length > 0) {
-                let linksTable = new TableBuilder()
+                let linksTable = helpers.common.tableBuilder()
                     .column('kind', 'Kind')
                     .column('dn', 'Application', 'shortcut')
                     .column('resolved', 'Resolved')
@@ -41,7 +40,7 @@ export default LogicParser()
         {
             const links = item.resolveSourceLinks();
             if (links.length > 0) {
-                let linksTable = new TableBuilder()
+                let linksTable = helpers.common.tableBuilder()
                     .column('kind', 'Kind')
                     .column('dn', 'Application', 'shortcut')
                     .column('resolved', 'Resolved')

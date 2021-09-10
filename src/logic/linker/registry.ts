@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { LogicItem } from "../../";
+import { LogicItem } from "../../scope/item";
 import { LinkInfo, ResolvedLink } from "./types";
 import { LogicScope } from '../../scope';
 
