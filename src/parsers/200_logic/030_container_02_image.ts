@@ -29,20 +29,14 @@ export default LogicContainerParser()
             imageName = image.substring(i + 1);
         }
 
-        let imageItem = item.fetchByNaming("image", image);
+        const imageItem = item.fetchByNaming("image", image);
 
-        imageItem.addProperties({
-            kind: "key-value",
-            id: "properties",
-            title: "Properties",
-            order: 10,
-            config: {
-                name: imageName,
-                tag: imageTag,
-                fullName: fullImage,
-                repository: repository
-            }
-        });  
+        imageItem.buildProperties()
+            .add('name', imageName)
+            .add('tag', imageTag)
+            .add('fullName', fullImage)
+            .add('repository', repository)
+            .build();
 
     })
     ;

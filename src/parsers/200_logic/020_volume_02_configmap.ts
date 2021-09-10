@@ -19,7 +19,7 @@ export default LogicVolumeParser()
         {
             const k8sConfigMapDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ConfigMap', name);
 
-            let logicConfigMap = item.fetchByNaming("configmap", name);
+            const logicConfigMap = item.fetchByNaming("configmap", name);
             const k8sConfigMap = logicConfigMap.link('k8s-owner', k8sConfigMapDn);
             if (k8sConfigMap)
             {

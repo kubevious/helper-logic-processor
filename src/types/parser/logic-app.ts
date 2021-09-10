@@ -7,6 +7,9 @@ export interface LogicAppRuntime
     launcherKind: string;
     launcherReplicas: number | null;
 
+    containerCount: number;
+    initContainerCount: number;
+
     perPodResources: { [ metric: string] : PropertyValueWithUnit };
     usedResources: { [ metric: string] : PropertyValueWithUnit };
     clusterConsumption: { [ metric: string] : PropertyValueWithUnit };

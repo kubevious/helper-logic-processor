@@ -5,9 +5,11 @@ import { ConcreteParser } from '../../parser-builder';
 export default ConcreteParser()
     .target(null)
     .kind('resource')
-    .handler(({ logger, scope, item, createK8sItem }) => {
+    .handler(({ logger, scope, item, helpers }) => {
 
-        if (item.config.synthetic) {
+        const config = item.config;
+
+        if (config.synthetic) {
             return;
         }
 
@@ -25,10 +27,16 @@ export default ConcreteParser()
             apiRoot = apiRoot.fetchByNaming('api', item.id.apiName);
         }
 
-        let apiVersionRoot = apiRoot.fetchByNaming('version', item.id.version);
+        const apiVersionRoot = apiRoot.fetchByNaming('version', item.id.version);
 
-        let kindRoot = apiVersionRoot.fetchByNaming('kind', item.id.kind);
+        const kindRoot = apiVersionRoot.fetchByNaming('kind', item.id.kind);
 
-        createK8sItem(kindRoot, item);
+        const logicItem = kindRoot.fetchByNaming('resource', config.metadata.name!)
+
+        logicItem.setConfig(config);
+
+        helpers.k8s.makeConfigProps(logicItem, config)
+        helpers.k8s.makeLabelsProps(logicItem, config)
+        helpers.k8s.makeAnnotationsProps(logicItem, config)
     })
     ;

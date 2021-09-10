@@ -24,7 +24,7 @@ export default LogicContainerParser()
 
                 containerVolumeMount.addProperties({
                     kind: "yaml",
-                    id: "env",
+                    id: "mount",
                     title: "Mount Config",
                     order: 5,
                     config: volumeMountConfig

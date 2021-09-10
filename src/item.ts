@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 
-import { LogicScope } from './scope';
+import { LogicScope, LogicTarget } from './scope';
 import { AppScope } from './scope/app';
 
 import { PropertiesBuilder } from './properties-builder';
@@ -287,6 +287,16 @@ export class LogicItem
         }
         child = new LogicItem(this._logicScope, this, kind, naming);
         return child;
+    }
+
+    findItemsByPath(logicTarget : LogicTarget) : LogicItem[]
+    {
+        return this._logicScope.findItemsByPath(logicTarget, this);
+    }
+
+    countItemsByPath(logicTarget : LogicTarget) : number
+    {
+        return this._logicScope.countItemsByPath(logicTarget, this);
     }
 
     addProperties(props: SnapshotPropsConfig, params?: NewPropsParams)

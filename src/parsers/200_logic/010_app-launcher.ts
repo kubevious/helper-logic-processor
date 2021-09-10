@@ -44,7 +44,9 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         launcher.makeShadowOf(item);
         item.link('logic', launcher);
 
-        let labelsMap = helpers.k8s.labelsMap(config.spec?.template.metadata);
+        const labelsMap = helpers.k8s.labelsMap(config.spec?.template.metadata);
         helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)
+
+        helpers.k8s.makeLabelsProps(app, config)
     })
     ;

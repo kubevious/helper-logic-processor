@@ -92,17 +92,17 @@ export class LogicScope
         return list;
     }
 
-    countItemsByPath(logicTarget : LogicTarget) : number
+    countItemsByPath(logicTarget : LogicTarget, optionalRootNode? : LogicItem) : number
     {
-        return this.findItemsByPath(logicTarget).length;
+        return this.findItemsByPath(logicTarget, optionalRootNode).length;
     }
 
-    findItemsByPath(logicTarget : LogicTarget) : LogicItem[]
+    findItemsByPath(logicTarget : LogicTarget, optionalRootNode? : LogicItem) : LogicItem[]
     {
         const targetFinal = this._makeTarget(logicTarget);
 
         let items : LogicItem[] = [];
-        const rootNode = this.logicRootNode;
+        const rootNode = optionalRootNode ?? this.logicRootNode;
         if (targetFinal.path.length > 0)
         {
             this._visitTreePath(targetFinal, rootNode, 0, item => {

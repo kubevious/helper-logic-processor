@@ -1,3 +1,4 @@
+import _ from 'the-lodash';
 import { ILogger } from "the-logger";
 
 import { K8sConfig, LogicItem, parseApiVersion } from "../..";
@@ -53,5 +54,60 @@ export class KubernetesUtils {
     {
         return metadata?.labels ?? {};
     }
+
+    annotationsMap(metadata?: ObjectMeta)
+    {
+        return metadata?.annotations ?? {};
+    }
+
+    makeConfigProps(item: LogicItem, config: K8sConfig)
+    {            
+        item.addProperties({
+            kind: "yaml",
+            id: "config",
+            title: "Config",
+            order: 10,
+            config: config
+        });
+    }
+
+    makeLabelsProps(item: LogicItem, config: any)
+    {            
+        let labels = this.labelsMap(config.metadata);
+        labels = this._normalizeDict(labels);
+
+        item.addProperties({
+            kind: "key-value",
+            id: "labels",
+            title: "Labels",
+            order: 8,
+            config: labels
+        });
+    }
+
+    makeAnnotationsProps(item: LogicItem, config: K8sConfig)
+    {            
+        let annotations = this.annotationsMap(config.metadata);
+        annotations = this._normalizeDict(annotations);
+
+        item.addProperties({
+            kind: "key-value",
+            id: "annotations",
+            title: "Annotations",
+            order: 9,
+            config: annotations
+        });
+    }
     
+    private _normalizeDict(dict? : Record<string, any>) : Record<string, any>
+    {
+        dict = dict || {};
+
+        let res : Record<string, any> = {};
+        for(let key of _.sortBy(_.keys(dict)))
+        {
+            res[key] = dict[key];
+        }
+        return res;
+    }
 }   

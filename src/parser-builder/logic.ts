@@ -40,6 +40,14 @@ export function LogicContainerParser() {
         })
 }
 
+export function LogicVolumesParser() {
+
+    return LogicParser<{}, {}>()
+        .target({
+            path: ["logic", "ns", "app", "vols"]
+        })
+}
+
 export function LogicVolumeParser() {
 
     return LogicParser<Volume, LogicVolumeRuntime>()

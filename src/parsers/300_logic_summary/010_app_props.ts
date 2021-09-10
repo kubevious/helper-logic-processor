@@ -6,7 +6,18 @@ export default LogicAppParser()
 
         const builder = item.buildProperties();
         
-        makeReplicas();
+
+        builder.add('Launcher', runtime.launcherKind);
+
+        if (runtime.launcherKind == "Deployment" || 
+            runtime.launcherKind == "StatefulSet")
+        {
+            makeReplicas();
+        }
+
+        builder.add('Container Count', runtime.containerCount);
+        builder.add('Init Container Count', runtime.initContainerCount);
+        builder.add('Volumes', _.keys(runtime.volumes).length);
 
         builder.build();
 

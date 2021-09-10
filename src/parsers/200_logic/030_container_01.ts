@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { Container } from 'kubernetes-types/core/v1'
 import { LogicContainerRuntime } from '../../types/parser/logic-container';
 import { LogicLauncherParser } from '../../parser-builder/logic';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime}) => {
@@ -13,10 +14,15 @@ export default LogicLauncherParser()
         if (! config.spec.template.spec) {
             return;
         }
+
+        const app = item.parent!;
+        const appRuntime = <LogicAppRuntime>app.runtime;
         
         // Normal Containers 
         {
-            for(let containerConfig of config.spec.template.spec.containers)
+            const containers = config.spec.template.spec.containers;
+            appRuntime.containerCount = containers.length;
+            for(let containerConfig of containers)
             {
                 processContainer(containerConfig, "cont");
             }
@@ -24,13 +30,11 @@ export default LogicLauncherParser()
 
         // Init Containers 
         {
-    
-            const initContainers = config.spec.template.spec.initContainers;
-            if (initContainers) {
-                for(let containerConfig of initContainers)
-                {
-                    processContainer(containerConfig, "initcont");
-                }
+            const initContainers = config.spec.template.spec.initContainers ?? [];
+            appRuntime.initContainerCount = initContainers.length;
+            for(let containerConfig of initContainers)
+            {
+                processContainer(containerConfig, "initcont");
             }
         }
 
