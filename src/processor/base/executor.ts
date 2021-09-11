@@ -1,4 +1,4 @@
-import { LogicScope } from "../../scope";
+import { LogicScope } from "../../logic/scope";
 
 export interface BaseParserExecutor 
 {

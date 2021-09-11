@@ -1,0 +1,1 @@
+export type SeverityType = 'error' | 'warn';

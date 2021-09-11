@@ -3,7 +3,7 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope } from "../../scope";
+import { LogicScope } from "../../logic/scope";
 
 import { Helpers } from '../../helpers';
 import { LogicItem } from '../../';
@@ -30,8 +30,8 @@ export interface LogicProcessorHandlerArgs<TConfig, TRuntime>
 
     readonly trace: boolean;
 
-    hasCreatedItems() : boolean;
-    createAlert(kind : string, severity : string, msg : string) : void;
+    // hasCreatedItems() : boolean;
+    // createAlert(kind : string, severity : string, msg : string) : void;
 }
 
 export interface LogicProcessorVariableArgs
@@ -65,19 +65,19 @@ export function constructArgs<TConfig, TRuntime>(
     
         helpers: processor.helpers,
     
-        hasCreatedItems : () => 
-        {
-            return runtimeData.createdItems.length > 0;
-        },
+        // hasCreatedItems : () => 
+        // {
+        //     return runtimeData.createdItems.length > 0;
+        // },
 
-        createAlert : (kind : string, severity : string, msg : string) => 
-        {
-            runtimeData.createdAlerts.push({
-                kind,
-                severity,
-                msg
-            });
-        },
+        // createAlert : (kind : string, severity : string, msg : string) => 
+        // {
+        //     runtimeData.createdAlerts.push({
+        //         kind,
+        //         severity,
+        //         msg
+        //     });
+        // },
 
         config: <TConfig>item.config,
 

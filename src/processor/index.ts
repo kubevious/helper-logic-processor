@@ -2,10 +2,10 @@ import _ from 'the-lodash';
 import { Promise } from 'the-promise';
 import { ILogger } from 'the-logger';
 
-import { LogicScope } from "../scope";
+import { LogicScope } from "../logic/scope";
 
 import { Helpers } from '../helpers';
-import { LogicItem } from '../scope/item';
+import { LogicItem } from '../logic/item';
 
 import { BaseParserExecutor } from './base/executor';
 
@@ -254,7 +254,7 @@ export class LogicProcessor
                     dn: item.dn,
                     kind: item.kind,
                     config_kind: SnapshotConfigKind.alerts,
-                    config: item.extractAlerts()
+                    config: alerts
                 })
             }
 

@@ -1,6 +1,6 @@
 export { ParserLoader } from './processor/parser-loader';
 export { LogicProcessor } from './processor'
-export { LogicItem } from './scope/item'
+export { LogicItem } from './logic/item'
 
 export { ItemId, IConcreteRegistry, IConcreteItem } from './types/registry'
 export { extractK8sConfigId } from './utils/registry'

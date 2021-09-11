@@ -29,6 +29,12 @@ export default K8sParser<Service>()
                 logicSvc.makeShadowOf(item);
                 item.link('logic', logicSvc);
             }
+
+            if (targetApps.length == 0) {
+                item.addAlert('MissingApp', 'error', 'Could not find apps matching selector.');
+            } else if (targetApps.length > 1) {
+                item.addAlert('MultipleApps', 'warn', 'More than one apps matched selector.');
+            }
         }
 
     })

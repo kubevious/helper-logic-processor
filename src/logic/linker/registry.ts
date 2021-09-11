@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
-import { LogicItem } from "../../scope/item";
 import { LinkInfo, ResolvedLink } from "./types";
-import { LogicScope } from '../../scope';
+import { LogicScope } from "../scope";
+import { LogicItem } from "../item";
 
 type TargetedLinkMap = {
     [dn: string] : {

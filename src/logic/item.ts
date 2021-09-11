@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 
-import { LogicScope, LogicTarget } from './';
+import { LogicScope, LogicTarget } from "./scope";
 
 import { PropertiesBuilder } from '../utils/properties-builder';
 
@@ -10,6 +10,7 @@ import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/helpe
 
 import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';
+import { SeverityType } from './types';
 
 export class LogicItemData
 {
@@ -129,10 +130,6 @@ export class LogicItem
 
     set order(value) {
         this._order = value;
-    }
-
-    get alerts() {
-        return this._data.alerts;
     }
 
     makeShadowOf(other: LogicItem)
@@ -324,23 +321,25 @@ export class LogicItem
         return builder;
     }
 
-    addAlert(kind: string, severity: string, msg: string)
+    addAlert(kind: string, severity: SeverityType, msg: string)
     {
-        let info : Alert = {
+        let alert : Alert = {
             id: kind,
             severity: severity,
             msg: msg
         }
-        let key = _.stableStringify(info);
-        this.alerts[key] = info;
+        let key = _.stableStringify(alert);
+        this._data.alerts[key] = alert;
+
+        this._logicScope._recordAlert(this, alert);
     }
 
-    cloneAlertsFrom(other: LogicItem)
-    {
-        for(let x of _.values(other.alerts)) {
-            this.alerts[x.id] = x;
-        }
-    }
+    // cloneAlertsFrom(other: LogicItem)
+    // {
+    //     for(let x of _.values(other.alerts)) {
+    //         this.alerts[x.id] = x;
+    //     }
+    // }
 
     extractProperties() : SnapshotPropsConfig[] {
         let myProps = [
@@ -363,8 +362,8 @@ export class LogicItem
     }
 
     extractAlerts() : Alert[] {
-        let alerts = _.values(this.alerts);
-        alerts = _.deepClean(alerts);
+        let alerts = _.values(this._data.alerts);
+        // alerts = _.deepClean(alerts);
         return alerts;
     }
 

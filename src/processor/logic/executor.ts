@@ -3,7 +3,7 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope, LogicTarget } from "../../scope";
+import { LogicScope, LogicTarget } from "../../logic/scope";
 
 import { LogicParserInfo } from './builder'
 
@@ -113,10 +113,16 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
                 
             this._parserInfo.handler!(handlerArgs);
 
-            const createdItems = scope.extractLastedStageItems();
+            const lastStageData = scope.extractLastedStageData();
             if (shouldTrace) {
-                for(let createdItem of createdItems) {
+                for(let createdItem of lastStageData.createdItems) {
                     this._logger.debug("      >>> Added: %s", createdItem.dn);
+                }
+
+                for(let alertInfo of lastStageData.createdAlerts) {
+                    this._logger.debug("      !!! %s", alertInfo.item.dn);
+                    this._logger.debug("        ! %s :: %s", alertInfo.alert.severity, alertInfo.alert.id);
+                    this._logger.debug("        ! %s", alertInfo.alert.msg);
                 }
             }
 
@@ -136,17 +142,6 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
 
     private _postProcessHandler(runtimeData : LogicProcessorRuntimeData)
     {
-
-        for(let alertInfo of runtimeData.createdAlerts)
-        {
-            for(let createdItem of runtimeData.createdItems)
-            {
-                createdItem.addAlert(
-                    alertInfo.kind, 
-                    alertInfo.severity, 
-                    alertInfo.msg);
-            }
-        }
 
     }
 

@@ -3,7 +3,7 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope } from "../../scope";
+import { LogicScope } from "../../logic/scope";
 
 import { ConcreteParserInfo } from './builder'
 import { IConcreteRegistry, IConcreteItem } from '../../types/registry';
@@ -100,17 +100,6 @@ export class ConcreteParserExecutor implements BaseParserExecutor
 
     private _postProcessHandler(runtimeData : ConcreteProcessorRuntimeData)
     {
-
-        for(let alertInfo of runtimeData.createdAlerts)
-        {
-            for(let createdItem of runtimeData.createdItems)
-            {
-                createdItem.addAlert(
-                    alertInfo.kind, 
-                    alertInfo.severity, 
-                    alertInfo.msg);
-            }
-        }
 
     }
 

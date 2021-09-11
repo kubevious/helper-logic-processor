@@ -3,7 +3,7 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope, LogicTargetPathElement } from "../../scope";
+import { LogicScope, LogicTargetPathElement } from "../../logic/scope";
 
 import { K8sParserInfo } from './builder'
 

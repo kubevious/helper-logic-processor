@@ -5,6 +5,8 @@ import { LogicItem } from './item';
 import { IConcreteRegistry, IConcreteItem } from '../types/registry';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 
+import { Alert } from '@kubevious/helpers/dist/snapshot/types'
+
 export const ROOT_NODE_LOGIC = 'root';
 // export const ROOT_NODE_INFRA = 'infra';
 
@@ -32,11 +34,12 @@ export class LogicScope
     private _itemsMap : Record<string, LogicItem> = {};
     private _itemKindMap : Record<string, Record<string, LogicItem> > = {};
 
-    private _lastStageItems : LogicItem[] = [];
+    private _lastStageData : StageProcessingData = {
+        createdItems: [],
+        createdAlerts: []
+    };
 
     private _linkRegistry : LogicLinkRegistry;
-
-    // private _namespaceLabelMatcher : LabelMatcher<NamespaceScope>;
 
     constructor(logger: ILogger, concreteRegistry: IConcreteRegistry)
     {
@@ -47,8 +50,6 @@ export class LogicScope
 
         this._rootNodes[ROOT_NODE_LOGIC] = LogicItem.constructTop(this, ROOT_NODE_LOGIC);
         // this._rootNodes[ROOT_NODE_INFRA] = LogicItem.constructTop(this, ROOT_NODE_INFRA);
-
-        // this._namespaceLabelMatcher = new LabelMatcher();
     }
 
     get logger() {
@@ -71,10 +72,13 @@ export class LogicScope
         return this._linkRegistry;
     }
 
-    extractLastedStageItems() {
-        const list = this._lastStageItems;
-        this._lastStageItems = [];
-        return list;
+    extractLastedStageData() {
+        const last = this._lastStageData;
+        this._lastStageData = {
+            createdItems: [],
+            createdAlerts: []
+        };
+        return last;
     }
 
     countItemsByPath(logicTarget : LogicTarget, optionalRootNode? : LogicItem) : number
@@ -166,9 +170,17 @@ export class LogicScope
         }
     }
 
+    _recordAlert(item: LogicItem, alert: Alert)
+    {
+        this._lastStageData.createdAlerts.push({ 
+            item: item,
+            alert: alert
+        });
+    }
+
     _acceptItem(item : LogicItem) 
     {
-        this._lastStageItems.push(item);
+        this._lastStageData.createdItems.push(item);
 
         this._itemsMap[item.dn] = item;
 
@@ -224,4 +236,11 @@ export class LogicScope
 
         this.logger.info("[Scope] <<<<<<<");
     }
+}
+
+
+interface StageProcessingData
+{
+    createdItems: LogicItem[];
+    createdAlerts: { item: LogicItem, alert: Alert }[];
 }
