@@ -10,8 +10,9 @@ export default LogicContainerParser()
         }
 
         for(let envFromObj of config.envFrom) {
-            if (envFromObj.configMapRef && envFromObj.configMapRef.name) {
-                let configMap = findAndProcessConfigMap(envFromObj.configMapRef.name, envFromObj.configMapRef.optional || false);
+            const configMapName = envFromObj.configMapRef?.name;
+            if (configMapName) {
+                let configMap = findAndProcessConfigMap(configMapName, envFromObj.configMapRef?.optional ?? false);
                 if (configMap) {
                     if (configMap.data) {
                         for(let dataKey of _.keys(configMap.data)) {
@@ -19,7 +20,11 @@ export default LogicContainerParser()
                             runtime.envVars[dataValue] = dataValue;
                         }
                     } else {
-                        // createAlert("EmptyConfig", "warn", 'ConfigMap has no data: ' + envFromObj.configMapRef.name);
+                        item.addAlert("EmptyConfig", "warn", `ConfigMap has no data: ${configMapName}`);
+                    }
+                } else {
+                    if (!envFromObj.configMapRef?.optional) {
+                        item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${configMapName}`);
                     }
                 }
             }
@@ -37,12 +42,6 @@ export default LogicContainerParser()
             {
                 logicConfigMap.makeShadowOf(k8sConfigMap);
                 return <ConfigMap>k8sConfigMap.config;
-            }
-            else
-            {
-                if (!isOptional) {
-                    // createAlert("MissingConfig", "error", 'Could not find ConfigMap ' + name);
-                }
             }
 
             return null;

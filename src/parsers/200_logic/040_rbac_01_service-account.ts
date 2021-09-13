@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import { LogicLauncherParser } from '../../parser-builder/logic';
 
 export default LogicLauncherParser()
-    .trace()
     .handler(({ logger, item, config, runtime, helpers}) => {
 
         if (!config.spec) {

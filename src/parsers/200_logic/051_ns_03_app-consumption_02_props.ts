@@ -2,7 +2,7 @@ import _ from 'the-lodash';
 import { LogicNamespaceParser } from '../../parser-builder/logic'
 
 export default LogicNamespaceParser()
-    .handler(({ logger, scope, item, config, runtime, helpers, trace}) => {
+    .handler(({ logger, scope, item, config, runtime, helpers }) => {
 
         let appsByConsumptionTable = {
             headers: <any[]>[

@@ -3,7 +3,7 @@ import { LogicNamespaceParser } from '../../parser-builder/logic'
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 
 export default LogicNamespaceParser()
-    .handler(({ logger, scope, item, config, runtime, helpers, trace}) => {
+    .handler(({ logger, scope, item, config, runtime, helpers }) => {
 
         runtime.appsByConsumptionDict = {};
 
