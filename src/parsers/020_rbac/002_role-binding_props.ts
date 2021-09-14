@@ -1,28 +1,14 @@
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
-import { ClusterRoleBinding, RoleBinding, Subject } from 'kubernetes-types/rbac/v1';
-import { LogicRoleRuntime, LogicRoleBindingRuntime } from '../../types/parser/logic-rbac';
+import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
+import { K8sRoleBindingParser } from '../../parser-builder/k8s';
+import { RoleRef, Subject } from 'kubernetes-types/rbac/v1';
 
-export default K8sParser<ClusterRoleBinding | RoleBinding, LogicRoleBindingRuntime>()
-    .target({
-        clustered: true,
-        api: "rbac.authorization.k8s.io",
-        kind: "ClusterRoleBinding"
-    })
-    .target({
-        api: "rbac.authorization.k8s.io",
-        kind: "RoleBinding"
-    })
+export default K8sRoleBindingParser()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
 
         if (config.roleRef)
         {
-            const roleDn = helpers.k8s.makeDn(namespace || null, config.apiVersion!, config.roleRef.kind, config.roleRef.name);
-            const role = item.link('role', roleDn);
-            if (role)
-            {
-                runtime.rules = (<LogicRoleRuntime>role.runtime).rules;
-            }
+            processRole(config.roleRef);
         }
 
         if (!runtime.rules) {
@@ -37,6 +23,26 @@ export default K8sParser<ClusterRoleBinding | RoleBinding, LogicRoleBindingRunti
         }
         
         /*** HELPERS ***/
+        function processRole(roleRef: RoleRef)
+        {
+            const targetNamespace = namespace || null;
+
+            const roleDn = helpers.k8s.makeDn(targetNamespace, config.apiVersion!, roleRef.kind, roleRef.name);
+            const role = item.link('role', roleDn);
+            if (role)
+            {
+                runtime.rules = (<LogicRoleRuntime>role.runtime).rules;
+            }
+            else
+            {
+                if (targetNamespace) {
+                    item.addAlert('Missing', 'error', `Could not find ${roleRef.kind} ${targetNamespace} :: ${roleRef.name}.`);
+                } else {
+                    item.addAlert('Missing', 'error', `Could not find ${roleRef.kind} ${roleRef.name}.`);
+                }
+            }
+        }
+
         function processSubject(subjectRef: Subject)
         {
             if (subjectRef.kind == 'ServiceAccount')
@@ -51,7 +57,14 @@ export default K8sParser<ClusterRoleBinding | RoleBinding, LogicRoleBindingRunti
                 linkNamingParts.push(subjectRef.name);
                 const linkNaming = linkNamingParts.join('_');
 
-                item.link('subject', subjectDn, linkNaming);
+                const svcAccount = item.link('subject', subjectDn, linkNaming);
+                if (!svcAccount) { 
+                    if (targetNamespace) {
+                        item.addAlert('Missing', 'error', `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
+                    } else {
+                        item.addAlert('Missing', 'error', `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
+                    }
+                }
             }
         }
 

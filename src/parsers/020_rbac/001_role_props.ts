@@ -1,18 +1,8 @@
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
-import { ClusterRole, Role } from 'kubernetes-types/rbac/v1';
 import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
+import { K8sRoleParser } from '../../parser-builder/k8s';
 
-export default K8sParser<ClusterRole | Role>()
-    .target({
-        clustered: true,
-        api: "rbac.authorization.k8s.io",
-        kind: "ClusterRole"
-    })
-    .target({
-        api: "rbac.authorization.k8s.io",
-        kind: "Role"
-    })
+export default K8sRoleParser()
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
         const rulesMap = helpers.roles.makeRulesMap();

@@ -11,26 +11,31 @@ export default K8sParser<Ingress>()
     })
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
-        if (config.spec)
-        {
-            if (config.spec.defaultBackend) {
-                processIngressBackend(config.spec.defaultBackend);
-            }
+        if (!config.spec) {
+            return;
+        }
+        
+        if (config.spec.defaultBackend) {
+            processIngressBackend(config.spec.defaultBackend);
+        }
 
-            if (config.spec.rules)
-            {
-                for(let ruleConfig of config.spec.rules)
-                {
-                    if (ruleConfig.http && ruleConfig.http.paths) {
-                        for(let pathConfig of ruleConfig.http.paths) {
-                            if (pathConfig.backend) {
-                                processIngressBackend(pathConfig.backend);
-                            }
-                        }
+        const rules = config.spec.rules ?? [];
+        for(let ruleConfig of rules)
+        {
+            if (ruleConfig.http && ruleConfig.http.paths) {
+                for(let pathConfig of ruleConfig.http.paths) {
+                    if (pathConfig.backend) {
+                        processIngressBackend(pathConfig.backend);
                     }
                 }
             }
         }
+
+        if (item.resolveTargetLinks('app').length == 0)
+        {
+            item.addAlert('Missing', 'error', 'Could not match Ingress to Services.')
+        }
+
 
         /*** HELPERS ***/
 
@@ -67,7 +72,7 @@ export default K8sParser<Ingress>()
             }
             else
             {
-                // createAlert('MissingSvc-' + backendConfig.serviceName, 'error', 'Service ' + backendConfig.serviceName + ' is missing.');
+                item.addAlert('MissingSvc', 'error', `Service ${backend.service.name} is missing.`);
             }
         }
 

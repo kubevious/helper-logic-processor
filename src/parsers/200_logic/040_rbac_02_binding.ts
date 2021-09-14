@@ -5,6 +5,7 @@ import { ClusterRoleBinding, RoleBinding } from 'kubernetes-types/rbac/v1';
 export default LogicServiceAccountParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
 
+        const app = item.parent!;
         let k8sSvcAccount = item.resolveTargetLinkItem('k8s-owner')!;
 
         for(let k8sBinding of k8sSvcAccount.resolveSourceLinkItems('subject'))
@@ -15,6 +16,8 @@ export default LogicServiceAccountParser()
             const logicBinding = item.fetchByNaming(logicKind, config.metadata!.name!);
             logicBinding.makeShadowOf(k8sBinding);
             logicBinding.link('k8s-owner', k8sBinding);
+
+            k8sBinding.link('app', app, app.naming);
         }
 
         /*** HELPERS **/

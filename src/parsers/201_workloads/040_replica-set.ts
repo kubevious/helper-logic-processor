@@ -11,33 +11,29 @@ export default K8sParser<ReplicaSet>()
     })
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
-        if (metadata.ownerReferences)
+        const ownerReferences = metadata.ownerReferences ?? [];
+        for(let ref of ownerReferences)
         {
-            for(let ref of metadata.ownerReferences)
-            {
-                const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-                const owner = item.link('k8s-owner', ownerDn);
-                if (owner)
-                {                    
-                    let shortName = makeRelativeName(owner.naming, metadata.name!);
+            const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
+            const owner = item.link('k8s-owner', ownerDn);
+            if (owner)
+            {                    
+                let shortName = makeRelativeName(owner.naming, metadata.name!);
 
-                    const logicOwner = owner.resolveTargetLinkItem('logic');
-                    if (logicOwner)
-                    { 
-                        const logicItem = logicOwner.fetchByNaming('replicaset', shortName);
-                        logicItem.makeShadowOf(item);
-                        item.link('logic', logicItem);
-                    }
+                const logicOwner = owner.resolveTargetLinkItem('logic');
+                if (logicOwner)
+                { 
+                    const logicItem = logicOwner.fetchByNaming('replicaset', shortName);
+                    logicItem.makeShadowOf(item);
+                    item.link('logic', logicItem);
                 }
-
             }
         }
 
-        // if (!hasCreatedItems()) {
-        //     let rawContainer = scope.fetchRawContainer(item, "ReplicaSets");
-        //     createReplicaSet(rawContainer);
-        //     createAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deploment, StatefulSet or DaemonSet instead.');
-        // }
+        if (item.resolveTargetLinks('logic').length == 0)
+        {
+            item.addAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
+        }
 
     })
     ;

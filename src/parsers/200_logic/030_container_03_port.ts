@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
+import { LogicAppRuntime, PortInfo } from '../../types/parser/logic-app';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, helpers}) => {
@@ -7,6 +8,9 @@ export default LogicContainerParser()
         if (!config.ports) {
             return;
         }
+
+        const app = item.parent!;
+        const appRuntime = <LogicAppRuntime>app.runtime;
 
         for(let portConfig of config.ports) {
             let portName = portConfig.protocol + "-" + portConfig.containerPort;
@@ -17,15 +21,17 @@ export default LogicContainerParser()
             let portItem = item.fetchByNaming("port", portName);
             portItem.setConfig(portConfig);
 
-            // let portConfigScope = {
-            //     name: portConfig.name,
-            //     containerName: containerConfig.name,
-            //     portItem: portItem,
-            //     containerItem: container
-            // };
+            let portInfo : PortInfo = {
+                name: portConfig.name,
+                containerName: config.name,
+                portDn: portItem.dn,
+                containerDn: item.dn
+            };
 
-            // appScope.ports[portConfig.name] = portConfigScope;
-            // appScope.ports[portConfig.containerPort] = portConfigScope;
+            appRuntime.ports[portConfig.containerPort] = portInfo;
+            if (portConfig.name) {
+                appRuntime.ports[portConfig.name] = portInfo;
+            }
         }
 
     })

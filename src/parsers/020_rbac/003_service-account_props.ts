@@ -1,12 +1,8 @@
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
-import { ServiceAccount } from 'kubernetes-types/core/v1';
 import { LogicRoleBindingRuntime, LogicServiceAccountRuntime } from '../../types/parser/logic-rbac';
+import { K8sServiceAccountParser } from '../../parser-builder/k8s';
 
-export default K8sParser<ServiceAccount, LogicServiceAccountRuntime>()
-    .target({
-        kind: "ServiceAccount"
-    })
+export default K8sServiceAccountParser()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
 
         runtime.rules = helpers.roles.makeRulesMap();

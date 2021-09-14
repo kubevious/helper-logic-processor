@@ -23,8 +23,7 @@ export default K8sParser<HorizontalPodAutoscaler>()
         const k8sTarget = item.link('target', k8sTargetDn);
 
         if (!k8sTarget) {
-            // TODO: Trigger Alert
-            // createAlert('MissingApp', 'error', 'Could not find apps matching scaleTargetRef.');
+            item.addAlert('MissingApp', 'error', 'Could not find apps matching scaleTargetRef.');
             return;
         }
 

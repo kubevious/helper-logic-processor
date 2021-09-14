@@ -11,34 +11,31 @@ export default K8sParser<Pod>()
     })
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
-        if (metadata.ownerReferences)
+
+        const ownerReferences = metadata.ownerReferences ?? [];
+        for(let ref of ownerReferences)
         {
-            for(let ref of metadata.ownerReferences)
-            {
-                const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-                const owner = item.link('k8s-owner', ownerDn);
-                if (owner)
-                {                    
-                    let shortName = makeRelativeName(owner.naming, metadata.name!);
+            const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
+            const owner = item.link('k8s-owner', ownerDn);
+            if (owner)
+            {                    
+                let shortName = makeRelativeName(owner.naming, metadata.name!);
 
-                    const logicOwner = owner.resolveTargetLinkItem('logic');
-                    if (logicOwner)                 
-                    { 
-                        const logicPod = logicOwner.fetchByNaming('pod', shortName);
-                        logicPod.makeShadowOf(item);
-                        (<LogicPodRuntime>logicPod.runtime).namespace = namespace!; 
-                        item.link('logic', logicPod);
-                    }
+                const logicOwner = owner.resolveTargetLinkItem('logic');
+                if (logicOwner)                 
+                { 
+                    const logicPod = logicOwner.fetchByNaming('pod', shortName);
+                    logicPod.makeShadowOf(item);
+                    (<LogicPodRuntime>logicPod.runtime).namespace = namespace!; 
+                    item.link('logic', logicPod);
                 }
-
             }
         }
 
-        // if (!hasCreatedItems()) {
-        //     let rawContainer = scope.fetchRawContainer(item, "ReplicaSets");
-        //     createReplicaSet(rawContainer);
-        //     createAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
-        // }
+        if (item.resolveTargetLinks('logic').length == 0)
+        {
+            item.addAlert('MissingController', 'warn', 'Controller not found.');
+        }
 
     })
     ;

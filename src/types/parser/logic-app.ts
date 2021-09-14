@@ -20,4 +20,14 @@ export interface LogicAppRuntime
 
     exposedWithService: boolean;
     exposedWithIngress: boolean;
+
+    ports: { [nameOrNumber : string] : PortInfo };
+}
+
+export interface PortInfo
+{
+    name: string | undefined,
+    containerName: string,
+    portDn: string,
+    containerDn: string
 }

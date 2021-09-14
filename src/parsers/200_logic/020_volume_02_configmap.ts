@@ -29,7 +29,7 @@ export default LogicVolumeParser()
             else
             {
                 if (!isOptional) {
-                    // createAlert("MissingConfig", "error", 'Could not find ConfigMap ' + name);
+                    item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${name}`);
                 }
             }
 

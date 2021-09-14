@@ -1,18 +1,8 @@
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
-import { ClusterRole, Role } from 'kubernetes-types/rbac/v1';
 import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
+import { K8sRoleParser } from '../../parser-builder/k8s';
 
-export default K8sParser<ClusterRole | Role>()
-    .target({
-        clustered: true,
-        api: "rbac.authorization.k8s.io",
-        kind: "ClusterRole"
-    })
-    .target({
-        api: "rbac.authorization.k8s.io",
-        kind: "Role"
-    })
+export default K8sRoleParser()
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
         const pspRules = (<LogicRoleRuntime>item.runtime).rules['policy/podsecuritypolicies'];
@@ -26,7 +16,11 @@ export default K8sParser<ClusterRole | Role>()
             if (itemInfo.verbs['use'])
             {
                 const subjectDn = helpers.k8s.makeDn(null, 'policy/v1beta1', 'PodSecurityPolicy', itemInfo.name);
-                item.link('psp', subjectDn, itemInfo.name);
+                const pspItem = item.link('psp', subjectDn, itemInfo.name);
+                if (!pspItem)
+                {
+                    item.addAlert('MissingPsp', 'error', `PodSecurityPolicy "${itemInfo.name}" not found.`);
+                }
             }
         }
 
