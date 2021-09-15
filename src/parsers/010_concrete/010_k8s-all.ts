@@ -51,7 +51,7 @@ export default ConcreteParser()
 
         if (item.id.namespace) {
             const nsUsageItem = infraApiKindRoot.fetchByNaming('ns', item.id.namespace!)
-            nsUsageItem.link('namespace', namespaceRoot!);
+            nsUsageItem.link('nsapi', kindRoot!);
         }
 
     })
