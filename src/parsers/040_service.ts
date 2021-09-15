@@ -5,7 +5,7 @@ import { ConcreteParser } from '../parser-builder';
 export default ConcreteParser()
     .order(40)
     .target({
-        api: "v1",
+        // api: "v1",
         kind: "Service"
     })
     .kind('service')

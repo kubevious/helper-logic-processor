@@ -22,7 +22,7 @@ export interface ConcreteParserInfo extends BaseParserInfo
 }
 
 interface ConcreteTarget {
-    api: string,
+    api?: string,
     kind: string
 }
 

@@ -4,7 +4,7 @@ import { ConcreteParser } from '../parser-builder';
 export default ConcreteParser()
     .order(110)
     .target({
-        api: "v1",
+        // api: "v1",
         kind: "PersistentVolumeClaim"
     })
     .kind('pvc')
