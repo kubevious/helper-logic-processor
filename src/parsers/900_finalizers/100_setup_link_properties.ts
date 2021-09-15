@@ -3,7 +3,8 @@ import { LogicParser } from '../../parser-builder';
 
 export default LogicParser()
     .target({
-        path: []
+        path: [],
+        subtree: true
     })
     .handler(({ logger, item, helpers }) => {
 

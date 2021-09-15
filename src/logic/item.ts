@@ -254,7 +254,7 @@ export class LogicItem
         return null;
     }
 
-    fetchByNaming(kind: string, naming?: any) : LogicItem
+    fetchByNaming(kind: string, naming?: string | undefined) : LogicItem
     {
         let rn = LogicItem._makeRn(kind, naming);
         let child = this._children[rn];

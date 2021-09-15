@@ -12,10 +12,12 @@ export const ROOT_NODE_LOGIC = 'root';
 
 export interface LogicTarget {
     path: (LogicTargetPathElement | string)[],
+    subtree?: boolean
 }
 
 export interface LogicTargetFinal {
-    path: LogicTargetPathElement[]
+    path: LogicTargetPathElement[],
+    subtree: boolean
 }
 
 export interface LogicTargetPathElement {
@@ -92,24 +94,30 @@ export class LogicScope
 
         let items : LogicItem[] = [];
         const rootNode = optionalRootNode ?? this.logicRootNode;
-        if (targetFinal.path.length > 0)
-        {
-            this._visitTreePath(targetFinal, rootNode, 0, item => {
-                items.push(item);
-            });
-        }
-        else
+        if (targetFinal.subtree)
         {
             this._visitTreeAll(rootNode, item => {
                 items.push(item);
             });
         }
+        else
+        //if (targetFinal.path.length > 0)
+        {
+            this._visitTreePath(targetFinal, rootNode, 0, item => {
+                items.push(item);
+            });
+        }
+        // else
+        // {
+            
+        // }
         return items;
     }
 
     private _makeTarget(target: LogicTarget) : LogicTargetFinal
     {
         const result: LogicTargetFinal = {
+            subtree: target.subtree ?? false,
             path: target.path.map(x => {
                 if (_.isString(x)) {
                     return {

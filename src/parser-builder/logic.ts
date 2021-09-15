@@ -8,6 +8,7 @@ import { LogicLauncherRuntime } from '../types/parser/logic-launcher';
 
 import { LogicParser } from './';
 import { LogicContainerRuntime } from '../types/parser/logic-container';
+import { LogicImageRuntime } from '../types/parser/logic-image';
 import { LogicVolumeRuntime } from '../types/parser/logic-volume';
 import { LogicPodRuntime } from '../types/parser/logic-pod';
 import { LogicAppRuntime } from '../types/parser/logic-app';
@@ -37,6 +38,17 @@ export function LogicContainerParser() {
         })
         .target({
             path: ["logic", "ns", "app", "initcont"]
+        })
+}
+
+export function LogicImageParser() {
+
+    return LogicParser<Container, LogicImageRuntime>()
+        .target({
+            path: ["logic", "ns", "app", "cont", "image"]
+        })
+        .target({
+            path: ["logic", "ns", "app", "initcont", "image"]
         })
 }
 

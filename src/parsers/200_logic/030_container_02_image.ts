@@ -1,8 +1,10 @@
 import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
+import { LogicImageRuntime } from '../../types/parser/logic-image';
+import { parseImageString } from '../../utils/image-naming';
 
 export default LogicContainerParser()
-    .handler(({ logger, item, config, helpers}) => {
+    .handler(({ logger, item, config, helpers, runtime }) => {
 
         const fullImage = config.image;
 
@@ -10,32 +12,21 @@ export default LogicContainerParser()
             return;
         }
             
-        let image : string;
-        let imageTag : string;
-        let i = fullImage.indexOf(':');
-        let repository = 'docker';
-        if (i != -1) {
-            imageTag = fullImage.substring(i + 1);
-            image = fullImage.substring(0, i);
-        } else {
-            imageTag = 'latest';
-            image = fullImage;
-        }
+        const imageInfo = parseImageString(fullImage);
 
-        let imageName = image;
-        i = image.lastIndexOf('/');
-        if (i != -1) {
-            repository = image.substring(0, i);
-            imageName = image.substring(i + 1);
-        }
-
-        const imageItem = item.fetchByNaming("image", image);
+        const imageItem = item.fetchByNaming("image", imageInfo.imagePath);
+        const imgRuntime = <LogicImageRuntime>imageItem.runtime;
+        imgRuntime.namespace = runtime.namespace;
+        imgRuntime.fullImage = fullImage;
+        imgRuntime.repository = imageInfo.repository;
+        imgRuntime.name = imageInfo.name;
+        imgRuntime.tag = imageInfo.tag;
 
         imageItem.buildProperties()
-            .add('name', imageName)
-            .add('tag', imageTag)
-            .add('fullName', fullImage)
-            .add('repository', repository)
+            .add('name', imgRuntime.name)
+            .add('tag', imgRuntime.tag)
+            .add('fullName', imgRuntime.fullImage)
+            .add('repository', imgRuntime.repository)
             .build();
 
     })
