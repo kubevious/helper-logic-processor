@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { LogicRoleBindingRuntime, LogicServiceAccountRuntime } from '../../types/parser/logic-rbac';
+import { LogicRoleBindingRuntime } from '../../types/parser/logic-rbac';
 import { K8sServiceAccountParser } from '../../parser-builder/k8s';
 
 export default K8sServiceAccountParser()

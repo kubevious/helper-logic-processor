@@ -17,6 +17,7 @@ export class LogicItemData
     config : Record<string, any> = {};
     properties : Record<string, SnapshotPropsConfig> = {};
     alerts : Record<string, Alert> = {};
+    flags : Record<string, FlagInfo> = {};
 }
 
 export class LogicItem
@@ -34,6 +35,7 @@ export class LogicItem
         config: {},
         properties: {},
         alerts: {},
+        flags: {}
     }
 
     private _selfProperties : Record<string, SnapshotPropsConfig> = {};
@@ -43,7 +45,6 @@ export class LogicItem
     private _order = 100;
     private _children : Record<string, LogicItem> = {};
 
-    private _flags : Record<string, FlagInfo> = {};
     private _usedBy : Record<string, any> = {};
 
     private _linkRegistry : LogicLinkRegistry;
@@ -109,7 +110,7 @@ export class LogicItem
     }
 
     get flags() {
-        return this._flags;
+        return this._data.flags;
     }
 
     get parent() : LogicItem | null {
@@ -189,19 +190,19 @@ export class LogicItem
         if (!params.propagatable) {
             params.propagatable = false;
         }
-        this._flags[name] = <FlagInfo>params;
+        this._data.flags[name] = <FlagInfo>params;
     }
 
     hasFlag(name: string)
     {
-        if (this._flags[name])
+        if (this._data.flags[name])
             return true;
         return false;
     }
 
     getFlags()
     {
-        return _.values(this._flags);
+        return _.values(this._data.flags);
     }
 
     setUsedBy(dn: string)
@@ -401,9 +402,9 @@ export class LogicItem
             name: this.naming,
             kind: this.kind,
             order: this.order,
-            flags: this._flags
+            flags: this._data.flags
         };
-        (<any>node).dn = this.dn;
+        // (<any>node).dn = this.dn;
 
         if (this._shadowOf) {
             (<any>node).shadowOf = this._shadowOf;
