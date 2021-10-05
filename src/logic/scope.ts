@@ -2,10 +2,10 @@ import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
 
 import { LogicItem } from './item';
-import { IConcreteRegistry, IConcreteItem } from '../types/registry';
+import { IConcreteRegistry } from '../types/registry';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 
-import { Alert } from '@kubevious/helpers/dist/snapshot/types'
+import { Alert } from '@kubevious/state-registry'
 
 export const ROOT_NODE_LOGIC = 'root';
 // export const ROOT_NODE_INFRA = 'infra';

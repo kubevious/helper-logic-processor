@@ -6,7 +6,7 @@ import { PropertiesBuilder } from '../utils/properties-builder';
 
 import * as DocsHelper from '@kubevious/helpers/dist/docs';
 
-import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/helpers/dist/snapshot/types'
+import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/state-registry'
 
 import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';

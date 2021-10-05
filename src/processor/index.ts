@@ -10,10 +10,10 @@ import { LogicItem } from '../logic/item';
 import { BaseParserExecutor } from './base/executor';
 
 import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
-import { RegistryState } from '@kubevious/helpers/dist/registry-state';
+import { RegistryState } from '@kubevious/state-registry';
+import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/state-registry';
 
 import { IConcreteRegistry } from '../types/registry';
-import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/helpers/dist/snapshot/types';
 import { ParserInfo, ParserLoader } from './parser-loader'
 
 export class LogicProcessor 

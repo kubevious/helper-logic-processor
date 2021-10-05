@@ -39,6 +39,11 @@ describe('full-processor', () => {
                 const registryLogger = makeLogger('registry-logger');
 
                 return registryState.debugOutputToDir(registryLogger, 'large-cluster')
+                    .then(() => {
+                        const snapshotInfo = registryState.extractSnapshotInfo();
+                        const contents = JSON.stringify(snapshotInfo, null, 4);
+                        return registryLogger.outputFile("large-cluster-snapshot.json", contents);
+                    })
                     .then(() => registryState);
             })
             .then(registryState => {
