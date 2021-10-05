@@ -21,6 +21,14 @@ export default LogicContainerParser()
             let portItem = item.fetchByNaming("port", portName);
             portItem.setConfig(portConfig);
 
+            portItem.addProperties({
+                kind: "yaml",
+                id: "config",
+                title: "Config",
+                order: 10,
+                config: portConfig
+            });
+
             let portInfo : PortInfo = {
                 name: portConfig.name,
                 containerName: config.name,
