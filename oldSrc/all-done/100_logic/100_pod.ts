@@ -4,7 +4,7 @@ import { makeRelativeName } from '../../utils/name-helpers';
 
 export default ConcreteParser()
     .target({
-        apiName: null,
+        // api: "v1",
         kind: "Pod"
     })
     .kind('pod')

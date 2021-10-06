@@ -17,7 +17,7 @@ export default ConcreteParser()
             processIngressBackend(defaultBackend);
         }
 
-        let rulesConfig = _.get(item.config, "spec.rules");
+        let rulesConfig = _.get(item.config, "spec.rules") || [];
         for(let ruleConfig of rulesConfig)
         {
             let host = ruleConfig.host;

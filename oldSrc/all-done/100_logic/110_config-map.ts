@@ -3,7 +3,7 @@ import { ConcreteParser } from '../../parser-builder';
 
 export default ConcreteParser()
     .target({
-        apiName: null,
+        // api: "v1",
         kind: "ConfigMap"
     })
     .kind('configmap')

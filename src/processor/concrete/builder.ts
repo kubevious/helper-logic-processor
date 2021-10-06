@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 import { LogicProcessor } from '..';
-import { ConcreteRegistryFilter, IConcreteItem, IConcreteRegistry } from '../../types/registry';
+import { ConcreteRegistryFilter, IConcreteRegistry } from '../../types/registry';
 
 import { BaseParserInfo, ParserBuilder, BaseParserBuilder } from '../base/builder';
 import { BaseParserExecutor } from '../base/executor';
@@ -11,15 +11,6 @@ import { ConcreteProcessorHandlerArgs } from './handler-args';
 export interface ConcreteParserInfo extends BaseParserInfo
 {
     target: null | ConcreteRegistryFilter;
-
-    // needAppScope?: boolean;
-    // canCreateAppIfMissing? : boolean;
-    // appNameCb?: (item : IConcreteItem) => string;
-
-    // kind?: string | ((item: IConcreteItem) => string);
-
-    // needNamespaceScope?: boolean;
-    // namespaceNameCb? : (item : IConcreteItem) => string;
 
     handler? : (args : ConcreteProcessorHandlerArgs) => void;
 }
