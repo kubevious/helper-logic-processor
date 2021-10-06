@@ -9,6 +9,8 @@ import { ParserLoader, LogicProcessor } from '../src';
 import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
 
+import { NodeKind } from '@kubevious/entity-meta';
+
 const logger = makeLogger('full-proc');
 
 const tracker = new ProcessingTracker(logger);
@@ -59,7 +61,7 @@ describe('full-processor', () => {
                 }
 
                 {
-                    const images = registryState.childrenByKind('root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', 'image');
+                    const images = registryState.childrenByKind('root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', NodeKind.image);
                     should(_.keys(images)).have.length(1);
 
                     const img = _.values(images)[0];
