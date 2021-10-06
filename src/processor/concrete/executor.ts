@@ -3,10 +3,10 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope } from "../../scope";
+import { LogicScope } from "../../logic/scope";
 
 import { ConcreteParserInfo } from './builder'
-import { IConcreteRegistry, IConcreteItem } from '../../registry';
+import { IConcreteRegistry, IConcreteItem } from '../../types/registry';
 
 import { constructArgs, ConcreteProcessorVariableArgs, ConcreteProcessorRuntimeData } from './handler-args';
 
@@ -17,25 +17,25 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     private _concreteRegistry : IConcreteRegistry;
     private _processor : LogicProcessor;
     private _logger : ILogger;
-    public path : string;
+    private _name : string;
 
     private _parserInfo : ConcreteParserInfo;
 
-    constructor(concreteRegistry: IConcreteRegistry, processor : LogicProcessor, path : string, parserInfo : ConcreteParserInfo)
+    constructor(concreteRegistry: IConcreteRegistry, processor : LogicProcessor, name : string, parserInfo : ConcreteParserInfo)
     {
-        this.path = path;
+        this._name = name;
         this._processor = processor;
-        this._logger = processor.logger;
+        this._logger = processor.parserLogger;
         this._concreteRegistry = concreteRegistry;
         this._parserInfo = parserInfo;
     }
 
-    get name() : string {
-        return this.path;
+    get kind() {
+        return 'Concrete';
     }
 
-    get order() : number {
-        return this._parserInfo.order;
+    get name() : string {
+        return this._name;
     }
 
     get targetInfo() : string {
@@ -49,7 +49,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     {
         let items = this._concreteRegistry.filterItems(this._parserInfo.target);
 
-        for(var item of items)
+        for(let item of items)
         {
             this._processHandler(scope, item);
         }
@@ -58,7 +58,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
     _processHandler(scope : LogicScope, item: IConcreteItem)
     {
         this._logger.silly("[_processHandler] ConcreteHandler: %s, Item: %s", 
-            this.path, 
+            this.name, 
             item.id);
 
         let variableArgs : ConcreteProcessorVariableArgs =
@@ -88,60 +88,18 @@ export class ConcreteParserExecutor implements BaseParserExecutor
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.path, reason);
+            this._logger.error("Error in %s parser. ", this.name, reason);
         }
 
     }
 
     private _preprocessHandler(scope : LogicScope, item: IConcreteItem, variableArgs : ConcreteProcessorVariableArgs)
     {
-        variableArgs.namespaceName = null;
-        if (this._parserInfo.needNamespaceScope || this._parserInfo.needAppScope)
-        {
-            if (this._parserInfo.namespaceNameCb) {
-                variableArgs.namespaceName = this._parserInfo.namespaceNameCb(item);
-            } else {
-                variableArgs.namespaceName = item.config.metadata.namespace;
-            }
-            if (_.isNotNullOrUndefined(variableArgs.namespaceName))
-            {
-                variableArgs.namespaceScope = scope.getNamespaceScope(variableArgs.namespaceName!);
-            }
-        }
-
-        variableArgs.appName = null;
-        if (this._parserInfo.appNameCb) {
-            variableArgs.appName = this._parserInfo.appNameCb(item);
-        }
-        if (variableArgs.namespaceName && variableArgs.namespaceScope)
-        {
-            if (this._parserInfo.needAppScope && variableArgs.appName)
-            {
-                let appScope = variableArgs.namespaceScope.getAppAndScope(
-                    variableArgs.appName!,
-                    this._parserInfo.canCreateAppIfMissing!);
-
-                if (appScope) {
-                    variableArgs.appScope = appScope;
-                    variableArgs.app = appScope.item;
-                }
-            }
-        }
+       
     }
 
     private _postProcessHandler(runtimeData : ConcreteProcessorRuntimeData)
     {
-
-        for(var alertInfo of runtimeData.createdAlerts)
-        {
-            for(var createdItem of runtimeData.createdItems)
-            {
-                createdItem.addAlert(
-                    alertInfo.kind, 
-                    alertInfo.severity, 
-                    alertInfo.msg);
-            }
-        }
 
     }
 

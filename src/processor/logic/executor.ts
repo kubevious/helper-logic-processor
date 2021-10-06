@@ -3,36 +3,46 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope } from "../../scope";
+import { LogicScope, LogicTarget } from "../../logic/scope";
 
 import { LogicParserInfo } from './builder'
 
 import { BaseParserExecutor } from '../base/executor';
-import { LogicItem } from '../../item';
-import { constructArgs, LogicProcessorHandlerArgs, LogicProcessorRuntimeData, LogicProcessorVariableArgs } from './handler-args';
+import { LogicItem } from '../../';
+import { constructArgs, LogicProcessorRuntimeData, LogicProcessorVariableArgs } from './handler-args';
 
-export class LogicParserExecutor implements BaseParserExecutor
+export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
     private _processor : LogicProcessor;
     private _logger : ILogger;
-    public path : string;
+    private _name : string;
+    private _isTraceEnabled: boolean;
+    private _isDnTraceEnabledCb: (dn: string) => boolean;
 
-    private _parserInfo : LogicParserInfo;
+    private _parserInfo : LogicParserInfo<TConfig, TRuntime>;
+    private _logicTarget : LogicTarget;
 
-    constructor(processor : LogicProcessor, path : string, parserInfo : LogicParserInfo)
+    constructor(processor : LogicProcessor, 
+        name : string,
+        parserInfo : LogicParserInfo<TConfig, TRuntime>,
+        isTraceEnabled: boolean,
+        isDnTraceEnabledCb: (dn: string) => boolean)
     {
-        this.path = path;
+        this._name = name;
         this._processor = processor;
-        this._logger = processor.logger;
+        this._logger = processor.parserLogger;
         this._parserInfo = parserInfo;
+        this._logicTarget = parserInfo.target!;
+        this._isTraceEnabled = isTraceEnabled;
+        this._isDnTraceEnabledCb = isDnTraceEnabledCb;
+    }
+
+    get kind() {
+        return 'Logic';
     }
 
     get name() : string {
-        return this.path;
-    }
-
-    get order() : number {
-        return this._parserInfo.order;
+        return this._name;
     }
 
     get targetInfo() : string {
@@ -44,19 +54,39 @@ export class LogicParserExecutor implements BaseParserExecutor
 
     execute(scope : LogicScope)
     {
-        const path = _.clone(this._parserInfo.target!.path);
-        const items = this._extractTreeItems(scope, path);
+        if (this._isTraceEnabled) {
+            this._logger.debug(">>>> Parser Tracer :: %s :: BEGIN", this.name);
+        }
 
-        for(var item of items)
+        const items = scope.findItemsByPath(this._logicTarget);
+
+        for(let item of items)
         {
             this._processHandler(scope, item);
         }
+
+        if (this._isTraceEnabled) {
+            this._logger.debug("<<<< Parser Tracer :: %s :: END", this.name);
+        }
     }
 
-    _processHandler(scope : LogicScope, item: LogicItem)
+    private _isItemTraceEnabled(item: LogicItem)
     {
+        if (this._isTraceEnabled) {
+            return this._isDnTraceEnabledCb(item.dn);
+        }
+        return false;
+    }
+
+    private _processHandler(scope : LogicScope, item: LogicItem)
+    {
+        const shouldTrace = this._isItemTraceEnabled(item);
+        if (shouldTrace) {
+            this._logger.debug("    | - %s", item.dn);
+        }
+
         this._logger.silly("[_processHandler] LogicHandler: %s, Item: %s", 
-            this.path, 
+            this.name, 
             item.dn);
 
         let variableArgs : LogicProcessorVariableArgs =
@@ -78,97 +108,41 @@ export class LogicParserExecutor implements BaseParserExecutor
                 scope,
                 item,
                 variableArgs,
-                runtimeData);
+                runtimeData,
+                shouldTrace);
                 
             this._parserInfo.handler!(handlerArgs);
+
+            const lastStageData = scope.extractLastedStageData();
+            if (shouldTrace) {
+                for(let createdItem of lastStageData.createdItems) {
+                    this._logger.debug("      >>> Added: %s", createdItem.dn);
+                }
+
+                for(let alertInfo of lastStageData.createdAlerts) {
+                    this._logger.debug("      !!! %s", alertInfo.item.dn);
+                    this._logger.debug("        ! %s :: %s", alertInfo.alert.severity, alertInfo.alert.id);
+                    this._logger.debug("        ! %s", alertInfo.alert.msg);
+                }
+            }
 
             this._postProcessHandler(runtimeData);
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.path, reason);
+            this._logger.error("Error in %s parser. ", this.name, reason);
         }
 
     }
 
     private _preprocessHandler(scope : LogicScope, item: LogicItem, variableArgs : LogicProcessorVariableArgs)
     {
-        variableArgs.namespaceName = null;
-        if (this._parserInfo.needNamespaceScope || this._parserInfo.needAppScope)
-        {
-            if (this._parserInfo.namespaceNameCb) {
-                variableArgs.namespaceName = this._parserInfo.namespaceNameCb(item);
-            } else {
-                variableArgs.namespaceName = _.get(item.config, 'metadata.namespace');
-            }
-            if (_.isNotNullOrUndefined(variableArgs.namespaceName))
-            {
-                variableArgs.namespaceScope = scope.getNamespaceScope(variableArgs.namespaceName!);
-            }
-        }
-
-        variableArgs.appName = null;
-        if (this._parserInfo.appNameCb) {
-            variableArgs.appName = this._parserInfo.appNameCb(item);
-        }
-        if (variableArgs.namespaceName && variableArgs.namespaceScope)
-        {
-            if (this._parserInfo.needAppScope && variableArgs.appName)
-            {
-                let appScope = variableArgs.namespaceScope.getAppAndScope(
-                    variableArgs.appName!,
-                    this._parserInfo.canCreateAppIfMissing!);
-
-                if (appScope) {
-                    variableArgs.appScope = appScope;
-                    variableArgs.app = appScope.item;
-                }
-            }
-        }
+ 
     }
 
     private _postProcessHandler(runtimeData : LogicProcessorRuntimeData)
     {
 
-        for(var alertInfo of runtimeData.createdAlerts)
-        {
-            for(var createdItem of runtimeData.createdItems)
-            {
-                createdItem.addAlert(
-                    alertInfo.kind, 
-                    alertInfo.severity, 
-                    alertInfo.msg);
-            }
-        }
-
     }
 
-
-    private _extractTreeItems(scope : LogicScope, path : string[]) : LogicItem[]
-    {
-        var items : LogicItem[] = [];
-        this._visitTree(scope.root, 0, path, item => {
-            items.push(item);
-        });
-        return items;
-    }
-
-    private _visitTree(item : LogicItem, index: number, path : string[], cb : (item : LogicItem) => void)
-    {
-        this._logger.silly("[_visitTree] %s, path: %s...", item.dn, path);
-
-        if (index >= path.length)
-        {
-            cb(item);
-        }
-        else
-        {
-            var top = path[index];
-            var children = item.getChildrenByKind(top);
-            for(var child of children)
-            {
-                this._visitTree(child, index + 1, path, cb);
-            }
-        }
-    }
 }

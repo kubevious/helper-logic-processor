@@ -26,7 +26,8 @@ describe('extractK8sConfigId', () => {
 
         should(id).be.eql({
             "infra": "k8s",
-            "api": null,
+            "api": "v1",
+            "apiName": null,
             "version": "v1",
             "kind": "Node",
             "name": "gke-kubevious-samples-pool-2-d17eaa99-a7xj"

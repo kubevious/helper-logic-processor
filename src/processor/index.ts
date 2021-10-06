@@ -2,138 +2,89 @@ import _ from 'the-lodash';
 import { Promise } from 'the-promise';
 import { ILogger } from 'the-logger';
 
-import { readdirSync } from 'fs' 
-import * as path from 'path' 
-
-import { LogicScope } from "../scope";
+import { LogicScope } from "../logic/scope";
 
 import { Helpers } from '../helpers';
-import { LogicItem } from '../item';
-
-import { BaseParserBuilder } from './base/builder'
-import { ConcreteParserInfo } from './concrete/builder'
-import { LogicParserInfo } from './logic/builder'
-import { ScopeParserInfo } from './scope/builder';
+import { LogicItem } from '../logic/item';
 
 import { BaseParserExecutor } from './base/executor';
-import { ConcreteParserExecutor } from './concrete/executor';
-import { LogicParserExecutor } from './logic/executor';
-import { ScopeParserExecutor } from './scope/executor';
 
 import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
-import { RegistryState } from '@kubevious/helpers/dist/registry-state';
+import { RegistryState } from '@kubevious/state-registry';
+import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/state-registry';
 
-import { IConcreteRegistry } from '../registry';
-import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/helpers/dist/snapshot/types';
+import { IConcreteRegistry } from '../types/registry';
+import { ParserInfo, ParserLoader } from './parser-loader'
 
 export class LogicProcessor 
 {
     private _logger : ILogger;
+    private _parserLogger : ILogger;
     private _tracker: ProcessingTrackerScoper;
     private _registry : IConcreteRegistry;
+    private _parserLoader : ParserLoader;
 
-    private _helpers : Helpers = new Helpers();
+    private _helpers : Helpers;
     private _processors : BaseParserExecutor[] = [];
 
-    constructor(logger: ILogger, tracker: ProcessingTrackerScoper, registry : IConcreteRegistry)
+    constructor(logger: ILogger, tracker: ProcessingTrackerScoper, parserLoader: ParserLoader, registry : IConcreteRegistry)
     {
         this._logger = logger.sublogger("LogicProcessor");
+        this._parserLogger = logger.sublogger("LogicParser");
         this._tracker = tracker;
         this._registry = registry;
+        this._parserLoader = parserLoader;
 
-        this._extractProcessors('parsers');
-        this._extractProcessors('polishers');
+        this._helpers = new Helpers(this._logger);
+
+        this._loadProcessors();
     }
 
     get logger() {
         return this._logger;
     }
 
+    get parserLogger() {
+        return this._parserLogger;
+    }
+
     get helpers() : Helpers {
         return this._helpers;
     }
 
-    private _extractProcessors(location : string)
+    private _loadProcessors()
     {
-        this.logger.info('[_extractProcessors] location: %s', location);
-        let searchPath = path.resolve(__dirname, '..', location);
-        this.logger.info('[_extractProcessors] search path: %s', searchPath);
-        let files : string[] = readdirSync(searchPath);
-        files = _.filter(files, x => x.endsWith('.ts'));
+        this.logger.info('[_loadProcessors]');
 
         let processors : BaseParserExecutor[] = [];
 
-        for(let fileName of files)
+        for(let parserModuleInfo of this._parserLoader.parsers)
         {
-            this.logger.info('[_extractProcessors] %s', fileName);
-            let moduleName = fileName.replace('.d.ts', '').replace('.ts', '');
-            this._loadProcessor(moduleName, location, processors);
+            this._loadProcessor(parserModuleInfo, processors);
         }
 
         processors = _.orderBy(processors, [
-            x => x.order,
             x => x.name,
             x => x.targetInfo
         ]);
 
         for(let processor of processors)
         {
-            this._logger.info("[_extractProcessors] HANDLER: %s -> %s", 
-                processor.order, 
-                processor.name);
+            this._logger.info("[_extractProcessors] HANDLER: %s. Target: %s", 
+                processor.name, 
+                processor.targetInfo);
 
             this._processors.push(processor);
         }
     }
 
-    private _loadProcessor(name : string, location : string, processors : BaseParserExecutor[])
+    private _loadProcessor(parserModuleInfo : ParserInfo, processors : BaseParserExecutor[])
     {
-        this.logger.info('[_loadProcessor] %s...', name);
+        let baseExecutors = parserModuleInfo.baseBuilder._extract(this._registry, this, parserModuleInfo.moduleName);
 
-        const moduleName = location + '/' + name;
-        const modulePath = '../' + moduleName;
-        const parserModule = require(modulePath);
-
-        let defaultExport = parserModule.default;
-        if (!defaultExport) {
-            this.logger.error("Invalid Parser: %s", modulePath);
-            throw new Error("Invalid Parser: " + modulePath);
-            return;
-        }
-
-        let baseParserBuilder = <BaseParserBuilder>defaultExport;
-        let baseParserInfos = baseParserBuilder._extract();
-
-        for (let baseParserInfo of baseParserInfos)
+        for (let parserExecutor of baseExecutors)
         {
-            if (baseParserInfo.targetKind == 'concrete')
-            {
-                let parserInfo = <ConcreteParserInfo>baseParserInfo;
-                let parserExecutor = new ConcreteParserExecutor(
-                    this._registry,
-                    this,
-                    moduleName,
-                    parserInfo)
-                processors.push(parserExecutor);
-            }
-            else if (baseParserInfo.targetKind == 'logic')
-            {
-                let parserInfo = <LogicParserInfo>baseParserInfo;
-                let parserExecutor = new LogicParserExecutor(
-                    this,
-                    moduleName,
-                    parserInfo)
-                processors.push(parserExecutor);
-            }
-            else if (baseParserInfo.targetKind == 'scope')
-            {
-                let parserInfo = <ScopeParserInfo>baseParserInfo;
-                let parserExecutor = new ScopeParserExecutor(
-                    this,
-                    moduleName,
-                    parserInfo)
-                processors.push(parserExecutor);
-            }
+            processors.push(parserExecutor);
         }
     }
 
@@ -166,7 +117,7 @@ export class LogicProcessor
 
             this._processParsers(scope);
             this._finalizeScope(scope);
-            this._propagete(scope);
+            this._propagate(scope);
 
             scope.debugOutputCapacity();
         })
@@ -182,9 +133,10 @@ export class LogicProcessor
 
     private _processParser(scope: LogicScope, handlerInfo : BaseParserExecutor)
     {
-        this._logger.debug("[_processParser] Handler: %s -> %s, target: %s :: ", 
-            handlerInfo.order,
-            handlerInfo.name);
+        this._logger.info("[_processParser] %s :: %s-Target: %s ", 
+            handlerInfo.name,
+            handlerInfo.kind,
+            handlerInfo.targetInfo);
 
         handlerInfo.execute(scope);
 
@@ -206,19 +158,19 @@ export class LogicProcessor
 
     private _finalizeScope(scope : LogicScope)
     {
-        scope.getInfraScope().items.finalize();
-        for(let nsScope of scope.getNamespaceScopes())
-        {
-            nsScope.items.finalize();
-        }
+        // scope.getInfraScope().items.finalize();
+        // for(let nsScope of scope.getNamespaceScopes())
+        // {
+        //     nsScope.items.finalize();
+        // }
     }
 
-    _propagete(scope : LogicScope)
+    private _propagate(scope : LogicScope)
     {
         this._traverseTreeBottomsUp(scope, this._propagateFlags.bind(this));
     }
 
-    _propagateFlags(node : LogicItem)
+    private _propagateFlags(node : LogicItem)
     {
         this.logger.silly("[_propagateFlags] %s...", node.dn)
 
@@ -235,9 +187,9 @@ export class LogicProcessor
         }
     }
 
-    _traverseTree(scope : LogicScope, cb : (item : LogicItem) => void)
+    private _traverseTree(scope : LogicScope, cb : (item : LogicItem) => void)
     {
-        let col : LogicItem[] = [scope.root];
+        let col : LogicItem[] = [ scope.logicRootNode ]; // scope.rootNodes;
         while (col.length)
         {
             let node = col.shift()!;
@@ -246,7 +198,7 @@ export class LogicProcessor
         }
     }
 
-    _traverseTreeBottomsUp(scope : LogicScope, cb : (item : LogicItem) => void)
+    private _traverseTreeBottomsUp(scope : LogicScope, cb : (item : LogicItem) => void)
     {
         let col : LogicItem[] = [];
         this._traverseTree(scope, x => {
@@ -260,30 +212,26 @@ export class LogicProcessor
         }
     }
 
-    _dumpToFile(scope : LogicScope)
+    private _dumpToFile(scope : LogicScope)
     {
         return Promise.resolve()
-            .then(() => {
-                let writer = this.logger.outputStream("dump-logic-tree");
-                if (writer) {
-                    scope.root.debugOutputToFile(writer);
-                    return writer.close();
-                }
-            })
-            .then(() => {
-                let writer = this.logger.outputStream("dump-logic-tree-detailed");
-                if (writer) {
-                    scope.root.debugOutputToFile(writer, { includeConfig: true });
-                    return writer.close();
-                }
-            })
+                .then(() => {
+                    return this._helpers.k8s.labelMatcher.dumpToFile();
+                })
             // .then(() => {
-            //     let writer = this.logger.outputStream("exported-tree");
+            //     let writer = this.logger.outputStream("dump-logic-tree");
             //     if (writer) {
-            //         writer.write(this._context.facadeRegistry.logicTree);
+            //         scope.root.debugOutputToFile(writer);
             //         return writer.close();
             //     }
-            // });
+            // })
+            // .then(() => {
+            //     let writer = this.logger.outputStream("dump-logic-tree-detailed");
+            //     if (writer) {
+            //         scope.root.debugOutputToFile(writer, { includeConfig: true });
+            //         return writer.close();
+            //     }
+            // })
     }
 
     private _makeRegistryState(logicItems: LogicItem[]) : RegistryState
@@ -306,7 +254,7 @@ export class LogicProcessor
                     dn: item.dn,
                     kind: item.kind,
                     config_kind: SnapshotConfigKind.alerts,
-                    config: item.extractAlerts()
+                    config: alerts
                 })
             }
 

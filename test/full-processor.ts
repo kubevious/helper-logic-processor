@@ -3,13 +3,13 @@ import should = require('should');
 
 import _ from 'the-lodash';
 
-import { setupLogger, LoggerOptions } from 'the-logger';
-const loggerOptions = new LoggerOptions().enableFile(false).pretty(true);
-const logger = setupLogger('test', loggerOptions);
+import { makeLogger } from './helpers/logger';
 
-import { LogicProcessor } from '../src';
+import { ParserLoader, LogicProcessor } from '../src';
 import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
+
+const logger = makeLogger('full-proc');
 
 const tracker = new ProcessingTracker(logger);
 
@@ -22,25 +22,44 @@ describe('full-processor', () => {
             .then(() => registry.loadMockData('large-cluster'))
             .then(() => {
                 registry.debugOutputCapacity();
-                
-                const logicProcessor = new LogicProcessor(logger, tracker, registry);
-                return logicProcessor.process();
+
+                const parserLoader = new ParserLoader(logger);
+                return Promise.resolve()
+                    .then(() => parserLoader.init())
+                    .then(() => {
+                        const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry);
+                        return logicProcessor.process();
+                    })
             })
             .then(registryState => {
                 should(registryState).be.ok();
 
+                // const registryLoggerOptions = new LoggerOptions().enableFile(true).cleanOnStart(true).pretty(true);
+                // setupLogger('registry-logger', registryLoggerOptions);
+                const registryLogger = makeLogger('registry-logger');
+
+                return registryState.debugOutputToDir(registryLogger, 'large-cluster')
+                    .then(() => {
+                        const snapshotInfo = registryState.extractSnapshotInfo();
+                        const contents = JSON.stringify(snapshotInfo, null, 4);
+                        return registryLogger.outputFile("large-cluster-snapshot.json", contents);
+                    })
+                    .then(() => registryState);
+            })
+            .then(registryState => {
+
                 {
-                    const app = registryState.findByDn("root/ns-[kube-system]/app-[kube-dns]");
+                    const app = registryState.findByDn("root/logic/ns-[kube-system]/app-[kube-dns]");
                     should(app).be.ok();
                 }
 
                 {
-                    const cont = registryState.findByDn("root/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]");
+                    const cont = registryState.findByDn("root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]");
                     should(cont).be.ok();
                 }
 
                 {
-                    const images = registryState.childrenByKind('root/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', 'image');
+                    const images = registryState.childrenByKind('root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', 'image');
                     should(_.keys(images)).have.length(1);
 
                     const img = _.values(images)[0];

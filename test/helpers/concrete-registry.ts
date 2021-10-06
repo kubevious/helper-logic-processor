@@ -8,7 +8,7 @@ import * as yaml from 'js-yaml';
 import { ILogger } from "the-logger";
 import { promise as glob } from 'glob-promise';
 import { ConcreteItem } from "./concrete-item";
-import { ConcreteRegistryFilter } from "../../src/registry";
+import { ConcreteRegistryFilter } from "../../src/types/registry";
 
 export class ConcreteRegistry implements IConcreteRegistry
 {
@@ -28,7 +28,7 @@ export class ConcreteRegistry implements IConcreteRegistry
 
     addItem(config: any)
     {
-        const item = new ConcreteItem(config);
+        const item = new ConcreteItem(this.logger, config);
         this._items[_.stableStringify(item.id)] = item;
     }
 
@@ -46,7 +46,7 @@ export class ConcreteRegistry implements IConcreteRegistry
     loadMockData(mockName : string)
     {
         let dirName = Path.resolve(__dirname, '..', '..', 'mock-data', mockName);
-        this.logger.error("Dir name: %s", dirName);
+        this.logger.info("Loading Mock Data from: %s", dirName);
 
         return Promise.resolve()
             .then(() => {
@@ -62,6 +62,11 @@ export class ConcreteRegistry implements IConcreteRegistry
                     })
             })
     }
+
+    // debugOutputToFileSystem(dir: string)
+    // {
+    //     return Promise.serial(_.values(this._items), x => x.debugOutputToFileSystem(dir));
+    // }
 
     private _loadYaml(filePath: string)
     {
