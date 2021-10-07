@@ -1,8 +1,8 @@
 import _ from 'the-lodash';
-import { K8sStorageClassParser } from '../../parser-builder/k8s';
+import { InfraStorageClassParser } from '../../parser-builder/infra';
 
-export default K8sStorageClassParser()
-    .handler(({ logger, scope, config, item, metadata, runtime, helpers }) => {
+export default InfraStorageClassParser()
+    .handler(({ logger, scope, config, item, runtime, helpers }) => {
 
         item.buildProperties()
             .add('Volume Count', runtime.volumeCount)

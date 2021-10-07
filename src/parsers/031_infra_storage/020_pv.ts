@@ -1,24 +1,26 @@
 import _ from 'the-lodash';
 import { K8sPersistentVolumeParser } from '../../parser-builder/k8s';
+import { InfraPersistentVolumeRuntime } from '../../types/parser/infra-pv';
 
 export default K8sPersistentVolumeParser()
-    .handler(({ logger, config, item, runtime, metadata, helpers }) => {
+    .handler(({ logger, scope, config, item, runtime, metadata, helpers }) => {
 
         if (!config.spec) {
             return;
         }
 
-        {
-            const storageClassName = config.spec.storageClassName;
-            if (storageClassName) {
-                const storageClassDn = helpers.k8s.makeDn(null, 'storage.k8s.io/v1', 'StorageClass', storageClassName)
-                item.link('storage-class', storageClassDn);
-            }
-        }
+        runtime.capacity = helpers.resources.parseMemory(config.spec?.capacity?.storage);
 
-        {
-            runtime.capacity = helpers.resources.parseMemory(config.spec?.capacity?.storage);
-        }
+        const root = scope.logicRootNode.fetchByNaming('infra');
+        const storage = root.fetchByNaming('storage');
+
+        const storageClassName = config.spec.storageClassName || "default";
+        const storageClass = storage.fetchByNaming('storclass', storageClassName);
+
+        const infraPv = storageClass.fetchByNaming('pv', item.naming!);
+        (<InfraPersistentVolumeRuntime>infraPv.runtime).capacity = runtime.capacity;
+        infraPv.makeShadowOf(item);
+
     })
     
     ;

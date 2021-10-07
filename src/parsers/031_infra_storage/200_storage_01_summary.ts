@@ -12,7 +12,7 @@ export default InfraStorageParser()
             unit: 'bytes'
         };
 
-        for(let storClass of item.getChildrenByKind('storage-class'))
+        for(const storClass of item.getChildrenByKind('storclass'))
         {
             const storClassRuntime = <InfraStorageClassRuntime>storClass.runtime;
 

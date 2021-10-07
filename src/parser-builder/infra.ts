@@ -6,6 +6,7 @@ import { InfraNodeRuntime } from '../types/parser/infra-node'
 import { InfraNodesRuntime } from '../types/parser/infra-nodes'
 import { InfraPoolRuntime } from '../types/parser/infra-pool';
 import { InfraStorageRuntime } from '../types/parser/infra-storage';
+import { InfraStorageClassRuntime } from '../types/parser/infra-storage-class';
 
 export function InfraNodeParser() {
 
@@ -36,5 +37,13 @@ export function InfraStorageParser() {
     return LogicParser<{}, InfraStorageRuntime>()
         .target({
             path: ["infra", "storage"]
+        });
+}
+
+export function InfraStorageClassParser() {
+
+    return LogicParser<{}, InfraStorageClassRuntime>()
+        .target({
+            path: ["infra", "storage", "storclass"]
         });
 }

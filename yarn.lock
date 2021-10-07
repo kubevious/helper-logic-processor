@@ -74,10 +74,10 @@
     the-logger "^2.0.9"
     the-promise "^2.0.13"
 
-"@kubevious/state-registry@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@kubevious/state-registry/-/state-registry-1.0.4.tgz#61067f1b83fff9c31914e7092b53b7a0d445ff90"
-  integrity sha512-NNSfsKl4ZLO1oOFSgBw8qw20/OpQnGe71DhFPpus/IM067dU10w1Gho/PD44Q/HMHY6q4zq3xccMP710N1UYIA==
+"@kubevious/state-registry@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@kubevious/state-registry/-/state-registry-1.0.5.tgz#b55640a61bf0cc494671c5e7579eef85bc7def40"
+  integrity sha512-ZiKNm+kb+v4Ap/ntYbIeUWfHG+7WEzzP9XQBcVA4uydC5LMlytI8QGm5ctwh1w8eMD6LouHUYH3zT0Zaj1Fy6Q==
   dependencies:
     "@kubevious/entity-meta" "^1.0.18"
     the-lodash "^2.0.9"

@@ -1,9 +1,9 @@
 import _ from 'the-lodash';
-import { K8sStorageClassParser } from '../../parser-builder/k8s';
+import { InfraStorageClassParser } from '../../parser-builder/infra';
 import { InfraPersistentVolumeRuntime } from '../../types/parser/infra-pv';
 
-export default K8sStorageClassParser()
-    .handler(({ logger, scope, config, item, metadata, runtime, helpers }) => {
+export default InfraStorageClassParser()
+    .handler(({ logger, scope, config, item, runtime, helpers }) => {
 
         runtime.volumeCount = 0;
 
@@ -12,7 +12,7 @@ export default K8sStorageClassParser()
             unit: 'bytes'
         };
 
-        for(let pv of item.resolveSourceLinkItems('storage-class'))
+        for(const pv of item.getChildrenByKind('pv'))
         {
             runtime.volumeCount++;
             
