@@ -31,7 +31,24 @@ export default ConcreteParser()
 
             const kindRoot = apiVersionRoot.fetchByNaming(NodeKind.kind, resource.kindName);
 
-            // kindRoot.data
+            kindRoot.addProperties({
+                kind: "yaml",
+                id: "config",
+                title: "Config",
+                order: 10,
+                config: resource
+            });
+
+            if (resource.isDisconnected) {
+                kindRoot.addAlert('Disconnected', 'warn', 'API Service is disconnected.');
+            }
+
+            {
+                const errorMsg = resource.error?.message;
+                if (errorMsg) {
+                    kindRoot.addAlert('Error', 'error', `${errorMsg}. Code: ${resource.error?.code}`);
+                }
+            }
         }
     })
     ;
