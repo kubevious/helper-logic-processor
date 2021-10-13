@@ -1,4 +1,4 @@
-import { Ingress, IngressBackend } from 'kubernetes-types/networking/v1';
+import { Ingress, IngressBackend, HTTPIngressPath, IngressRule } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
@@ -17,16 +17,20 @@ export default K8sParser<Ingress>()
         }
         
         if (config.spec.defaultBackend) {
-            processIngressBackend(config.spec.defaultBackend);
+            processIngressBackend(config.spec.defaultBackend, undefined, undefined);
         }
 
         const rules = config.spec.rules ?? [];
         for(const ruleConfig of rules)
         {
-            if (ruleConfig.http && ruleConfig.http.paths) {
-                for(const pathConfig of ruleConfig.http.paths) {
-                    if (pathConfig.backend) {
-                        processIngressBackend(pathConfig.backend);
+            if (ruleConfig.http && ruleConfig.http.paths)
+            {
+                for(const pathConfig of ruleConfig.http.paths)
+                
+                {
+                    if (pathConfig.backend)
+                    {
+                        processIngressBackend(pathConfig.backend, pathConfig, ruleConfig);
                     }
                 }
             }
@@ -40,13 +44,14 @@ export default K8sParser<Ingress>()
 
         /*** HELPERS ***/
 
-        function processIngressBackend(backend: IngressBackend)
+        function processIngressBackend(backend: IngressBackend, pathConfig: HTTPIngressPath | undefined, ruleConfig: IngressRule | undefined)
         {
-            if (!backend.service) {
+            const service = backend?.service;
+            if (!service) {
                 return 
             }
 
-            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', backend.service.name);
+            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', service.name);
             const serviceItem = item.link('k8s-owner', serviceDn);
             if (serviceItem)
             {
@@ -70,10 +75,16 @@ export default K8sParser<Ingress>()
                         createIngress(app);
                     }
                 }
+
+                {
+                    const domainName = ruleConfig?.host;
+                    const urlPath = pathConfig?.path ?? '*';
+                    helpers.gateway.getRule(domainName, urlPath, item, pathConfig);
+                }
             }
             else
             {
-                item.addAlert('MissingSvc', 'error', `Service ${backend.service.name} is missing.`);
+                item.addAlert('MissingSvc', 'error', `Service ${service.name} is missing.`);
             }
         }
 
@@ -85,7 +96,7 @@ export default K8sParser<Ingress>()
                 name = name + '_';
             }
 
-            let ingress = parent.fetchByNaming(NodeKind.ingress, name);
+            const ingress = parent.fetchByNaming(NodeKind.ingress, name);
             ingress.makeShadowOf(item);
             return ingress;
         }

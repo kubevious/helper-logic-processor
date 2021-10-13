@@ -27,7 +27,10 @@ export default K8sParser<Ingress>()
             {
                 for(const pathConfig of ruleConfig.http.paths)
                 {
-                    processIngressBackend(pathConfig.backend, pathConfig, ruleConfig);
+                    if (pathConfig.backend)
+                    {
+                        processIngressBackend(pathConfig.backend, pathConfig, ruleConfig);
+                    }
                 }
             }
         }
