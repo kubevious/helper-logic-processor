@@ -14,6 +14,7 @@ import { LogicParserInfo } from '../logic/builder';
 import { LogicProcessorHandlerArgs } from '../logic/handler-args';
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sConfig } from '../..';
+import { Helpers } from '../../helpers';
 
 export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
@@ -89,9 +90,9 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
         return _.stableStringify(this._targetPath);
     }
 
-    execute(scope : LogicScope)
+    execute(scope : LogicScope, helpers: Helpers)
     {
-        return this._innerExecutor.execute(scope);
+        return this._innerExecutor.execute(scope, helpers);
     }
 
     private _innerHandler(args : LogicProcessorHandlerArgs<TConfig, TRuntime>)

@@ -1,3 +1,4 @@
+import { Helpers } from "../../helpers";
 import { LogicScope } from "../../logic/scope";
 
 export interface BaseParserExecutor 
@@ -6,5 +7,5 @@ export interface BaseParserExecutor
     kind: string;
     targetInfo: string;
 
-    execute(scope : LogicScope) : void;
+    execute(scope : LogicScope, helpers: Helpers) : void;
 }

@@ -231,7 +231,7 @@ export class LogicScope
         this.logger.info("[Scope] Total Count: %s", _.keys(this._itemsMap).length);
 
         const caps = this.extractCapacity();
-        for(let x of caps)
+        for(const x of caps)
         {
             this.logger.info("[Scope] %s :: %s", x.kind, x.count);
         }

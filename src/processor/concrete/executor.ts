@@ -8,9 +8,10 @@ import { LogicScope } from "../../logic/scope";
 import { ConcreteParserInfo } from './builder'
 import { IConcreteRegistry, IConcreteItem } from '../../types/registry';
 
-import { constructArgs, ConcreteProcessorVariableArgs, ConcreteProcessorRuntimeData } from './handler-args';
+import { constructArgs } from './handler-args';
 
 import { BaseParserExecutor } from '../base/executor';
+import { Helpers } from '../../helpers';
 
 export class ConcreteParserExecutor implements BaseParserExecutor
 {
@@ -45,46 +46,31 @@ export class ConcreteParserExecutor implements BaseParserExecutor
         return _.stableStringify(this._parserInfo.target);
     }
 
-    execute(scope : LogicScope)
+    execute(scope : LogicScope, helpers: Helpers)
     {
-        let items = this._concreteRegistry.filterItems(this._parserInfo.target);
+        const items = this._concreteRegistry.filterItems(this._parserInfo.target);
 
-        for(let item of items)
+        for(const item of items)
         {
-            this._processHandler(scope, item);
+            this._processHandler(scope, helpers, item);
         }
     }
 
-    _processHandler(scope : LogicScope, item: IConcreteItem)
+    private _processHandler(scope : LogicScope, helpers: Helpers, item: IConcreteItem)
     {
         this._logger.silly("[_processHandler] ConcreteHandler: %s, Item: %s", 
             this.name, 
             item.id);
 
-        let variableArgs : ConcreteProcessorVariableArgs =
-        {
-        };
-
-        let runtimeData : ConcreteProcessorRuntimeData = {
-            createdItems : [],
-            createdAlerts : []
-        };
-
         try
         {
-            this._preprocessHandler(scope, item, variableArgs);
-
-            let handlerArgs = constructArgs(
+            const handlerArgs = constructArgs(
                 this._processor,
-                this._parserInfo,
+                helpers,
                 scope,
-                item,
-                variableArgs,
-                runtimeData);
+                item);
     
             this._parserInfo.handler!(handlerArgs);
-
-            this._postProcessHandler(runtimeData);
         }
         catch(reason)
         {
@@ -93,14 +79,5 @@ export class ConcreteParserExecutor implements BaseParserExecutor
 
     }
 
-    private _preprocessHandler(scope : LogicScope, item: IConcreteItem, variableArgs : ConcreteProcessorVariableArgs)
-    {
-       
-    }
-
-    private _postProcessHandler(runtimeData : ConcreteProcessorRuntimeData)
-    {
-
-    }
 
 }

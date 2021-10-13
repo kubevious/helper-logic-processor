@@ -41,10 +41,10 @@ export class K8sParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<K8sTa
     _extract(registry: IConcreteRegistry, processor : LogicProcessor, name: string) : BaseParserExecutor[]
     {
         return this._targets.map(target => {
-            let parserInfo = _.clone(this._data);
+            const parserInfo = _.clone(this._data);
             parserInfo.target = target;
 
-            let executor = new K8sParserExecutor(
+            const executor = new K8sParserExecutor(
                 processor,
                 name,
                 parserInfo,

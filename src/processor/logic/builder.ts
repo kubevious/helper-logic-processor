@@ -37,10 +37,10 @@ export class LogicParserBuilder<TConfig, TRuntime> extends BaseParserBuilder<Log
     _extract(registry: IConcreteRegistry, processor : LogicProcessor, name: string) : BaseParserExecutor[]
     {
         return this._targets.map(target => {
-            let parserInfo = _.clone(this._data);
+            const parserInfo = _.clone(this._data);
             parserInfo.target = target;
 
-            let executor = new LogicParserExecutor(
+            const executor = new LogicParserExecutor(
                 processor,
                 name,
                 parserInfo,

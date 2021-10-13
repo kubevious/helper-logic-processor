@@ -9,7 +9,8 @@ import { LogicParserInfo } from './builder'
 
 import { BaseParserExecutor } from '../base/executor';
 import { LogicItem } from '../../';
-import { constructArgs, LogicProcessorRuntimeData, LogicProcessorVariableArgs } from './handler-args';
+import { constructArgs } from './handler-args';
+import { Helpers } from '../../helpers';
 
 export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
@@ -52,7 +53,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         return _.stableStringify(this._parserInfo.target);
     }
 
-    execute(scope : LogicScope)
+    execute(scope : LogicScope, helpers: Helpers)
     {
         if (this._isTraceEnabled) {
             this._logger.debug(">>>> Parser Tracer :: %s :: BEGIN", this.name);
@@ -60,9 +61,9 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
 
         const items = scope.findItemsByPath(this._logicTarget);
 
-        for(let item of items)
+        for(const item of items)
         {
-            this._processHandler(scope, item);
+            this._processHandler(scope, helpers, item);
         }
 
         if (this._isTraceEnabled) {
@@ -78,7 +79,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         return false;
     }
 
-    private _processHandler(scope : LogicScope, item: LogicItem)
+    private _processHandler(scope : LogicScope, helpers: Helpers, item: LogicItem)
     {
         const shouldTrace = this._isItemTraceEnabled(item);
         if (shouldTrace) {
@@ -89,59 +90,35 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
             this.name, 
             item.dn);
 
-        let variableArgs : LogicProcessorVariableArgs =
-        {
-        };
-
-        let runtimeData : LogicProcessorRuntimeData = {
-            createdItems : [],
-            createdAlerts : []
-        };
-
         try
         {
-            this._preprocessHandler(scope, item, variableArgs);
-
-            let handlerArgs = constructArgs(
+            const handlerArgs = constructArgs<TConfig, TRuntime>(
                 this._processor,
-                this._parserInfo,
+                helpers,
                 scope,
                 item,
-                variableArgs,
-                runtimeData,
                 shouldTrace);
                 
             this._parserInfo.handler!(handlerArgs);
 
             const lastStageData = scope.extractLastedStageData();
+
             if (shouldTrace) {
-                for(let createdItem of lastStageData.createdItems) {
+                for(const createdItem of lastStageData.createdItems) {
                     this._logger.debug("      >>> Added: %s", createdItem.dn);
                 }
 
-                for(let alertInfo of lastStageData.createdAlerts) {
+                for(const alertInfo of lastStageData.createdAlerts) {
                     this._logger.debug("      !!! %s", alertInfo.item.dn);
                     this._logger.debug("        ! %s :: %s", alertInfo.alert.severity, alertInfo.alert.id);
                     this._logger.debug("        ! %s", alertInfo.alert.msg);
                 }
             }
-
-            this._postProcessHandler(runtimeData);
         }
         catch(reason)
         {
             this._logger.error("Error in %s parser. ", this.name, reason);
         }
-
-    }
-
-    private _preprocessHandler(scope : LogicScope, item: LogicItem, variableArgs : LogicProcessorVariableArgs)
-    {
- 
-    }
-
-    private _postProcessHandler(runtimeData : LogicProcessorRuntimeData)
-    {
 
     }
 

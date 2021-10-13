@@ -24,7 +24,6 @@ export class LogicProcessor
     private _registry : IConcreteRegistry;
     private _parserLoader : ParserLoader;
 
-    private _helpers : Helpers;
     private _processors : BaseParserExecutor[] = [];
 
     constructor(logger: ILogger, tracker: ProcessingTrackerScoper, parserLoader: ParserLoader, registry : IConcreteRegistry)
@@ -35,7 +34,6 @@ export class LogicProcessor
         this._registry = registry;
         this._parserLoader = parserLoader;
 
-        this._helpers = new Helpers(this._logger);
 
         this._loadProcessors();
     }
@@ -48,17 +46,13 @@ export class LogicProcessor
         return this._parserLogger;
     }
 
-    get helpers() : Helpers {
-        return this._helpers;
-    }
-
     private _loadProcessors()
     {
         this.logger.info('[_loadProcessors]');
 
         let processors : BaseParserExecutor[] = [];
 
-        for(let parserModuleInfo of this._parserLoader.parsers)
+        for(const parserModuleInfo of this._parserLoader.parsers)
         {
             this._loadProcessor(parserModuleInfo, processors);
         }
@@ -68,7 +62,7 @@ export class LogicProcessor
             x => x.targetInfo
         ]);
 
-        for(let processor of processors)
+        for(const processor of processors)
         {
             this._logger.info("[_extractProcessors] HANDLER: %s. Target: %s", 
                 processor.name, 
@@ -80,9 +74,9 @@ export class LogicProcessor
 
     private _loadProcessor(parserModuleInfo : ParserInfo, processors : BaseParserExecutor[])
     {
-        let baseExecutors = parserModuleInfo.baseBuilder._extract(this._registry, this, parserModuleInfo.moduleName);
+        const baseExecutors = parserModuleInfo.baseBuilder._extract(this._registry, this, parserModuleInfo.moduleName);
 
-        for (let parserExecutor of baseExecutors)
+        for (const parserExecutor of baseExecutors)
         {
             processors.push(parserExecutor);
         }
@@ -92,14 +86,16 @@ export class LogicProcessor
     {
         return this._tracker.scope("Logic::process", (tracker) => {
 
-            let scope = new LogicScope(this._logger, this._registry);
+            const scope = new LogicScope(this._logger, this._registry);
+
+            const helpers = new Helpers(this._logger, scope);
 
             return Promise.resolve()
-                .then(() => this._runLogic(scope, tracker))
-                .then(() => this._dumpToFile(scope))
+                .then(() => this._runLogic(scope, helpers, tracker))
+                .then(() => this._dumpToFile(scope, helpers))
                 .then(() => {
-                    let items = scope.extractItems();
-                    let state = this._makeRegistryState(items);
+                    const items = scope.extractItems();
+                    const state = this._makeRegistryState(items);
                     return state;
                 })
                 ;
@@ -110,59 +106,34 @@ export class LogicProcessor
         });
     }
 
-    private _runLogic(scope : LogicScope, tracker : any)
+    private _runLogic(scope : LogicScope, helpers: Helpers, tracker : ProcessingTrackerScoper)
     {
         return tracker.scope("runLogic", () => {
             this._registry.debugOutputCapacity();
 
-            this._processParsers(scope);
-            this._finalizeScope(scope);
+            this._processParsers(scope, helpers);
             this._propagate(scope);
 
             scope.debugOutputCapacity();
         })
     }
 
-    private _processParsers(scope : LogicScope)
+    private _processParsers(scope : LogicScope, helpers: Helpers)
     {
-        for(let handlerInfo of this._processors)
+        for(const handlerInfo of this._processors)
         {
-            this._processParser(scope, handlerInfo);
+            this._processParser(scope, helpers, handlerInfo);
         }
     }
 
-    private _processParser(scope: LogicScope, handlerInfo : BaseParserExecutor)
+    private _processParser(scope: LogicScope, helpers: Helpers, handlerInfo : BaseParserExecutor)
     {
         this._logger.info("[_processParser] %s :: %s-Target: %s ", 
             handlerInfo.name,
             handlerInfo.kind,
             handlerInfo.targetInfo);
 
-        handlerInfo.execute(scope);
-
-    //     } else if (handlerInfo.targetKind == 'scope') {
-    //         if (handlerInfo.target.namespaced) {
-    //             let items = scope.getNamespaceScopes();
-    //             if (handlerInfo.target.scopeKind) {
-    //                 items = _.flatten(items.map(x => x.items.getAll(handlerInfo.target.scopeKind)))
-    //                 targets = items.map(x => ({ id: 'scope-item-' + x.kind + '-' + x.name, itemScope: x, item: x }));
-    //             } else {
-    //                 targets = items.map(x => ({ id: 'scope-ns-' + x.name, namespaceScope: x, item: x }));
-    //             }
-    //         } else {
-    //             let items = scope.getInfraScope().items.getAll(handlerInfo.target.scopeKind);
-    //             targets = items.map(x => ({ id: 'scope-item-' + x.kind + '-' + x.name, itemScope: x, item: x }));
-    //         }
-    //     }
-    }
-
-    private _finalizeScope(scope : LogicScope)
-    {
-        // scope.getInfraScope().items.finalize();
-        // for(let nsScope of scope.getNamespaceScopes())
-        // {
-        //     nsScope.items.finalize();
-        // }
+        handlerInfo.execute(scope, helpers);
     }
 
     private _propagate(scope : LogicScope)
@@ -178,7 +149,7 @@ export class LogicProcessor
             return;
         }
 
-        for(let flagInfo of node.getFlags())
+        for(const flagInfo of node.getFlags())
         {
             if (flagInfo.propagatable)
             {
@@ -189,10 +160,10 @@ export class LogicProcessor
 
     private _traverseTree(scope : LogicScope, cb : (item : LogicItem) => void)
     {
-        let col : LogicItem[] = [ scope.logicRootNode ]; // scope.rootNodes;
+        const col : LogicItem[] = [ scope.logicRootNode ];
         while (col.length)
         {
-            let node = col.shift()!;
+            const node = col.shift()!;
             cb(node);
             col.unshift(...node.getChildren());
         }
@@ -200,23 +171,23 @@ export class LogicProcessor
 
     private _traverseTreeBottomsUp(scope : LogicScope, cb : (item : LogicItem) => void)
     {
-        let col : LogicItem[] = [];
+        const col : LogicItem[] = [];
         this._traverseTree(scope, x => {
             col.push(x);
         })
 
         for(let i = col.length - 1; i >= 0; i--)
         {
-            let node = col[i];
+            const node = col[i];
             cb(node);
         }
     }
 
-    private _dumpToFile(scope : LogicScope)
+    private _dumpToFile(scope : LogicScope, helpers: Helpers)
     {
         return Promise.resolve()
                 .then(() => {
-                    return this._helpers.k8s.labelMatcher.dumpToFile();
+                    return helpers.k8s.labelMatcher.dumpToFile();
                 })
             // .then(() => {
             //     let writer = this.logger.outputStream("dump-logic-tree");
@@ -236,9 +207,9 @@ export class LogicProcessor
 
     private _makeRegistryState(logicItems: LogicItem[]) : RegistryState
     {
-        let snapshotItems : SnapshotItemInfo[] = [];
+        const snapshotItems : SnapshotItemInfo[] = [];
 
-        for(let item of logicItems)
+        for(const item of logicItems)
         {
             snapshotItems.push({
                 dn: item.dn,
@@ -247,7 +218,7 @@ export class LogicProcessor
                 config: item.exportNode()
             })
 
-            let alerts = item.extractAlerts();
+            const alerts = item.extractAlerts();
             if (alerts.length > 0) 
             {
                 snapshotItems.push({
@@ -258,8 +229,8 @@ export class LogicProcessor
                 })
             }
 
-            let properties = item.extractProperties();
-            for(let props of properties)
+            const properties = item.extractProperties();
+            for(const props of properties)
             {
                 snapshotItems.push({
                     dn: item.dn,
@@ -270,7 +241,7 @@ export class LogicProcessor
             }
         }
 
-        let registryState = new RegistryState({
+        const registryState = new RegistryState({
             date: this._registry.date,
             items: snapshotItems
         })

@@ -8,10 +8,6 @@ import { LogicScope } from "../../logic/scope";
 import { Helpers } from '../../helpers';
 import { LogicItem } from '../../';
 
-import { LogicParserInfo } from './builder'
-
-import { AlertInfo } from '../types';
-
 export interface CreateItemParams
 {
     kind? : string | ((item: LogicItem) => string),
@@ -29,29 +25,14 @@ export interface LogicProcessorHandlerArgs<TConfig, TRuntime>
     readonly runtime : TRuntime;
 
     readonly trace: boolean;
-
-    // hasCreatedItems() : boolean;
-    // createAlert(kind : string, severity : string, msg : string) : void;
 }
 
-export interface LogicProcessorVariableArgs
-{
-}
-
-
-export interface LogicProcessorRuntimeData
-{
-    createdItems : LogicItem[];
-    createdAlerts : AlertInfo[];
-}
 
 export function constructArgs<TConfig, TRuntime>(
     processor : LogicProcessor,
-    parserInfo : LogicParserInfo<TConfig, TRuntime>,
+    helpers: Helpers,
     scope : LogicScope,
     item: LogicItem,
-    variableArgs : LogicProcessorVariableArgs,
-    runtimeData : LogicProcessorRuntimeData,
     shouldTrace: boolean) : LogicProcessorHandlerArgs<TConfig, TRuntime>
 {
 
@@ -63,24 +44,9 @@ export function constructArgs<TConfig, TRuntime>(
     
         item: item,
     
-        helpers: processor.helpers,
-    
-        // hasCreatedItems : () => 
-        // {
-        //     return runtimeData.createdItems.length > 0;
-        // },
-
-        // createAlert : (kind : string, severity : string, msg : string) => 
-        // {
-        //     runtimeData.createdAlerts.push({
-        //         kind,
-        //         severity,
-        //         msg
-        //     });
-        // },
+        helpers: helpers,
 
         config: <TConfig>item.config,
-
         runtime: <TRuntime>item.runtime,
 
         trace: shouldTrace

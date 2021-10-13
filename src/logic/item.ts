@@ -50,12 +50,12 @@ export class LogicItem
 
     private _linkRegistry : LogicLinkRegistry;
 
-    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: NodeKind, naming: any)
+    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: NodeKind, name?: string | null | undefined)
     {
         this._logicScope = logicScope;
         this._kind = kind;
-        this._naming = naming;
-        this._rn = LogicItem._makeRn(kind, naming);
+        this._naming = name;
+        this._rn = LogicItem._makeRn(kind, name);
 
         this._linkRegistry = logicScope.linkRegistry;
 
@@ -232,18 +232,18 @@ export class LogicItem
         return this.getChildrenByKind(kind).length;
     }
 
-    remove() {
-        if (!this._parent) {
-            return;
-        }
-        this._logicScope._dropItem(this);
-        delete this._parent._children[this.rn];
-        this._parent = null;
-    }
+    // remove() {
+    //     if (!this._parent) {
+    //         return;
+    //     }
+    //     this._logicScope._dropItem(this);
+    //     delete this._parent._children[this.rn];
+    //     this._parent = null;
+    // }
 
-    findByNaming(kind: string, naming: any) : LogicItem | null
+    findByNaming(kind: string, name?: string | undefined) : LogicItem | null
     {
-        let rn = LogicItem._makeRn(kind, naming);
+        const rn = LogicItem._makeRn(kind, name);
         return this.findByRn(rn);
     }
 
@@ -256,14 +256,14 @@ export class LogicItem
         return null;
     }
 
-    fetchByNaming(kind: NodeKind, naming?: string | undefined) : LogicItem
+    fetchByNaming(kind: NodeKind, name?: string | undefined) : LogicItem
     {
-        const rn = LogicItem._makeRn(kind, naming);
+        const rn = LogicItem._makeRn(kind, name);
         let child = this._children[rn];
         if (child) {
             return child;
         }
-        child = new LogicItem(this._logicScope, this, kind, naming);
+        child = new LogicItem(this._logicScope, this, kind, name);
         return child;
     }
 
@@ -315,7 +315,7 @@ export class LogicItem
 
     buildCustomProperties(propsConfig: SnapshotPropsConfig, params?: NewPropsParams)
     {
-        let builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
+        const builder = new PropertiesBuilder(this.config, (props: Record<string, any>) => {
             propsConfig.config = props;
             this.addProperties(propsConfig, params);
             return props;
@@ -409,9 +409,9 @@ export class LogicItem
         return new LogicItem(scope, null, kind, null);
     }
 
-    static _makeRn(kind: string, naming: any) {
-        if (naming && naming.length > 0)  {
-            return kind + '-[' + naming + ']'; 
+    static _makeRn(kind: string, name?: string | null | undefined) {
+        if (name && name.length > 0)  {
+            return kind + '-[' + name + ']'; 
         }
         return kind;
     }
