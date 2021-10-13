@@ -1,6 +1,7 @@
 import { ConfigMap } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -36,7 +37,7 @@ export default LogicContainerParser()
         {
             const k8sConfigMapDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ConfigMap', name);
 
-            let logicConfigMap = item.fetchByNaming("configmap", name);
+            let logicConfigMap = item.fetchByNaming(NodeKind.configmap, name);
             const k8sConfigMap = logicConfigMap.link('k8s-owner', k8sConfigMapDn);
             if (k8sConfigMap)
             {

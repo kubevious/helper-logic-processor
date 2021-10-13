@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<Ingress>()
     .target({
@@ -20,10 +21,10 @@ export default K8sParser<Ingress>()
         }
 
         const rules = config.spec.rules ?? [];
-        for(let ruleConfig of rules)
+        for(const ruleConfig of rules)
         {
             if (ruleConfig.http && ruleConfig.http.paths) {
-                for(let pathConfig of ruleConfig.http.paths) {
+                for(const pathConfig of ruleConfig.http.paths) {
                     if (pathConfig.backend) {
                         processIngressBackend(pathConfig.backend);
                     }
@@ -84,7 +85,7 @@ export default K8sParser<Ingress>()
                 name = name + '_';
             }
 
-            let ingress = parent.fetchByNaming('ingress', name);
+            let ingress = parent.fetchByNaming(NodeKind.ingress, name);
             ingress.makeShadowOf(item);
             return ingress;
         }

@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { Volume } from 'kubernetes-types/core/v1';
 import { LogicPodParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicPodParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
@@ -12,7 +13,7 @@ export default LogicPodParser()
             return;
         }
 
-        for(let volume of config.spec.volumes)
+        for(const volume of config.spec.volumes)
         {
             processVolume(volume);
         }
@@ -24,12 +25,12 @@ export default LogicPodParser()
                 return;
             }
 
-            let pvcName = volume.persistentVolumeClaim.claimName;
+            const pvcName = volume.persistentVolumeClaim.claimName;
             if (!pvcName) {
                 return;
             }
 
-            let pvc = item.fetchByNaming("pvc", pvcName);
+            const pvc = item.fetchByNaming(NodeKind.pvc, pvcName);
 
             const k8sPvcDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'PersistentVolumeClaim', pvcName);
             const k8sPvc = pvc.link('k8s-owner', k8sPvcDn);

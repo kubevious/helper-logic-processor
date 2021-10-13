@@ -76,7 +76,7 @@ describe('full-processor', () => {
                 
             })
     })
-    .timeout(20 * 1000)
+    .timeout(30 * 1000)
     ;
 
 });

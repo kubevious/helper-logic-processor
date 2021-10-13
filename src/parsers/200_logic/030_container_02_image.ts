@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { LogicImageRuntime } from '../../types/parser/logic-image';
 import { parseImageString } from '../../utils/image-naming';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -14,7 +15,7 @@ export default LogicContainerParser()
             
         const imageInfo = parseImageString(fullImage);
 
-        const imageItem = item.fetchByNaming("image", imageInfo.imagePath);
+        const imageItem = item.fetchByNaming(NodeKind.image, imageInfo.imagePath);
         const imgRuntime = <LogicImageRuntime>imageItem.runtime;
         imgRuntime.namespace = runtime.namespace;
         imgRuntime.fullImage = fullImage;

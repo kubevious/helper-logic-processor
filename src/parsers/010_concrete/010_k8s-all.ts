@@ -1,9 +1,7 @@
 import _ from 'the-lodash';
 import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
-
-import { makeDn, RnInfo } from '../../utils/dn-utils';
-
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default ConcreteParser()
     .target(null)
@@ -15,33 +13,33 @@ export default ConcreteParser()
             return;
         }
 
-        const root = scope.logicRootNode.fetchByNaming('k8s', '');
+        const root = scope.logicRootNode.fetchByNaming(NodeKind.k8s);
 
-        const infraRoot = scope.logicRootNode.fetchByNaming('infra');
-        let infraApiRoot = infraRoot.fetchByNaming('k8s');
+        const infraRoot = scope.logicRootNode.fetchByNaming(NodeKind.infra);
+        let infraApiRoot = infraRoot.fetchByNaming(NodeKind.k8s);
 
         let namespaceRoot : LogicItem | null = null;
         let scopeRoot : LogicItem;
         if (item.id.namespace) {
-            namespaceRoot = root.fetchByNaming('ns', item.id.namespace);
+            namespaceRoot = root.fetchByNaming(NodeKind.ns, item.id.namespace);
             scopeRoot = namespaceRoot;
         } else {
-            scopeRoot = root.fetchByNaming('cluster', '');
+            scopeRoot = root.fetchByNaming(NodeKind.cluster);
         }
 
         let apiRoot : LogicItem = scopeRoot;
         if (item.id.apiName) {
-            apiRoot = apiRoot.fetchByNaming('api', item.id.apiName);
-            infraApiRoot = infraApiRoot.fetchByNaming('api', item.id.apiName);
+            apiRoot = apiRoot.fetchByNaming(NodeKind.api, item.id.apiName);
+            infraApiRoot = infraApiRoot.fetchByNaming(NodeKind.api, item.id.apiName);
         }
 
-        const apiVersionRoot = apiRoot.fetchByNaming('version', item.id.version);
-        const infraApiVersionRoot = infraApiRoot.fetchByNaming('version', item.id.version);
+        const apiVersionRoot = apiRoot.fetchByNaming(NodeKind.version, item.id.version);
+        const infraApiVersionRoot = infraApiRoot.fetchByNaming(NodeKind.version, item.id.version);
 
-        const kindRoot = apiVersionRoot.fetchByNaming('kind', item.id.kind);
-        const infraApiKindRoot = infraApiVersionRoot.fetchByNaming('kind', item.id.kind);
+        const kindRoot = apiVersionRoot.fetchByNaming(NodeKind.kind, item.id.kind);
+        const infraApiKindRoot = infraApiVersionRoot.fetchByNaming(NodeKind.kind, item.id.kind);
 
-        const logicItem = kindRoot.fetchByNaming('resource', config.metadata.name!)
+        const logicItem = kindRoot.fetchByNaming(NodeKind.resource, config.metadata.name!)
 
         logicItem.setConfig(config);
 
@@ -50,7 +48,7 @@ export default ConcreteParser()
         helpers.k8s.makeAnnotationsProps(logicItem, config);
 
         if (item.id.namespace) {
-            const nsUsageItem = infraApiKindRoot.fetchByNaming('ns', item.id.namespace!)
+            const nsUsageItem = infraApiKindRoot.fetchByNaming(NodeKind.ns, item.id.namespace!)
             nsUsageItem.link('nsapi', kindRoot!);
         }
 

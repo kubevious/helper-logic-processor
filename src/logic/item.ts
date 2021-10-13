@@ -11,6 +11,7 @@ import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/state
 import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 import { SeverityType } from './types';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export class LogicItemData
 {
@@ -24,7 +25,7 @@ export class LogicItem
 {
     private _logicScope : LogicScope;
     private _parent : LogicItem | null = null;
-    private _kind : string;
+    private _kind : NodeKind;
     private _naming : any;
     private _dn : string;
     private _rn : string;
@@ -49,7 +50,7 @@ export class LogicItem
 
     private _linkRegistry : LogicLinkRegistry;
 
-    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: string, naming: any)
+    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: NodeKind, naming: any)
     {
         this._logicScope = logicScope;
         this._kind = kind;
@@ -248,16 +249,16 @@ export class LogicItem
 
     findByRn(rn: string) : LogicItem | null
     {
-        let child = this._children[rn];
+        const child = this._children[rn];
         if (child) {
             return child;
         }
         return null;
     }
 
-    fetchByNaming(kind: string, naming?: string | undefined) : LogicItem
+    fetchByNaming(kind: NodeKind, naming?: string | undefined) : LogicItem
     {
-        let rn = LogicItem._makeRn(kind, naming);
+        const rn = LogicItem._makeRn(kind, naming);
         let child = this._children[rn];
         if (child) {
             return child;
@@ -324,23 +325,16 @@ export class LogicItem
 
     addAlert(kind: string, severity: SeverityType, msg: string)
     {
-        let alert : Alert = {
+        const alert : Alert = {
             id: kind,
             severity: severity,
             msg: msg
         }
-        let key = _.stableStringify(alert);
+        const key = _.stableStringify(alert);
         this._data.alerts[key] = alert;
 
         this._logicScope._recordAlert(this, alert);
     }
-
-    // cloneAlertsFrom(other: LogicItem)
-    // {
-    //     for(let x of _.values(other.alerts)) {
-    //         this.alerts[x.id] = x;
-    //     }
-    // }
 
     extractProperties() : SnapshotPropsConfig[] {
         let myProps = [
@@ -363,8 +357,7 @@ export class LogicItem
     }
 
     extractAlerts() : Alert[] {
-        let alerts = _.values(this._data.alerts);
-        // alerts = _.deepClean(alerts);
+        const alerts = _.values(this._data.alerts);
         return alerts;
     }
 
@@ -389,7 +382,7 @@ export class LogicItem
 
         writer.unindent();
 
-        for(let child of this.getChildren())
+        for(const child of this.getChildren())
         {
             child.debugOutputToFile(writer, options);
         }
@@ -397,7 +390,7 @@ export class LogicItem
 
     exportNode() : SnapshotNodeConfig
     {
-        let node = {
+        const node = {
             rn: this.rn,
             name: this.naming,
             kind: this.kind,
@@ -412,8 +405,8 @@ export class LogicItem
         return _.deepClean(node);
     }
 
-    static constructTop(scope: LogicScope, name: string) : LogicItem {
-        return new LogicItem(scope, null, name, null);
+    static constructTop(scope: LogicScope, kind: NodeKind) : LogicItem {
+        return new LogicItem(scope, null, kind, null);
     }
 
     static _makeRn(kind: string, naming: any) {

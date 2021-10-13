@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { LogicAppRuntime, PortInfo } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, helpers}) => {
@@ -12,13 +13,13 @@ export default LogicContainerParser()
         const app = item.parent!;
         const appRuntime = <LogicAppRuntime>app.runtime;
 
-        for(let portConfig of config.ports) {
+        for(const portConfig of config.ports) {
             let portName = portConfig.protocol + "-" + portConfig.containerPort;
             if (portConfig.name) {
                 portName = portConfig.name + " (" + portName + ")";
             }
 
-            let portItem = item.fetchByNaming("port", portName);
+            const portItem = item.fetchByNaming(NodeKind.port, portName);
             portItem.setConfig(portConfig);
 
             portItem.addProperties({
@@ -29,7 +30,7 @@ export default LogicContainerParser()
                 config: portConfig
             });
 
-            let portInfo : PortInfo = {
+            const portInfo : PortInfo = {
                 name: portConfig.name,
                 containerName: config.name,
                 portDn: portItem.dn,

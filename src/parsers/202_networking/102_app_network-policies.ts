@@ -4,9 +4,9 @@ import { LogicNetworkPoliciesParser } from '../../parser-builder/logic';
 export default LogicNetworkPoliciesParser()
     .handler(({ logger, item, helpers }) => {
 
-        let properties = item.buildProperties();
+        const properties = item.buildProperties();
 
-        for(let direction of ['Ingress', 'Egress'])
+        for(const direction of ['Ingress', 'Egress'])
         {
             processDirection(direction);
         }
@@ -19,23 +19,23 @@ export default LogicNetworkPoliciesParser()
         {
             properties.add(direction, false);
 
-            let trafficTable = helpers.common.tableBuilder()
+            const trafficTable = helpers.common.tableBuilder()
                 .column('dn', 'Application', 'shortcut')
                 .column('ports')
                 .column('access')
                 .column('policy', 'Policy', 'shortcut')
                 ;
 
-            let cidrTrafficTable = helpers.common.tableBuilder()
+            const cidrTrafficTable = helpers.common.tableBuilder()
                 .column('target')
                 .column('ports')
                 .column('access')
                 .column('policy', 'Policy', 'shortcut')
                 ;
 
-            for(let child of item.getChildrenByKind('netpol'))
+            for(const child of item.getChildrenByKind('netpol'))
             {
-                let childProperties = child.getProperties('properties');
+                const childProperties = child.getProperties('properties');
                 if (childProperties)
                 {
                     if (childProperties.config[direction])
@@ -44,23 +44,23 @@ export default LogicNetworkPoliciesParser()
                     }
                 }
 
-                let childTrafficTable = child.getProperties(`${direction.toLowerCase()}-app`);
+                const childTrafficTable = child.getProperties(`${direction.toLowerCase()}-app`);
                 if (childTrafficTable)
                 {
-                    for(let row of childTrafficTable.config.rows)
+                    for(const row of childTrafficTable.config.rows)
                     {
-                        let myRule = _.clone(row);
+                        const myRule = _.clone(row);
                         myRule.policy = child.id;
                         trafficTable.row(myRule);
                     }
                 }
 
-                let childCidrTrafficTable = child.getProperties(`${direction.toLowerCase()}-cidr`);
+                const childCidrTrafficTable = child.getProperties(`${direction.toLowerCase()}-cidr`);
                 if (childCidrTrafficTable)
                 {
-                    for(let row of childCidrTrafficTable.config.rows)
+                    for(const row of childCidrTrafficTable.config.rows)
                     {
-                        let myRule = _.clone(row);
+                        const myRule = _.clone(row);
                         myRule.policy = child.id;
                         cidrTrafficTable.row(myRule);
                     }

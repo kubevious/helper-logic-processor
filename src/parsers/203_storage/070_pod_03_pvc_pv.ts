@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicPodPvcParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicPodPvcParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
@@ -20,7 +21,7 @@ export default LogicPodPvcParser()
             return;
         }
 
-        const pvItem = item.fetchByNaming('pv', volumeName);
+        const pvItem = item.fetchByNaming(NodeKind.pv, volumeName);
         pvItem.makeShadowOf(k8sVolume);
         
     })

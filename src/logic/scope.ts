@@ -6,9 +6,9 @@ import { IConcreteRegistry } from '../types/registry';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 
 import { Alert } from '@kubevious/state-registry'
+import { NodeKind } from '@kubevious/entity-meta';
 
-export const ROOT_NODE_LOGIC = 'root';
-// export const ROOT_NODE_INFRA = 'infra';
+export const ROOT_NODE_LOGIC = NodeKind.root;
 
 export interface LogicTarget {
     path: (LogicTargetPathElement | string)[],
@@ -31,8 +31,7 @@ export class LogicScope
     private _logger : ILogger;
     private _concreteRegistry : IConcreteRegistry;
 
-    private _rootNodes : Record<string, LogicItem> = {};
-    // private _root : LogicItem;
+    private _rootNode : LogicItem;
     private _itemsMap : Record<string, LogicItem> = {};
     private _itemKindMap : Record<string, Record<string, LogicItem> > = {};
 
@@ -50,8 +49,7 @@ export class LogicScope
 
         this._linkRegistry = new LogicLinkRegistry(this);
 
-        this._rootNodes[ROOT_NODE_LOGIC] = LogicItem.constructTop(this, ROOT_NODE_LOGIC);
-        // this._rootNodes[ROOT_NODE_INFRA] = LogicItem.constructTop(this, ROOT_NODE_INFRA);
+        this._rootNode = LogicItem.constructTop(this, ROOT_NODE_LOGIC);
     }
 
     get logger() {
@@ -62,12 +60,8 @@ export class LogicScope
         return this._concreteRegistry;
     }
 
-    get rootNodes() {
-        return _.values(this._rootNodes);
-    }
-
     get logicRootNode() {
-        return this._rootNodes[ROOT_NODE_LOGIC];
+        return this._rootNode;
     }
 
     get linkRegistry() {
@@ -161,7 +155,7 @@ export class LogicScope
             return [];
         }
 
-        let children = item.getChildrenByKind(filter.kind);
+        const children = item.getChildrenByKind(filter.kind);
         return children;
     }
 
@@ -171,8 +165,8 @@ export class LogicScope
 
         cb(item);
 
-        let children = item.getChildren();
-        for(let child of children)
+        const children = item.getChildren();
+        for(const child of children)
         {
             this._visitTreeAll(child, cb);
         }

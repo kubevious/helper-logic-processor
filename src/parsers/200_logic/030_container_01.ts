@@ -4,6 +4,7 @@ import { Container } from 'kubernetes-types/core/v1'
 import { LogicContainerRuntime } from '../../types/parser/logic-container';
 import { LogicLauncherParser } from '../../parser-builder/logic';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime}) => {
@@ -22,9 +23,9 @@ export default LogicLauncherParser()
         {
             const containers = config.spec.template.spec.containers;
             appRuntime.containerCount = containers.length;
-            for(let containerConfig of containers)
+            for(const containerConfig of containers)
             {
-                processContainer(containerConfig, "cont");
+                processContainer(containerConfig, NodeKind.cont);
             }
         }
 
@@ -32,16 +33,16 @@ export default LogicLauncherParser()
         {
             const initContainers = config.spec.template.spec.initContainers ?? [];
             appRuntime.initContainerCount = initContainers.length;
-            for(let containerConfig of initContainers)
+            for(const containerConfig of initContainers)
             {
-                processContainer(containerConfig, "initcont");
+                processContainer(containerConfig, NodeKind.initcont);
             }
         }
 
 
         /** HELPERS **/
 
-        function processContainer(containerConfig: Container, kind : string)
+        function processContainer(containerConfig: Container, kind : NodeKind)
         {
             const cont = item.parent!.fetchByNaming(kind, containerConfig.name);
             (<LogicContainerRuntime>cont.runtime).namespace = runtime.namespace;

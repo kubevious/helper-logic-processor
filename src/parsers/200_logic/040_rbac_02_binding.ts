@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicServiceAccountParser } from '../../parser-builder/logic';
 import { ClusterRoleBinding, RoleBinding } from 'kubernetes-types/rbac/v1';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicServiceAccountParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -22,13 +23,13 @@ export default LogicServiceAccountParser()
 
         /*** HELPERS **/
 
-        function getTargetKind(config : ClusterRoleBinding | RoleBinding)
+        function getTargetKind(config : ClusterRoleBinding | RoleBinding) : NodeKind
         {
-            if(config.kind == "RoleBinding") {
-                return 'rlbndg'
+            if(config.kind === "RoleBinding") {
+                return NodeKind.rlbndg
             }
-            if(config.kind == "ClusterRoleBinding") {
-                return 'crlbndg'
+            if(config.kind === "ClusterRoleBinding") {
+                return NodeKind.crlbndg
             }
             throw new Error();
         }

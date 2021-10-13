@@ -46,19 +46,19 @@ export default K8sParser<NetworkPolicy>()
 
             propsBuilder.add(policyType, true);
 
-            let trafficTable = helpers.common.tableBuilder()
+            const trafficTable = helpers.common.tableBuilder()
                 .column('dn', 'Application', 'shortcut')
                 .column('ports')
                 .column('access');
 
-            let cidrTrafficTable = helpers.common.tableBuilder()
+            const cidrTrafficTable = helpers.common.tableBuilder()
                 .column('target')
                 .column('ports')
                 .column('access');
 
             if (policyConfig)
             {
-                for(let policyItem of policyConfig)
+                for(const policyItem of policyConfig)
                 {
                     let portsInfo = "*";
                     if (policyItem.ports)
@@ -71,10 +71,10 @@ export default K8sParser<NetworkPolicy>()
                         .join(', ');
                     }
 
-                    let rules = peersFetchCb(policyItem);
+                    const rules = peersFetchCb(policyItem);
                     if (rules)
                     {
-                        for(let rule of rules)
+                        for(const rule of rules)
                         {
                             const ipBlock = rule.ipBlock;
                             if (ipBlock)
@@ -88,7 +88,7 @@ export default K8sParser<NetworkPolicy>()
                                 const cidrExcept = ipBlock.except;
                                 if (cidrExcept)
                                 {
-                                    for(let ip of cidrExcept)
+                                    for(const ip of cidrExcept)
                                     {
                                         cidrTrafficTable.row({
                                             target: ip,
@@ -107,27 +107,27 @@ export default K8sParser<NetworkPolicy>()
                                 }
     
                                 let targetNamespaces = [namespace!];
-                                let namespaceSelector = rule.namespaceSelector;
+                                const namespaceSelector = rule.namespaceSelector;
                                 if (namespaceSelector)
                                 {
                                     targetNamespaces = [];
 
                                     const targetNamespaceItems = helpers.k8s.labelMatcher.matchSelector('Namespace', null, namespaceSelector);
-                                    for(let x of targetNamespaceItems)
+                                    for(const x of targetNamespaceItems)
                                     {
                                         const targetNsName = (<LogicNamespaceRuntime>x.runtime).namespace;
                                         targetNamespaces.push(targetNsName);
                                     }
                                 }
     
-                                for(let targetNamespace of targetNamespaces)
+                                for(const targetNamespace of targetNamespaces)
                                 {
                                     const targetApps = helpers.k8s.labelMatcher.matchSelector(
                                         'LogicApp',
                                         targetNamespace,
                                         podSelectorLabels);
 
-                                    for(let targetApp of targetApps)
+                                    for(const targetApp of targetApps)
                                     {
                                         trafficTable.row({
                                             dn: targetApp.dn,

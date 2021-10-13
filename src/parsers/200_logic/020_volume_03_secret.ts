@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicVolumeParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -16,7 +17,7 @@ export default LogicVolumeParser()
 
         function findAndProcessSecret(name: string, isOptional?: boolean) 
         {
-            let logicSecret = item.fetchByNaming("secret", name);
+            let logicSecret = item.fetchByNaming(NodeKind.secret, name);
         }
 
 

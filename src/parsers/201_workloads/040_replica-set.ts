@@ -1,6 +1,7 @@
 import { ReplicaSet } from 'kubernetes-types/apps/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
+import { NodeKind } from '@kubevious/entity-meta';
 
 import { makeRelativeName } from '../../utils/name-helpers';
 
@@ -18,12 +19,12 @@ export default K8sParser<ReplicaSet>()
             const owner = item.link('k8s-owner', ownerDn);
             if (owner)
             {                    
-                let shortName = makeRelativeName(owner.naming, metadata.name!);
+                const shortName = makeRelativeName(owner.naming, metadata.name!);
 
                 const logicOwner = owner.resolveTargetLinkItem('logic');
                 if (logicOwner)
                 { 
-                    const logicItem = logicOwner.fetchByNaming('replicaset', shortName);
+                    const logicItem = logicOwner.fetchByNaming(NodeKind.replicaset, shortName);
                     logicItem.makeShadowOf(item);
                     item.link('logic', logicItem);
                 }

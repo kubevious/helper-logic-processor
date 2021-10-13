@@ -11,12 +11,12 @@ export default LogicParser()
         {
             const links = item.resolveTargetLinks();
             if (links.length > 0) {
-                let linksTable = helpers.common.tableBuilder()
+                const linksTable = helpers.common.tableBuilder()
                     .column('kind', 'Kind')
                     .column('dn', 'Application', 'shortcut')
                     .column('resolved', 'Resolved')
                 ;
-                for(let link of links)
+                for(const link of links)
                 {
                     linksTable.row({ 
                         kind: link.link.kind, 
@@ -41,12 +41,12 @@ export default LogicParser()
         {
             const links = item.resolveSourceLinks();
             if (links.length > 0) {
-                let linksTable = helpers.common.tableBuilder()
+                const linksTable = helpers.common.tableBuilder()
                     .column('kind', 'Kind')
                     .column('dn', 'Application', 'shortcut')
                     .column('resolved', 'Resolved')
                 ;
-                for(let link of links)
+                for(const link of links)
                 {
                     linksTable.row({ 
                         kind: link.link.kind,

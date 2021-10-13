@@ -1,6 +1,7 @@
 import { NetworkPolicy } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<NetworkPolicy>()
     .target({
@@ -23,11 +24,11 @@ export default K8sParser<NetworkPolicy>()
             namespace,
             config.spec.podSelector);
 
-        for(let targetApp of targetApps)
+        for(const targetApp of targetApps)
         {
-            const container = targetApp.fetchByNaming('netpols', 'NetworkPolicies')
+            const container = targetApp.fetchByNaming(NodeKind.netpols)
 
-            const logicNetworkPolicy = container.fetchByNaming('netpol', metadata.name)
+            const logicNetworkPolicy = container.fetchByNaming(NodeKind.netpol, metadata.name)
             logicNetworkPolicy.makeShadowOf(item);
             logicNetworkPolicy.link('k8s-owner', item);
         }

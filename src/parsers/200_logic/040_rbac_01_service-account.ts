@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicLauncherParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -27,7 +28,7 @@ export default LogicLauncherParser()
             const k8sSvcAccount = app.link('service-account', k8sSvcAccountDn);
             if (k8sSvcAccount)
             {
-                const svcAccount = app.fetchByNaming('svcaccnt', svcAccountName);
+                const svcAccount = app.fetchByNaming(NodeKind.svcaccnt, svcAccountName);
                 svcAccount.makeShadowOf(k8sSvcAccount);
                 svcAccount.link('k8s-owner', k8sSvcAccount);
             }

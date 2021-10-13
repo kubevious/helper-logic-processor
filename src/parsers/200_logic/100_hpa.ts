@@ -1,8 +1,8 @@
 import _ from 'the-lodash';
 import { HorizontalPodAutoscaler } from 'kubernetes-types/autoscaling/v1';
-import { K8sConfig } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<HorizontalPodAutoscaler>()
     .target({
@@ -33,7 +33,7 @@ export default K8sParser<HorizontalPodAutoscaler>()
             return;
         }
 
-        const hpa = app.fetchByNaming('hpa', metadata.name!);
+        const hpa = app.fetchByNaming(NodeKind.hpa, metadata.name!);
         hpa.makeShadowOf(item);
         hpa.link('k8s-owner', item);
 

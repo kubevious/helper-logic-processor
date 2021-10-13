@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicContainerParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, scope, item, config, helpers}) => {
@@ -19,7 +20,7 @@ export default LogicContainerParser()
             {
                 const volume = scope.findItem(volumeDn)!;
 
-                let containerVolumeMount = item.fetchByNaming("vol", volume.naming);
+                let containerVolumeMount = item.fetchByNaming(NodeKind.vol, volume.naming);
                 containerVolumeMount.link('volume', volume);
 
                 containerVolumeMount.addProperties({

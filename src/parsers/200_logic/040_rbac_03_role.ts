@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicBindingParser } from '../../parser-builder/logic';
 import { ClusterRole, Role } from 'kubernetes-types/rbac/v1';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicBindingParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -25,13 +26,13 @@ export default LogicBindingParser()
 
         /*** HELPERS **/
 
-        function getTargetKind(config : ClusterRole | Role)
+        function getTargetKind(config : ClusterRole | Role) : NodeKind
         {
-            if(config.kind == "Role") {
-                return 'rl'
+            if(config.kind === "Role") {
+                return NodeKind.rl
             }
-            if(config.kind == "ClusterRole") {
-                return 'crl'
+            if(config.kind === "ClusterRole") {
+                return NodeKind.crl
             }
             throw new Error();
         }

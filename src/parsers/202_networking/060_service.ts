@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<Service>()
     .target({
@@ -39,7 +40,7 @@ export default K8sParser<Service>()
             const appRuntime = <LogicAppRuntime>targetApp.runtime;
             appRuntime.exposedWithService = true;
 
-            const logicSvc = targetApp.fetchByNaming('service', metadata.name);
+            const logicSvc = targetApp.fetchByNaming(NodeKind.service, metadata.name);
             logicSvc.makeShadowOf(item);
             item.link('logic', logicSvc);
 
@@ -54,7 +55,7 @@ export default K8sParser<Service>()
                         const portItem = scope.findItem(appPortInfo.portDn)!;
                         portItem.link('service', logicSvc, metadata.name);
 
-                        const portLogicSvc = portItem.fetchByNaming('service', metadata.name);
+                        const portLogicSvc = portItem.fetchByNaming(NodeKind.service, metadata.name);
                         portLogicSvc.makeShadowOf(item);
                     }
                     else

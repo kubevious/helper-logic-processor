@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default ConcreteParser()
     .target({
@@ -15,20 +16,20 @@ export default ConcreteParser()
             return;
         }
 
-        const infraRoot = scope.logicRootNode.fetchByNaming('infra', '');
+        const infraRoot = scope.logicRootNode.fetchByNaming(NodeKind.infra);
 
-        const root = infraRoot.fetchByNaming('k8s', '');
+        const root = infraRoot.fetchByNaming(NodeKind.k8s);
 
-        for(let resource of resources)
+        for(const resource of resources)
         {
             let apiRoot : LogicItem = root;
             if (resource.apiName) {
-                apiRoot = apiRoot.fetchByNaming('api', resource.apiName);
+                apiRoot = apiRoot.fetchByNaming(NodeKind.api, resource.apiName);
             } 
 
-            let apiVersionRoot = apiRoot.fetchByNaming('version', resource.apiVersion);
+            const apiVersionRoot = apiRoot.fetchByNaming(NodeKind.version, resource.apiVersion);
 
-            let kindRoot = apiVersionRoot.fetchByNaming('kind', resource.kindName);
+            const kindRoot = apiVersionRoot.fetchByNaming(NodeKind.kind, resource.kindName);
 
             // kindRoot.data
         }

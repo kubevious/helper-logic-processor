@@ -5,6 +5,7 @@ import { LogicLauncherParser } from '../../parser-builder/logic';
 import { LogicVolumeRuntime } from '../../types/parser/logic-volume';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicItem } from '../..';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime }) => {
@@ -15,7 +16,7 @@ export default LogicLauncherParser()
         const volumesList = config.spec?.template.spec?.volumes ?? [];
         if (volumesList.length > 0)
         {
-            const volumesParent = app.fetchByNaming("vols", "Volumes");
+            const volumesParent = app.fetchByNaming(NodeKind.vols, "Volumes");
 
             for(let volume of volumesList)
             {
@@ -27,7 +28,7 @@ export default LogicLauncherParser()
 
         function processVolume(volumesParent: LogicItem, volumeConfig: Volume)
         {
-            const volume = volumesParent.fetchByNaming('vol', volumeConfig.name);
+            const volume = volumesParent.fetchByNaming(NodeKind.vol, volumeConfig.name);
             volume.setConfig(volumeConfig);
             (<LogicVolumeRuntime>volume.runtime).namespace = runtime.namespace;
             appRuntime.volumes[volumeConfig.name] = volume.dn;

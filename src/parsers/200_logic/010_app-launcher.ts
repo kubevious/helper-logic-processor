@@ -5,6 +5,7 @@ import { K8sConfig } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
     .target({
@@ -27,11 +28,11 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
 
         helpers.k8s.labelMatcher.register(<K8sConfig>config, item);
 
-        const root = scope.logicRootNode.fetchByNaming('logic', '');
+        const root = scope.logicRootNode.fetchByNaming(NodeKind.logic);
 
-        const ns = root.fetchByNaming('ns', metadata.namespace!);
+        const ns = root.fetchByNaming(NodeKind.ns, metadata.namespace!);
 
-        const app = ns.fetchByNaming('app', metadata.name);
+        const app = ns.fetchByNaming(NodeKind.app, metadata.name);
         (<LogicAppRuntime>app.runtime).namespace = namespace!;
         (<LogicAppRuntime>app.runtime).launcherKind = config.kind!;
         (<LogicAppRuntime>app.runtime).launcherReplicas = _.get(config, 'spec.replicas') ?? null;
@@ -39,7 +40,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         (<LogicAppRuntime>app.runtime).ports = {};
         item.link('app', app);
 
-        const launcher = app.fetchByNaming('launcher', config.kind);
+        const launcher = app.fetchByNaming(NodeKind.launcher, config.kind);
         (<LogicLauncherRuntime>launcher.runtime).namespace = namespace!;
 
         launcher.makeShadowOf(item);

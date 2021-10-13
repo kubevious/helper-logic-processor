@@ -2,6 +2,7 @@ import { Namespace } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { LogicNamespaceRuntime } from '../../types/parser/logic-namespace';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<Namespace>()
     .target({
@@ -10,9 +11,9 @@ export default K8sParser<Namespace>()
     })
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
-        const root = scope.logicRootNode.fetchByNaming('logic');
+        const root = scope.logicRootNode.fetchByNaming(NodeKind.logic);
 
-        const ns = root.fetchByNaming('ns', metadata.name!);
+        const ns = root.fetchByNaming(NodeKind.ns, metadata.name!);
         ns.makeShadowOf(item);
 
         (<LogicNamespaceRuntime>ns.runtime).namespace = metadata.name!;
