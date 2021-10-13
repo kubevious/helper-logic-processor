@@ -39,7 +39,7 @@ export default ConcreteParser()
                 config: resource
             });
 
-            if (resource.isDisconnected) {
+            if (resource.isDisconnected && !resource.isDisabled) {
                 kindRoot.addAlert('Disconnected', 'warn', 'API Service is disconnected.');
             }
 
