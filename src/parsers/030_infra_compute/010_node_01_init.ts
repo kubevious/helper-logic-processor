@@ -41,5 +41,6 @@ export default K8sParser<Node>()
 
 const NODE_POOL_LABELS = [
     'cloud.google.com/gke-nodepool',
-    'eks.amazonaws.com/nodegroup'
+    'eks.amazonaws.com/nodegroup',
+    'kops.k8s.io/instancegroup'
 ]
