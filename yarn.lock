@@ -57,7 +57,7 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@kubevious/entity-meta@^1.0.18", "@kubevious/entity-meta@^1.0.25":
+"@kubevious/entity-meta@^1.0.25":
   version "1.0.25"
   resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.25.tgz#22a98cb0ae5eca82f2face519584bd930c6a5ba5"
   integrity sha512-L/4UBirsozo6x0k6TV9SBu6XuhjtBRZim89zCRAWMqzHg1BbClTDs6rbuHDWguNi9rmytYCAEfwIq6STHzNHgQ==
@@ -74,12 +74,12 @@
     the-logger "^2.0.9"
     the-promise "^2.0.13"
 
-"@kubevious/state-registry@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@kubevious/state-registry/-/state-registry-1.0.5.tgz#b55640a61bf0cc494671c5e7579eef85bc7def40"
-  integrity sha512-ZiKNm+kb+v4Ap/ntYbIeUWfHG+7WEzzP9XQBcVA4uydC5LMlytI8QGm5ctwh1w8eMD6LouHUYH3zT0Zaj1Fy6Q==
+"@kubevious/state-registry@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@kubevious/state-registry/-/state-registry-1.0.8.tgz#be91445a8abcd73488d89d49d3226e007528a080"
+  integrity sha512-AMkmKcboeDcjuHYRVrdmZOpEfalxiMjAYbGOUVurNPGlCMpv4OqkJ8mCnqk3EzZddtzCG3GBSaBxHpTAIlV4/w==
   dependencies:
-    "@kubevious/entity-meta" "^1.0.18"
+    "@kubevious/entity-meta" "^1.0.25"
     the-lodash "^2.0.9"
     the-logger "^2.0.9"
     the-promise "^2.0.13"

@@ -84,7 +84,7 @@ export class GlobalLabelMatcher
 
     private _matchSelector(kind: string, namespace: string | null, selector: LabelSelector)
     {
-        let resourceMap = this._dict[kind];
+        const resourceMap = this._dict[kind];
         if (!resourceMap) {
             return [];
         }
@@ -110,7 +110,7 @@ export class GlobalLabelMatcher
     {
         return Promise.resolve()
             .then(() => {
-                let writer = this._logger.outputStream("global-label-matcher.txt");
+                const writer = this._logger.outputStream("global-label-matcher.txt");
                 if (writer) {
                     this._debugOutputToFile(writer);
                     return writer.close();
@@ -122,19 +122,19 @@ export class GlobalLabelMatcher
     {
         writer.write(`**** BEGIN`).newLine();
 
-        for(let kind of _.keys(this._dict))
+        for(const kind of _.keys(this._dict))
         {
             writer.write(`KIND: ${kind}`)
                   .newLine()
                   .indent();
 
-            let kindMap = this._dict[kind];
+            const kindMap = this._dict[kind];
 
             writer.write(`>>> Clustered`)
                 .newLine();
             this._debugOutputMatcherToFile(kindMap.clustered, writer);
             
-            for(let ns of _.keys(kindMap.namespaced))
+            for(const ns of _.keys(kindMap.namespaced))
             {
                 writer.write(`>>> Namespace: ${ns}`)
                     .newLine();

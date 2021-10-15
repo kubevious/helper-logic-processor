@@ -50,18 +50,9 @@ export default K8sParser<Ingress>()
             }
 
             const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', serviceName);
-            const serviceItem = item.link('k8s-owner', serviceDn);
+            const serviceItem = item.link('service', serviceDn);
             if (serviceItem)
             {
-                {
-                    const logicService = serviceItem.resolveTargetLinkItem('logic');
-                    if (logicService)
-                    {
-                        const logicIngress = createIngress(logicService);
-                        item.link('logic', logicIngress);
-                    }
-                }
-
                 {
                     const app = serviceItem.resolveTargetLinkItem('app');
                     if (app)

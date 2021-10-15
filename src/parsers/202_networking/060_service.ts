@@ -20,7 +20,7 @@ export default K8sParser<Service>()
                 namespace,
                 { matchLabels: config.spec!.selector! });
             
-            for(let targetApp of targetApps)
+            for(const targetApp of targetApps)
             {
                 processTargetApp(targetApp);
             }
@@ -45,7 +45,7 @@ export default K8sParser<Service>()
             item.link('logic', logicSvc);
 
             const portConfigs = config.spec?.ports ?? [];
-            for(let portConfig of portConfigs)
+            for(const portConfig of portConfigs)
             {
                 if (portConfig.targetPort)
                 {
@@ -53,10 +53,7 @@ export default K8sParser<Service>()
                     if (appPortInfo)
                     {
                         const portItem = scope.findItem(appPortInfo.portDn)!;
-                        portItem.link('service', logicSvc, metadata.name);
-
-                        const portLogicSvc = portItem.fetchByNaming(NodeKind.service, metadata.name);
-                        portLogicSvc.makeShadowOf(item);
+                        portItem.link('service', item, metadata.name);
                     }
                     else
                     {
