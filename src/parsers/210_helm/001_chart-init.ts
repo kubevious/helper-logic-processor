@@ -33,7 +33,7 @@ export default K8sSecretParser()
            return;
        }
 
-       const helmVersion = helmItem.fetchByNaming(NodeKind.helm, chartName);
+       const helmVersion = helmItem.fetchByNaming(NodeKind.helm, chartVersion);
        helmVersion.link('secret', item);
     })
     ;
