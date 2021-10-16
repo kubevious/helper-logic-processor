@@ -1,12 +1,9 @@
 import _ from 'the-lodash';
-import { LogicParser } from '../../parser-builder';
 import { InfraNodesRuntime } from '../../types/parser/infra-nodes'
 import { NodeKind } from '@kubevious/entity-meta';
+import { InfraParser } from '../../parser-builder/infra';
 
-export default LogicParser()
-    .target({
-        path: ["infra"]
-    })
+export default InfraParser()
     .handler(({ logger, item, config, runtime }) => {
 
         const nodes = item.fetchByNaming(NodeKind.nodes);

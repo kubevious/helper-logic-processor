@@ -19,7 +19,7 @@ export default LogicAppParser()
         
         runtime.usedResources = {};
 
-        for(let metric of helpers.resources.METRICS)
+        for(const metric of helpers.resources.METRICS)
         {
             const perPod = runtime.perPodResources[metric];
             runtime.usedResources[metric] = { 

@@ -220,7 +220,7 @@ export class LogicItem
         return _.values(this._children);
     }
 
-    getChildrenByKind(kind: string) : LogicItem[] {
+    getChildrenByKind(kind: NodeKind) : LogicItem[] {
         return _.values(this._children).filter(x => x.kind == kind);
     }
 
@@ -228,7 +228,7 @@ export class LogicItem
         return this.getChildren().length;
     }
 
-    countChildrenByKind(kind: string) : number {
+    countChildrenByKind(kind: NodeKind) : number {
         return this.getChildrenByKind(kind).length;
     }
 
@@ -241,7 +241,7 @@ export class LogicItem
     //     this._parent = null;
     // }
 
-    findByNaming(kind: string, name?: string | undefined) : LogicItem | null
+    findByNaming(kind: NodeKind, name?: string | undefined) : LogicItem | null
     {
         const rn = LogicItem._makeRn(kind, name);
         return this.findByRn(rn);
@@ -409,7 +409,7 @@ export class LogicItem
         return new LogicItem(scope, null, kind, null);
     }
 
-    static _makeRn(kind: string, name?: string | null | undefined) {
+    static _makeRn(kind: NodeKind, name?: string | null | undefined) {
         if (name && name.length > 0)  {
             return kind + '-[' + name + ']'; 
         }

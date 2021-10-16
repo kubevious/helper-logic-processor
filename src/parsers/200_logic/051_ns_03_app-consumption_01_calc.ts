@@ -1,13 +1,14 @@
 import _ from 'the-lodash';
 import { LogicNamespaceParser } from '../../parser-builder/logic'
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicNamespaceParser()
     .handler(({ logger, scope, item, config, runtime, helpers }) => {
 
         runtime.appsByConsumptionDict = {};
 
-        for(let app of item.getChildrenByKind('app')) 
+        for(const app of item.getChildrenByKind(NodeKind.app)) 
         {
             const appRuntime = <LogicAppRuntime>app.runtime;
 
@@ -19,16 +20,16 @@ export default LogicNamespaceParser()
                 }
             }
 
-            for(let metric of helpers.resources.METRICS)
+            for(const metric of helpers.resources.METRICS)
             {
-                let value = appRuntime.clusterConsumption[metric]?.value || 0;
+                const value = appRuntime.clusterConsumption[metric]?.value || 0;
                 runtime.appsByConsumptionDict[app.dn].metrics[metric] = value;
             }
         }
 
-        for(let appConsumption of _.values(runtime.appsByConsumptionDict))
+        for(const appConsumption of _.values(runtime.appsByConsumptionDict))
         {
-            for(let metric of helpers.resources.METRICS)
+            for(const metric of helpers.resources.METRICS)
             {
                 if (_.isNullOrUndefined(appConsumption.metrics[metric]))
                 {

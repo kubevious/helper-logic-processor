@@ -1,9 +1,7 @@
 import { Ingress, IngressBackend, HTTPIngressPath, IngressRule } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
-import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
-import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<Ingress>()
     .target({
@@ -63,7 +61,8 @@ export default K8sParser<Ingress>()
                         appRuntime.exposedWithIngress = true;
         
                         item.link('app', app);
-                        createIngress(app);
+
+                        helpers.logic.createIngress(app, item);
                     }
                 }
 
@@ -79,17 +78,5 @@ export default K8sParser<Ingress>()
             }
         }
 
-        function createIngress(parent : LogicItem)
-        {
-            let name = metadata.name!;
-            while(parent.findByNaming('ingress', name))
-            {
-                name = name + '_';
-            }
-
-            const ingress = parent.fetchByNaming(NodeKind.ingress, name);
-            ingress.makeShadowOf(item);
-            return ingress;
-        }
     })
     ;

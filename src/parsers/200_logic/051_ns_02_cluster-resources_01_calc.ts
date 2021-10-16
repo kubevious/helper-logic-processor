@@ -10,7 +10,7 @@ export default LogicNamespaceParser()
         const nodes = scope.findItem('root/infra/nodes')!;
         const nodesRuntime = <InfraNodesRuntime>nodes.runtime;
 
-        for(let metric of helpers.resources.METRICS)
+        for(const metric of helpers.resources.METRICS)
         {
             const usedValue = runtime.usedResources[metric]?.value ?? 0;
             const availValue = nodesRuntime.resourcesAllocatable[metric]?.value;

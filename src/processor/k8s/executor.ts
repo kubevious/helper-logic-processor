@@ -15,6 +15,7 @@ import { LogicProcessorHandlerArgs } from '../logic/handler-args';
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sConfig } from '../..';
 import { Helpers } from '../../helpers';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
@@ -38,33 +39,33 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
         this._handler = parserInfo.handler;
 
         this._targetPath = [
-            { kind: 'k8s'},
+            { kind: NodeKind.k8s },
         ]
 
         if (parserInfo.target!.clustered)
         { 
-            this._targetPath.push({ kind: 'cluster' });
+            this._targetPath.push({ kind: NodeKind.cluster });
         }
         else
         {
-            this._targetPath.push({ kind: 'ns' });
+            this._targetPath.push({ kind: NodeKind.ns });
         }
 
         if (parserInfo.target!.api)
         {
-            this._targetPath.push({ kind: 'api', name: parserInfo.target!.api });
+            this._targetPath.push({ kind: NodeKind.api, name: parserInfo.target!.api });
         }
 
         if (parserInfo.target!.version)
         {
-            this._targetPath.push({ kind: 'version', name: parserInfo.target!.version });
+            this._targetPath.push({ kind: NodeKind.version, name: parserInfo.target!.version });
         } else {
-            this._targetPath.push({ kind: 'version' });
+            this._targetPath.push({ kind: NodeKind.version });
         }
 
-        this._targetPath.push({ kind: 'kind', name: parserInfo.target!.kind });
+        this._targetPath.push({ kind: NodeKind.kind, name: parserInfo.target!.kind });
 
-        this._targetPath.push({ kind: 'resource' });
+        this._targetPath.push({ kind: NodeKind.resource });
 
 
         const logicParserInfo : LogicParserInfo<TConfig, TRuntime> = {

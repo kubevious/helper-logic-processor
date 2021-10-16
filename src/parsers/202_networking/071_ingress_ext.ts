@@ -1,15 +1,14 @@
 import { HTTPIngressPath, Ingress, IngressBackend, IngressRule } from 'kubernetes-types/extensions/v1beta1';
 import _ from 'the-lodash';
-import { LogicItem } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
-import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sParser<Ingress>()
     .target({
         api: "extensions",
         kind: "Ingress"
     })
+    .trace()
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
         if (!config.spec) {
@@ -61,7 +60,8 @@ export default K8sParser<Ingress>()
                         appRuntime.exposedWithIngress = true;
 
                         item.link('app', app);
-                        createIngress(app);
+
+                        helpers.logic.createIngress(app, item);
                     }
                 }
 
@@ -75,14 +75,6 @@ export default K8sParser<Ingress>()
             {
                 item.addAlert('MissingSvc', 'error', `Service ${serviceName} is missing.`);
             }
-        }
-
-        function createIngress(parent : LogicItem)
-        {
-            const name = metadata.name!;
-            const ingress = parent.fetchByNaming(NodeKind.ingress, name);
-            ingress.makeShadowOf(item);
-            return ingress;
         }
         
     })

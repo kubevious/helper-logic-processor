@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicNetworkPoliciesParser } from '../../parser-builder/logic';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicNetworkPoliciesParser()
     .handler(({ logger, item, helpers }) => {
@@ -33,7 +34,7 @@ export default LogicNetworkPoliciesParser()
                 .column('policy', 'Policy', 'shortcut')
                 ;
 
-            for(const child of item.getChildrenByKind('netpol'))
+            for(const child of item.getChildrenByKind(NodeKind.netpol))
             {
                 const childProperties = child.getProperties('properties');
                 if (childProperties)

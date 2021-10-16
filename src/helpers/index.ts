@@ -5,6 +5,7 @@ import { ResourceHelpers } from './resources'
 import { CommonUtils } from './common';
 import { KubernetesUtils } from './k8s/k8s';
 import { GatewayUtils } from './gateway';
+import { LogicUtils } from './logic';
 import { LogicScope } from '../logic/scope';
 
 export class Helpers {
@@ -14,10 +15,12 @@ export class Helpers {
     public common : CommonUtils = new CommonUtils();
     public k8s : KubernetesUtils;
     public gateway: GatewayUtils;
+    public logic: LogicUtils;
 
     constructor(logger: ILogger, scope: LogicScope)
     {
         this.k8s = new KubernetesUtils(logger);
         this.gateway = new GatewayUtils(logger, scope);
+        this.logic = new LogicUtils(logger, scope);
     }
 }

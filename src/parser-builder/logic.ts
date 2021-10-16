@@ -13,12 +13,13 @@ import { LogicVolumeRuntime } from '../types/parser/logic-volume';
 import { LogicPodRuntime } from '../types/parser/logic-pod';
 import { LogicAppRuntime } from '../types/parser/logic-app';
 import { LogicNamespaceRuntime } from '../types/parser/logic-namespace';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export function LogicLauncherParser() {
 
     return LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLauncherRuntime>()
         .target({
-            path: ["logic", "ns", "app", "launcher"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher ]
         });
 }
 
@@ -26,7 +27,7 @@ export function LogicAppParser() {
 
     return LogicParser<{}, LogicAppRuntime>()
         .target({
-            path: ["logic", "ns", "app"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app]
         })
 }
 
@@ -34,10 +35,10 @@ export function LogicContainerParser() {
 
     return LogicParser<Container, LogicContainerRuntime>()
         .target({
-            path: ["logic", "ns", "app", "cont"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.cont]
         })
         .target({
-            path: ["logic", "ns", "app", "initcont"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.initcont]
         })
 }
 
@@ -45,10 +46,10 @@ export function LogicImageParser() {
 
     return LogicParser<Container, LogicImageRuntime>()
         .target({
-            path: ["logic", "ns", "app", "cont", "image"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.cont, NodeKind.image]
         })
         .target({
-            path: ["logic", "ns", "app", "initcont", "image"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.initcont, NodeKind.image]
         })
 }
 
@@ -56,7 +57,7 @@ export function LogicVolumesParser() {
 
     return LogicParser<{}, {}>()
         .target({
-            path: ["logic", "ns", "app", "vols"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.vols]
         })
 }
 
@@ -64,7 +65,7 @@ export function LogicVolumeParser() {
 
     return LogicParser<Volume, LogicVolumeRuntime>()
         .target({
-            path: ["logic", "ns", "app", "vols", "vol"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.vols, NodeKind.vol]
         })
 }
 
@@ -72,7 +73,7 @@ export function LogicNetworkPoliciesParser() {
 
     return LogicParser()
         .target({
-            path: ["logic", "ns", "app", "netpols"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.netpols]
         })
 }
 
@@ -81,10 +82,10 @@ export function LogicPodParser() {
 
     return LogicParser<Pod, LogicPodRuntime>()
         .target({
-            path: ["logic", "ns", "app", "launcher", "replicaset", "pod"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.replicaset, NodeKind.pod]
         })
         .target({
-            path: ["logic", "ns", "app", "launcher", "pod"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.pod]
         })
 }
 
@@ -93,10 +94,10 @@ export function LogicPodPvcParser() {
 
     return LogicParser<PersistentVolumeClaim, LogicPodRuntime>()
         .target({
-            path: ["logic", "ns", "app", "launcher", "replicaset", "pod", "pvc"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.replicaset, NodeKind.pod, NodeKind.pvc]
         })
         .target({
-            path: ["logic", "ns", "app", "launcher", "pod", "pvc"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.pod, NodeKind.pvc]
         })
 }
 
@@ -104,7 +105,7 @@ export function LogicServiceAccountParser() {
 
     return LogicParser<ServiceAccount>()
         .target({
-            path: ["logic", "ns", "app", "svcaccnt"]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.svcaccnt]
         });
 }
 
@@ -112,10 +113,10 @@ export function LogicBindingParser() {
 
     return LogicParser<ClusterRoleBinding | RoleBinding>()
         .target({
-            path: ["logic", "ns", "app", "svcaccnt", "rlbndg" ]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.svcaccnt, NodeKind.rlbndg ]
         })
         .target({
-            path: ["logic", "ns", "app", "svcaccnt", "crlbndg" ]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.svcaccnt, NodeKind.crlbndg ]
         });
 }
 
@@ -124,13 +125,13 @@ export function LogicRoleParser() {
 
     return LogicParser<ClusterRole | Role>()
         .target({
-            path: ["logic", "ns", "app", "svcaccnt", "rlbndg", "rl" ]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.svcaccnt, NodeKind.rlbndg, NodeKind.rl ]
         })
         .target({
-            path: ["logic", "ns", "app", "svcaccnt", "rlbndg", "crl" ]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.svcaccnt, NodeKind.rlbndg, NodeKind.crl ]
         })
         .target({
-            path: ["logic", "ns", "app", "svcaccnt", "crlbndg", "crl" ]
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.svcaccnt, NodeKind.crlbndg, NodeKind.crl ]
         })
         ;
 }
@@ -139,6 +140,6 @@ export function LogicNamespaceParser() {
 
     return LogicParser<{}, LogicNamespaceRuntime>()
         .target({
-            path: ["logic", "ns"]
+            path: [ NodeKind.logic, NodeKind.ns ]
         })
 }

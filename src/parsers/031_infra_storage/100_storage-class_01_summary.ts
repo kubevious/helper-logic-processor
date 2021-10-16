@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { InfraStorageClassParser } from '../../parser-builder/infra';
 import { InfraPersistentVolumeRuntime } from '../../types/parser/infra-pv';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default InfraStorageClassParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
@@ -12,7 +13,7 @@ export default InfraStorageClassParser()
             unit: 'bytes'
         };
 
-        for(const pv of item.getChildrenByKind('pv'))
+        for(const pv of item.getChildrenByKind(NodeKind.pv))
         {
             runtime.volumeCount++;
             

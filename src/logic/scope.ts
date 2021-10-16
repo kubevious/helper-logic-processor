@@ -11,7 +11,7 @@ import { NodeKind } from '@kubevious/entity-meta';
 export const ROOT_NODE_LOGIC = NodeKind.root;
 
 export interface LogicTarget {
-    path: (LogicTargetPathElement | string)[],
+    path: (LogicTargetPathElement | NodeKind)[],
     subtree?: boolean
 }
 
@@ -21,7 +21,7 @@ export interface LogicTargetFinal {
 }
 
 export interface LogicTargetPathElement {
-    kind: string;
+    kind: NodeKind;
     name?: string;
 }
 
@@ -86,7 +86,7 @@ export class LogicScope
     {
         const targetFinal = this._makeTarget(logicTarget);
 
-        let items : LogicItem[] = [];
+        const items : LogicItem[] = [];
         const rootNode = optionalRootNode ?? this.logicRootNode;
         if (targetFinal.subtree)
         {
@@ -115,7 +115,7 @@ export class LogicScope
             path: target.path.map(x => {
                 if (_.isString(x)) {
                     return {
-                        kind: x
+                        kind: <NodeKind>x
                     }
                 } else {
                     return x;
@@ -135,9 +135,9 @@ export class LogicScope
         }
         else
         {
-            let filter = logicTarget.path[index];
-            let children = this._findNextNodes(item, filter);
-            for(let child of children)
+            const filter = logicTarget.path[index];
+            const children = this._findNextNodes(item, filter);
+            for(const child of children)
             {
                 this._visitTreePath(logicTarget, child, index + 1, cb);
             }
@@ -204,7 +204,7 @@ export class LogicScope
 
     findItem(dn : string) : LogicItem | null
     {
-        let item = this._itemsMap[dn];
+        const item = this._itemsMap[dn];
         if (!item) {
             return null;
         }
@@ -214,7 +214,7 @@ export class LogicScope
     extractCapacity()
     {
         let cap = [];
-        for(let kind of _.keys(this._itemKindMap))
+        for(const kind of _.keys(this._itemKindMap))
         {
             cap.push({
                 kind: kind,

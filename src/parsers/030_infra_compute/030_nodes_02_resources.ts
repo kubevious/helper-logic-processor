@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { InfraNodesParser } from '../../parser-builder/infra';
 import { InfraPoolRuntime } from '../../types/parser/infra-pool';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default InfraNodesParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
@@ -9,8 +10,8 @@ export default InfraNodesParser()
         runtime.resourcesCapacity = {};
         runtime.nodeResources = {};
 
-        for(let metric of helpers.resources.METRICS) {
-            for(let dict of [runtime.resourcesAllocatable, runtime.resourcesCapacity])
+        for(const metric of helpers.resources.METRICS) {
+            for(const dict of [runtime.resourcesAllocatable, runtime.resourcesCapacity])
             {
                 dict[metric] = { 
                     value: 0,
@@ -19,29 +20,29 @@ export default InfraNodesParser()
             }
         }
 
-        for(let pool of item.getChildrenByKind('pool'))
+        for(const pool of item.getChildrenByKind(NodeKind.pool))
         {
             const poolRuntime = (<InfraPoolRuntime>pool.runtime);
             runtime.poolCount ++;
             runtime.nodeCount += poolRuntime.nodeCount;
 
-            for(let metric of helpers.resources.METRICS)
+            for(const metric of helpers.resources.METRICS)
             {
                 {
-                    let value = poolRuntime.resourcesAllocatable[metric];
+                    const value = poolRuntime.resourcesAllocatable[metric];
                     if (value) {
                         runtime.resourcesAllocatable[metric].value += value.value;
                     }
                 }
                 {
-                    let value = poolRuntime.resourcesCapacity[metric];
+                    const value = poolRuntime.resourcesCapacity[metric];
                     if (value) {
                         runtime.resourcesCapacity[metric].value += value.value;
                     }
                 }
 
                 {
-                    let value = poolRuntime.nodeResources[metric];
+                    const value = poolRuntime.nodeResources[metric];
                     if (value)
                     {
                         const currPerNodeMetric = runtime.nodeResources[metric];
@@ -61,7 +62,7 @@ export default InfraNodesParser()
             }
         }
 
-        for(let metric of helpers.resources.METRICS)
+        for(const metric of helpers.resources.METRICS)
         {
             if (!runtime.nodeResources[metric])
             {
@@ -79,7 +80,7 @@ export default InfraNodesParser()
             order: 7,
             config: undefined
         });
-        for(let metric of helpers.resources.METRICS)
+        for(const metric of helpers.resources.METRICS)
         {
             {
                 const value = runtime.resourcesCapacity[metric];

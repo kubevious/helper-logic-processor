@@ -9,13 +9,13 @@ export default LogicAppParser()
         const nodes = scope.findItem('root/infra/nodes')!;
         const nodesRuntime = <InfraNodesRuntime>nodes.runtime;
 
-        let myUsedResources : Record<string, PropertyValueWithUnit> = {};
+        const myUsedResources : Record<string, PropertyValueWithUnit> = {};
         let availableResources : Record<string, PropertyValueWithUnit> | null = null;
 
         if (runtime.launcherKind == 'Deployment' || 
             runtime.launcherKind == 'StatefulSet')
         {
-            for(let metric of helpers.resources.METRICS)
+            for(const metric of helpers.resources.METRICS)
             {
                 myUsedResources[metric] = runtime.usedResources[metric];
             }
@@ -23,7 +23,7 @@ export default LogicAppParser()
         }
         else if (runtime.launcherKind == 'DaemonSet')
         {
-            for(let metric of helpers.resources.METRICS)
+            for(const metric of helpers.resources.METRICS)
             {
                 myUsedResources[metric] = runtime.perPodResources[metric];
             }
@@ -37,7 +37,7 @@ export default LogicAppParser()
             return;
         }
 
-        for(let metric of helpers.resources.METRICS)
+        for(const metric of helpers.resources.METRICS)
         {
             const usedValue = myUsedResources[metric]?.value ?? 0;
             const availValue = availableResources[metric]?.value;
