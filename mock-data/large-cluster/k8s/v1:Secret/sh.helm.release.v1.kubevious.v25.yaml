@@ -1,0 +1,18 @@
+data:
+  release: null
+kind: Secret
+type: helm.sh/release.v1
+metadata:
+  uid: be37c21b-1123-4cfb-a389-b72a3a027369
+  name: sh.helm.release.v1.kubevious.v25
+  labels:
+    name: kubevious
+    owner: helm
+    status: superseded
+    version: '25'
+    modifiedAt: '1615541146'
+  selfLink: /api/v1/namespaces/kubevious/secrets/sh.helm.release.v1.kubevious.v25
+  namespace: kubevious
+  resourceVersion: '190777519'
+  creationTimestamp: '2021-03-12T08:44:02Z'
+apiVersion: v1

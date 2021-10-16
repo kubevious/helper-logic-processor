@@ -8,7 +8,6 @@ export default K8sParser<Ingress>()
         api: "extensions",
         kind: "Ingress"
     })
-    .trace()
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
         if (!config.spec) {

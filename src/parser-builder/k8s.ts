@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { Node, PersistentVolume, PersistentVolumeClaim, ServiceAccount } from 'kubernetes-types/core/v1';
+import { Node, PersistentVolume, PersistentVolumeClaim, Secret, ServiceAccount } from 'kubernetes-types/core/v1';
 
 import { K8sParser } from './';
 import { StorageClass } from 'kubernetes-types/storage/v1';
@@ -72,6 +72,15 @@ export function K8sServiceAccountParser() {
     return K8sParser<ServiceAccount, LogicServiceAccountRuntime>()
         .target({
             kind: "ServiceAccount"
+        })  
+}
+
+
+export function K8sSecretParser() {
+
+    return K8sParser<Secret, {}>()
+        .target({
+            kind: "Secret"
         })  
 }
 
