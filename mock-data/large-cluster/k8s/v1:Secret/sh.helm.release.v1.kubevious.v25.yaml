@@ -8,7 +8,7 @@ metadata:
   labels:
     name: kubevious
     owner: helm
-    status: superseded
+    status: deployed
     version: '25'
     modifiedAt: '1615541146'
   selfLink: /api/v1/namespaces/kubevious/secrets/sh.helm.release.v1.kubevious.v25

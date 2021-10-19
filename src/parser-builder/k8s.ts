@@ -1,13 +1,15 @@
 import _ from 'the-lodash';
-import { Node, PersistentVolume, PersistentVolumeClaim, Secret, ServiceAccount } from 'kubernetes-types/core/v1';
+import { PersistentVolume, PersistentVolumeClaim, Secret, ServiceAccount } from 'kubernetes-types/core/v1';
 
-import { K8sParser } from './';
+import { K8sParser, LogicParser } from './';
 import { StorageClass } from 'kubernetes-types/storage/v1';
 import { InfraStorageClassRuntime } from '../types/parser/infra-storage-class';
 import { InfraPersistentVolumeRuntime } from '../types/parser/infra-pv';
 import { InfraPersistentVolumeClaimRuntime } from '../types/parser/infra-pvc';
 import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-types/rbac/v1';
 import { LogicRoleBindingRuntime, LogicServiceAccountRuntime } from '../types/parser/logic-rbac';
+import { NodeKind } from '@kubevious/entity-meta';
+import { K8sConfig } from '../types/k8s';
 
 export function K8sStorageClassParser() {
 
@@ -84,3 +86,20 @@ export function K8sSecretParser() {
         })  
 }
 
+export function K8sAllParser() {
+
+    return LogicParser<K8sConfig>()
+        .target({
+            path: [ NodeKind.k8s, NodeKind.cluster, NodeKind.api, NodeKind.version, NodeKind.kind, NodeKind.resource ]
+        })
+        .target({
+            path: [ NodeKind.k8s, NodeKind.cluster, NodeKind.version, NodeKind.kind, NodeKind.resource ]
+        })
+        .target({
+            path: [ NodeKind.k8s, NodeKind.ns, NodeKind.api, NodeKind.version, NodeKind.kind, NodeKind.resource ]
+        })
+        .target({
+            path: [ NodeKind.k8s, NodeKind.ns, NodeKind.version, NodeKind.kind, NodeKind.resource ]
+        })
+
+}
