@@ -12,7 +12,7 @@ export default LogicContainerParser()
             return;
         }
 
-        for(let envObj of config.env) {
+        for(const envObj of config.env) {
             let value: string | null = null;
             if (envObj.value) {
                 value = envObj.value;

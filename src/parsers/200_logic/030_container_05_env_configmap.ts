@@ -10,22 +10,27 @@ export default LogicContainerParser()
             return;
         }
 
-        for(let envFromObj of config.envFrom) {
-            const configMapName = envFromObj.configMapRef?.name;
-            if (configMapName) {
-                let configMap = findAndProcessConfigMap(configMapName, envFromObj.configMapRef?.optional ?? false);
-                if (configMap) {
-                    if (configMap.data) {
-                        for(let dataKey of _.keys(configMap.data)) {
-                            const dataValue = configMap.data[dataKey];
-                            runtime.envVars[dataValue] = dataValue;
+        for(const envFromObj of config.envFrom) {
+            const configMapRef = envFromObj.configMapRef;
+            if (configMapRef)
+            {
+                const configMapName = configMapRef.name;
+                if (configMapName) {
+                    const configMap = findAndProcessConfigMap(configMapName);
+                    if (configMap) {
+                        if (configMap.data) {
+                            for(const dataKey of _.keys(configMap.data)) {
+                                const dataValue = configMap.data[dataKey];
+                                const envName = `${envFromObj.prefix}${dataKey}`;
+                                runtime.envVars[envName] = dataValue;
+                            }
+                        } else {
+                            item.addAlert("EmptyConfig", "warn", `ConfigMap has no data: ${configMapName}`);
                         }
                     } else {
-                        item.addAlert("EmptyConfig", "warn", `ConfigMap has no data: ${configMapName}`);
-                    }
-                } else {
-                    if (!envFromObj.configMapRef?.optional) {
-                        item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${configMapName}`);
+                        if (!configMapRef.optional) {
+                            item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${configMapName}`);
+                        }
                     }
                 }
             }
@@ -33,11 +38,11 @@ export default LogicContainerParser()
 
         /*** HELPERS **/
         
-        function findAndProcessConfigMap(name: string, isOptional: boolean) : ConfigMap | null
+        function findAndProcessConfigMap(name: string) : ConfigMap | null
         {
             const k8sConfigMapDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ConfigMap', name);
 
-            let logicConfigMap = item.fetchByNaming(NodeKind.configmap, name);
+            const logicConfigMap = item.fetchByNaming(NodeKind.configmap, name);
             const k8sConfigMap = logicConfigMap.link('k8s-owner', k8sConfigMapDn);
             if (k8sConfigMap)
             {
