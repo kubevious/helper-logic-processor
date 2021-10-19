@@ -28,6 +28,8 @@ export default LogicLauncherParser()
             const k8sSvcAccount = app.link('service-account', k8sSvcAccountDn);
             if (k8sSvcAccount)
             {
+                helpers.usage.register(app, k8sSvcAccount);
+
                 const svcAccount = app.fetchByNaming(NodeKind.svcaccnt, svcAccountName);
                 svcAccount.makeShadowOf(k8sSvcAccount);
                 svcAccount.link('k8s-owner', k8sSvcAccount);

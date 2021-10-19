@@ -21,8 +21,8 @@ export default LogicContainerParser()
                         if (configMap.data) {
                             for(const dataKey of _.keys(configMap.data)) {
                                 const dataValue = configMap.data[dataKey];
-                                const envName = `${envFromObj.prefix}${dataKey}`;
-                                runtime.envVars[envName] = dataValue;
+                                const envName = envFromObj.prefix ? `${envFromObj.prefix}${dataKey}` : dataKey;
+                                runtime.envVars[envName] = dataValue ?? null;
                             }
                         } else {
                             item.addAlert("EmptyConfig", "warn", `ConfigMap has no data: ${configMapName}`);
@@ -46,6 +46,7 @@ export default LogicContainerParser()
             const k8sConfigMap = logicConfigMap.link('k8s-owner', k8sConfigMapDn);
             if (k8sConfigMap)
             {
+                helpers.usage.register(logicConfigMap, k8sConfigMap);
                 logicConfigMap.makeShadowOf(k8sConfigMap);
                 return <ConfigMap>k8sConfigMap.config;
             }

@@ -21,8 +21,8 @@ export default LogicContainerParser()
                         if (secret.data) {
                             for(const dataKey of _.keys(secret.data)) {
                                 const dataValue = secret.data[dataKey];
-                                const envName = `${envFromObj.prefix}${dataKey}`;
-                                runtime.envVars[envName] = dataValue;
+                                const envName = envFromObj.prefix ? `${envFromObj.prefix}${dataKey}` : dataKey;
+                                runtime.envVars[envName] = dataValue ?? null;
                             }
                         } else {
                             item.addAlert("EmptyConfig", "warn", `Secret has no data: ${secretName}`);
@@ -46,6 +46,8 @@ export default LogicContainerParser()
             const k8sSecret = logicSecret.link('k8s-owner', k8sSecretDn);
             if (k8sSecret)
             {
+                helpers.usage.register(logicSecret, k8sSecret);
+
                 logicSecret.makeShadowOf(k8sSecret);
                 return <Secret>k8sSecret.config;
             }
