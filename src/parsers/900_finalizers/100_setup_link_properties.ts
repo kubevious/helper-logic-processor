@@ -25,6 +25,8 @@ export default LogicParser()
                         resolved: _.isNotNullOrUndefined(link.item)
                     })
                 }
+
+                linksTable.order(['dn', 'kind', 'path']);
         
                 item.addProperties({
                     kind: "table",
@@ -55,6 +57,8 @@ export default LogicParser()
                         resolved: _.isNotNullOrUndefined(link.item)
                     })
                 }
+
+                linksTable.order(['dn', 'kind', 'path']);
         
                 item.addProperties({
                     kind: "table",

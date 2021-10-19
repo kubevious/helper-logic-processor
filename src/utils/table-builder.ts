@@ -1,7 +1,8 @@
+import _ from 'the-lodash';
 export class TableBuilder
 {
     private _headers: (string | { id: string, label? : string, kind? : string })[] = [];
-    private _rows: any[] = [];
+    private _rows: Record<string, any>[] = [];
 
     constructor()
     {
@@ -37,6 +38,11 @@ export class TableBuilder
 
     get hasRows() : boolean {
         return this._rows.length > 0;
+    }
+
+    order(columns: string[], orders?: ("asc"|"desc")[])
+    {
+        this._rows = _.orderBy(this._rows, columns, orders);
     }
 
     extract() {
