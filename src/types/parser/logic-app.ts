@@ -18,6 +18,8 @@ export interface LogicAppRuntime
 
     hpa?: { min: number, max: number };
 
+    ingresses : { [dn: string] : boolean};
+
     exposedWithService: boolean;
     exposedWithIngress: boolean;
 
