@@ -6,6 +6,10 @@ import { PackageHelmVersion } from '../../types/parser/pack-helm-version';
 export default K8sAllParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
 
+        if (config?.metadata?.ownerReferences) {
+            return;
+        }
+
         const annotations = config?.metadata?.annotations ?? {};
 
         const helmNs = annotations['meta.helm.sh/release-namespace'];
@@ -26,6 +30,15 @@ export default K8sAllParser()
             {
                 const helmVersionRuntime = <PackageHelmVersion>helmVersionItem.runtime;
                 helmVersionRuntime.configs[item.dn] = true;
+
+                for(const app of item.resolveSourceLinkItems('app'))
+                {
+                    helmVersionRuntime.configs[app.dn] = true;
+                }
+                for(const app of item.resolveTargetLinkItems('app'))
+                {
+                    helmVersionRuntime.configs[app.dn] = true;
+                }
             }
         }
     })

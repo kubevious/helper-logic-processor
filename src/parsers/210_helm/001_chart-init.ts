@@ -23,6 +23,16 @@ export default K8sSecretParser()
             return;
         }
 
+        const chartVersion = labels['version'];
+        if (!chartVersion) {
+            return;
+        }
+
+        const chartStatus = labels['status'];
+        if (chartStatus === 'superseded') {
+            return;
+        }
+
         const root = scope.logicRootNode.fetchByNaming(NodeKind.pack);
 
         const nsItem = root.fetchByNaming(NodeKind.ns, namespace!);
@@ -33,16 +43,6 @@ export default K8sSecretParser()
         
         const helmItem = nsItem.fetchByNaming(NodeKind.helm, chartName);
         helmItem.link('secret', item);
-
-        const chartVersion = labels['version'];
-        if (!chartVersion) {
-            return;
-        }
-
-        const chartStatus = labels['status'];
-        if (chartStatus === 'superseded') {
-            return;
-        }
 
         const helmVersion = helmItem.fetchByNaming(NodeKind.version, chartVersion);
         helmVersion.link('secret', item);
