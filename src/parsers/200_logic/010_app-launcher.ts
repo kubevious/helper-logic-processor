@@ -38,6 +38,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         (<LogicAppRuntime>app.runtime).launcherReplicas = _.get(config, 'spec.replicas') ?? null;
         (<LogicAppRuntime>app.runtime).volumes = {};
         (<LogicAppRuntime>app.runtime).ports = {};
+        (<LogicAppRuntime>app.runtime).helmCharts = {};
         item.link('app', app);
 
         const launcher = app.fetchByNaming(NodeKind.launcher, config.kind);

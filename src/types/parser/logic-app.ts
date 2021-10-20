@@ -24,6 +24,8 @@ export interface LogicAppRuntime
     exposedWithIngress: boolean;
 
     ports: { [nameOrNumber : string] : PortInfo };
+
+    helmCharts: { [ dn: string] : boolean };
 }
 
 export interface PortInfo

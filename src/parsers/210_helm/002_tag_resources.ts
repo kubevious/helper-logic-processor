@@ -2,6 +2,9 @@ import _ from 'the-lodash';
 import { K8sAllParser } from '../../parser-builder/k8s';
 import { PackageNamespaceRuntime } from '../../types/parser/pack-ns';
 import { PackageHelmVersion } from '../../types/parser/pack-helm-version';
+import { LogicItem } from '../../logic/item';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export default K8sAllParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
@@ -33,13 +36,29 @@ export default K8sAllParser()
 
                 for(const app of item.resolveSourceLinkItems('app'))
                 {
-                    helmVersionRuntime.configs[app.dn] = true;
+                    setupAppChartLink(app, helmVersionItem);
                 }
                 for(const app of item.resolveTargetLinkItems('app'))
                 {
-                    helmVersionRuntime.configs[app.dn] = true;
+                    setupAppChartLink(app, helmVersionItem);
                 }
             }
         }
+
+        /*** HELPERS **/
+        function setupAppChartLink(app: LogicItem, helmVersionItem: LogicItem)
+        {
+            const appRuntime = <LogicAppRuntime>app.runtime;
+            if (appRuntime.helmCharts[helmVersionItem.dn]) {
+                return;
+            }
+            appRuntime.helmCharts[helmVersionItem.dn] = true;
+
+            const logicAppHelmChart = app.fetchByNaming(NodeKind.helm, helmRelease);
+            logicAppHelmChart.makeShadowOf(helmVersionItem);
+
+            helmVersionItem.link('app', app);
+        }
+
     })
     ;
