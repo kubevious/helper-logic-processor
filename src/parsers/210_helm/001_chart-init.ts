@@ -42,8 +42,7 @@ export default K8sSecretParser()
         }
         
         const helmItem = nsItem.fetchByNaming(NodeKind.helm, chartName);
-        helmItem.link('secret', item);
-
+        
         const helmVersion = helmItem.fetchByNaming(NodeKind.version, chartVersion);
         helmVersion.link('secret', item);
 
