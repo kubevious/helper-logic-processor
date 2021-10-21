@@ -7,14 +7,17 @@ import { GlobalLabelMatcher } from './global-label-matcher';
 
 import { makeDn, RnInfo } from '../../utils/dn-utils';
 import { ObjectMeta } from "kubernetes-types/meta/v1";
+import { LogicScope } from '../../logic/scope';
 
 export class KubernetesUtils {
 
     private _labelMatcher : GlobalLabelMatcher;
+    private _scope: LogicScope;
     
-    constructor(logger: ILogger)
+    constructor(logger: ILogger, scope: LogicScope)
     {
         this._labelMatcher = new GlobalLabelMatcher(logger);
+        this._scope = scope;
     }
 
     get labelMatcher() {
@@ -25,6 +28,12 @@ export class KubernetesUtils {
     {
         const config = <K8sConfig>item.config;
         return config;
+    }
+
+    findItem(namespace: string | null, apiVersion: string, kind: string, name: string) : LogicItem | null
+    {
+        const dn = this.makeDn(namespace, apiVersion, kind, name);
+        return this._scope.findItem(dn);
     }
 
     makeDn(namespace: string | null, apiVersion: string, kind: string, name: string)

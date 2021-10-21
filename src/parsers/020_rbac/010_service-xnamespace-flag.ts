@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { K8sServiceAccountParser } from '../../parser-builder/k8s';
+import { FlagKind } from '@kubevious/entity-meta';
 
 export default K8sServiceAccountParser()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
@@ -12,7 +13,7 @@ export default K8sServiceAccountParser()
                 {
                     if (ruleItem.namespace !== namespace!)
                     {
-                        item.setPropagatableFlag("xnamespace");
+                        item.setPropagatableFlag(FlagKind.xnamespace);
                     }
                 }
             }

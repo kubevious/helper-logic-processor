@@ -17,7 +17,7 @@ export default K8sRoleBindingParser()
 
         item.addProperties(helpers.roles.buildRoleMatrixProps(runtime.rules));
 
-        for(let subjectRef of (config.subjects || []))
+        for(const subjectRef of (config.subjects || []))
         {
             processSubject(subjectRef);
         }

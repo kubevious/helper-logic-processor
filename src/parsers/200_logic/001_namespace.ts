@@ -13,12 +13,15 @@ export default K8sParser<Namespace>()
 
         const root = scope.logicRootNode.fetchByNaming(NodeKind.logic);
 
-        const ns = root.fetchByNaming(NodeKind.ns, metadata.name!);
-        ns.makeShadowOf(item);
+        const ns = helpers.shadow.create(item, root,
+            {
+                kind: NodeKind.ns,
+                linkName: 'k8s-owner'
+            });
 
         (<LogicNamespaceRuntime>ns.runtime).namespace = metadata.name!;
 
-        let labelsMap = helpers.k8s.labelsMap(metadata);
+        const labelsMap = helpers.k8s.labelsMap(metadata);
         helpers.k8s.labelMatcher.registerManual('Namespace', namespace, labelsMap, ns)
 
     })

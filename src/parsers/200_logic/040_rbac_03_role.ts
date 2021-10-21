@@ -10,17 +10,18 @@ export default LogicBindingParser()
         const app = item.parent!.parent!;
         const appRuntime = <LogicAppRuntime>app.runtime;
 
-        let k8sBinding = item.resolveTargetLinkItem('k8s-owner')!;
+        const k8sBinding = item.resolveTargetLinkItem('k8s-owner')!;
 
-        for(let k8sRole of k8sBinding.resolveTargetLinkItems('role'))
+        for(const k8sRole of k8sBinding.resolveTargetLinkItems('role'))
         {
             const config = <ClusterRole | Role>k8sRole.config;
 
-            const logicKind = getTargetKind(config);
-            const logicRole = item.fetchByNaming(logicKind, config.metadata!.name!);
-            logicRole.makeShadowOf(k8sRole);
-            logicRole.link('k8s-owner', k8sRole);
-
+            helpers.shadow.create(k8sRole, item, 
+                {
+                    kind: getTargetKind(config),
+                    linkName: 'k8s-owner'
+                })
+                
             k8sRole.link('app', app, `${appRuntime.namespace}::${app.naming}`);
         }
 

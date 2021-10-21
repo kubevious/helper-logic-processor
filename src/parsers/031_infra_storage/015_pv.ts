@@ -18,9 +18,13 @@ export default K8sPersistentVolumeParser()
         const storageClassName = config.spec.storageClassName || "default";
         const storageClass = storage.fetchByNaming(NodeKind.storclass, storageClassName);
 
-        const infraPv = storageClass.fetchByNaming(NodeKind.pv, item.naming!);
+        const infraPv = helpers.shadow.create(item, storageClass,
+            {
+                kind: NodeKind.pv,
+                linkName: 'k8s-owner'
+            });
+
         (<InfraPersistentVolumeRuntime>infraPv.runtime).capacity = runtime.capacity;
-        infraPv.makeShadowOf(item);
 
     })
     

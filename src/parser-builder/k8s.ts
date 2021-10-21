@@ -10,6 +10,17 @@ import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-t
 import { LogicRoleBindingRuntime, LogicServiceAccountRuntime } from '../types/parser/logic-rbac';
 import { NodeKind } from '@kubevious/entity-meta';
 import { K8sConfig } from '../types/k8s';
+import { Node } from 'kubernetes-types/core/v1';
+
+
+export function K8sNodeParser() {
+
+    return K8sParser<Node>()
+        .target({
+            clustered: true,
+            kind: "Node"
+        })
+}
 
 export function K8sStorageClassParser() {
 

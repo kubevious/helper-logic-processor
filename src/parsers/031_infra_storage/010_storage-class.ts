@@ -8,8 +8,11 @@ export default K8sStorageClassParser()
         const root = scope.logicRootNode.fetchByNaming(NodeKind.infra);
         const storage = root.fetchByNaming(NodeKind.storage);
 
-        const storageClass = storage.fetchByNaming(NodeKind.storclass, metadata.name!);
-        storageClass.makeShadowOf(item);
+        helpers.shadow.create(item, storage,
+            {
+                kind: NodeKind.storclass,
+                linkName: 'k8s-owner'
+            })
 
     })
     ;

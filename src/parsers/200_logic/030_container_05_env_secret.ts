@@ -40,18 +40,19 @@ export default LogicContainerParser()
         
         function findAndProcessSecret(name: string) : Secret | null
         {
-            const k8sSecretDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'Secret', name);
+            const k8sSecret = helpers.k8s.findItem(runtime.namespace, 'v1', 'Secret', name);
 
-            const logicSecret = item.fetchByNaming(NodeKind.secret, name);
-            const k8sSecret = logicSecret.link('k8s-owner', k8sSecretDn);
             if (k8sSecret)
             {
-                helpers.usage.register(logicSecret, k8sSecret);
+                helpers.shadow.create(k8sSecret, item, 
+                    {
+                        kind: NodeKind.secret,
+                        linkName: 'k8s-owner'
+                    })
 
-                logicSecret.makeShadowOf(k8sSecret);
                 return <Secret>k8sSecret.config;
             }
-
+            
             return null;
         }
         

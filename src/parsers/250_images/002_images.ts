@@ -3,7 +3,7 @@ import { LogicImageParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicImageParser()
-    .handler(({ logger, scope, item, config, runtime }) => {
+    .handler(({ logger, scope, item, config, runtime, helpers }) => {
 
         const imagesRoot = scope.logicRootNode.fetchByNaming(NodeKind.images);
 
@@ -18,9 +18,13 @@ export default LogicImageParser()
         const logicContainerItem = item.parent!;
         const logicAppItem = logicContainerItem.parent!;
 
-        const appLinkItem = nsLinkItem.fetchByNaming(NodeKind.app, logicAppItem.naming);
-        appLinkItem.makeShadowOf(logicAppItem);
-        appLinkItem.link('image', item, `${logicContainerItem.kind}-${logicContainerItem.naming}`);
+        helpers.shadow.create(logicAppItem, nsLinkItem,
+            {
+                kind: NodeKind.app,
+                linkName: 'image',
+                inverseLinkName: 'image',
+                inverseLinkPath: `${logicContainerItem.kind}-${logicContainerItem.naming}`
+            });
 
     })
     ;

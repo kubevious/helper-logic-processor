@@ -40,37 +40,37 @@ export default LogicParser()
             }
         }
 
-        {
-            const links = item.resolveSourceLinks();
-            if (links.length > 0) {
-                const linksTable = helpers.common.tableBuilder()
-                    .column('kind', 'Kind')
-                    .column('dn', 'Application', 'shortcut')
-                    .column('resolved', 'Resolved')
-                ;
-                for(const link of links)
-                {
-                    linksTable.row({ 
-                        kind: link.link.kind,
-                        dn: link.dn,
-                        path: link.link.path,
-                        resolved: _.isNotNullOrUndefined(link.item)
-                    })
-                }
+        // {
+        //     const links = item.resolveSourceLinks();
+        //     if (links.length > 0) {
+        //         const linksTable = helpers.common.tableBuilder()
+        //             .column('kind', 'Kind')
+        //             .column('dn', 'Application', 'shortcut')
+        //             .column('resolved', 'Resolved')
+        //         ;
+        //         for(const link of links)
+        //         {
+        //             linksTable.row({ 
+        //                 kind: link.link.kind,
+        //                 dn: link.dn,
+        //                 path: link.link.path,
+        //                 resolved: _.isNotNullOrUndefined(link.item)
+        //             })
+        //         }
 
-                linksTable.order(['dn', 'kind', 'path']);
+        //         linksTable.order(['dn', 'kind', 'path']);
         
-                item.addProperties({
-                    kind: "table",
-                    id: 'source-links',
-                    title: 'Source Links',
-                    order: 9,
-                    config: linksTable.extract()
-                }, {
-                    isSelfProps: true
-                });
-            }
-        }
+        //         item.addProperties({
+        //             kind: "table",
+        //             id: 'source-links',
+        //             title: 'Source Links',
+        //             order: 9,
+        //             config: linksTable.extract()
+        //         }, {
+        //             isSelfProps: true
+        //         });
+        //     }
+        // }
 
     })
     ;

@@ -24,7 +24,7 @@ export class RoleHelper {
 
     addRule(rulesMap: RulesMap, api : string, resource: string, name: string, verbs: string[]) {
 
-        let apiKey = makeKey(api, resource);
+        const apiKey = makeKey(api, resource);
         if (!rulesMap[apiKey]) {
             rulesMap[apiKey] = {
                 api: {
@@ -42,9 +42,9 @@ export class RoleHelper {
     }
 
     combineRulesMap(a : RulesMap, b : RulesMap, targetNamespace? : string) {
-        for(let key of _.keys(b))
+        for(const key of _.keys(b))
         {
-            let bValue = b[key];
+            const bValue = b[key];
             if (!a[key]) {
                 a[key] = {
                     api: bValue.api,
@@ -52,9 +52,9 @@ export class RoleHelper {
                 }
             }
     
-            for(let bItem of bValue.items)
+            for(const bItem of bValue.items)
             {
-                let aItem = _.cloneDeep(bItem);
+                const aItem = _.cloneDeep(bItem);
                 if (targetNamespace) {
                     aItem.namespace = targetNamespace;
                 }
@@ -66,9 +66,9 @@ export class RoleHelper {
 
     optimizeRulesMap(rulesMap : RulesMap) {
 
-        for(let key of _.keys(rulesMap))
+        for(const key of _.keys(rulesMap))
         {
-            let apiRules = rulesMap[key];
+            const apiRules = rulesMap[key];
             apiRules.items = this._optimizeRulesItems(apiRules.items);
         }
         return rulesMap;
@@ -76,8 +76,8 @@ export class RoleHelper {
 
     private _optimizeRulesItems(items : RuleItem[]) : RuleItem[]
     {
-        let allNsNamedMap : Record<string, Record< string, VerbsDict>> = {};
-        for(let item of items)
+        const allNsNamedMap : Record<string, Record< string, VerbsDict>> = {};
+        for(const item of items)
         {
             if (!item.namespace || item.namespace == '*')
             {
@@ -86,7 +86,7 @@ export class RoleHelper {
                 }
             }
         }
-        for(let item of items)
+        for(const item of items)
         {
             if (!item.namespace || item.namespace == '*')
             {
@@ -97,7 +97,7 @@ export class RoleHelper {
                 }
             }
         }
-        for(let item of items)
+        for(const item of items)
         {
             if (item.namespace && item.namespace != '*')
             {
@@ -107,10 +107,10 @@ export class RoleHelper {
             }
         }
 
-        let newItems = [];
-        for(let ns of _.keys(allNsNamedMap))
+        const newItems = [];
+        for(const ns of _.keys(allNsNamedMap))
         {
-            for(let name of _.keys(allNsNamedMap[ns]))
+            for(const name of _.keys(allNsNamedMap[ns]))
             {
                 newItems.push({
                     namespace: ns,
@@ -125,10 +125,10 @@ export class RoleHelper {
 
     buildRoleMatrixTable(rulesMap : RulesMap)
     {
-        let usedVerbs = {};
-        for(let apiRules of _.values(rulesMap))
+        const usedVerbs = {};
+        for(const apiRules of _.values(rulesMap))
         {
-            for(let item of apiRules.items)
+            for(const item of apiRules.items)
             {
                 _.defaults(usedVerbs, item.verbs);
             }
@@ -155,14 +155,14 @@ export class RoleHelper {
     
         let verbHeaders = _.keys(usedVerbs);
         verbHeaders = _.orderBy(verbHeaders, x => {
-            let order = K8S_RBAC_VERBS_ORDER[x];
+            const order = K8S_RBAC_VERBS_ORDER[x];
             if (order) {
                 return order;
             }
             return 0;
         })
         
-        let verbHeaders2 = verbHeaders.map(x => ({
+        const verbHeaders2 = verbHeaders.map(x => ({
             id: x,
             kind: 'check'
         }))
@@ -170,11 +170,11 @@ export class RoleHelper {
         headers = _.concat(headers, verbHeaders2);
     
         let rows = [];
-        for(let apiRules of _.values(rulesMap))
+        for(const apiRules of _.values(rulesMap))
         {
-            for(let item of apiRules.items)
+            for(const item of apiRules.items)
             {
-                let row = {
+                const row = {
                     api: apiRules.api.api,
                     resource: apiRules.api.resource,
                     name: item.name,
@@ -191,7 +191,7 @@ export class RoleHelper {
             'name'
         ]);
     
-        let roleTableConfig = {
+        const roleTableConfig = {
             headers: headers,
             rows: rows
         }
@@ -203,7 +203,7 @@ export class RoleHelper {
     {
         const roleTableConfig = this.buildRoleMatrixTable(rulesMap);
         
-        let config = {
+        const config = {
             kind: "table",
             id: "resource-role-matrix",
             title: "Resource Role Matrix",
@@ -249,7 +249,7 @@ function isAllNsRulePresentInNamespace(allNsNamedMap : Record<string, Record< st
 
 function areVerbsPresent(aVerbs : VerbsDict, bVerbs : VerbsDict)
 {
-    for(let x of _.keys(bVerbs)) {
+    for(const x of _.keys(bVerbs)) {
         if (!aVerbs[x]) {
             return false;
         }
@@ -272,7 +272,7 @@ function addToNsMap(allNsNamedMap : Record<string, Record< string, VerbsDict>>, 
 
 function makeKey(api : string, resource: string) : string
 {
-    let key;
+    let key : string;
     if (api) {
         key = api + '/' + resource;
     } else {

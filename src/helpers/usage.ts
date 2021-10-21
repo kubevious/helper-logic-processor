@@ -15,6 +15,7 @@ export class UsageUtils
 
     register(user: LogicItem, target: LogicItem)
     {
-        // this._logger.info("[register] %s -> %s", user.dn, target.dn);
+        // this._logger.error("[register] %s -> %s", user.dn, target.dn);
+        user.markUses(target);
     }
 }   

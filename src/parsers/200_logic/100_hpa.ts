@@ -33,9 +33,11 @@ export default K8sParser<HorizontalPodAutoscaler>()
             return;
         }
 
-        const hpa = app.fetchByNaming(NodeKind.hpa, metadata.name!);
-        hpa.makeShadowOf(item);
-        hpa.link('k8s-owner', item);
+        helpers.shadow.create(item, app, 
+            {
+                kind: NodeKind.hpa,
+                linkName: 'k8s-owner'
+            })
 
         const appRuntime = <LogicAppRuntime>app.runtime;
         appRuntime.hpa = { 

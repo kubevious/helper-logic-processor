@@ -7,6 +7,7 @@ import { CommonUtils } from './common';
 import { KubernetesUtils } from './k8s/k8s';
 import { GatewayUtils } from './gateway';
 import { LogicUtils } from './logic';
+import { ShadowUtils } from './shadow';
 import { LogicScope } from '../logic/scope';
 
 export class Helpers {
@@ -18,12 +19,15 @@ export class Helpers {
     public gateway: GatewayUtils;
     public logic: LogicUtils;
     public usage: UsageUtils;
+    public shadow: ShadowUtils;
 
     constructor(logger: ILogger, scope: LogicScope)
     {
         this.usage = new UsageUtils(logger, scope);
-        this.k8s = new KubernetesUtils(logger);
+        this.k8s = new KubernetesUtils(logger, scope);
         this.gateway = new GatewayUtils(logger, scope);
         this.logic = new LogicUtils(logger, scope);
+        this.shadow = new ShadowUtils(this, logger, scope);
     }
+
 }

@@ -30,15 +30,16 @@ export default LogicPodParser()
                 return;
             }
 
-            const pvc = item.fetchByNaming(NodeKind.pvc, pvcName);
-
-            const k8sPvcDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'PersistentVolumeClaim', pvcName);
-            const k8sPvc = pvc.link('k8s-owner', k8sPvcDn);
-            if (!k8sPvc) {
-                return;
+            const k8sPvc = helpers.k8s.findItem(runtime.namespace, 'v1', 'PersistentVolumeClaim', pvcName);
+            if (k8sPvc)
+            {
+                helpers.shadow.create(k8sPvc, item,
+                    {
+                        kind: NodeKind.pvc,
+                        linkName: 'k8s-owner',
+                        inverseLinkName: 'logic'
+                    });
             }
-
-            pvc.makeShadowOf(k8sPvc);
         }
 
     })

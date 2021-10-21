@@ -18,7 +18,7 @@ export default LogicLauncherParser()
         {
             const volumesParent = app.fetchByNaming(NodeKind.vols, "Volumes");
 
-            for(let volume of volumesList)
+            for(const volume of volumesList)
             {
                 processVolume(volumesParent, volume);
             }

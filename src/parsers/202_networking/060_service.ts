@@ -40,9 +40,12 @@ export default K8sParser<Service>()
             const appRuntime = <LogicAppRuntime>targetApp.runtime;
             appRuntime.exposedWithService = true;
 
-            const logicSvc = targetApp.fetchByNaming(NodeKind.service, metadata.name);
-            logicSvc.makeShadowOf(item);
-            item.link('logic', logicSvc);
+            helpers.shadow.create(item, targetApp,
+                {
+                    kind: NodeKind.service,
+                    linkName: 'k8s-owner',
+                    inverseLinkName: 'logic'
+                });
 
             const portConfigs = config.spec?.ports ?? [];
             for(const portConfig of portConfigs)

@@ -4,21 +4,20 @@ import { LogicScope, LogicTarget } from "./scope";
 
 import { PropertiesBuilder } from '../utils/properties-builder';
 
-import * as DocsHelper from '@kubevious/helpers/dist/docs';
-
 import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/state-registry'
 
 import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 import { SeverityType } from './types';
-import { NodeKind } from '@kubevious/entity-meta';
+import { NodeKind, FlagKind } from '@kubevious/entity-meta';
 
-export class LogicItemData
+class LogicItemSharedData
 {
     config : Record<string, any> = {};
     properties : Record<string, SnapshotPropsConfig> = {};
     alerts : Record<string, Alert> = {};
     flags : Record<string, FlagInfo> = {};
+    uses : { [dn : string] : boolean } = {};
 }
 
 export class LogicItem
@@ -32,11 +31,12 @@ export class LogicItem
     private _namingArray : string[] = [];
 
     private _shadowOf : string | null = null;
-    private _data : LogicItemData = {
+    private _data : LogicItemSharedData = {
         config: {},
         properties: {},
         alerts: {},
-        flags: {}
+        flags: {},
+        uses: {}
     }
 
     private _selfProperties : Record<string, SnapshotPropsConfig> = {};
@@ -90,10 +90,6 @@ export class LogicItem
         return this._kind;
     }
 
-    get prettyKind() {
-        return DocsHelper.prettyKind(this.kind);
-    }
-
     get naming() {
         return this._naming;
     }
@@ -134,10 +130,26 @@ export class LogicItem
         this._order = value;
     }
 
+    get usedDns() {
+        return this._data.uses;
+    }
+
     makeShadowOf(other: LogicItem)
     {
         this._shadowOf = other.dn;
         this._data = other._data;
+    }
+
+    markUses(other: LogicItem | string)
+    {
+        if (_.isString(other))
+        {
+            this._data.uses[other] = true;
+        }
+        else
+        {
+            this._data.uses[other.dn] = true; 
+        }
     }
 
     link(kind: string, targetItemOrDn: LogicItem | string, path?: any) : LogicItem | null
@@ -175,12 +187,12 @@ export class LogicItem
         return this._linkRegistry.resolveSourceItems(this.dn, kind);
     }
 
-    setPropagatableFlag(name: string)
+    setPropagatableFlag(name: FlagKind)
     {
         return this.setFlag(name, { propagatable: true });
     }
 
-    setFlag(name: string, params?: Partial<FlagInfo>)
+    setFlag(name: FlagKind, params?: Partial<FlagInfo>)
     {
         if (params) {
             params = _.clone(params);
@@ -419,7 +431,7 @@ export class LogicItem
 
 export interface FlagInfo
 {
-    name : string;
+    name : FlagKind;
     propagatable : boolean;
 }
 

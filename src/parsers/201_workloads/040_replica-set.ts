@@ -13,7 +13,7 @@ export default K8sParser<ReplicaSet>()
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
         const ownerReferences = metadata.ownerReferences ?? [];
-        for(let ref of ownerReferences)
+        for(const ref of ownerReferences)
         {
             const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
             const owner = item.link('k8s-owner', ownerDn);
@@ -24,9 +24,14 @@ export default K8sParser<ReplicaSet>()
                 const logicOwner = owner.resolveTargetLinkItem('logic');
                 if (logicOwner)
                 { 
-                    const logicItem = logicOwner.fetchByNaming(NodeKind.replicaset, shortName);
-                    logicItem.makeShadowOf(item);
-                    item.link('logic', logicItem);
+                    helpers.shadow.create(item, logicOwner,
+                        {
+                            kind: NodeKind.replicaset,
+                            name: shortName,
+                            linkName: 'k8s-owner',
+                            inverseLinkName: 'logic',
+                        });
+            
                 }
             }
         }

@@ -16,15 +16,19 @@ export default LogicVolumeParser()
 
         /*** HELPERS **/
 
-        function findAndProcessConfigMap(name: string, isOptional?: boolean) : ConfigMap | null
+        function findAndProcessConfigMap(name: string, isOptional?: boolean)
         {
-            const k8sConfigMapDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ConfigMap', name);
+            const k8sConfigMap = helpers.k8s.findItem(runtime.namespace, 'v1', 'ConfigMap', name);
 
-            const logicConfigMap = item.fetchByNaming(NodeKind.configmap, name);
-            const k8sConfigMap = logicConfigMap.link('k8s-owner', k8sConfigMapDn);
             if (k8sConfigMap)
             {
-                logicConfigMap.makeShadowOf(k8sConfigMap);
+                helpers.shadow.create(k8sConfigMap, item, 
+                    {
+                        kind: NodeKind.configmap,
+                        linkName: 'k8s-owner',
+                        skipUsageRegistration: true
+                    })
+
                 return <ConfigMap>k8sConfigMap.config;
             }
             else
@@ -33,8 +37,6 @@ export default LogicVolumeParser()
                     item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${name}`);
                 }
             }
-
-            return null;
         }
 
     })

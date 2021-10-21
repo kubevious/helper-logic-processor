@@ -13,14 +13,14 @@ export default LogicContainerParser()
         const app = item.parent!;
         const appRuntime = <LogicAppRuntime>app.runtime;
 
-        for(let volumeMountConfig of config.volumeMounts)
+        for(const volumeMountConfig of config.volumeMounts)
         {
             const volumeDn = appRuntime.volumes[volumeMountConfig.name];
             if (volumeDn)
             {
                 const volume = scope.findItem(volumeDn)!;
 
-                let containerVolumeMount = item.fetchByNaming(NodeKind.vol, volume.naming);
+                const containerVolumeMount = item.fetchByNaming(NodeKind.vol, volume.naming);
                 containerVolumeMount.link('volume', volume);
 
                 containerVolumeMount.addProperties({
@@ -35,10 +35,12 @@ export default LogicContainerParser()
                     containerVolumeMount.addProperties(volume.getProperties('config')!);
                 }
 
-                for(let volumeChild of volume.getChildren())
+                for(const volumeChild of volume.getChildren())
                 {
-                    const containerVolumeChild = containerVolumeMount.fetchByNaming(volumeChild.kind, volumeChild.naming);
-                    containerVolumeChild.makeShadowOf(volumeChild);
+                    helpers.shadow.create(volumeChild, containerVolumeMount, 
+                        {
+                            linkName: 'mount'
+                        })
                 }
             }
         }

@@ -15,6 +15,7 @@ import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/state-registry'
 
 import { IConcreteRegistry } from '../types/registry';
 import { ParserInfo, ParserLoader } from './parser-loader'
+import { FlagKind } from '@kubevious/entity-meta';
 
 export class LogicProcessor 
 {

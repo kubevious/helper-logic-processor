@@ -12,9 +12,8 @@ export default K8sParser<Pod>()
     })
     .handler(({ logger, config, item, metadata, namespace, helpers }) => {
 
-
         const ownerReferences = metadata.ownerReferences ?? [];
-        for(let ref of ownerReferences)
+        for(const ref of ownerReferences)
         {
             const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
             const owner = item.link('k8s-owner', ownerDn);
@@ -25,10 +24,15 @@ export default K8sParser<Pod>()
                 const logicOwner = owner.resolveTargetLinkItem('logic');
                 if (logicOwner)                 
                 { 
-                    const logicPod = logicOwner.fetchByNaming(NodeKind.pod, shortName);
-                    logicPod.makeShadowOf(item);
+                    const logicPod = helpers.shadow.create(item, logicOwner,
+                        {
+                            kind: NodeKind.pod,
+                            name: shortName,
+                            linkName: 'k8s-owner',
+                            inverseLinkName: 'logic',
+                        });
+
                     (<LogicPodRuntime>logicPod.runtime).namespace = namespace!; 
-                    item.link('logic', logicPod);
                 }
             }
         }

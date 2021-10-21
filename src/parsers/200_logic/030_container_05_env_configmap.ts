@@ -4,7 +4,7 @@ import { LogicContainerParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
-    .handler(({ logger, item, config, runtime, helpers}) => {
+    .handler(({ logger, scope, item, config, runtime, helpers}) => {
 
         if (!config.envFrom) {
             return;
@@ -40,17 +40,19 @@ export default LogicContainerParser()
         
         function findAndProcessConfigMap(name: string) : ConfigMap | null
         {
-            const k8sConfigMapDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ConfigMap', name);
+            const k8sConfigMap = helpers.k8s.findItem(runtime.namespace, 'v1', 'ConfigMap', name);
 
-            const logicConfigMap = item.fetchByNaming(NodeKind.configmap, name);
-            const k8sConfigMap = logicConfigMap.link('k8s-owner', k8sConfigMapDn);
             if (k8sConfigMap)
             {
-                helpers.usage.register(logicConfigMap, k8sConfigMap);
-                logicConfigMap.makeShadowOf(k8sConfigMap);
+                helpers.shadow.create(k8sConfigMap, item, 
+                    {
+                        kind: NodeKind.configmap,
+                        linkName: 'k8s-owner'
+                    })
+
                 return <ConfigMap>k8sConfigMap.config;
             }
-
+            
             return null;
         }
         

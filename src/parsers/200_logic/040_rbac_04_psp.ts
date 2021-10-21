@@ -6,15 +6,15 @@ import { NodeKind } from '@kubevious/entity-meta';
 export default LogicRoleParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
 
-        let k8sRole = item.resolveTargetLinkItem('k8s-owner')!;
+        const k8sRole = item.resolveTargetLinkItem('k8s-owner')!;
 
-        for(let k8sPsp of k8sRole.resolveTargetLinkItems('psp'))
+        for(const k8sPsp of k8sRole.resolveTargetLinkItems('psp'))
         {
-            const config = <PodSecurityPolicy>k8sPsp.config;
-
-            const logicPsp = item.fetchByNaming(NodeKind.psp, config.metadata!.name!);
-            logicPsp.makeShadowOf(k8sPsp);
-            logicPsp.link('k8s-owner', k8sPsp);
+            helpers.shadow.create(k8sPsp, item, 
+                {
+                    kind: NodeKind.psp,
+                    linkName: 'k8s-owner'
+                })
         }
 
     })

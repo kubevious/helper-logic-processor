@@ -41,11 +41,14 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         (<LogicAppRuntime>app.runtime).helmCharts = {};
         item.link('app', app);
 
-        const launcher = app.fetchByNaming(NodeKind.launcher, config.kind);
-        (<LogicLauncherRuntime>launcher.runtime).namespace = namespace!;
+        const launcher = helpers.shadow.create(item, app,
+            {
+                kind: NodeKind.launcher,
+                linkName: 'k8s-owner',
+                inverseLinkName: 'logic'
+            });
 
-        launcher.makeShadowOf(item);
-        item.link('logic', launcher);
+        (<LogicLauncherRuntime>launcher.runtime).namespace = namespace!;
 
         const labelsMap = helpers.k8s.labelsMap(config.spec?.template.metadata);
         helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)

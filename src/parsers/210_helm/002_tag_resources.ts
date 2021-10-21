@@ -54,10 +54,13 @@ export default K8sAllParser()
             }
             appRuntime.helmCharts[helmVersionItem.dn] = true;
 
-            const logicAppHelmChart = app.fetchByNaming(NodeKind.helm, helmRelease);
-            logicAppHelmChart.makeShadowOf(helmVersionItem);
-
             helmVersionItem.link('app', app);
+
+            helpers.shadow.create(helmVersionItem, app,
+                {
+                    kind: NodeKind.helm,
+                    name: helmRelease
+                });
         }
 
     })

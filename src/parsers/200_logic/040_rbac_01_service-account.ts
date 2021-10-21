@@ -22,17 +22,16 @@ export default LogicLauncherParser()
 
         if (svcAccountName)
         {
-            const k8sSvcAccountDn = helpers.k8s.makeDn(runtime.namespace, 'v1', 'ServiceAccount', svcAccountName);
+            const k8sSvcAccount = helpers.k8s.findItem(runtime.namespace, 'v1', 'ServiceAccount', svcAccountName);
 
             const app = item.parent!;
-            const k8sSvcAccount = app.link('service-account', k8sSvcAccountDn);
             if (k8sSvcAccount)
             {
-                helpers.usage.register(app, k8sSvcAccount);
-
-                const svcAccount = app.fetchByNaming(NodeKind.svcaccnt, svcAccountName);
-                svcAccount.makeShadowOf(k8sSvcAccount);
-                svcAccount.link('k8s-owner', k8sSvcAccount);
+                helpers.shadow.create(k8sSvcAccount, app, 
+                    {
+                        kind: NodeKind.svcaccnt,
+                        linkName: 'k8s-owner'
+                    })
             }
             else
             {

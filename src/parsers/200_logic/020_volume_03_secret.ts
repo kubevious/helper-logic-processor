@@ -17,7 +17,22 @@ export default LogicVolumeParser()
 
         function findAndProcessSecret(name: string, isOptional?: boolean) 
         {
-            let logicSecret = item.fetchByNaming(NodeKind.secret, name);
+            const k8sSecret = helpers.k8s.findItem(runtime.namespace, 'v1', 'Secret', name);
+            if (k8sSecret)
+            {
+                helpers.shadow.create(k8sSecret, item, 
+                    {
+                        kind: NodeKind.secret,
+                        linkName: 'k8s-owner',
+                        skipUsageRegistration: true
+                    })
+            }
+            else
+            {
+                if (!isOptional) {
+                    item.addAlert("MissingSecret", "error", `Could not find Secret ${name}`);
+                }
+            }
         }
 
 

@@ -28,9 +28,11 @@ export default K8sParser<NetworkPolicy>()
         {
             const container = targetApp.fetchByNaming(NodeKind.netpols)
 
-            const logicNetworkPolicy = container.fetchByNaming(NodeKind.netpol, metadata.name)
-            logicNetworkPolicy.makeShadowOf(item);
-            logicNetworkPolicy.link('k8s-owner', item);
+            helpers.shadow.create(item, container,
+                {
+                    kind: NodeKind.netpol,
+                    linkName: 'k8s-owner'
+                });
         }
         
     })

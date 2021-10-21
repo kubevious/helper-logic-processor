@@ -1,14 +1,10 @@
-import { Node } from 'kubernetes-types/core/v1';
+
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
 import { InfraPoolRuntime } from '../../types/parser/infra-pool';
 import { NodeKind } from '@kubevious/entity-meta';
+import { K8sNodeParser } from '../../parser-builder/k8s';
 
-export default K8sParser<Node>()
-    .target({
-        clustered: true,
-        kind: "Node"
-    })
+export default K8sNodeParser()
     .handler(({ logger, scope, config, item, metadata, helpers }) => {
 
         const nodePoolName = getNodePoolName();
@@ -19,14 +15,17 @@ export default K8sParser<Node>()
         const pool = nodes.fetchByNaming(NodeKind.pool, nodePoolName);
         (<InfraPoolRuntime>pool.runtime).nodeCount = 0;
 
-        const node = pool.fetchByNaming(NodeKind.node, metadata.name!);
-        node.makeShadowOf(item);
+        helpers.shadow.create(item, pool,
+            {
+                kind: NodeKind.node,
+                linkName: 'k8s-owner'
+            })
 
         /*** HELPERS ***/
         function getNodePoolName()
         {
             const labelMap = metadata.labels ?? {};
-            for(let label of NODE_POOL_LABELS) {
+            for(const label of NODE_POOL_LABELS) {
                 const value = labelMap[label];
                 if (value) {
                     return value;
