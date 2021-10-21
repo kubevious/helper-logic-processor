@@ -8,22 +8,21 @@ export default LogicParser()
     })
     .handler(({ logger, item, helpers }) => {
 
-        {
+        const usedDnsMap = item.usedDns;
+        const dns = _.keys(usedDnsMap).filter(x => x != item.dn);
 
-            const usedDnsMap = item.usedDns;
-            const usedDns = _.orderBy(_.keys(usedDnsMap));
+        if (dns.length > 0) {
+            const usedDns = _.orderBy(dns);
 
-            if (usedDns.length > 0) {
-               
-                item.addProperties({
-                    kind: "dn-list",
-                    id: 'uses-dns',
-                    title: 'Uses Dns',
-                    order: 9,
-                    config: usedDns
-                });
-
-            }
+            item.addProperties({
+                kind: "dn-list",
+                id: 'used-by',
+                title: 'Used By',
+                order: 9,
+                config: usedDns
+            }, {
+                isSelfProps: true
+            });
         }
 
     })
