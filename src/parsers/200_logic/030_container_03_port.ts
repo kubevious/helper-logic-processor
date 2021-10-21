@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { LogicAppRuntime, PortInfo } from '../../types/parser/logic-app';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, helpers}) => {
@@ -23,8 +24,8 @@ export default LogicContainerParser()
             portItem.setConfig(portConfig);
 
             portItem.addProperties({
-                kind: "yaml",
-                id: "config",
+                kind: PropsKind.yaml,
+                id: PropsId.config,
                 title: "Config",
                 order: 10,
                 config: portConfig

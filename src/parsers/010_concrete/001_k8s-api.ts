@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default ConcreteParser()
     .target({
@@ -32,8 +33,8 @@ export default ConcreteParser()
             const kindRoot = apiVersionRoot.fetchByNaming(NodeKind.kind, resource.kindName);
 
             kindRoot.addProperties({
-                kind: "yaml",
-                id: "config",
+                kind: PropsKind.yaml,
+                id: PropsId.config,
                 title: "Config",
                 order: 10,
                 config: resource

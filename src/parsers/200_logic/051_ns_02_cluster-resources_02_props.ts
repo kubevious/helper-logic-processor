@@ -1,13 +1,13 @@
 import _ from 'the-lodash';
 import { LogicNamespaceParser } from '../../parser-builder/logic'
-import { InfraNodesRuntime } from '../../types/parser/infra-nodes';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicNamespaceParser()
     .handler(({ logger, scope, item, config, runtime, helpers}) => {
 
         item.addProperties({
-            kind: "key-value",
-            id: "cluster-consumption",
+            kind: PropsKind.keyValue,
+            id: PropsId.clusterConsumption,
             title: "Cluster Consumption",
             order: 9,
             config: runtime.clusterConsumption

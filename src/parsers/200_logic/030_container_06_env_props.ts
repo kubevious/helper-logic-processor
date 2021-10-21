@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 
 import { LogicContainerParser } from '../../parser-builder/logic';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -8,8 +9,8 @@ export default LogicContainerParser()
         if (_.keys(runtime.envVars).length > 0)
         {
             item.addProperties({
-                kind: "key-value",
-                id: "env",
+                kind: PropsKind.keyValue,
+                id: PropsId.env,
                 title: "Environment Variables",
                 order: 10,
                 config: runtime.envVars

@@ -1,10 +1,11 @@
 import _ from 'the-lodash';
 import { LogicNamespaceParser } from '../../parser-builder/logic'
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicNamespaceParser()
     .handler(({ logger, scope, item, config, runtime, helpers }) => {
 
-        let appsByConsumptionTable = {
+        const appsByConsumptionTable = {
             headers: <any[]>[
                 {
                     id: 'dn',
@@ -15,15 +16,15 @@ export default LogicNamespaceParser()
             rows: <any[]>[]
         }
 
-        for(let metric of helpers.resources.METRICS) {
+        for(const metric of helpers.resources.METRICS) {
             appsByConsumptionTable.headers.push(metric);
         }
         
         appsByConsumptionTable.rows = _.orderBy(_.values(runtime.appsByConsumptionDict), x => x.max, 'desc').map(x => {
-            let row : Record<string, any> = {
+            const row : Record<string, any> = {
                 dn: x.dn
             }
-            for(let metric of helpers.resources.METRICS)
+            for(const metric of helpers.resources.METRICS)
             {
                 let value = x.metrics[metric];
                 if (!value) {
@@ -38,8 +39,8 @@ export default LogicNamespaceParser()
         });
 
         item.addProperties({
-            kind: "table",
-            id: "app-consumption",
+            kind: PropsKind.table,
+            id: PropsId.appConsumption,
             title: "Application Consumption",
             order: 8,
             config: appsByConsumptionTable

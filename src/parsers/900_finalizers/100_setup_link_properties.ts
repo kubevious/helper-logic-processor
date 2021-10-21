@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicParser()
     .target({
@@ -11,29 +12,34 @@ export default LogicParser()
         {
             const links = item.resolveTargetLinks();
             if (links.length > 0) {
-                const linksTable = helpers.common.tableBuilder()
-                    .column('kind', 'Kind')
-                    .column('dn', 'Application', 'shortcut')
-                    .column('resolved', 'Resolved')
-                ;
+
+                const linksMap : { [ kind : string ] : LinkInfo[] } = {};
+
                 for(const link of links)
                 {
-                    linksTable.row({ 
-                        kind: link.link.kind, 
-                        dn: link.dn, 
-                        path: link.link.path,
-                        resolved: _.isNotNullOrUndefined(link.item)
-                    })
+                    if (!linksMap[link.link.kind]) {
+                        linksMap[link.link.kind] = [];
+                    }
+
+                    linksMap[link.link.kind].push(
+                        {
+                            dn: link.dn, 
+                            path: link.link.path,
+                            unresolved: _.isNullOrUndefined(link.item) ? true : undefined
+                        });
                 }
 
-                linksTable.order(['dn', 'kind', 'path']);
+                for(const key of _.keys(linksMap))
+                {
+                    linksMap[key] = _.orderBy(linksMap[key], ['dn', 'path']);
+                }
         
                 item.addProperties({
-                    kind: "table",
-                    id: 'target-links',
+                    kind: PropsKind.links,
+                    id: PropsId.targetLinks,
                     title: 'Target Links',
                     order: 8,
-                    config: linksTable.extract()
+                    config: linksMap
                 }, {
                     isSelfProps: true
                 });
@@ -74,3 +80,10 @@ export default LogicParser()
 
     })
     ;
+
+interface LinkInfo 
+{
+    dn: string,
+    path?: string;
+    unresolved?: boolean;
+}

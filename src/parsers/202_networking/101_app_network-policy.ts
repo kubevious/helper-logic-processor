@@ -16,7 +16,7 @@ export default K8sParser<NetworkPolicy>()
 
         let policyTypes = config.spec?.policyTypes ?? [];
         if (policyTypes.length == 0) {
-            policyTypes = [ 'Ingress' ];
+            policyTypes = [ helpers.networking.directionIngress ];
         }
 
         const targetApps = helpers.k8s.labelMatcher.matchSelector(

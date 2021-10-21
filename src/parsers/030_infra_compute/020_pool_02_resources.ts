@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { InfraNodePoolParser } from '../../parser-builder/infra';
 import { InfraNodeRuntime } from '../../types/parser/infra-node';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default InfraNodePoolParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
@@ -73,8 +74,8 @@ export default InfraNodePoolParser()
         }
 
         const resourcesPropsBuilder = item.buildCustomProperties({
-            kind: "key-value",
-            id: "pool-resources",
+            kind: PropsKind.keyValue,
+            id: PropsId.poolResources,
             title: "Pool Resources",
             order: 7,
             config: undefined
@@ -99,8 +100,8 @@ export default InfraNodePoolParser()
         resourcesPropsBuilder.build();
 
         item.addProperties({
-            kind: "key-value",
-            id: "node-resources",
+            kind: PropsKind.keyValue,
+            id: PropsId.nodeResources,
             title: "Node Resources",
             order: 8,
             config: runtime.nodeResources

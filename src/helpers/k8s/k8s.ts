@@ -8,6 +8,7 @@ import { GlobalLabelMatcher } from './global-label-matcher';
 import { makeDn, RnInfo } from '../../utils/dn-utils';
 import { ObjectMeta } from "kubernetes-types/meta/v1";
 import { LogicScope } from '../../logic/scope';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export class KubernetesUtils {
 
@@ -72,8 +73,8 @@ export class KubernetesUtils {
     makeConfigProps(item: LogicItem, config: K8sConfig)
     {            
         item.addProperties({
-            kind: "yaml",
-            id: "config",
+            kind: PropsKind.yaml,
+            id: PropsId.config,
             title: "Config",
             order: 10,
             config: config
@@ -86,8 +87,8 @@ export class KubernetesUtils {
         labels = this._normalizeDict(labels);
 
         item.addProperties({
-            kind: "key-value",
-            id: "labels",
+            kind: PropsKind.keyValue,
+            id: PropsId.labels,
             title: "Labels",
             order: 8,
             config: labels
@@ -100,8 +101,8 @@ export class KubernetesUtils {
         annotations = this._normalizeDict(annotations);
 
         item.addProperties({
-            kind: "key-value",
-            id: "annotations",
+            kind: PropsKind.keyValue,
+            id: PropsId.annotations,
             title: "Annotations",
             order: 9,
             config: annotations
@@ -112,8 +113,8 @@ export class KubernetesUtils {
     {
         dict = dict || {};
 
-        let res : Record<string, any> = {};
-        for(let key of _.sortBy(_.keys(dict)))
+        const res : Record<string, any> = {};
+        for(const key of _.sortBy(_.keys(dict)))
         {
             res[key] = dict[key];
         }

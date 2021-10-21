@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { PropertyValueWithUnit } from '../../helpers/resources';
 import { InfraNodeParser } from '../../parser-builder/infra';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default InfraNodeParser()
     .handler(({ logger, scope, config, runtime, item, helpers }) => {
@@ -8,19 +9,19 @@ export default InfraNodeParser()
         runtime.resourcesCapacity = {};
         runtime.resourcesAllocatable = {};
 
-        for(let metric of helpers.resources.METRICS) {
+        for(const metric of helpers.resources.METRICS) {
             collectResourceMetric(metric);
         }
 
         const propsBuilder = item.buildCustomProperties({
-            kind: "key-value",
-            id: "resources",
+            kind: PropsKind.keyValue,
+            id: PropsId.resources,
             title: "Resources",
             order: 7,
             config: undefined
         });
 
-        for(let metric of helpers.resources.METRICS)
+        for(const metric of helpers.resources.METRICS)
         {
             {
                 const value = runtime.resourcesCapacity[metric];
@@ -52,7 +53,7 @@ export default InfraNodeParser()
             if (!configCounterDict) {
                 return;
             }
-            let rawValue = configCounterDict[metric];
+            const rawValue = configCounterDict[metric];
             if (!rawValue) {
                 return;
             }

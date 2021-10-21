@@ -1,13 +1,14 @@
 import _ from 'the-lodash';
 import { LogicNetworkPoliciesParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicNetworkPoliciesParser()
     .handler(({ logger, item, helpers }) => {
 
         const properties = item.buildProperties();
 
-        for(const direction of ['Ingress', 'Egress'])
+        for(const direction of helpers.networking.directions)
         {
             processDirection(direction);
         }
@@ -70,8 +71,8 @@ export default LogicNetworkPoliciesParser()
 
             if (trafficTable.hasRows) {
                 item.addProperties({
-                    kind: "table",
-                    id: `${direction.toLowerCase()}-app`,
+                    kind: PropsKind.table,
+                    id: (direction === helpers.networking.directionIngress) ? PropsId.ingressApp : PropsId.egressApp,
                     title: `${direction} Application Rules`,
                     order: 8,
                     config: trafficTable.extract()
@@ -80,8 +81,8 @@ export default LogicNetworkPoliciesParser()
 
             if (cidrTrafficTable.hasRows) {
                 item.addProperties({
-                    kind: "table",
-                    id: `${direction.toLowerCase()}-cidr`,
+                    kind: PropsKind.table,
+                    id: (direction === helpers.networking.directionIngress) ? PropsId.ingressCidr : PropsId.egressCidr,
                     title: `${direction} CIDR Rules`,
                     order: 8,
                     config: cidrTrafficTable.extract()

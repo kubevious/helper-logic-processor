@@ -5,6 +5,7 @@ import { LogicContainerRuntime } from '../../types/parser/logic-container';
 import { LogicLauncherParser } from '../../parser-builder/logic';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime}) => {
@@ -49,8 +50,8 @@ export default LogicLauncherParser()
             cont.setConfig(containerConfig);
             
             cont.addProperties({
-                kind: "yaml",
-                id: "config",
+                kind: PropsKind.yaml,
+                id: PropsId.config,
                 title: "Config",
                 order: 10,
                 config: containerConfig

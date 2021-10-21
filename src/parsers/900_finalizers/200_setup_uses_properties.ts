@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { LogicParser } from '../../parser-builder';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicParser()
     .target({
@@ -15,8 +16,8 @@ export default LogicParser()
             const usedDns = _.orderBy(dns);
 
             item.addProperties({
-                kind: "dn-list",
-                id: 'used-by',
+                kind: PropsKind.dnList,
+                id: PropsId.sharedWith,
                 title: 'Used By',
                 order: 9,
                 config: usedDns

@@ -10,6 +10,7 @@ import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 import { SeverityType } from './types';
 import { NodeKind, FlagKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 class LogicItemSharedData
 {
@@ -317,8 +318,8 @@ export class LogicItem
     buildProperties(params?: NewPropsParams)
     {
         return this.buildCustomProperties({
-            kind: "key-value",
-            id: "properties",
+            kind: PropsKind.keyValue,
+            id: PropsId.properties,
             title: "Properties",
             order: 5,
             config: undefined
@@ -354,17 +355,7 @@ export class LogicItem
             ... _.values(this._selfProperties)
         ];
 
-        if (_.keys(this._usedBy).length > 0) {
-            myProps.push({
-                kind: "dn-list",
-                id: "shared-with",
-                title: "Shared With",
-                order: 5,
-                config: _.keys(this._usedBy)
-            });   
-        }
         myProps = _.deepClean(myProps);
-
         return myProps;
     }
 

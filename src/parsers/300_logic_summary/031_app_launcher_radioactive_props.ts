@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicLauncherParser } from '../../parser-builder/logic';
 import { FlagKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, scope, item, runtime }) => {
@@ -10,8 +11,8 @@ export default LogicLauncherParser()
             item.setPropagatableFlag(FlagKind.radioactive);
 
             item.addProperties({
-                kind: "key-value",
-                id: "radioactive",
+                kind: PropsKind.keyValue,
+                id: PropsId.radioactive,
                 title: "Radioactivity",
                 order: 7,
                 config: runtime.radioactiveProps

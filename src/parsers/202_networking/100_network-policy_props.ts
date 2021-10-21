@@ -2,6 +2,7 @@ import { NetworkPolicy, NetworkPolicyEgressRule, NetworkPolicyIngressRule, Netwo
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { LogicNamespaceRuntime } from '../../types/parser/logic-namespace';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default K8sParser<NetworkPolicy>()
     .target({
@@ -22,12 +23,12 @@ export default K8sParser<NetworkPolicy>()
         const propsBuilder = item.buildProperties();
 
         processRules( 
-            'Ingress',
+            helpers.networking.directionIngress,
             config.spec.ingress,
             (x) => x.from);
         
         processRules( 
-            'Egress',
+            helpers.networking.directionEgress,
             config.spec.egress,
             (x) => x.to);
 
@@ -145,8 +146,8 @@ export default K8sParser<NetworkPolicy>()
 
             if (trafficTable.hasRows) {
                 item.addProperties({
-                    kind: "table",
-                    id: `${policyType.toLowerCase()}-app`,
+                    kind: PropsKind.table,
+                    id: (policyType === helpers.networking.directionIngress) ? PropsId.ingressApp : PropsId.egressApp,
                     title: `${policyType} Application Rules`,
                     order: 8,
                     config: trafficTable.extract()
@@ -155,8 +156,8 @@ export default K8sParser<NetworkPolicy>()
 
             if (cidrTrafficTable.hasRows) {
                 item.addProperties({
-                    kind: "table",
-                    id: `${policyType.toLowerCase()}-cidr`,
+                    kind: PropsKind.table,
+                    id: (policyType === helpers.networking.directionIngress) ? PropsId.ingressCidr : PropsId.egressCidr,
                     title: `${policyType} CIDR Rules`,
                     order: 8,
                     config: cidrTrafficTable.extract()

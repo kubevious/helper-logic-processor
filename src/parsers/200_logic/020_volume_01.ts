@@ -6,6 +6,7 @@ import { LogicVolumeRuntime } from '../../types/parser/logic-volume';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicItem } from '../..';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime }) => {
@@ -34,8 +35,8 @@ export default LogicLauncherParser()
             appRuntime.volumes[volumeConfig.name] = volume.dn;
 
             volume.addProperties({
-                kind: "yaml",
-                id: "config",
+                kind: PropsKind.yaml,
+                id: PropsId.config,
                 title: "Config",
                 order: 10,
                 config: volumeConfig

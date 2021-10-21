@@ -1,4 +1,5 @@
 import _ from 'the-lodash';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export type VerbsDict = Record<string, boolean>;
 
@@ -204,8 +205,8 @@ export class RoleHelper {
         const roleTableConfig = this.buildRoleMatrixTable(rulesMap);
         
         const config = {
-            kind: "table",
-            id: "resource-role-matrix",
+            kind: PropsKind.table,
+            id: PropsId.resourceRoleMatrix,
             title: "Resource Role Matrix",
             order: 8,
             config: roleTableConfig

@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, scope, item, config, helpers}) => {
@@ -24,8 +25,8 @@ export default LogicContainerParser()
                 containerVolumeMount.link('volume', volume);
 
                 containerVolumeMount.addProperties({
-                    kind: "yaml",
-                    id: "mount",
+                    kind: PropsKind.yaml,
+                    id: PropsId.mount,
                     title: "Mount Config",
                     order: 5,
                     config: volumeMountConfig
