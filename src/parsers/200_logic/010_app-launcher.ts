@@ -44,6 +44,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         const launcher = helpers.shadow.create(item, app,
             {
                 kind: NodeKind.launcher,
+                name: config.kind,
                 linkName: 'k8s-owner',
                 inverseLinkName: 'logic'
             });
