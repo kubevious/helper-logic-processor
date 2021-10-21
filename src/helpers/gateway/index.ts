@@ -1,16 +1,19 @@
 import { NodeKind } from '@kubevious/entity-meta';
 import _ from 'the-lodash';
 import { ILogger } from "the-logger";
+import { Helpers } from '..';
 import { LogicItem } from '../../logic/item';
 import { LogicScope } from '../../logic/scope';
 import { K8sConfig } from '../../types/k8s';
 
 export class GatewayUtils
 {
+    private _helpers: Helpers;
     private _scope : LogicScope;
 
-    constructor(logger: ILogger, scope: LogicScope)
+    constructor(helpers: Helpers, logger: ILogger, scope: LogicScope)
     {
+        this._helpers = helpers;
         this._scope = scope;
     }
 
@@ -34,18 +37,16 @@ export class GatewayUtils
 
         const itemConfig = <K8sConfig>item.config;
         const ruleName = `${itemConfig.apiVersion}-${itemConfig.kind}-${itemConfig.metadata.namespace}-${itemConfig.metadata.name!}`;
-        const ruleItem = urlItem.fetchByNaming(NodeKind.ingress, ruleName);
 
-        ruleItem.link('ingress', item);
+        this._helpers.shadow.create(item, urlItem,
+            {
+                kind: NodeKind.ingress,
+                name: ruleName,
 
-        ruleItem.setConfig(ruleConfig);
+                linkName: 'k8s-owner',
+                inverseLinkName: 'gateway',
 
-        ruleItem.addProperties({
-            kind: "yaml",
-            id: "config",
-            title: "Config",
-            order: 10,
-            config: ruleConfig
-        });
+                skipUsageRegistration: true
+            });
     }
 }   

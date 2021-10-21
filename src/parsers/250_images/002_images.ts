@@ -23,7 +23,8 @@ export default LogicImageParser()
                 kind: NodeKind.app,
                 linkName: 'image',
                 inverseLinkName: 'image',
-                inverseLinkPath: `${logicContainerItem.kind}-${logicContainerItem.naming}`
+                inverseLinkPath: `${logicContainerItem.kind}-${logicContainerItem.naming}`,
+                skipUsageRegistration: true
             });
 
     })

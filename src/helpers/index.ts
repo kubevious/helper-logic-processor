@@ -25,8 +25,8 @@ export class Helpers {
     {
         this.usage = new UsageUtils(logger, scope);
         this.k8s = new KubernetesUtils(logger, scope);
-        this.gateway = new GatewayUtils(logger, scope);
-        this.logic = new LogicUtils(logger, scope);
+        this.gateway = new GatewayUtils(this, logger, scope);
+        this.logic = new LogicUtils(this, logger, scope);
         this.shadow = new ShadowUtils(this, logger, scope);
     }
 
