@@ -26,8 +26,6 @@ export default LogicContainerParser()
             portItem.addProperties({
                 kind: PropsKind.yaml,
                 id: PropsId.config,
-                title: "Config",
-                order: 10,
                 config: portConfig
             });
 

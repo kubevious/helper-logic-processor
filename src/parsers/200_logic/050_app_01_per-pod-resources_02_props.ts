@@ -8,8 +8,6 @@ export default LogicAppParser()
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.resourcesPerPod,
-            title: "Resources Per Pod",
-            order: 8,
             config: runtime.perPodResources
         });
 

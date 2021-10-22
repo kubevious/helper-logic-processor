@@ -8,8 +8,6 @@ export default LogicContainerParser()
         const resourcesProps = item.buildCustomProperties({
             kind: PropsKind.keyValue,
             id: PropsId.resources,
-            title: "Resources",
-            order: 7,
             config: undefined
         });
 

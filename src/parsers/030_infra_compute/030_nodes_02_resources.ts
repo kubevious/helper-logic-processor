@@ -77,8 +77,6 @@ export default InfraNodesParser()
         const resourcesPropsBuilder = item.buildCustomProperties({
             kind: PropsKind.keyValue,
             id: PropsId.clusterResources,
-            title: "Cluster Resources",
-            order: 7,
             config: undefined
         });
         for(const metric of helpers.resources.METRICS)
@@ -103,8 +101,6 @@ export default InfraNodesParser()
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.nodeResources,
-            title: "Node Resources",
-            order: 8,
             config: runtime.nodeResources
         });
 

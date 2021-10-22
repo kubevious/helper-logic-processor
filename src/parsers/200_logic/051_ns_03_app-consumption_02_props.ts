@@ -41,8 +41,6 @@ export default LogicNamespaceParser()
         item.addProperties({
             kind: PropsKind.table,
             id: PropsId.appConsumption,
-            title: "Application Consumption",
-            order: 8,
             config: appsByConsumptionTable
         });
 

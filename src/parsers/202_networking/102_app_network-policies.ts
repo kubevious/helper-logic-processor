@@ -52,7 +52,7 @@ export default LogicNetworkPoliciesParser()
                     for(const row of childTrafficTable.config.rows)
                     {
                         const myRule = _.clone(row);
-                        myRule.policy = child.id;
+                        myRule.policy = child.dn;
                         trafficTable.row(myRule);
                     }
                 }
@@ -63,7 +63,7 @@ export default LogicNetworkPoliciesParser()
                     for(const row of childCidrTrafficTable.config.rows)
                     {
                         const myRule = _.clone(row);
-                        myRule.policy = child.id;
+                        myRule.policy = child.dn;
                         cidrTrafficTable.row(myRule);
                     }
                 }
@@ -73,8 +73,6 @@ export default LogicNetworkPoliciesParser()
                 item.addProperties({
                     kind: PropsKind.table,
                     id: (direction === helpers.networking.directionIngress) ? PropsId.ingressApp : PropsId.egressApp,
-                    title: `${direction} Application Rules`,
-                    order: 8,
                     config: trafficTable.extract()
                 });
             }
@@ -83,8 +81,6 @@ export default LogicNetworkPoliciesParser()
                 item.addProperties({
                     kind: PropsKind.table,
                     id: (direction === helpers.networking.directionIngress) ? PropsId.ingressCidr : PropsId.egressCidr,
-                    title: `${direction} CIDR Rules`,
-                    order: 8,
                     config: cidrTrafficTable.extract()
                 });
             }

@@ -44,7 +44,6 @@ export class LogicItem
 
     private _runtime : Record<string, any> = {};
 
-    private _order = 100;
     private _children : Record<string, LogicItem> = {};
 
     private _usedBy : Record<string, any> = {};
@@ -117,18 +116,6 @@ export class LogicItem
 
     get dn() {
         return this._dn;
-    }
-
-    get id() {
-        return this.dn;
-    }
-
-    get order() {
-        return this._order;
-    }
-
-    set order(value) {
-        this._order = value;
     }
 
     get usedDns() {
@@ -292,10 +279,6 @@ export class LogicItem
 
     addProperties(props: SnapshotPropsConfig, params?: NewPropsParams)
     {
-        if (!props.order) {
-            props.order = 10;
-        }
-
         params = params || {};
         if (params.isSelfProps) {
             this._selfProperties[props.id] = props;
@@ -320,8 +303,6 @@ export class LogicItem
         return this.buildCustomProperties({
             kind: PropsKind.keyValue,
             id: PropsId.properties,
-            title: "Properties",
-            order: 5,
             config: undefined
         }, params);
     }
@@ -369,8 +350,6 @@ export class LogicItem
         writer.write('-) ' + this.dn);
        
         writer.indent();
-
-        writer.write('Order: ' + this.order);
         // writer.write('RN: ' + this.rn);
      
         if (options && options.includeConfig) {
@@ -397,7 +376,6 @@ export class LogicItem
             rn: this.rn,
             name: this.naming,
             kind: this.kind,
-            order: this.order,
             flags: this._data.flags
         };
         // (<any>node).dn = this.dn;

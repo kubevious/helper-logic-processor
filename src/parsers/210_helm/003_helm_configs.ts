@@ -11,8 +11,6 @@ export default PackHelmVersionParser()
         item.addProperties({
             kind: PropsKind.dnList,
             id: PropsId.contents,
-            title: 'Contents',
-            order: 8,
             config: dns
         });
 

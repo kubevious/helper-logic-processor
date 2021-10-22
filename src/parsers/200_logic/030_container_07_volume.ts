@@ -27,8 +27,6 @@ export default LogicContainerParser()
                 containerVolumeMount.addProperties({
                     kind: PropsKind.yaml,
                     id: PropsId.mount,
-                    title: "Mount Config",
-                    order: 5,
                     config: volumeMountConfig
                 });  
 

@@ -37,8 +37,6 @@ export default LogicParser()
                 item.addProperties({
                     kind: PropsKind.links,
                     id: PropsId.targetLinks,
-                    title: 'Target Links',
-                    order: 8,
                     config: linksMap
                 }, {
                     isSelfProps: true
@@ -69,8 +67,6 @@ export default LogicParser()
         //         item.addProperties({
         //             kind: "table",
         //             id: 'source-links',
-        //             title: 'Source Links',
-        //             order: 9,
         //             config: linksTable.extract()
         //         }, {
         //             isSelfProps: true

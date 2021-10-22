@@ -11,8 +11,6 @@ export default LogicContainerParser()
             item.addProperties({
                 kind: PropsKind.keyValue,
                 id: PropsId.env,
-                title: "Environment Variables",
-                order: 10,
                 config: runtime.envVars
             });    
         }

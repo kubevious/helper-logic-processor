@@ -8,8 +8,6 @@ export default LogicAppParser()
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.clusterConsumption,
-            title: "Cluster Consumption",
-            order: 9,
             config: runtime.clusterConsumption
         });
 

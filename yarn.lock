@@ -52,10 +52,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@kubevious/entity-meta@^1.0.27", "@kubevious/entity-meta@^1.0.33":
-  version "1.0.33"
-  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.33.tgz#03b7b8da30e68c43bddd9e81c9947e0d3156c862"
-  integrity sha512-jnTcBqhA0rSuxUMNa6kn9NsK8iMn33zPGuzTQY1kL29ZD9Q5By1Pi0zC2tvMZ+Pjk8cRx+tMQ7rG65TlvvAzsQ==
+"@kubevious/entity-meta@^1.0.34":
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.34.tgz#2b34e4c05cd990a457e7a2d4aff1291f7c2c493c"
+  integrity sha512-E7K29+k8JmNG35xgxzNQMLesdRECHA2OFNiQJgXRLviXho4byXUa47YkZ46GTpEXqxVGAfPeZp/QaNDnPB1Bng==
   dependencies:
     the-lodash "^2.0.9"
 
@@ -69,12 +69,12 @@
     the-logger "^2.0.9"
     the-promise "^2.0.13"
 
-"@kubevious/state-registry@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@kubevious/state-registry/-/state-registry-1.0.9.tgz#8e68081ac45d306c53a8ae224068552fd2c6a15a"
-  integrity sha512-iEdQymBlOh/yjUXtWEFRUZTS6r2Oej+YiOiMG+kc6n0c4bDqDKDIpjf37G2GpF9So2ljMqgaWfXvXWzMvvetEA==
+"@kubevious/state-registry@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@kubevious/state-registry/-/state-registry-1.0.11.tgz#22b1e9ae42cb206339e87d84ee5681ddd38916c5"
+  integrity sha512-uiNpYq+5MyTfkMKhf4sVCOVwmGkHyA6Mr3G4oWQ4+MaPgEw/1WDl/ppCwhfHhmlUPCQd2kut4FW1BVUWk61wzQ==
   dependencies:
-    "@kubevious/entity-meta" "^1.0.27"
+    "@kubevious/entity-meta" "^1.0.34"
     the-lodash "^2.0.9"
     the-logger "^2.0.10"
     the-promise "^2.0.13"

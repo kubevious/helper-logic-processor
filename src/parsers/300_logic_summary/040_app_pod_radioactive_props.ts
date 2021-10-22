@@ -13,8 +13,6 @@ export default LogicPodParser()
             item.addProperties({
                 kind: PropsKind.keyValue,
                 id: PropsId.radioactive,
-                title: "Radioactivity",
-                order: 7,
                 config: runtime.radioactiveProps
             });
         }

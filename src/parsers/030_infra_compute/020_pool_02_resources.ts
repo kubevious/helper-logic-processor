@@ -76,8 +76,6 @@ export default InfraNodePoolParser()
         const resourcesPropsBuilder = item.buildCustomProperties({
             kind: PropsKind.keyValue,
             id: PropsId.poolResources,
-            title: "Pool Resources",
-            order: 7,
             config: undefined
         });
         for(const metric of helpers.resources.METRICS)
@@ -102,8 +100,6 @@ export default InfraNodePoolParser()
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.nodeResources,
-            title: "Node Resources",
-            order: 8,
             config: runtime.nodeResources
         });
 

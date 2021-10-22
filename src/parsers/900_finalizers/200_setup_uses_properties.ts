@@ -18,8 +18,6 @@ export default LogicParser()
             item.addProperties({
                 kind: PropsKind.dnList,
                 id: PropsId.sharedWith,
-                title: 'Used By',
-                order: 9,
                 config: usedDns
             }, {
                 isSelfProps: true

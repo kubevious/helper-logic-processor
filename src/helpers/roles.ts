@@ -207,8 +207,6 @@ export class RoleHelper {
         const config = {
             kind: PropsKind.table,
             id: PropsId.resourceRoleMatrix,
-            title: "Resource Role Matrix",
-            order: 8,
             config: roleTableConfig
         };
     

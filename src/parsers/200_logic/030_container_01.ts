@@ -52,8 +52,6 @@ export default LogicLauncherParser()
             cont.addProperties({
                 kind: PropsKind.yaml,
                 id: PropsId.config,
-                title: "Config",
-                order: 10,
                 config: containerConfig
             });
         }

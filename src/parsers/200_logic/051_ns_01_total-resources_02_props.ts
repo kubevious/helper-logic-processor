@@ -8,8 +8,6 @@ export default LogicNamespaceParser()
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.resources,
-            title: "Resources",
-            order: 6,
             config: runtime.usedResources
         });
 

@@ -148,8 +148,6 @@ export default K8sParser<NetworkPolicy>()
                 item.addProperties({
                     kind: PropsKind.table,
                     id: (policyType === helpers.networking.directionIngress) ? PropsId.ingressApp : PropsId.egressApp,
-                    title: `${policyType} Application Rules`,
-                    order: 8,
                     config: trafficTable.extract()
                 });
             }
@@ -158,8 +156,6 @@ export default K8sParser<NetworkPolicy>()
                 item.addProperties({
                     kind: PropsKind.table,
                     id: (policyType === helpers.networking.directionIngress) ? PropsId.ingressCidr : PropsId.egressCidr,
-                    title: `${policyType} CIDR Rules`,
-                    order: 8,
                     config: cidrTrafficTable.extract()
                 });
             }

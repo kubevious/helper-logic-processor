@@ -75,8 +75,6 @@ export class KubernetesUtils {
         item.addProperties({
             kind: PropsKind.yaml,
             id: PropsId.config,
-            title: "Config",
-            order: 10,
             config: config
         });
     }
@@ -89,8 +87,6 @@ export class KubernetesUtils {
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.labels,
-            title: "Labels",
-            order: 8,
             config: labels
         });
     }
@@ -103,8 +99,6 @@ export class KubernetesUtils {
         item.addProperties({
             kind: PropsKind.keyValue,
             id: PropsId.annotations,
-            title: "Annotations",
-            order: 9,
             config: annotations
         });
     }
