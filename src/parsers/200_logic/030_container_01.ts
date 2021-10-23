@@ -47,6 +47,7 @@ export default LogicLauncherParser()
         {
             const cont = item.parent!.fetchByNaming(kind, containerConfig.name);
             (<LogicContainerRuntime>cont.runtime).namespace = runtime.namespace;
+            (<LogicContainerRuntime>cont.runtime).app = app.naming;
             cont.setConfig(containerConfig);
             
             cont.addProperties({

@@ -47,7 +47,9 @@ export default LogicContainerParser()
                 helpers.shadow.create(k8sSecret, item, 
                     {
                         kind: NodeKind.secret,
-                        linkName: 'k8s-owner'
+                        linkName: 'k8s',
+                        inverseLinkName: 'env',
+                        inverseLinkPath: `${runtime.app}-${item.naming}`,
                     })
 
                 return <Secret>k8sSecret.config;

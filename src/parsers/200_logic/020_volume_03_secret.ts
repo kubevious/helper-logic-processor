@@ -23,7 +23,9 @@ export default LogicVolumeParser()
                 helpers.shadow.create(k8sSecret, item, 
                     {
                         kind: NodeKind.secret,
-                        linkName: 'k8s-owner',
+                        linkName: 'k8s',
+                        inverseLinkName: 'volume',
+                        inverseLinkPath: `${runtime.app}-${item.naming}`,
                         skipUsageRegistration: true
                     })
             }

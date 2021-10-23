@@ -45,7 +45,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
             {
                 kind: NodeKind.launcher,
                 name: config.kind,
-                linkName: 'k8s-owner',
+                linkName: 'k8s',
                 inverseLinkName: 'logic'
             });
 

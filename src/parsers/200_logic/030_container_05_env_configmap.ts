@@ -47,7 +47,9 @@ export default LogicContainerParser()
                 helpers.shadow.create(k8sConfigMap, item, 
                     {
                         kind: NodeKind.configmap,
-                        linkName: 'k8s-owner'
+                        linkName: 'k8s',
+                        inverseLinkName: 'env',
+                        inverseLinkPath: `${runtime.app}-${item.naming}`,
                     })
 
                 return <ConfigMap>k8sConfigMap.config;

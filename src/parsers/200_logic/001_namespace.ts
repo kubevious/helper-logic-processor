@@ -16,7 +16,8 @@ export default K8sParser<Namespace>()
         const ns = helpers.shadow.create(item, root,
             {
                 kind: NodeKind.ns,
-                linkName: 'k8s-owner'
+                linkName: 'k8s',
+                inverseLinkName: 'logic'
             });
 
         (<LogicNamespaceRuntime>ns.runtime).namespace = metadata.name!;

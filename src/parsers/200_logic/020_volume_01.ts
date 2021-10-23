@@ -32,6 +32,7 @@ export default LogicLauncherParser()
             const volume = volumesParent.fetchByNaming(NodeKind.vol, volumeConfig.name);
             volume.setConfig(volumeConfig);
             (<LogicVolumeRuntime>volume.runtime).namespace = runtime.namespace;
+            (<LogicVolumeRuntime>volume.runtime).app = app.naming;
             appRuntime.volumes[volumeConfig.name] = volume.dn;
 
             volume.addProperties({
