@@ -10,7 +10,7 @@ export default LogicBindingParser()
         const app = item.parent!.parent!;
         const appRuntime = <LogicAppRuntime>app.runtime;
 
-        const k8sBinding = item.resolveTargetLinkItem('k8s-owner')!;
+        const k8sBinding = item.resolveTargetLinkItem('k8s')!;
 
         for(const k8sRole of k8sBinding.resolveTargetLinkItems('role'))
         {
@@ -19,7 +19,9 @@ export default LogicBindingParser()
             helpers.shadow.create(k8sRole, item, 
                 {
                     kind: getTargetKind(config),
-                    linkName: 'k8s-owner'
+                    linkName: 'k8s',
+                    inverseLinkName: 'logic',
+                    inverseLinkPath: `${appRuntime.namespace}::${app.naming}`
                 })
                 
             k8sRole.link('app', app, `${appRuntime.namespace}::${app.naming}`);

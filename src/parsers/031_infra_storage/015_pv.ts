@@ -21,7 +21,8 @@ export default K8sPersistentVolumeParser()
         const infraPv = helpers.shadow.create(item, storageClass,
             {
                 kind: NodeKind.pv,
-                linkName: 'k8s-owner'
+                linkName: 'k8s',
+                inverseLinkName: 'infra'
             });
 
         (<InfraPersistentVolumeRuntime>infraPv.runtime).capacity = runtime.capacity;

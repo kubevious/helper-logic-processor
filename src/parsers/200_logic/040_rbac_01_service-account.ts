@@ -30,8 +30,12 @@ export default LogicLauncherParser()
                 helpers.shadow.create(k8sSvcAccount, app, 
                     {
                         kind: NodeKind.svcaccnt,
-                        linkName: 'k8s-owner'
+                        linkName: 'k8s',
+                        inverseLinkName: 'logic',
+                        inverseLinkPath: runtime.app
                     })
+
+                k8sSvcAccount.link('app', app, app.naming);
             }
             else
             {

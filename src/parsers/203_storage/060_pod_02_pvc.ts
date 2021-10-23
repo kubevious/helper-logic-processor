@@ -36,8 +36,9 @@ export default LogicPodParser()
                 helpers.shadow.create(k8sPvc, item,
                     {
                         kind: NodeKind.pvc,
-                        linkName: 'k8s-owner',
-                        inverseLinkName: 'logic'
+                        linkName: 'k8s',
+                        inverseLinkName: 'logic',
+                        inverseLinkPath: runtime.app
                     });
             }
         }

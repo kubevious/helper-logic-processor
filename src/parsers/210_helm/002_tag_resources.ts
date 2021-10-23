@@ -59,7 +59,10 @@ export default K8sAllParser()
             helpers.shadow.create(helmVersionItem, app,
                 {
                     kind: NodeKind.helm,
-                    name: helmRelease
+                    name: helmRelease,
+                    linkName: 'pack',
+                    inverseLinkName: 'logic',
+                    inverseLinkPath: `${appRuntime.namespace}::${app.naming}`
                 });
         }
 

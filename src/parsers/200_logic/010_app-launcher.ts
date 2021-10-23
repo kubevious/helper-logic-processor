@@ -50,6 +50,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
             });
 
         (<LogicLauncherRuntime>launcher.runtime).namespace = namespace!;
+        (<LogicLauncherRuntime>launcher.runtime).app = metadata.name!;
 
         const labelsMap = helpers.k8s.labelsMap(config.spec?.template.metadata);
         helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)

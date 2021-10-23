@@ -16,7 +16,7 @@ export default K8sParser<Pod>()
         for(const ref of ownerReferences)
         {
             const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-            const owner = item.link('k8s-owner', ownerDn);
+            const owner = item.link('k8s', ownerDn);
             if (owner)
             {                    
                 const shortName = makeRelativeName(owner.naming, metadata.name!);
@@ -28,11 +28,14 @@ export default K8sParser<Pod>()
                         {
                             kind: NodeKind.pod,
                             name: shortName,
-                            linkName: 'k8s-owner',
+                            linkName: 'k8s',
                             inverseLinkName: 'logic',
                         });
 
                     (<LogicPodRuntime>logicPod.runtime).namespace = namespace!; 
+                 
+                    // TODO: IMPLEMENT
+                    // (<LogicPodRuntime>logicPod.runtime).app = namespace!; 
                 }
             }
         }

@@ -33,13 +33,18 @@ export default K8sParser<HorizontalPodAutoscaler>()
             return;
         }
 
+        const appRuntime = <LogicAppRuntime>app.runtime;
+
         helpers.shadow.create(item, app, 
             {
                 kind: NodeKind.hpa,
-                linkName: 'k8s-owner'
+                linkName: 'k8s',
+                inverseLinkName: 'logic',
+                inverseLinkPath: `${appRuntime.namespace}::${app.naming}`
             })
 
-        const appRuntime = <LogicAppRuntime>app.runtime;
+        item.link('app', app, app.naming);
+
         appRuntime.hpa = { 
             min: config.spec.minReplicas ?? 1,
             max: config.spec.maxReplicas

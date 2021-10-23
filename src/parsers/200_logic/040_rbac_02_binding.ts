@@ -10,7 +10,7 @@ export default LogicServiceAccountParser()
         const app = item.parent!;
         const appRuntime = <LogicAppRuntime>app.runtime;
         
-        const k8sSvcAccount = item.resolveTargetLinkItem('k8s-owner')!;
+        const k8sSvcAccount = item.resolveTargetLinkItem('k8s')!;
 
         for(const k8sBinding of k8sSvcAccount.resolveSourceLinkItems('subject'))
         {
@@ -19,7 +19,9 @@ export default LogicServiceAccountParser()
             helpers.shadow.create(k8sBinding, item, 
                 {
                     kind: getTargetKind(config),
-                    linkName: 'k8s-owner'
+                    linkName: 'k8s',
+                    inverseLinkName: 'logic',
+                    inverseLinkPath: `${appRuntime.namespace}::${app.naming}`
                 })
                 
             k8sBinding.link('app', app, `${appRuntime.namespace}::${app.naming}`);

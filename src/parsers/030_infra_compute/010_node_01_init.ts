@@ -18,7 +18,8 @@ export default K8sNodeParser()
         helpers.shadow.create(item, pool,
             {
                 kind: NodeKind.node,
-                linkName: 'k8s-owner'
+                linkName: 'k8s',
+                inverseLinkName: 'infra'
             })
 
         /*** HELPERS ***/

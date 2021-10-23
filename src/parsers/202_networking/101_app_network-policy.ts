@@ -2,6 +2,7 @@ import { NetworkPolicy } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
+import { appendFile } from 'fs';
 
 export default K8sParser<NetworkPolicy>()
     .target({
@@ -31,7 +32,9 @@ export default K8sParser<NetworkPolicy>()
             helpers.shadow.create(item, container,
                 {
                     kind: NodeKind.netpol,
-                    linkName: 'k8s-owner'
+                    linkName: 'k8s',
+                    inverseLinkName: 'logic',
+                    inverseLinkPath: targetApp.naming
                 });
         }
         

@@ -43,8 +43,9 @@ export default K8sParser<Service>()
             helpers.shadow.create(item, targetApp,
                 {
                     kind: NodeKind.service,
-                    linkName: 'k8s-owner',
-                    inverseLinkName: 'logic'
+                    linkName: 'k8s',
+                    inverseLinkName: 'logic',
+                    inverseLinkPath: targetApp.naming
                 });
 
             const portConfigs = config.spec?.ports ?? [];

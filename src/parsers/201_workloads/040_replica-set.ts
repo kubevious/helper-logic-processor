@@ -15,8 +15,9 @@ export default K8sParser<ReplicaSet>()
         const ownerReferences = metadata.ownerReferences ?? [];
         for(const ref of ownerReferences)
         {
+            // TODO : IMPROVE
             const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-            const owner = item.link('k8s-owner', ownerDn);
+            const owner = item.link('k8s', ownerDn);
             if (owner)
             {                    
                 const shortName = makeRelativeName(owner.naming, metadata.name!);
@@ -28,7 +29,7 @@ export default K8sParser<ReplicaSet>()
                         {
                             kind: NodeKind.replicaset,
                             name: shortName,
-                            linkName: 'k8s-owner',
+                            linkName: 'k8s',
                             inverseLinkName: 'logic',
                         });
             

@@ -11,7 +11,8 @@ export default K8sStorageClassParser()
         helpers.shadow.create(item, storage,
             {
                 kind: NodeKind.storclass,
-                linkName: 'k8s-owner'
+                linkName: 'k8s',
+                inverseLinkName: 'infra'
             })
 
     })
