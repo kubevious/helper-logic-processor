@@ -1,9 +1,8 @@
 import { PropertyValueWithUnit } from "../../helpers/resources";
+import { LogicCommonWorkload } from './logic-common';
 
-export interface LogicAppRuntime
+export interface LogicAppRuntime extends LogicCommonWorkload
 {
-    namespace: string;
-
     launcherKind: string;
     launcherReplicas: number | null;
 

@@ -4,6 +4,8 @@ import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 
 import { makeRelativeName } from '../../utils/name-helpers';
+import { LogicReplicaSetRuntime } from '../../types/parser/logic-replica-set'
+import { LogicCommonWorkload } from '../../types/parser/logic-common';
 
 export default K8sParser<ReplicaSet>()
     .target({
@@ -15,9 +17,8 @@ export default K8sParser<ReplicaSet>()
         const ownerReferences = metadata.ownerReferences ?? [];
         for(const ref of ownerReferences)
         {
-            // TODO : IMPROVE
             const ownerDn = helpers.k8s.makeDn(namespace!, ref.apiVersion, ref.kind, ref.name);
-            const owner = item.link('k8s', ownerDn);
+            const owner = item.link('owner', ownerDn);
             if (owner)
             {                    
                 const shortName = makeRelativeName(owner.naming, metadata.name!);
@@ -25,13 +26,20 @@ export default K8sParser<ReplicaSet>()
                 const logicOwner = owner.resolveTargetLinkItem('logic');
                 if (logicOwner)
                 { 
-                    helpers.shadow.create(item, logicOwner,
+                    const logicReplicaSet = helpers.shadow.create(item, logicOwner,
                         {
                             kind: NodeKind.replicaset,
                             name: shortName,
                             linkName: 'k8s',
                             inverseLinkName: 'logic',
                         });
+
+                    const logicOwnerRuntime = <LogicCommonWorkload>logicOwner.runtime;
+                    if (logicOwnerRuntime)
+                    {
+                        (<LogicReplicaSetRuntime>logicReplicaSet.runtime).namespace = logicOwnerRuntime.namespace;
+                        (<LogicReplicaSetRuntime>logicReplicaSet.runtime).app = logicOwnerRuntime.app;
+                    }
             
                 }
             }

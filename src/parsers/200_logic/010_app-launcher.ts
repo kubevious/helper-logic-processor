@@ -34,6 +34,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
 
         const app = ns.fetchByNaming(NodeKind.app, metadata.name);
         (<LogicAppRuntime>app.runtime).namespace = namespace!;
+        (<LogicAppRuntime>app.runtime).app = metadata.name!;
         (<LogicAppRuntime>app.runtime).launcherKind = config.kind!;
         (<LogicAppRuntime>app.runtime).launcherReplicas = _.get(config, 'spec.replicas') ?? null;
         (<LogicAppRuntime>app.runtime).volumes = {};
