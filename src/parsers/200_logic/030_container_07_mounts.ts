@@ -21,8 +21,11 @@ export default LogicContainerParser()
             {
                 const volume = scope.findItem(volumeDn)!;
 
-                const containerVolumeMount = item.fetchByNaming(NodeKind.vol, volume.naming);
+                const mounts = item.fetchByNaming(NodeKind.mounts);
+
+                const containerVolumeMount = mounts.fetchByNaming(NodeKind.mount, volumeMountConfig.mountPath);
                 containerVolumeMount.link('volume', volume);
+                volume.link('mount', containerVolumeMount, `${item.naming}-${containerVolumeMount.naming}`);
 
                 containerVolumeMount.addProperties({
                     kind: PropsKind.yaml,
@@ -38,7 +41,9 @@ export default LogicContainerParser()
                 {
                     helpers.shadow.create(volumeChild, containerVolumeMount, 
                         {
-                            linkName: 'mount'
+                            linkName: 'volume',
+                            inverseLinkName: 'mount',
+                            inverseLinkPath: `${item.naming}-${containerVolumeMount.naming}`
                         })
                 }
             }
