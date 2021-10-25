@@ -80,7 +80,7 @@ export class GatewayUtils
                 gPort.addProperties({
                     kind: PropsKind.yaml,
                     id: PropsId.config,
-                    config: portConfig
+                    config: portConfig.config
                 });
 
                 for(const appPortItemDn of _.keys(portConfig.logicPorts))
