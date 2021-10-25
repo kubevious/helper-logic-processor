@@ -5,13 +5,33 @@ import { NodeKind } from '@kubevious/entity-meta';
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
 
-        if (!config.secret) {
-            return;
+
+        {
+            const secretConfig = config.secret;
+            if (secretConfig)
+            {
+                if (secretConfig.secretName)
+                {
+                    findAndProcessSecret(secretConfig.secretName, secretConfig.optional);
+                }
+            }
         }
 
-        if (config.secret.secretName) {
-            findAndProcessSecret(config.secret.secretName, config.secret.optional)
+        {
+            const sources = config?.projected?.sources ?? [];
+            for(const sourceConfig of sources)
+            {
+                const secretConfig = sourceConfig.secret;
+                if (secretConfig)
+                {
+                    if (secretConfig.name)
+                    {
+                        findAndProcessSecret(secretConfig.name, secretConfig.optional);
+                    }
+                }
+            }
         }
+
 
         /*** HELPERS **/
 

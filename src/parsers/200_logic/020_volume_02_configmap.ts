@@ -6,13 +6,32 @@ import { NodeKind } from '@kubevious/entity-meta';
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
 
-        if (!config.configMap) {
-            return;
+        {
+            const configMapConfig = config.configMap;
+            if (configMapConfig)
+            {
+                if (configMapConfig.name)
+                {
+                    findAndProcessConfigMap(configMapConfig.name, configMapConfig.optional);
+                }
+            }
         }
 
-        if (config.configMap.name) {
-            findAndProcessConfigMap(config.configMap.name, config.configMap.optional)
+        {
+            const sources = config?.projected?.sources ?? [];
+            for(const sourceConfig of sources)
+            {
+                const configMapConfig = sourceConfig.configMap;
+                if (configMapConfig)
+                {
+                    if (configMapConfig.name)
+                    {
+                        findAndProcessConfigMap(configMapConfig.name, configMapConfig.optional);
+                    }
+                }
+            }
         }
+        
 
         /*** HELPERS **/
 
