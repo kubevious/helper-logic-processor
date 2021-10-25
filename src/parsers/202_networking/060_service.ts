@@ -1,20 +1,40 @@
-import { Service } from 'kubernetes-types/core/v1';
+import { ServicePort } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { LogicItem } from '../..';
-import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { K8sServicePort, makePortId } from '../../types/parser/k8s-service';
 import { NodeKind } from '@kubevious/entity-meta';
+import { K8sServiceParser } from '../../parser-builder/k8s';
 
-export default K8sParser<Service>()
-    .target({
-        kind: "Service"
-    })
-    .handler(({ logger, config, scope, item, metadata, namespace, helpers }) => {
+export default K8sServiceParser()
+    .handler(({ logger, config, scope, item, metadata, namespace, runtime, helpers }) => {
+
+        runtime.portsByName = {};
+        runtime.portsDict = {};
 
         if (config.spec!.type == 'ClusterIP' || 
             config.spec!.type == 'NodePort' ||
             config.spec!.type == 'LoadBalancer')
         {
+            for(const portConfig of (config.spec?.ports ?? []))
+            {
+                const protocol = (portConfig.protocol ?? 'TCP').toUpperCase();
+                const runtimePort : K8sServicePort = {
+                    id: makePortId(portConfig.port, protocol),
+                    port: portConfig.port,
+                    protocol: protocol,
+                    config: portConfig,
+                    logicPorts: {}
+                }
+
+                const id = makePortId(runtimePort.port, runtimePort.protocol);
+
+                runtime.portsDict[id] = runtimePort;
+                if (portConfig.name) {
+                    runtime.portsByName[portConfig.name] = runtimePort;
+                }
+            }
+
             const targetApps = helpers.k8s.labelMatcher.matchSelector(
                 'LogicApp',
                 namespace,
@@ -40,7 +60,7 @@ export default K8sParser<Service>()
             const appRuntime = <LogicAppRuntime>targetApp.runtime;
             appRuntime.exposedWithService = true;
 
-            helpers.shadow.create(item, targetApp,
+            const logicService = helpers.shadow.create(item, targetApp,
                 {
                     kind: NodeKind.service,
                     linkName: 'k8s',
@@ -48,25 +68,33 @@ export default K8sParser<Service>()
                     inverseLinkPath: targetApp.naming
                 });
 
-            const portConfigs = config.spec?.ports ?? [];
-            for(const portConfig of portConfigs)
+            for(const portConfig of _.values(runtime.portsDict))
             {
-                if (portConfig.targetPort)
-                {
-                    const appPortInfo = appRuntime.ports[portConfig.targetPort];
-                    if (appPortInfo)
-                    {
-                        const portItem = scope.findItem(appPortInfo.portDn)!;
-                        portItem.link('service', item, metadata.name);
-                    }
-                    else
-                    {
-                        item.addAlert('MissingPort', 'warn', `Missing port ${portConfig.targetPort} definition.`);
-                    }
-                }
-                
+                processTargetPort(portConfig, logicService, appRuntime);
             }
-            
+        }
+
+        function processTargetPort(portConfig: K8sServicePort, logicService: LogicItem, appRuntime: LogicAppRuntime)
+        {
+            const targetPort = portConfig.config.targetPort;
+            if (!targetPort)
+            {
+                return;
+            }
+
+            const appPortInfo = appRuntime.ports[targetPort];
+            if (appPortInfo)
+            {
+                const portItem = scope.findItem(appPortInfo.portDn)!;
+                portItem.link('service', logicService, metadata.name);
+                logicService.link('port', portItem, `${appRuntime.app}-${targetPort}`);
+
+                portConfig.logicPorts[portItem.dn] = true;
+            }
+            else
+            {
+                logicService.addAlert('MissingPort', 'warn', `Missing port ${targetPort} definition.`);
+            }
         }
 
     })

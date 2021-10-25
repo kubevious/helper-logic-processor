@@ -50,11 +50,11 @@ export default K8sParser<Ingress>()
             }
 
             const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', service.name);
-            const serviceItem = item.link('service', serviceDn);
-            if (serviceItem)
+            const k8sServiceItem = item.link('service', serviceDn);
+            if (k8sServiceItem)
             {
                 {
-                    const app = serviceItem.resolveTargetLinkItem('app');
+                    const app = k8sServiceItem.resolveTargetLinkItem('app');
                     if (app)
                     {
                         const appRuntime = <LogicAppRuntime>app.runtime;
@@ -69,7 +69,7 @@ export default K8sParser<Ingress>()
                 {
                     const domainName = ruleConfig?.host;
                     const urlPath = pathConfig?.path ?? '*';
-                    helpers.gateway.getRule(domainName, urlPath, item, pathConfig);
+                    helpers.gateway.setupIngress(domainName, urlPath, item, pathConfig, k8sServiceItem);
                 }
             }
             else

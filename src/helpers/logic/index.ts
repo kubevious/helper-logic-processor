@@ -51,8 +51,9 @@ export class LogicUtils
                 kind: NodeKind.ingress,
                 name: name,
 
-                linkName: 'k8s-owner',
-                inverseLinkName: 'logic'
+                linkName: 'k8s',
+                inverseLinkName: 'logic',
+                inverseLinkPath: name
             });
     }
 }   

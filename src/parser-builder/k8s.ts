@@ -1,17 +1,17 @@
 import _ from 'the-lodash';
-import { PersistentVolume, PersistentVolumeClaim, Secret, ServiceAccount } from 'kubernetes-types/core/v1';
+import { PersistentVolume, PersistentVolumeClaim, Secret, Service, ServicePort, ServiceAccount } from 'kubernetes-types/core/v1';
 
 import { K8sParser, LogicParser } from './';
 import { StorageClass } from 'kubernetes-types/storage/v1';
 import { InfraStorageClassRuntime } from '../types/parser/infra-storage-class';
 import { InfraPersistentVolumeRuntime } from '../types/parser/infra-pv';
 import { InfraPersistentVolumeClaimRuntime } from '../types/parser/infra-pvc';
+import { K8sServiceRuntime } from '../types/parser/k8s-service';
 import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-types/rbac/v1';
 import { LogicRoleBindingRuntime, LogicServiceAccountRuntime } from '../types/parser/logic-rbac';
 import { NodeKind } from '@kubevious/entity-meta';
 import { K8sConfig } from '../types/k8s';
 import { Node } from 'kubernetes-types/core/v1';
-
 
 export function K8sNodeParser() {
 
@@ -95,6 +95,14 @@ export function K8sSecretParser() {
         .target({
             kind: "Secret"
         })  
+}
+
+export function K8sServiceParser() {
+
+    return K8sParser<Service, K8sServiceRuntime>()
+        .target({
+            kind: "Service"
+        })
 }
 
 export function K8sAllParser() {
