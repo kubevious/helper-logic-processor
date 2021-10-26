@@ -39,12 +39,17 @@ export default LogicContainerParser()
 
                 for(const volumeChild of volume.getChildren())
                 {
-                    helpers.shadow.create(volumeChild, containerVolumeMount, 
+                    const mountChild = helpers.shadow.create(volumeChild, containerVolumeMount, 
                         {
                             linkName: 'volume',
                             inverseLinkName: 'mount',
                             inverseLinkPath: `${item.naming}-${containerVolumeMount.naming}`
                         })
+
+                    for(const k8sChild of volumeChild.resolveTargetLinkItems('k8s'))
+                    {
+                        mountChild.link('k8s', k8sChild);
+                    }
                 }
             }
         }

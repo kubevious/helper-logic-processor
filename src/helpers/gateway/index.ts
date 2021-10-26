@@ -71,8 +71,6 @@ export class GatewayUtils
 
         for(const logicServiceItem of k8sServiceItem.resolveTargetLinkItems('logic'))
         {
-            this._logger.error('[setupIngress] logic: %s', logicServiceItem.dn);
-
             for(const portConfig of _.values(serviceRuntime.portsDict))
             {
                 const gPort = gService.fetchByNaming(NodeKind.port, portConfig.id);
