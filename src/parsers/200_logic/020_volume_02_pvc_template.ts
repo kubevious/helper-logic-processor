@@ -1,41 +1,54 @@
 import _ from 'the-lodash';
-import { Volume } from 'kubernetes-types/core/v1'
+import { PersistentVolumeClaim, Volume } from 'kubernetes-types/core/v1'
+
+import { StatefulSet } from 'kubernetes-types/apps/v1';
+
 
 import { LogicLauncherParser } from '../../parser-builder/logic';
 import { LogicVolumeRuntime } from '../../types/parser/logic-volume';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
-import { LogicItem } from '../..';
 import { NodeKind } from '@kubevious/entity-meta';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime }) => {
 
+        if (item.naming !== 'StatefulSet') {
+            return;
+        }
+
+        const statefulSet = <StatefulSet>config;
+
         const app = item.parent!;
         const appRuntime = (<LogicAppRuntime>app.runtime);
 
-        const volumesList = config.spec?.template.spec?.volumes ?? [];
-        for(const volume of volumesList)
+        const templateList = statefulSet?.spec?.volumeClaimTemplates ?? [];
+        for(const templateConfig of templateList)
         {
-            processVolume(volume);
+            processVolume(templateConfig);
         }
 
         /** HELPERS **/
 
-        function processVolume(volumeConfig: Volume)
+        function processVolume(claimConfig: PersistentVolumeClaim)
         {
             const volumesParent = app.fetchByNaming(NodeKind.vols);
 
-            const volume = volumesParent.fetchByNaming(NodeKind.vol, volumeConfig.name);
-            volume.setConfig(volumeConfig);
+            const name = claimConfig.metadata?.name;
+            if (!name) {
+                return;
+            }
+
+            const volume = volumesParent.fetchByNaming(NodeKind.vol, name);
+            volume.setConfig(claimConfig);
             (<LogicVolumeRuntime>volume.runtime).namespace = runtime.namespace;
             (<LogicVolumeRuntime>volume.runtime).app = app.naming;
-            appRuntime.volumes[volumeConfig.name] = volume.dn;
+            appRuntime.volumes[name] = volume.dn;
 
             volume.addProperties({
                 kind: PropsKind.yaml,
                 id: PropsId.config,
-                config: volumeConfig
+                config: claimConfig
             });
         }
 

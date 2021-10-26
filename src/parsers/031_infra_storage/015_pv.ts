@@ -22,7 +22,8 @@ export default K8sPersistentVolumeParser()
             {
                 kind: NodeKind.pv,
                 linkName: 'k8s',
-                inverseLinkName: 'infra'
+                inverseLinkName: 'infra',
+                skipUsageRegistration: true
             });
 
         (<InfraPersistentVolumeRuntime>infraPv.runtime).capacity = runtime.capacity;

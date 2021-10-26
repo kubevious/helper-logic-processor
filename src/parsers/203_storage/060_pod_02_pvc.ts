@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { Volume } from 'kubernetes-types/core/v1';
 import { LogicPodParser } from '../../parser-builder/logic';
+import { LogicPvcRuntime } from '../../types/parser/logic-pvc';
 import { NodeKind } from '@kubevious/entity-meta';
 
 export default LogicPodParser()
@@ -33,13 +34,16 @@ export default LogicPodParser()
             const k8sPvc = helpers.k8s.findItem(runtime.namespace, 'v1', 'PersistentVolumeClaim', pvcName);
             if (k8sPvc)
             {
-                helpers.shadow.create(k8sPvc, item,
+                const logicPvc = helpers.shadow.create(k8sPvc, item,
                     {
                         kind: NodeKind.pvc,
                         linkName: 'k8s',
-                        inverseLinkName: 'logic',
-                        inverseLinkPath: runtime.app
+                        inverseLinkName: 'pod',
+                        inverseLinkPath: `${runtime.namespace}-${config.metadata!.name!}`
                     });
+
+                (<LogicPvcRuntime>logicPvc.runtime).namespace = runtime.namespace;
+                (<LogicPvcRuntime>logicPvc.runtime).app = runtime.app;
             }
         }
 

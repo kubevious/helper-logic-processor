@@ -49,8 +49,6 @@ export default LogicVolumeParser()
                         inverseLinkPath: `${runtime.app}-${item.naming}`,
                         skipUsageRegistration: true
                     })
-
-                return <ConfigMap>k8sConfigMap.config;
             }
             else
             {

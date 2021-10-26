@@ -14,6 +14,7 @@ import { LogicPodRuntime } from '../types/parser/logic-pod';
 import { LogicAppRuntime } from '../types/parser/logic-app';
 import { LogicNamespaceRuntime } from '../types/parser/logic-namespace';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicPvcRuntime } from '../types/parser/logic-pvc';
 
 export function LogicLauncherParser() {
 
@@ -69,6 +70,14 @@ export function LogicVolumeParser() {
         })
 }
 
+export function LogicVolumePvcParser() {
+
+    return LogicParser<PersistentVolumeClaim, LogicPvcRuntime>()
+        .target({
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.vols, NodeKind.vol, NodeKind.pvc]
+        })
+}
+
 export function LogicNetworkPoliciesParser() {
 
     return LogicParser()
@@ -92,7 +101,7 @@ export function LogicPodParser() {
 
 export function LogicPodPvcParser() {
 
-    return LogicParser<PersistentVolumeClaim, LogicPodRuntime>()
+    return LogicParser<PersistentVolumeClaim, LogicPvcRuntime>()
         .target({
             path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.replicaset, NodeKind.pod, NodeKind.pvc]
         })
