@@ -29,7 +29,7 @@ describe('full-processor', () => {
                 return Promise.resolve()
                     .then(() => parserLoader.init())
                     .then(() => {
-                        const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry);
+                        const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry, {});
                         return logicProcessor.process();
                     })
             })

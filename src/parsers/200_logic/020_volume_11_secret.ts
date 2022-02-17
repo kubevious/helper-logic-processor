@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicVolumeParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -52,7 +53,7 @@ export default LogicVolumeParser()
             else
             {
                 if (!isOptional) {
-                    item.addAlert("MissingSecret", "error", `Could not find Secret ${name}`);
+                    item.raiseAlert(ValidatorID.MISSING_SECRET, `Could not find Secret ${name}`);
                 }
             }
         }

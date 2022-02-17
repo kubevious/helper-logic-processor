@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
 import { K8sRoleParser } from '../../parser-builder/k8s';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sRoleParser()
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
@@ -11,7 +12,7 @@ export default K8sRoleParser()
             return;
         }
 
-        for(let itemInfo of pspRules.items)
+        for(const itemInfo of pspRules.items)
         {
             if (itemInfo.verbs['use'])
             {
@@ -19,7 +20,7 @@ export default K8sRoleParser()
                 const pspItem = item.link('psp', subjectDn, itemInfo.name);
                 if (!pspItem)
                 {
-                    item.addAlert('MissingPsp', 'error', `PodSecurityPolicy "${itemInfo.name}" not found.`);
+                    item.raiseAlert(ValidatorID.MISSING_PSP, `PodSecurityPolicy "${itemInfo.name}" not found.`);
                 }
             }
         }

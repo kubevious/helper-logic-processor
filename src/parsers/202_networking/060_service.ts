@@ -5,6 +5,7 @@ import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { K8sServicePort, makePortId } from '../../types/parser/k8s-service';
 import { NodeKind } from '@kubevious/entity-meta';
 import { K8sServiceParser } from '../../parser-builder/k8s';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sServiceParser()
     .handler(({ logger, config, scope, item, metadata, namespace, runtime, helpers }) => {
@@ -46,9 +47,9 @@ export default K8sServiceParser()
             }
 
             if (targetApps.length == 0) {
-                item.addAlert('MissingApp', 'error', 'Could not find apps matching selector.');
+                item.raiseAlert(ValidatorID.MISSING_APP, 'Could not find apps matching selector.');
             } else if (targetApps.length > 1) {
-                item.addAlert('MultipleApps', 'warn', 'More than one apps matched selector.');
+                item.raiseAlert(ValidatorID.SERVICE_MULTIPLE_APPS, 'More than one apps matched selector.');
             }
         }
 
@@ -93,7 +94,7 @@ export default K8sServiceParser()
             }
             else
             {
-                logicService.addAlert('MissingPort', 'warn', `Missing port ${targetPort} definition.`);
+                logicService.raiseAlert(ValidatorID.SERVICE_MISSING_PORT, `Missing port ${targetPort} definition.`);
             }
         }
 

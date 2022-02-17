@@ -7,6 +7,7 @@ import { LogicLinkRegistry } from '../logic/linker/registry';
 
 import { Alert } from '@kubevious/state-registry'
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidationConfig, ValidatorSetting, DEFAULT_VALIDATION_CONFIG, ValidatorID } from '@kubevious/entity-meta';
 
 export const ROOT_NODE_LOGIC = NodeKind.root;
 
@@ -30,6 +31,7 @@ export class LogicScope
 {
     private _logger : ILogger;
     private _concreteRegistry : IConcreteRegistry;
+    private _validationConfig : ValidationConfig;
 
     private _rootNode : LogicItem;
     private _itemsMap : Record<string, LogicItem> = {};
@@ -42,10 +44,13 @@ export class LogicScope
 
     private _linkRegistry : LogicLinkRegistry;
 
-    constructor(logger: ILogger, concreteRegistry: IConcreteRegistry)
+    constructor(logger: ILogger,
+                concreteRegistry: IConcreteRegistry,
+                validationConfig : ValidationConfig)
     {
         this._logger = logger.sublogger("LogicScope");
         this._concreteRegistry = concreteRegistry;
+        this._validationConfig = validationConfig
 
         this._linkRegistry = new LogicLinkRegistry(this);
 
@@ -66,6 +71,23 @@ export class LogicScope
 
     get linkRegistry() {
         return this._linkRegistry;
+    }
+
+    getValidatorSetting(validator: ValidatorID) : ValidatorSetting
+    {
+        {
+            const value = this._validationConfig[validator];
+            if (value) {
+                return value;
+            }
+        }
+        {
+            const defaultConfig = DEFAULT_VALIDATION_CONFIG[validator];
+            if (defaultConfig) {
+                return defaultConfig;
+            }
+        }
+        return ValidatorSetting.off;
     }
 
     extractLastedStageData() {
@@ -174,6 +196,8 @@ export class LogicScope
 
     _recordAlert(item: LogicItem, alert: Alert)
     {
+        this.logger.debug('[_recordAlert] %s => ', item.dn, alert);
+
         this._lastStageData.createdAlerts.push({ 
             item: item,
             alert: alert

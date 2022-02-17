@@ -12,10 +12,10 @@ import { BaseParserExecutor } from './base/executor';
 import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
 import { RegistryState } from '@kubevious/state-registry';
 import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/state-registry';
+import { ValidationConfig, DEFAULT_VALIDATION_CONFIG } from '@kubevious/entity-meta';
 
 import { IConcreteRegistry } from '../types/registry';
 import { ParserInfo, ParserLoader } from './parser-loader'
-import { FlagKind } from '@kubevious/entity-meta';
 
 export class LogicProcessor 
 {
@@ -24,17 +24,22 @@ export class LogicProcessor
     private _tracker: ProcessingTrackerScoper;
     private _registry : IConcreteRegistry;
     private _parserLoader : ParserLoader;
+    private _validationConfig : ValidationConfig;
 
     private _processors : BaseParserExecutor[] = [];
 
-    constructor(logger: ILogger, tracker: ProcessingTrackerScoper, parserLoader: ParserLoader, registry : IConcreteRegistry)
+    constructor(logger: ILogger,
+                tracker: ProcessingTrackerScoper,
+                parserLoader: ParserLoader,
+                registry: IConcreteRegistry,
+                validationConfig: Partial<ValidationConfig>)
     {
         this._logger = logger.sublogger("LogicProcessor");
         this._parserLogger = logger.sublogger("LogicParser");
         this._tracker = tracker;
         this._registry = registry;
         this._parserLoader = parserLoader;
-
+        this._validationConfig = _.defaults(_.clone(validationConfig), DEFAULT_VALIDATION_CONFIG) ;
 
         this._loadProcessors();
     }
@@ -87,7 +92,7 @@ export class LogicProcessor
     {
         return this._tracker.scope("Logic::process", (tracker) => {
 
-            const scope = new LogicScope(this._logger, this._registry);
+            const scope = new LogicScope(this._logger, this._registry, this._validationConfig);
 
             const helpers = new Helpers(this._logger, scope);
 

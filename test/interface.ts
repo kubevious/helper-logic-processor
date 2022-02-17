@@ -21,7 +21,7 @@ describe('interface', () => {
         return Promise.resolve()
             .then(() => parserLoader.init())
             .then(() => {
-                const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry)
+                const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry, {})
                 return logicProcessor.process()
                     .then(registryState => {
                         should(registryState).be.ok();

@@ -6,6 +6,7 @@ import { LogicScope } from "../../logic/scope";
 import { Helpers } from '../../helpers';
 import { LogicItem } from '../../';
 import { ObjectMeta } from 'kubernetes-types/meta/v1';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export interface K8sProcessorHandlerArgs<TConfig, TRuntime>
 {

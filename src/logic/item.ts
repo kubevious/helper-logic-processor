@@ -4,12 +4,14 @@ import { LogicScope, LogicTarget } from "./scope";
 
 import { PropertiesBuilder } from '../utils/properties-builder';
 
-import { Alert, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/state-registry'
+import { Alert, AlertSourceKind, SnapshotNodeConfig, SnapshotPropsConfig } from '@kubevious/state-registry'
 
 import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 import { SeverityType } from './types';
 import { NodeKind, FlagKind } from '@kubevious/entity-meta';
+import { ValidatorID, ValidatorSetting } from '@kubevious/entity-meta';
+
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 class LogicItemSharedData
@@ -50,7 +52,10 @@ export class LogicItem
 
     private _linkRegistry : LogicLinkRegistry;
 
-    constructor(logicScope: LogicScope, parent: LogicItem | null, kind: NodeKind, name?: string | null | undefined)
+    constructor(logicScope: LogicScope,
+                parent: LogicItem | null,
+                kind: NodeKind,
+                name?: string | null | undefined)
     {
         this._logicScope = logicScope;
         this._kind = kind;
@@ -317,12 +322,32 @@ export class LogicItem
         return builder;
     }
 
-    addAlert(kind: string, severity: SeverityType, msg: string)
+    raiseAlert(validator: ValidatorID, msg: string)
     {
+        const config = this._logicScope.getValidatorSetting(validator);
+        if (!config) {
+            return;
+        }
+        if (config === ValidatorSetting.error) {
+            this._addAlert(validator, 'error', msg);
+        }
+        if (config === ValidatorSetting.warn) {
+            this._addAlert(validator, 'warn', msg);
+        }
+    }
+
+    private _addAlert(validator: ValidatorID, severity: SeverityType, msg: string)
+    {
+        const kind = AlertSourceKind.validator;
+
         const alert : Alert = {
-            id: kind,
+            id: `${kind}-${validator}`,
             severity: severity,
-            msg: msg
+            msg: msg,
+            source: {
+                kind: kind,
+                id: validator
+            }
         }
         const key = _.stableStringify(alert);
         this._data.alerts[key] = alert;

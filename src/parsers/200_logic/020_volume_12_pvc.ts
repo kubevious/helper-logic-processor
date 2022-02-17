@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicVolumeParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { LogicPvRuntime } from '../../types/parser/logic-pv';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -39,7 +40,7 @@ export default LogicVolumeParser()
             }
             else
             {
-                item.addAlert("MissingPvc", "error", `Could not find PersistentVolumeClaim ${name}`);
+                item.raiseAlert(ValidatorID.MISSING_PVC, `Could not find PersistentVolumeClaim ${name}`);
             }
         }
 

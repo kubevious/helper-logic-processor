@@ -2,6 +2,7 @@ import { Pod } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 import { makeRelativeName } from '../../utils/name-helpers';
 import { LogicPodRuntime } from '../../types/parser/logic-pod';
@@ -45,7 +46,7 @@ export default K8sParser<Pod>()
 
         if (item.resolveTargetLinks('logic').length == 0)
         {
-            item.addAlert('MissingController', 'warn', 'Controller not found.');
+            item.raiseAlert(ValidatorID.UNOWNED_POD, 'Controller not found.');
         }
 
     })

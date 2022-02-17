@@ -3,6 +3,7 @@ import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default ConcreteParser()
     .target({
@@ -39,13 +40,13 @@ export default ConcreteParser()
             });
 
             if (resource.isDisconnected && !resource.isDisabled) {
-                kindRoot.addAlert('Disconnected', 'warn', 'API Service is disconnected.');
+                kindRoot.raiseAlert(ValidatorID.API_SERVICE_DISCONNECTED, 'API Service is disconnected.');
             }
 
             {
                 const errorMsg = resource.error?.message;
                 if (errorMsg) {
-                    kindRoot.addAlert('Error', 'error', `${errorMsg}. Code: ${resource.error?.code}`);
+                    kindRoot.raiseAlert(ValidatorID.API_SERVICE_CONNECTION_ERROR, `${errorMsg}. Code: ${resource.error?.code}`);
                 }
             }
         }

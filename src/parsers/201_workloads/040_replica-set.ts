@@ -2,6 +2,7 @@ import { ReplicaSet } from 'kubernetes-types/apps/v1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 import { makeRelativeName } from '../../utils/name-helpers';
 import { LogicReplicaSetRuntime } from '../../types/parser/logic-replica-set'
@@ -47,7 +48,7 @@ export default K8sParser<ReplicaSet>()
 
         if (item.resolveTargetLinks('logic').length == 0)
         {
-            item.addAlert('BestPractice', 'warn', 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
+            item.raiseAlert(ValidatorID.UNOWNED_POD, 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
         }
 
     })

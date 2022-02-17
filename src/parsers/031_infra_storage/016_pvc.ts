@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { K8sPersistentVolumeClaimParser } from '../../parser-builder/k8s';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sPersistentVolumeClaimParser()
     .handler(({ logger, scope, config, item, runtime, metadata, helpers }) => {
@@ -14,7 +15,7 @@ export default K8sPersistentVolumeClaimParser()
         if (k8sPvc) {
             k8sPvc.link('pvc', item);
         } else {
-            item.addAlert('MissingPv', 'error', `Missing PersistentVolume ${volumeName}`);
+            item.raiseAlert(ValidatorID.MISSING_PV, `Missing PersistentVolume ${volumeName}`);
         }
 
     })

@@ -2,6 +2,7 @@ import { HTTPIngressPath, Ingress, IngressBackend, IngressRule } from 'kubernete
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sParser<Ingress>()
     .target({
@@ -35,7 +36,7 @@ export default K8sParser<Ingress>()
 
         if (item.resolveTargetLinks('app').length == 0)
         {
-            item.addAlert('Missing', 'error', 'Could not match Ingress to Services.')
+            item.raiseAlert(ValidatorID.INGRESS_NOT_MOUNT_TO_APPS, 'Could not match Ingress to Services.')
         }
 
         /*** HELPERS ***/
@@ -72,7 +73,7 @@ export default K8sParser<Ingress>()
             }
             else
             {
-                item.addAlert('MissingSvc', 'error', `Service ${serviceName} is missing.`);
+                item.raiseAlert(ValidatorID.MISSING_SERVICE, `Service ${serviceName} is missing.`);
             }
         }
         

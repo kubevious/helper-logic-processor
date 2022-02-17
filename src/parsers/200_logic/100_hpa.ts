@@ -3,6 +3,7 @@ import { HorizontalPodAutoscaler } from 'kubernetes-types/autoscaling/v1';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sParser<HorizontalPodAutoscaler>()
     .target({
@@ -23,7 +24,7 @@ export default K8sParser<HorizontalPodAutoscaler>()
         const k8sTarget = item.link('target', k8sTargetDn);
 
         if (!k8sTarget) {
-            item.addAlert('MissingApp', 'error', 'Could not find apps matching scaleTargetRef.');
+            item.raiseAlert(ValidatorID.MISSING_APP, 'Could not find apps matching scaleTargetRef.');
             return;
         }
 

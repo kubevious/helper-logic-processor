@@ -2,6 +2,7 @@ import { Secret } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -25,12 +26,12 @@ export default LogicContainerParser()
                                 runtime.envVars[envName] = dataValue ?? null;
                             }
                         } else {
-                            item.addAlert("EmptyConfig", "warn", `Secret has no data: ${secretName}`);
+                            item.raiseAlert(ValidatorID.EMPTY_SECRET, `Secret has no data: ${secretName}`);
                         }
                     } else {
-                        // if (!secretRef.optional) {
-                        //     item.addAlert("MissingConfig", "error", `Could not find Secret ${secretName}`);
-                        // }
+                        if (!secretRef.optional) {
+                            item.raiseAlert(ValidatorID.MISSING_SECRET, `Could not find Secret ${secretName}`);
+                        }
                     }
                 }
             }

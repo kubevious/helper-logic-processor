@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicLauncherParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -15,7 +16,7 @@ export default LogicLauncherParser()
 
         if (!origSvcAccountName)
         {
-            item.addAlert('Missing', 'warn', 'Service account is not set.');
+            item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, 'Service account is not set.');
         }
 
         const svcAccountName = origSvcAccountName || 'default';
@@ -39,7 +40,7 @@ export default LogicLauncherParser()
             }
             else
             {
-                item.addAlert('Missing', 'error', `Service account ${svcAccountName} is not found.`);
+                item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, `Service account ${svcAccountName} is not found.`);
             }
         }
 

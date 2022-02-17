@@ -2,6 +2,7 @@ import { ConfigMap } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default LogicContainerParser()
     .handler(({ logger, scope, item, config, runtime, helpers}) => {
@@ -25,11 +26,11 @@ export default LogicContainerParser()
                                 runtime.envVars[envName] = dataValue ?? null;
                             }
                         } else {
-                            item.addAlert("EmptyConfig", "warn", `ConfigMap has no data: ${configMapName}`);
+                            item.raiseAlert(ValidatorID.EMPTY_CONFIG_MAP, `ConfigMap has no data: ${configMapName}`);
                         }
                     } else {
                         if (!configMapRef.optional) {
-                            item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${configMapName}`);
+                            item.raiseAlert(ValidatorID.MISSING_CONFIG_MAP, `Could not find ConfigMap ${configMapName}`);
                         }
                     }
                 }

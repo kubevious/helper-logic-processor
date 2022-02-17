@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
 import { K8sRoleBindingParser } from '../../parser-builder/k8s';
 import { RoleRef, Subject } from 'kubernetes-types/rbac/v1';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sRoleBindingParser()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
@@ -36,9 +37,9 @@ export default K8sRoleBindingParser()
             else
             {
                 if (targetNamespace) {
-                    item.addAlert('Missing', 'error', `Could not find ${roleRef.kind} ${targetNamespace} :: ${roleRef.name}.`);
+                    item.raiseAlert(ValidatorID.MISSING_ROLE, `Could not find ${roleRef.kind} ${targetNamespace} :: ${roleRef.name}.`);
                 } else {
-                    item.addAlert('Missing', 'error', `Could not find ${roleRef.kind} ${roleRef.name}.`);
+                    item.raiseAlert(ValidatorID.MISSING_ROLE, `Could not find ${roleRef.kind} ${roleRef.name}.`);
                 }
             }
         }
@@ -60,9 +61,9 @@ export default K8sRoleBindingParser()
                 const svcAccount = item.link('subject', subjectDn, linkNaming);
                 if (!svcAccount) { 
                     if (targetNamespace) {
-                        item.addAlert('Missing', 'error', `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
+                        item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
                     } else {
-                        item.addAlert('Missing', 'error', `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
+                        item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
                     }
                 }
             }

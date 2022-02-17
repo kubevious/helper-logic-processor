@@ -17,9 +17,9 @@
   "author": "Ruben Hakopian <ruben.hakopian@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubevious/entity-meta": "^1.0.42",
+    "@kubevious/entity-meta": "^1.0.45",
     "@kubevious/helpers": "^1.0.62",
-    "@kubevious/state-registry": "^1.0.11",
+    "@kubevious/state-registry": "^1.0.13",
     "glob": "^7.1.7",
     "glob-promise": "^4.2.0",
     "kubernetes-types": "^1.21.0-beta.1",
@@ -48,7 +48,7 @@
     "the-logger": "^2.0.14",
     "the-promise": "^2.0.13",
     "@kubevious/helpers": "^1.0.62",
-    "@kubevious/state-registry": "^1.0.11",
-    "@kubevious/entity-meta": "^1.0.42"
+    "@kubevious/state-registry": "^1.0.13",
+    "@kubevious/entity-meta": "^1.0.45"
   }
 }

@@ -69,6 +69,7 @@ export class GatewayUtils
 
         const serviceRuntime = <K8sServiceRuntime>k8sServiceItem.runtime;
 
+        // TODO: Check why logicServiceItem is not used.
         for(const logicServiceItem of k8sServiceItem.resolveTargetLinkItems('logic'))
         {
             for(const portConfig of _.values(serviceRuntime.portsDict))

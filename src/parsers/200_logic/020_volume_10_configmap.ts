@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
-import { ConfigMap } from 'kubernetes-types/core/v1'
 import { LogicVolumeParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { ValidatorID } from '@kubevious/entity-meta';
 
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -53,7 +53,7 @@ export default LogicVolumeParser()
             else
             {
                 if (!isOptional) {
-                    item.addAlert("MissingConfig", "error", `Could not find ConfigMap ${name}`);
+                    item.raiseAlert(ValidatorID.MISSING_CONFIG_MAP, `Could not find ConfigMap ${name}`);
                 }
             }
         }
