@@ -53,7 +53,7 @@ export default LogicVolumeParser()
             else
             {
                 if (!isOptional) {
-                    item.raiseAlert(ValidatorID.MISSING_SECRET, `Could not find Secret ${name}`);
+                    item.raiseAlert(ValidatorID.MISSING_VOLUME_MOUNT_SECRET, `Could not find Secret ${name}`);
                 }
             }
         }

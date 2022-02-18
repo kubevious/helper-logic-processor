@@ -61,9 +61,9 @@ export default K8sRoleBindingParser()
                 const svcAccount = item.link('subject', subjectDn, linkNaming);
                 if (!svcAccount) { 
                     if (targetNamespace) {
-                        item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
+                        item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
                     } else {
-                        item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
+                        item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
                     }
                 }
             }

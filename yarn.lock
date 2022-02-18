@@ -52,10 +52,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@kubevious/entity-meta@^1.0.45":
-  version "1.0.45"
-  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.45.tgz#0c71c459a38ec5e490be07f9587d954767a90cf5"
-  integrity sha512-0kRcYwJjzIL3/TUDOa1GJ6F6KgONuluqa1sOhbB8CTZAAeqHBDDRbxcQ90Ax+0DhfELSPtCXRbQQHePO5uX8Ew==
+"@kubevious/entity-meta@^1.0.45", "@kubevious/entity-meta@^1.0.47":
+  version "1.0.47"
+  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.47.tgz#f0dbcbb08cf574c3d13062da11476c7bec79edb1"
+  integrity sha512-TZLLNm24iPpniSVAMJpOl15cae9WjHBKrE0Jo2a+Cy3RjNDJP2w8cXqWO99mTFYOWfUefvqQnZiSB5a76LmIXw==
   dependencies:
     the-lodash "^2.0.9"
 

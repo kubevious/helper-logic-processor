@@ -16,7 +16,7 @@ export default LogicLauncherParser()
 
         if (!origSvcAccountName)
         {
-            item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, 'Service account is not set.');
+            item.raiseAlert(ValidatorID.UNSET_SERVICE_ACCOUNT, 'Service account is not set.');
         }
 
         const svcAccountName = origSvcAccountName || 'default';
@@ -40,7 +40,7 @@ export default LogicLauncherParser()
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_SERVICE_ACCOUNT, `Service account ${svcAccountName} is not found.`);
+                item.raiseAlert(ValidatorID.MISSING_CONTAINER_TO_SERVICE_ACCOUNT, `Service account ${svcAccountName} is not found.`);
             }
         }
 

@@ -48,7 +48,7 @@ export default K8sParser<ReplicaSet>()
 
         if (item.resolveTargetLinks('logic').length == 0)
         {
-            item.raiseAlert(ValidatorID.UNOWNED_POD, 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
+            item.raiseAlert(ValidatorID.UNOWNED_REPLICA_SET, 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
         }
 
     })

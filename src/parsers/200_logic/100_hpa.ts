@@ -24,7 +24,7 @@ export default K8sParser<HorizontalPodAutoscaler>()
         const k8sTarget = item.link('target', k8sTargetDn);
 
         if (!k8sTarget) {
-            item.raiseAlert(ValidatorID.MISSING_APP, 'Could not find apps matching scaleTargetRef.');
+            item.raiseAlert(ValidatorID.MISSING_HPA_APP, 'Could not find apps matching scaleTargetRef.');
             return;
         }
 

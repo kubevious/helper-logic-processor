@@ -75,7 +75,7 @@ export default K8sParser<Ingress>()
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_SERVICE, `Service ${service.name} is missing.`);
+                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Service ${service.name} is missing.`);
             }
         }
 

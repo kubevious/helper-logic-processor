@@ -26,11 +26,11 @@ export default LogicContainerParser()
                                 runtime.envVars[envName] = dataValue ?? null;
                             }
                         } else {
-                            item.raiseAlert(ValidatorID.EMPTY_CONFIG_MAP, `ConfigMap has no data: ${configMapName}`);
+                            item.raiseAlert(ValidatorID.EMPTY_ENV_CONFIG_MAP, `ConfigMap has no data: ${configMapName}`);
                         }
                     } else {
                         if (!configMapRef.optional) {
-                            item.raiseAlert(ValidatorID.MISSING_CONFIG_MAP, `Could not find ConfigMap ${configMapName}`);
+                            item.raiseAlert(ValidatorID.MISSING_ENV_CONFIG_MAP, `Could not find ConfigMap ${configMapName}`);
                         }
                     }
                 }

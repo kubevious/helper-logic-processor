@@ -53,7 +53,7 @@ export default LogicVolumeParser()
             else
             {
                 if (!isOptional) {
-                    item.raiseAlert(ValidatorID.MISSING_CONFIG_MAP, `Could not find ConfigMap ${name}`);
+                    item.raiseAlert(ValidatorID.MISSING_VOLUME_MOUNT_CONFIG_MAP, `Could not find ConfigMap ${name}`);
                 }
             }
         }

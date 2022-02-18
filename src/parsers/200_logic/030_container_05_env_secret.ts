@@ -26,11 +26,11 @@ export default LogicContainerParser()
                                 runtime.envVars[envName] = dataValue ?? null;
                             }
                         } else {
-                            item.raiseAlert(ValidatorID.EMPTY_SECRET, `Secret has no data: ${secretName}`);
+                            item.raiseAlert(ValidatorID.EMPTY_ENV_SECRET, `Secret has no data: ${secretName}`);
                         }
                     } else {
                         if (!secretRef.optional) {
-                            item.raiseAlert(ValidatorID.MISSING_SECRET, `Could not find Secret ${secretName}`);
+                            item.raiseAlert(ValidatorID.MISSING_ENV_SECRET, `Could not find Secret ${secretName}`);
                         }
                     }
                 }
