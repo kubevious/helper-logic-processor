@@ -7,7 +7,11 @@ export default K8sParser<Pod>()
     .target({
         kind: "Pod"
     })
-    .handler(({ logger, config, item, metadata, namespace, helpers }) => {
+    .handler(({ config, item }) => {
+
+        if (config.status?.phase === "Succeeded") {
+            return;
+        }
 
         const conditions = config.status?.conditions ?? [];
         for(const condition of conditions) {
