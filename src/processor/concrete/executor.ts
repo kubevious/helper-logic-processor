@@ -74,7 +74,7 @@ export class ConcreteParserExecutor implements BaseParserExecutor
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.name, reason);
+            this._logger.error("Error in %s parser. Item: %s", this.name, item.id, reason);
         }
 
     }

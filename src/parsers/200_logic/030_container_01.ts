@@ -8,12 +8,9 @@ import { NodeKind } from '@kubevious/entity-meta';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicLauncherParser()
-    .handler(({ logger, item, config, runtime}) => {
+    .handler(({ logger, item, runtime}) => {
 
-        if (!config.spec) {
-            return;
-        }
-        if (! config.spec.template.spec) {
+        if (!runtime.podTemplateSpec?.spec) {
             return;
         }
 
@@ -22,7 +19,7 @@ export default LogicLauncherParser()
         
         // Normal Containers 
         {
-            const containers = config.spec.template.spec.containers;
+            const containers = runtime.podTemplateSpec?.spec.containers;
             appRuntime.containerCount = containers.length;
             for(const containerConfig of containers)
             {
@@ -32,7 +29,7 @@ export default LogicLauncherParser()
 
         // Init Containers 
         {
-            const initContainers = config.spec.template.spec.initContainers ?? [];
+            const initContainers = runtime.podTemplateSpec?.spec.initContainers ?? [];
             appRuntime.initContainerCount = initContainers.length;
             for(const containerConfig of initContainers)
             {

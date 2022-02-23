@@ -1,6 +1,6 @@
 import _ from 'the-lodash';
 import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
-import { Job } from 'kubernetes-types/batch/v1';
+import { CronJob, Job } from 'kubernetes-types/batch/v1';
 import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-types/rbac/v1';
 import { Container, PersistentVolumeClaim, Pod, ServiceAccount, Volume } from 'kubernetes-types/core/v1';
 
@@ -18,7 +18,7 @@ import { LogicPvcRuntime } from '../types/parser/logic-pvc';
 
 export function LogicLauncherParser() {
 
-    return LogicParser<Deployment | DaemonSet | StatefulSet | Job, LogicLauncherRuntime>()
+    return LogicParser<Deployment | DaemonSet | StatefulSet | Job | CronJob, LogicLauncherRuntime>()
         .target({
             path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher ]
         });

@@ -117,7 +117,7 @@ export class LogicParserExecutor<TConfig, TRuntime> implements BaseParserExecuto
         }
         catch(reason)
         {
-            this._logger.error("Error in %s parser. ", this.name, reason);
+            this._logger.error("Error in %s parser. Item: %s. Reason:", this.name, item.dn, reason);
         }
 
     }

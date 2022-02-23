@@ -73,6 +73,16 @@ describe('full-processor', () => {
                     should(props['repository']).be.equal('gke.gcr.io');
                 }
 
+                {
+                    // const app = registryState.findByDn("root/logic/ns-[marketing]/app-[github-stargazers-1645570800]/launcher-[Job]");
+                    // should(app).be.ok();
+                }
+
+
+                {
+                    // const app = registryState.findByDn("root/logic/ns-[marketing]/app-[github-stargazers]/launcher-[CronJob]");
+                    // should(app).be.ok();
+                }
                 
             })
     })

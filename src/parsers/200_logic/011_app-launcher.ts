@@ -1,6 +1,6 @@
+import _ from 'the-lodash';
 import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
 import { Job } from 'kubernetes-types/batch/v1';
-import _ from 'the-lodash';
 import { K8sConfig } from '../..';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
@@ -26,6 +26,15 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
     })
     .handler(({ logger, scope, config, item, metadata, namespace, helpers }) => {
 
+        if (config.metadata?.ownerReferences) {
+            if (config.metadata?.ownerReferences.length > 0) {
+                if (config.kind === 'Job') {
+                    helpers.logic.processOwnerReferences(item, NodeKind.job, metadata);
+                }
+                return;
+            }
+        }
+
         helpers.k8s.labelMatcher.register(<K8sConfig>config, item);
 
         const root = scope.logicRootNode.fetchByNaming(NodeKind.logic);
@@ -33,13 +42,17 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         const ns = root.fetchByNaming(NodeKind.ns, metadata.namespace!);
 
         const app = ns.fetchByNaming(NodeKind.app, metadata.name);
-        (<LogicAppRuntime>app.runtime).namespace = namespace!;
-        (<LogicAppRuntime>app.runtime).app = metadata.name!;
-        (<LogicAppRuntime>app.runtime).launcherKind = config.kind!;
-        (<LogicAppRuntime>app.runtime).launcherReplicas = _.get(config, 'spec.replicas') ?? null;
-        (<LogicAppRuntime>app.runtime).volumes = {};
-        (<LogicAppRuntime>app.runtime).ports = {};
-        (<LogicAppRuntime>app.runtime).helmCharts = {};
+        const appRuntime = (<LogicAppRuntime>app.runtime);
+
+        appRuntime.namespace = namespace!;
+        appRuntime.app = metadata.name!;
+        appRuntime.launcherKind = config.kind!;
+        appRuntime.launcherReplicas = _.get(config, 'spec.replicas') ?? null;
+        appRuntime.volumes = {};
+        appRuntime.ports = {};
+        appRuntime.helmCharts = {};
+        appRuntime.podTemplateSpec = config.spec?.template;
+
         item.link('app', app);
 
         const launcher = helpers.shadow.create(item, app,
@@ -50,10 +63,12 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
                 inverseLinkName: 'logic'
             });
 
-        (<LogicLauncherRuntime>launcher.runtime).namespace = namespace!;
-        (<LogicLauncherRuntime>launcher.runtime).app = metadata.name!;
+        const appLauncherRuntime = (<LogicLauncherRuntime>launcher.runtime);
+        appLauncherRuntime.namespace = namespace!;
+        appLauncherRuntime.app = metadata.name!;
+        appLauncherRuntime.podTemplateSpec = appRuntime.podTemplateSpec;
 
-        const labelsMap = helpers.k8s.labelsMap(config.spec?.template.metadata);
+        const labelsMap = helpers.k8s.labelsMap(appRuntime.podTemplateSpec?.metadata);
         helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)
 
         helpers.k8s.makeLabelsProps(app, config)

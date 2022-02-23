@@ -6,20 +6,22 @@ import { ValidatorID } from '@kubevious/entity-meta';
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
 
-        if (!config.spec) {
+        if (!runtime.podTemplateSpec?.spec) {
             return;
         }
 
         const origSvcAccountName = 
-            config.spec?.template.spec?.serviceAccountName ||
-            config.spec?.template.spec?.serviceAccount;
+            runtime.podTemplateSpec?.spec.serviceAccountName ||
+            runtime.podTemplateSpec?.spec.serviceAccount;
 
-        if (!origSvcAccountName)
+        
+        const hasAccountNameSet = origSvcAccountName ? true : false;
+        if (!hasAccountNameSet)
         {
             item.raiseAlert(ValidatorID.UNSET_SERVICE_ACCOUNT, 'Service account is not set.');
         }
 
-        const svcAccountName = origSvcAccountName || 'default';
+        const svcAccountName = hasAccountNameSet ? origSvcAccountName : 'default';
 
         if (svcAccountName)
         {
@@ -40,7 +42,9 @@ export default LogicLauncherParser()
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_CONTAINER_TO_SERVICE_ACCOUNT, `Service account ${svcAccountName} is not found.`);
+                if (hasAccountNameSet) {
+                    item.raiseAlert(ValidatorID.MISSING_CONTAINER_TO_SERVICE_ACCOUNT, `Service account ${svcAccountName} is not found.`);
+                }
             }
         }
 

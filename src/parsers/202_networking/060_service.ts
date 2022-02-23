@@ -1,4 +1,3 @@
-import { ServicePort } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
 import { LogicItem } from '../..';
 import { LogicAppRuntime } from '../../types/parser/logic-app';

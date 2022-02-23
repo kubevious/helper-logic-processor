@@ -7,12 +7,12 @@ export default LogicLauncherParser()
 
         runtime.radioactiveProps = {};
 
-        const securityContext = config.spec?.template.spec?.securityContext;
+        const securityContext = runtime.podTemplateSpec?.spec?.securityContext;
         if (securityContext) {
             // securityContext.
         }
 
-        const podSpec = config.spec?.template.spec;
+        const podSpec = runtime.podTemplateSpec?.spec;
         if (podSpec) {
             if (podSpec.hostIPC) {
                 runtime.radioactiveProps['hostIPC'] = true;

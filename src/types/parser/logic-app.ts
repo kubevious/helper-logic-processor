@@ -1,3 +1,4 @@
+import { PodTemplateSpec } from "kubernetes-types/core/v1";
 import { PropertyValueWithUnit } from "../../helpers/resources";
 import { LogicCommonWorkload } from './logic-common';
 
@@ -25,6 +26,8 @@ export interface LogicAppRuntime extends LogicCommonWorkload
     ports: { [nameOrNumber : string] : PortInfo };
 
     helmCharts: { [ dn: string] : boolean };
+
+    podTemplateSpec?: PodTemplateSpec;
 }
 
 export interface PortInfo
