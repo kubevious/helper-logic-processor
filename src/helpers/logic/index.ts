@@ -1,7 +1,10 @@
-import { NodeKind } from '@kubevious/entity-meta';
-import { ObjectMeta } from 'kubernetes-types/meta/v1';
 import _ from 'the-lodash';
+
+import { ObjectMeta } from 'kubernetes-types/meta/v1';
+
+import { NodeKind, PropsKind, PropsId } from '@kubevious/entity-meta';
 import { ILogger } from "the-logger";
+
 import { Helpers } from '..';
 import { LogicItem } from '../../logic/item';
 import { LogicScope } from '../../logic/scope';
@@ -10,6 +13,7 @@ import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicCommonWorkload } from '../../types/parser/logic-common';
 import { makeRelativeName } from '../../utils/name-helpers';
 
+import { makeDn } from '../../utils/dn-utils';
 
 export class LogicUtils
 {
@@ -23,6 +27,69 @@ export class LogicUtils
         this._logger = logger;
         this._scope = scope;
     }
+
+    makeAppDn(namespace: string, name: string)
+    {
+        return makeDn([
+            { kind: NodeKind.root },
+            { kind: NodeKind.logic },
+            { kind: NodeKind.ns, name: namespace },
+            { kind: NodeKind.app, name: name }
+        ]);
+    }
+
+    setupHealthRuntime(runtime: LogicCommonWorkload)
+    {
+        runtime.health = {
+            podCount: 0,
+            initializedCount: 0,
+            scheduledCount: 0,
+            containersReadyCount: 0,
+            readyCount: 0,
+        }
+    }
+
+    mergeHealthRuntime(result: LogicCommonWorkload, childrenRuntimes: LogicCommonWorkload[])
+    {
+        for(const childRuntime of childrenRuntimes)
+        {
+            result.health.podCount += childRuntime.health.podCount;
+            result.health.initializedCount += childRuntime.health.initializedCount;
+            result.health.scheduledCount += childRuntime.health.scheduledCount;
+            result.health.containersReadyCount += childRuntime.health.containersReadyCount;
+            result.health.readyCount += childRuntime.health.readyCount;
+        }
+    }
+
+    buildHealthProperties(item: LogicItem, runtime: LogicCommonWorkload)
+    {
+        const props = item.buildCustomProperties({
+            kind: PropsKind.keyValue,
+            id: PropsId.health,
+            config: undefined
+        });
+
+        const health = runtime.health;
+        props.add('Pod Count', health.podCount);
+
+        function addProperty(name: string, value: number) {
+            props.add(`${name} Count`, value);
+
+            const perc = (health.podCount === 0) ? 1.0 : (value / health.podCount);
+            props.add(`${name} %`, {
+                value: perc,
+                unit: '%'
+            });
+        }
+
+        addProperty('Initialized', health.initializedCount);
+        addProperty('Scheduled', health.scheduledCount);
+        addProperty('Containers Ready', health.containersReadyCount);
+        addProperty('Ready', health.readyCount);
+
+        props.build();
+    }
+
 
     createIngress(app: LogicItem, k8sIngress: LogicItem) : void
     {
@@ -83,11 +150,18 @@ export class LogicUtils
                             inverseLinkName: 'logic',
                         });
 
+                    const selfLogicRuntime = (<LogicCommonWorkload>selfLogicItem.runtime);
+                    this.setupHealthRuntime(selfLogicRuntime);
+
                     const logicOwnerRuntime = <LogicCommonWorkload>logicOwner.runtime;
                     if (logicOwnerRuntime)
                     {
-                        (<LogicCommonWorkload>selfLogicItem.runtime).namespace = logicOwnerRuntime.namespace;
-                        (<LogicCommonWorkload>selfLogicItem.runtime).app = logicOwnerRuntime.app;
+                        selfLogicRuntime.namespace = logicOwnerRuntime.namespace;
+                        selfLogicRuntime.app = logicOwnerRuntime.app;
+
+                        // TODO: Make sure it does not mess up the UI with too many links
+                        // const appDn = this.makeAppDn(logicOwnerRuntime.namespace, logicOwnerRuntime.app);
+                        // selfLogicItem.link('app', appDn);
                     }
             
                 }

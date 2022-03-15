@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { ILogger } from "the-logger";
+import { NodeKind } from '@kubevious/entity-meta';
 
 import { K8sConfig, LogicItem, parseApiVersion } from "../..";
 
@@ -41,21 +42,24 @@ export class KubernetesUtils {
     {
         const apiInfo = parseApiVersion(apiVersion);
 
-        const parts : (RnInfo | string)[] = ['root', 'k8s'];
+        const parts : RnInfo[] = [
+            { kind: NodeKind.root },
+            { kind: NodeKind.k8s }
+        ];
 
         if (namespace) {
-            parts.push({ kind: "ns", name: namespace! })
+            parts.push({ kind: NodeKind.ns, name: namespace! })
         } else {
-            parts.push({ kind: "cluster" })
+            parts.push({ kind: NodeKind.cluster })
         }
 
         if (apiInfo.apiName) {
-            parts.push({ kind: "api", name: apiInfo.apiName })
+            parts.push({ kind: NodeKind.api, name: apiInfo.apiName })
         }
 
-        parts.push({ kind: "version", name: apiInfo.version })
-        parts.push({ kind: "kind", name: kind })
-        parts.push({ kind: "resource", name: name })
+        parts.push({ kind: NodeKind.version, name: apiInfo.version })
+        parts.push({ kind: NodeKind.kind, name: kind })
+        parts.push({ kind: NodeKind.resource, name: name })
         
         return makeDn(parts);
     }

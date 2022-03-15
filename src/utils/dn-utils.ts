@@ -1,11 +1,12 @@
 import _ from 'the-lodash';
+import { NodeKind } from '@kubevious/entity-meta';
 
 export interface RnInfo {
-    kind: string,
-    name?: string
+    kind: NodeKind,
+    name?: string | null
 }
 
-export function makeRn(infoOrKind : RnInfo | string)
+function makeRn(infoOrKind : RnInfo | string)
 {
     if (_.isString(infoOrKind)) {
         return infoOrKind;
@@ -16,7 +17,7 @@ export function makeRn(infoOrKind : RnInfo | string)
     return infoOrKind.kind;
 }
 
-export function makeDn(parts: (RnInfo | string)[])
+export function makeDn(parts: RnInfo[])
 {
     return parts.map(x => makeRn(x)).join('/');
 }

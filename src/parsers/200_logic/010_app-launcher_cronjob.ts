@@ -30,6 +30,8 @@ export default K8sParser<CronJob>()
         appRuntime.helmCharts = {};
         appRuntime.podTemplateSpec = config.spec?.jobTemplate.spec?.template;
         
+        helpers.logic.setupHealthRuntime(appRuntime);
+
         item.link('app', app);
 
         const launcher = helpers.shadow.create(item, app,
@@ -45,6 +47,7 @@ export default K8sParser<CronJob>()
         appLauncherRuntime.app = metadata.name!;
         appLauncherRuntime.podTemplateSpec = appRuntime.podTemplateSpec;
         
+        helpers.logic.setupHealthRuntime(appLauncherRuntime);
 
         const labelsMap = helpers.k8s.labelsMap(appRuntime.podTemplateSpec?.metadata);
         helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)

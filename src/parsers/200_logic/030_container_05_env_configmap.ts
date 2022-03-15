@@ -11,6 +11,9 @@ export default LogicContainerParser()
             return;
         }
 
+        // TODO: prefix
+        // TODO: handle env.valueFrom
+
         for(const envFromObj of config.envFrom) {
             const configMapRef = envFromObj.configMapRef;
             if (configMapRef)
