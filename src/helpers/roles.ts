@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
+import { ObjectMeta } from 'kubernetes-types/meta/v1';
 
 export type VerbsDict = Record<string, boolean>;
 
@@ -17,6 +18,18 @@ export interface RulesApiItem {
 export type RulesMap = Record<string, RulesApiItem>;
 
 export class RoleHelper {
+
+    isDefaultRbacObject(metadata: ObjectMeta)
+    {
+        const labels = metadata?.labels;
+        if (labels) {
+            const k8sBootstrapping = labels['kubernetes.io/bootstrapping'];
+            if (k8sBootstrapping) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     makeRulesMap() : RulesMap
     {

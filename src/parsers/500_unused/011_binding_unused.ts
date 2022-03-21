@@ -3,7 +3,12 @@ import { K8sRoleBindingParser } from '../../parser-builder/k8s';
 import { ValidatorID } from '@kubevious/entity-meta';
 
 export default K8sRoleBindingParser()
-    .handler(({ item, config }) => {
+    .handler(({ item, config, metadata, helpers }) => {
+
+        if (helpers.roles.isDefaultRbacObject(metadata))
+        {
+            return;
+        }
 
         // TODO: Handle the case of User Subjects.
         if (item.resolveTargetLinks('app').length == 0)
