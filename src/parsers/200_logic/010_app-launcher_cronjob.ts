@@ -5,6 +5,7 @@ import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sParser<CronJob>()
     .target({
@@ -32,14 +33,14 @@ export default K8sParser<CronJob>()
         
         helpers.logic.setupHealthRuntime(appRuntime);
 
-        item.link('app', app);
+        item.link(LogicLinkKind.app, app);
 
         const launcher = helpers.shadow.create(item, app,
             {
                 kind: NodeKind.launcher,
                 name: config.kind,
-                linkName: 'k8s',
-                inverseLinkName: 'logic'
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.logic
             });
 
         const appLauncherRuntime = (<LogicLauncherRuntime>launcher.runtime);

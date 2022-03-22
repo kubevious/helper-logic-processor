@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 import { appendFile } from 'fs';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sParser<NetworkPolicy>()
     .target({
@@ -32,8 +33,8 @@ export default K8sParser<NetworkPolicy>()
             helpers.shadow.create(item, container,
                 {
                     kind: NodeKind.netpol,
-                    linkName: 'k8s',
-                    inverseLinkName: 'logic',
+                    linkName: LogicLinkKind.k8s,
+                    inverseLinkName: LogicLinkKind.logic,
                     inverseLinkPath: targetApp.naming
                 });
         }

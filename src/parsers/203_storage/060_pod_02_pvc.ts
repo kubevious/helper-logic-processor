@@ -3,6 +3,7 @@ import { Volume } from 'kubernetes-types/core/v1';
 import { LogicPodParser } from '../../parser-builder/logic';
 import { LogicPvcRuntime } from '../../types/parser/logic-pvc';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicPodParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
@@ -37,8 +38,8 @@ export default LogicPodParser()
                 const logicPvc = helpers.shadow.create(k8sPvc, item,
                     {
                         kind: NodeKind.pvc,
-                        linkName: 'k8s',
-                        inverseLinkName: 'pod',
+                        linkName: LogicLinkKind.k8s,
+                        inverseLinkName: LogicLinkKind.pod,
                         inverseLinkPath: `${runtime.namespace}-${config.metadata!.name!}`
                     });
 

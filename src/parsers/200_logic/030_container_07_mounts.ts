@@ -3,6 +3,7 @@ import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicContainerParser()
     .handler(({ logger, scope, item, config, helpers}) => {
@@ -24,8 +25,8 @@ export default LogicContainerParser()
                 const mounts = item.fetchByNaming(NodeKind.mounts);
 
                 const containerVolumeMount = mounts.fetchByNaming(NodeKind.mount, volumeMountConfig.mountPath);
-                containerVolumeMount.link('volume', volume);
-                volume.link('mount', containerVolumeMount, `${item.naming}-${containerVolumeMount.naming}`);
+                containerVolumeMount.link(LogicLinkKind.volume, volume);
+                volume.link(LogicLinkKind.mount, containerVolumeMount, `${item.naming}-${containerVolumeMount.naming}`);
 
                 containerVolumeMount.addProperties({
                     kind: PropsKind.yaml,
@@ -41,14 +42,14 @@ export default LogicContainerParser()
                 {
                     const mountChild = helpers.shadow.create(volumeChild, containerVolumeMount, 
                         {
-                            linkName: 'volume',
-                            inverseLinkName: 'mount',
+                            linkName: LogicLinkKind.volume,
+                            inverseLinkName: LogicLinkKind.mount,
                             inverseLinkPath: `${item.naming}-${containerVolumeMount.naming}`
                         })
 
-                    for(const k8sChild of volumeChild.resolveTargetLinkItems('k8s'))
+                    for(const k8sChild of volumeChild.resolveTargetLinkItems(LogicLinkKind.k8s))
                     {
-                        mountChild.link('k8s', k8sChild);
+                        mountChild.link(LogicLinkKind.k8s, k8sChild);
                     }
                 }
             }

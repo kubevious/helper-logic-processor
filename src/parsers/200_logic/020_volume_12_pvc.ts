@@ -3,6 +3,7 @@ import { LogicVolumeParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { LogicPvRuntime } from '../../types/parser/logic-pv';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -29,8 +30,8 @@ export default LogicVolumeParser()
                 const volumePv = helpers.shadow.create(k8sPvc, item, 
                     {
                         kind: NodeKind.pvc,
-                        linkName: 'k8s',
-                        inverseLinkName: 'logic',
+                        linkName: LogicLinkKind.k8s,
+                        inverseLinkName: LogicLinkKind.logic,
                         inverseLinkPath: `${runtime.app}-${item.naming}`,
                         skipUsageRegistration: true
                     });

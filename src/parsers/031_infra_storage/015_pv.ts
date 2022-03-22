@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { K8sPersistentVolumeParser } from '../../parser-builder/k8s';
 import { InfraPersistentVolumeRuntime } from '../../types/parser/infra-pv';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sPersistentVolumeParser()
     .handler(({ logger, scope, config, item, runtime, metadata, helpers }) => {
@@ -21,8 +22,8 @@ export default K8sPersistentVolumeParser()
         const infraPv = helpers.shadow.create(item, storageClass,
             {
                 kind: NodeKind.pv,
-                linkName: 'k8s',
-                inverseLinkName: 'infra',
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.infra,
                 skipUsageRegistration: true
             });
 

@@ -14,6 +14,7 @@ import { LogicCommonWorkload } from '../../types/parser/logic-common';
 import { makeRelativeName } from '../../utils/name-helpers';
 
 import { makeDn } from '../../utils/dn-utils';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export class LogicUtils
 {
@@ -122,8 +123,8 @@ export class LogicUtils
                 kind: NodeKind.ingress,
                 name: name,
 
-                linkName: 'k8s',
-                inverseLinkName: 'logic',
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.logic,
                 inverseLinkPath: name
             });
     }
@@ -134,20 +135,20 @@ export class LogicUtils
         for(const ref of ownerReferences)
         {
             const ownerDn = this._helpers.k8s.makeDn(metadata.namespace!, ref.apiVersion, ref.kind, ref.name);
-            const owner = item.link('owner', ownerDn);
+            const owner = item.link(LogicLinkKind.owner, ownerDn);
             if (owner)
             {                    
                 const shortName = makeRelativeName(owner.naming, metadata.name!);
 
-                const logicOwner = owner.resolveTargetLinkItem('logic');
+                const logicOwner = owner.resolveTargetLinkItem(LogicLinkKind.logic);
                 if (logicOwner)
                 { 
                     const selfLogicItem = this._helpers.shadow.create(item, logicOwner,
                         {
                             kind: kind,
                             name: shortName,
-                            linkName: 'k8s',
-                            inverseLinkName: 'logic',
+                            linkName: LogicLinkKind.k8s,
+                            inverseLinkName: LogicLinkKind.logic,
                         });
 
                     const selfLogicRuntime = (<LogicCommonWorkload>selfLogicItem.runtime);
@@ -161,7 +162,7 @@ export class LogicUtils
 
                         // TODO: Make sure it does not mess up the UI with too many links
                         // const appDn = this.makeAppDn(logicOwnerRuntime.namespace, logicOwnerRuntime.app);
-                        // selfLogicItem.link('app', appDn);
+                        // selfLogicItem.link(LogicLinkKind.app, appDn);
                     }
             
                 }

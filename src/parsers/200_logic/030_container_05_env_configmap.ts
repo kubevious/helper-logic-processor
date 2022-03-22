@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicContainerParser()
     .handler(({ logger, scope, item, config, runtime, helpers}) => {
@@ -51,8 +52,8 @@ export default LogicContainerParser()
                 helpers.shadow.create(k8sConfigMap, item, 
                     {
                         kind: NodeKind.configmap,
-                        linkName: 'k8s',
-                        inverseLinkName: 'env',
+                        linkName: LogicLinkKind.k8s,
+                        inverseLinkName: LogicLinkKind.env,
                         inverseLinkPath: `${runtime.app}-${item.naming}`,
                     })
 

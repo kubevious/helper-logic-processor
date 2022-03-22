@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { LogicImageParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicImageParser()
     .handler(({ logger, scope, item, config, runtime, helpers }) => {
@@ -21,8 +22,8 @@ export default LogicImageParser()
         helpers.shadow.create(logicAppItem, nsLinkItem,
             {
                 kind: NodeKind.app,
-                linkName: 'image',
-                inverseLinkName: 'image',
+                linkName: LogicLinkKind.image,
+                inverseLinkName: LogicLinkKind.image,
                 inverseLinkPath: `${logicContainerItem.kind}-${logicContainerItem.naming}`,
                 skipUsageRegistration: true
             });

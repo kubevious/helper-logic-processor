@@ -5,6 +5,7 @@ import { K8sServicePort, makePortId } from '../../types/parser/k8s-service';
 import { NodeKind } from '@kubevious/entity-meta';
 import { K8sServiceParser } from '../../parser-builder/k8s';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sServiceParser()
     .handler(({ logger, config, scope, item, metadata, namespace, runtime, helpers }) => {
@@ -55,7 +56,7 @@ export default K8sServiceParser()
         /*** HELPERS ***/
         function processTargetApp(targetApp: LogicItem)
         {
-            item.link('app', targetApp);
+            item.link(LogicLinkKind.app, targetApp);
 
             const appRuntime = <LogicAppRuntime>targetApp.runtime;
             appRuntime.exposedWithService = true;
@@ -63,8 +64,8 @@ export default K8sServiceParser()
             const logicService = helpers.shadow.create(item, targetApp,
                 {
                     kind: NodeKind.service,
-                    linkName: 'k8s',
-                    inverseLinkName: 'logic',
+                    linkName: LogicLinkKind.k8s,
+                    inverseLinkName: LogicLinkKind.logic,
                     inverseLinkPath: targetApp.naming
                 });
 
@@ -86,8 +87,8 @@ export default K8sServiceParser()
             if (appPortInfo)
             {
                 const portItem = scope.findItem(appPortInfo.portDn)!;
-                portItem.link('service', logicService, metadata.name);
-                logicService.link('port', portItem, `${appRuntime.app}-${targetPort}`);
+                portItem.link(LogicLinkKind.service, logicService, metadata.name);
+                logicService.link(LogicLinkKind.port, portItem, `${appRuntime.app}-${targetPort}`);
 
                 portConfig.logicPorts[portItem.dn] = true;
             }

@@ -1,6 +1,7 @@
 import _ from 'the-lodash';
 import { K8sStorageClassParser } from '../../parser-builder/k8s';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sStorageClassParser()
     .handler(({ logger, scope, config, item, metadata, helpers }) => {
@@ -11,8 +12,8 @@ export default K8sStorageClassParser()
         helpers.shadow.create(item, storage,
             {
                 kind: NodeKind.storclass,
-                linkName: 'k8s',
-                inverseLinkName: 'infra'
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.infra
             })
 
     })

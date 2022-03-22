@@ -3,6 +3,8 @@ import { PropsKind, PropsId } from '@kubevious/entity-meta';
 import { ObjectMeta } from 'kubernetes-types/meta/v1';
 import { LogicItem } from '..';
 import { LogicRoleBindingRuntime } from '../types/parser/logic-rbac';
+import { ClusterRoleBinding, RoleBinding } from 'kubernetes-types/rbac/v1';
+import { LogicLinkKind } from '../logic/link-kind';
 
 export type VerbsDict = Record<string, boolean>;
 
@@ -238,7 +240,7 @@ export class RoleHelper {
     {
         runtime.rules = this.makeRulesMap();
 
-        const bindingItems = item.resolveSourceLinkItems('subject');
+        const bindingItems = item.resolveSourceLinkItems(LogicLinkKind.subject);
         for(const bindingItem of bindingItems)
         {
             runtime.rules = this.combineRulesMap(
@@ -249,6 +251,19 @@ export class RoleHelper {
         runtime.rules = this.optimizeRulesMap(runtime.rules);
 
         item.addProperties(this.buildRoleMatrixProps(runtime.rules));
+    }
+
+    linkSubjectToBinding(subject: LogicItem, bindingItem: LogicItem, bindingObject: ClusterRoleBinding | RoleBinding)
+    {
+        let linkNamingParts = [
+            bindingObject.kind,
+            bindingObject.metadata?.namespace,
+            bindingObject.metadata?.name
+        ];
+        linkNamingParts = linkNamingParts.filter(x => x);
+        const linkNaming = linkNamingParts.join('_');
+
+        subject.link(LogicLinkKind.binding, bindingItem, linkNaming);
     }
 }
 

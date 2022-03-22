@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicVolumeParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicVolumeParser()
     .handler(({ logger, item, config, helpers, runtime }) => {
@@ -44,8 +45,8 @@ export default LogicVolumeParser()
                 helpers.shadow.create(k8sSecret, item, 
                     {
                         kind: NodeKind.secret,
-                        linkName: 'k8s',
-                        inverseLinkName: 'volume',
+                        linkName: LogicLinkKind.k8s,
+                        inverseLinkName: LogicLinkKind.volume,
                         inverseLinkPath: `${runtime.app}-${item.naming}`,
                         skipUsageRegistration: true
                     })

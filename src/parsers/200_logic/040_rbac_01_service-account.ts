@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicLauncherParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicLauncherParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
@@ -33,12 +34,12 @@ export default LogicLauncherParser()
                 helpers.shadow.create(k8sSvcAccount, app, 
                     {
                         kind: NodeKind.svcaccnt,
-                        linkName: 'k8s',
-                        inverseLinkName: 'logic',
+                        linkName: LogicLinkKind.k8s,
+                        inverseLinkName: LogicLinkKind.logic,
                         inverseLinkPath: runtime.app
                     })
 
-                k8sSvcAccount.link('app', app, app.naming);
+                k8sSvcAccount.link(LogicLinkKind.app, app, app.naming);
             }
             else
             {

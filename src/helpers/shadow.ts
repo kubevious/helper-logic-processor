@@ -2,6 +2,7 @@ import { NodeKind } from "@kubevious/entity-meta";
 import { ILogger } from "the-logger";
 import { Helpers } from ".";
 import { LogicItem } from "../logic/item";
+import { LogicLinkKind } from "../logic/link-kind";
 import { LogicScope } from '../logic/scope';
 
 export class ShadowUtils
@@ -54,10 +55,10 @@ export interface CreateShadowParams
     skipUsageRegistration?: boolean;
     
     // Link from shadow to source
-    linkName?: string;
+    linkName?: LogicLinkKind;
 
     // Link from source to shadow
-    inverseLinkName?: string;
+    inverseLinkName?: LogicLinkKind;
     inverseLinkPath?: string;
 
 

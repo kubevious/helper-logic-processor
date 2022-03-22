@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { InfraPoolRuntime } from '../../types/parser/infra-pool';
 import { NodeKind } from '@kubevious/entity-meta';
 import { K8sNodeParser } from '../../parser-builder/k8s';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sNodeParser()
     .handler(({ logger, scope, config, item, metadata, helpers }) => {
@@ -18,8 +19,8 @@ export default K8sNodeParser()
         helpers.shadow.create(item, pool,
             {
                 kind: NodeKind.node,
-                linkName: 'k8s',
-                inverseLinkName: 'infra'
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.infra
             })
 
         /*** HELPERS ***/

@@ -4,6 +4,7 @@ import { K8sRoleBindingParser } from '../../parser-builder/k8s';
 import { RoleRef, Subject } from 'kubernetes-types/rbac/v1';
 import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
 import { LogicItem } from '../../logic/item';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sRoleBindingParser()
     .trace()
@@ -31,7 +32,7 @@ export default K8sRoleBindingParser()
             const targetNamespace = namespace || null;
 
             const roleDn = helpers.k8s.makeDn(targetNamespace, config.apiVersion!, roleRef.kind, roleRef.name);
-            const role = item.link('role', roleDn);
+            const role = item.link(LogicLinkKind.role, roleDn);
             if (role)
             {
                 runtime.rules = (<LogicRoleRuntime>role.runtime).rules;
@@ -72,13 +73,15 @@ export default K8sRoleBindingParser()
             linkNamingParts.push(subjectRef.name);
             const linkNaming = linkNamingParts.join('_');
 
-            const svcAccount = item.link('subject', subjectDn, linkNaming);
+            const svcAccount = item.link(LogicLinkKind.subject, subjectDn, linkNaming);
             if (!svcAccount) { 
                 if (targetNamespace) {
                     item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
                 } else {
                     item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
                 }
+            } else {
+                helpers.roles.linkSubjectToBinding(svcAccount, item, config);
             }
         }
 
@@ -106,7 +109,8 @@ export default K8sRoleBindingParser()
             linkNamingParts.push(subjectRef.name);
             const linkNaming = linkNamingParts.join('_');
 
-            item.link('subject', subjectItem, linkNaming);
+            item.link(LogicLinkKind.subject, subjectItem, linkNaming);
+            helpers.roles.linkSubjectToBinding(subjectItem, item, config);
         }
 
     })

@@ -1,9 +1,10 @@
 import { LogicItem } from "../item";
+import { LogicLinkKind } from '../link-kind';
 
 export interface LinkInfo
 {
     sourceDn: string;
-    kind: string;
+    kind: LogicLinkKind;
     path?: any;
     targetDn: string;
 }

@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default ConcreteParser()
     .target(null)
@@ -49,10 +50,10 @@ export default ConcreteParser()
 
         if (item.id.namespace) {
             const nsUsageItem = infraApiKindRoot.fetchByNaming(NodeKind.ns, item.id.namespace!)
-            nsUsageItem.link('nsapi', kindRoot!);
+            nsUsageItem.link(LogicLinkKind.nsapi, kindRoot!);
         } else {
             const clusterUsageItem = infraApiKindRoot.fetchByNaming(NodeKind.cluster);
-            clusterUsageItem.link('cluster', kindRoot!);
+            clusterUsageItem.link(LogicLinkKind.cluster, kindRoot!);
         }
 
     })

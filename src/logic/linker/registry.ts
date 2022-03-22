@@ -2,10 +2,11 @@ import _ from 'the-lodash';
 import { LinkInfo, ResolvedLink } from "./types";
 import { LogicScope } from "../scope";
 import { LogicItem } from "../item";
+import { LogicLinkKind } from '../link-kind';
 
 type TargetedLinkMap = {
     [dn: string] : {
-        [kind: string] : LinkInfo[]
+        [kindStr: string] : LinkInfo[]
     } 
 }
 
@@ -21,7 +22,7 @@ export class LogicLinkRegistry
         this._logicScope = logicScope;
     }
 
-    link(sourceItemOrDn: LogicItem | string, kind: string, path: any, targetItemOrDn: LogicItem | string) : LogicItem | null
+    link(sourceItemOrDn: LogicItem | string, kind: LogicLinkKind, path: any, targetItemOrDn: LogicItem | string) : LogicItem | null
     {
         const link : LinkInfo = {
             sourceDn: _.isString(sourceItemOrDn) ? sourceItemOrDn : sourceItemOrDn.dn,
@@ -57,33 +58,33 @@ export class LogicLinkRegistry
         kindList.push(link);
     }
 
-    findTargetLinks(sourceDn: string, kind?: string) : LinkInfo[]
+    findTargetLinks(sourceDn: string, kind?: LogicLinkKind) : LinkInfo[]
     {
         const links = this._findLinksInDict(this._direct, sourceDn, kind);
         return links;
     }
 
-    findSourceLinks(targetDn: string, kind?: string) : LinkInfo[]
+    findSourceLinks(targetDn: string, kind?: LogicLinkKind) : LinkInfo[]
     {
         const links = this._findLinksInDict(this._inverted, targetDn, kind);
         return links;
     }
 
-    resolveTargetLinks(sourceDn: string, kind?: string) : ResolvedLink[]
+    resolveTargetLinks(sourceDn: string, kind?: LogicLinkKind) : ResolvedLink[]
     {
         const links = this.findTargetLinks(sourceDn, kind);
-        let resolvedLinks = links.map(x => this._resolveLink(x.targetDn, x));
+        const resolvedLinks = links.map(x => this._resolveLink(x.targetDn, x));
         return resolvedLinks;
     }
 
-    resolveSourceLinks(targetDn: string, kind?: string) : ResolvedLink[]
+    resolveSourceLinks(targetDn: string, kind?: LogicLinkKind) : ResolvedLink[]
     {
         const links = this.findSourceLinks(targetDn, kind);
-        let resolvedLinks = links.map(x => this._resolveLink(x.sourceDn, x));
+        const resolvedLinks = links.map(x => this._resolveLink(x.sourceDn, x));
         return resolvedLinks;
     }
 
-    resolveTargetItems(sourceDn: string, kind?: string) : LogicItem[]
+    resolveTargetItems(sourceDn: string, kind?: LogicLinkKind) : LogicItem[]
     {
         let resolvedLinks = this.resolveTargetLinks(sourceDn, kind);
         resolvedLinks = resolvedLinks.filter(x => x.item);
@@ -91,7 +92,7 @@ export class LogicLinkRegistry
         return _.values(dict);
     }
 
-    resolveSourceItems(targetDn: string, kind?: string) : LogicItem[]
+    resolveSourceItems(targetDn: string, kind?: LogicLinkKind) : LogicItem[]
     {
         let resolvedLinks = this.resolveSourceLinks(targetDn, kind);
         resolvedLinks = resolvedLinks.filter(x => x.item);
@@ -99,7 +100,7 @@ export class LogicLinkRegistry
         return _.values(dict);
     }
 
-    private _findLinksInDict(map : TargetedLinkMap, dn: string, kind?: string) : LinkInfo[]
+    private _findLinksInDict(map : TargetedLinkMap, dn: string, kind?: LogicLinkKind) : LinkInfo[]
     {
         const dnMap = map[dn];
         if (!dnMap) {

@@ -3,6 +3,7 @@ import { K8sSecretParser } from '../../parser-builder/k8s';
 import { NodeKind } from '@kubevious/entity-meta';
 import { PackageNamespaceRuntime } from '../../types/parser/pack-ns';
 import { PackageHelmVersion } from '../../types/parser/pack-helm-version';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sSecretParser()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
@@ -44,7 +45,7 @@ export default K8sSecretParser()
         const helmItem = nsItem.fetchByNaming(NodeKind.helm, chartName);
         
         const helmVersion = helmItem.fetchByNaming(NodeKind.version, chartVersion);
-        helmVersion.link('secret', item);
+        helmVersion.link(LogicLinkKind.secret, item);
 
         const helmVersionRuntime = <PackageHelmVersion>helmVersion.runtime;
         helmVersionRuntime.configs = {};

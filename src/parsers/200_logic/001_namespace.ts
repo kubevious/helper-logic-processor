@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { LogicNamespaceRuntime } from '../../types/parser/logic-namespace';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sParser<Namespace>()
     .target({
@@ -16,8 +17,8 @@ export default K8sParser<Namespace>()
         const ns = helpers.shadow.create(item, root,
             {
                 kind: NodeKind.ns,
-                linkName: 'k8s',
-                inverseLinkName: 'logic'
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.logic
             });
 
         (<LogicNamespaceRuntime>ns.runtime).namespace = metadata.name!;

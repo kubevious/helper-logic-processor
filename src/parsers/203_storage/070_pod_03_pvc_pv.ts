@@ -2,6 +2,7 @@ import _ from 'the-lodash';
 import { LogicPodPvcParser } from '../../parser-builder/logic';
 import { NodeKind } from '@kubevious/entity-meta';
 import { LogicPvRuntime } from '../../types/parser/logic-pv';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicPodPvcParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
@@ -17,8 +18,8 @@ export default LogicPodPvcParser()
             const logicPv = helpers.shadow.create(k8sPv, item,
                 {
                     kind: NodeKind.pv,
-                    linkName: 'k8s',
-                    inverseLinkName: 'pod',
+                    linkName: LogicLinkKind.k8s,
+                    inverseLinkName: LogicLinkKind.pod,
                     inverseLinkPath: `${runtime.namespace}-${config.metadata!.name!}`,
                 });
 

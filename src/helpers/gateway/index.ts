@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { ILogger } from "the-logger";
 import { Helpers } from '..';
 import { LogicItem } from '../../logic/item';
+import { LogicLinkKind } from '../../logic/link-kind';
 import { LogicScope } from '../../logic/scope';
 import { K8sConfig } from '../../types/k8s';
 import { K8sServiceRuntime } from '../../types/parser/k8s-service';
@@ -46,8 +47,8 @@ export class GatewayUtils
                 kind: NodeKind.ingress,
                 name: ruleName,
 
-                linkName: 'k8s',
-                inverseLinkName: 'gateway',
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.gateway,
 
                 skipUsageRegistration: true
             });
@@ -61,8 +62,8 @@ export class GatewayUtils
             {
                 kind: NodeKind.service,
 
-                linkName: 'k8s',
-                inverseLinkName: 'gateway',
+                linkName: LogicLinkKind.k8s,
+                inverseLinkName: LogicLinkKind.gateway,
 
                 skipUsageRegistration: true
             });
@@ -70,7 +71,7 @@ export class GatewayUtils
         const serviceRuntime = <K8sServiceRuntime>k8sServiceItem.runtime;
 
         // TODO: Check why logicServiceItem is not used.
-        for(const logicServiceItem of k8sServiceItem.resolveTargetLinkItems('logic'))
+        for(const logicServiceItem of k8sServiceItem.resolveTargetLinkItems(LogicLinkKind.logic))
         {
             for(const portConfig of _.values(serviceRuntime.portsDict))
             {
@@ -86,14 +87,14 @@ export class GatewayUtils
                 {
                     const appPortItem = this._scope.findItem(appPortItemDn)!;
                     const gAppPortItem = this._helpers.shadow.create(appPortItem, gPort, {
-                        linkName: 'logic',
+                        linkName: LogicLinkKind.logic,
 
                         skipUsageRegistration: true
                     });
 
                     const app = appPortItem.parent!.parent!;
                     const gApp = this._helpers.shadow.create(app, gAppPortItem, {
-                        linkName: 'app',
+                        linkName: LogicLinkKind.app,
 
                         skipUsageRegistration: true
                     });

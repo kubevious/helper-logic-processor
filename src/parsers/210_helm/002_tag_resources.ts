@@ -5,6 +5,7 @@ import { PackageHelmVersion } from '../../types/parser/pack-helm-version';
 import { LogicItem } from '../../logic/item';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { NodeKind } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sAllParser()
     .handler(({ logger, scope, config, item, runtime, helpers }) => {
@@ -34,11 +35,11 @@ export default K8sAllParser()
                 const helmVersionRuntime = <PackageHelmVersion>helmVersionItem.runtime;
                 helmVersionRuntime.configs[item.dn] = true;
 
-                for(const app of item.resolveSourceLinkItems('app'))
+                for(const app of item.resolveSourceLinkItems(LogicLinkKind.app))
                 {
                     setupAppChartLink(app, helmVersionItem);
                 }
-                for(const app of item.resolveTargetLinkItems('app'))
+                for(const app of item.resolveTargetLinkItems(LogicLinkKind.app))
                 {
                     setupAppChartLink(app, helmVersionItem);
                 }
@@ -54,14 +55,14 @@ export default K8sAllParser()
             }
             appRuntime.helmCharts[helmVersionItem.dn] = true;
 
-            helmVersionItem.link('app', app);
+            helmVersionItem.link(LogicLinkKind.app, app);
 
             helpers.shadow.create(helmVersionItem, app,
                 {
                     kind: NodeKind.helm,
                     name: helmRelease,
-                    linkName: 'pack',
-                    inverseLinkName: 'logic',
+                    linkName: LogicLinkKind.pack,
+                    inverseLinkName: LogicLinkKind.logic,
                     inverseLinkPath: `${appRuntime.namespace}::${app.naming}`
                 });
         }

@@ -1,5 +1,9 @@
 import _ from 'the-lodash';
 
+import { NodeKind, FlagKind } from '@kubevious/entity-meta';
+import { ValidatorID, ValidatorSetting } from '@kubevious/entity-meta';
+import { PropsKind, PropsId } from '@kubevious/entity-meta';
+
 import { LogicScope, LogicTarget } from "./scope";
 
 import { PropertiesBuilder } from '../utils/properties-builder';
@@ -9,10 +13,7 @@ import { Alert, AlertSourceKind, SnapshotNodeConfig, SnapshotPropsConfig } from 
 import { DumpWriter } from 'the-logger';
 import { LogicLinkRegistry } from '../logic/linker/registry';
 import { SeverityType } from './types';
-import { NodeKind, FlagKind } from '@kubevious/entity-meta';
-import { ValidatorID, ValidatorSetting } from '@kubevious/entity-meta';
-
-import { PropsKind, PropsId } from '@kubevious/entity-meta';
+import { LogicLinkKind } from './link-kind';
 
 class LogicItemSharedData
 {
@@ -145,27 +146,27 @@ export class LogicItem
         }
     }
 
-    link(kind: string, targetItemOrDn: LogicItem | string, path?: any) : LogicItem | null
+    link(kind: LogicLinkKind, targetItemOrDn: LogicItem | string, path?: any) : LogicItem | null
     {
         return this._linkRegistry.link(this.dn, kind, path, targetItemOrDn);
     }
 
-    resolveTargetLinks(kind?: string)
+    resolveTargetLinks(kind?: LogicLinkKind)
     {
         return this._linkRegistry.resolveTargetLinks(this.dn, kind);
     }
 
-    resolveSourceLinks(kind?: string)
+    resolveSourceLinks(kind?: LogicLinkKind)
     {
         return this._linkRegistry.resolveSourceLinks(this.dn, kind);
     }
 
-    resolveTargetLinkItems(kind?: string)
+    resolveTargetLinkItems(kind?: LogicLinkKind)
     {
         return this._linkRegistry.resolveTargetItems(this.dn, kind);
     }
 
-    resolveTargetLinkItem(kind?: string) : LogicItem | null
+    resolveTargetLinkItem(kind?: LogicLinkKind) : LogicItem | null
     {
         const items = this._linkRegistry.resolveTargetItems(this.dn, kind);
         if (items.length == 0) {
@@ -175,7 +176,7 @@ export class LogicItem
         return items[0];
     }
 
-    resolveSourceLinkItems(kind?: string)
+    resolveSourceLinkItems(kind?: LogicLinkKind)
     {
         return this._linkRegistry.resolveSourceItems(this.dn, kind);
     }

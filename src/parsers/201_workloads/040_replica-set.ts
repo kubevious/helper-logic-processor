@@ -3,6 +3,7 @@ import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sParser<ReplicaSet>()
     .target({
@@ -13,7 +14,7 @@ export default K8sParser<ReplicaSet>()
 
         helpers.logic.processOwnerReferences(item, NodeKind.replicaset, metadata);
 
-        if (item.resolveTargetLinks('logic').length == 0)
+        if (item.resolveTargetLinks(LogicLinkKind.logic).length == 0)
         {
             item.raiseAlert(ValidatorID.UNOWNED_REPLICA_SET, 'Directly using ReplicaSet. Use Deployment, StatefulSet or DaemonSet instead.');
         }
