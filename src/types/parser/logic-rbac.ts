@@ -1,16 +1,17 @@
-import { RulesMap } from '../../helpers/roles';
+import { HasRoleRulesMap } from '../../helpers/roles';
 
-export interface LogicRoleRuntime
+
+export interface LogicRoleRuntime extends HasRoleRulesMap
 {
-    rules: RulesMap;
+
 }
 
-export interface LogicRoleBindingRuntime
+export interface LogicRoleBindingRuntime extends HasRoleRulesMap
 {
-    rules: RulesMap;
+
 }
 
-export interface LogicServiceAccountRuntime
+export interface LogicServiceAccountRuntime extends HasRoleRulesMap
 {
-    rules: RulesMap;
+
 }

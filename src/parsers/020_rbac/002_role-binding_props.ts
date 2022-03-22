@@ -2,9 +2,11 @@ import _ from 'the-lodash';
 import { LogicRoleRuntime } from '../../types/parser/logic-rbac';
 import { K8sRoleBindingParser } from '../../parser-builder/k8s';
 import { RoleRef, Subject } from 'kubernetes-types/rbac/v1';
-import { ValidatorID } from '@kubevious/entity-meta';
+import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
+import { LogicItem } from '../../logic/item';
 
 export default K8sRoleBindingParser()
+    .trace()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
 
         if (config.roleRef)
@@ -46,27 +48,65 @@ export default K8sRoleBindingParser()
 
         function processSubject(subjectRef: Subject)
         {
-            if (subjectRef.kind == 'ServiceAccount')
+            if (subjectRef.kind === 'ServiceAccount')
             {
-                const targetNamespace = subjectRef.namespace || namespace || null;
-                const subjectDn = helpers.k8s.makeDn(targetNamespace, 'v1', subjectRef.kind, subjectRef.name);
+                processServiceAccount(subjectRef);
+                return;
+            }
 
-                const linkNamingParts = [subjectRef.kind];
+            if (subjectRef.kind === 'Group' || subjectRef.kind === 'User')
+            {
+                processUserGroup(subjectRef);
+            }
+        }
+
+        function processServiceAccount(subjectRef: Subject)
+        {
+            const targetNamespace = subjectRef.namespace || namespace || null;
+            const subjectDn = helpers.k8s.makeDn(targetNamespace, 'v1', subjectRef.kind, subjectRef.name);
+
+            const linkNamingParts = [subjectRef.kind];
+            if (targetNamespace) {
+                linkNamingParts.push(targetNamespace);
+            }
+            linkNamingParts.push(subjectRef.name);
+            const linkNaming = linkNamingParts.join('_');
+
+            const svcAccount = item.link('subject', subjectDn, linkNaming);
+            if (!svcAccount) { 
                 if (targetNamespace) {
-                    linkNamingParts.push(targetNamespace);
-                }
-                linkNamingParts.push(subjectRef.name);
-                const linkNaming = linkNamingParts.join('_');
-
-                const svcAccount = item.link('subject', subjectDn, linkNaming);
-                if (!svcAccount) { 
-                    if (targetNamespace) {
-                        item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
-                    } else {
-                        item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
-                    }
+                    item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${targetNamespace} :: ${subjectRef.name}.`);
+                } else {
+                    item.raiseAlert(ValidatorID.MISSING_BINDING_TO_SERVICE_ACCOUNT, `Could not find ${subjectRef.kind} ${subjectRef.name}.`);
                 }
             }
+        }
+
+        function processUserGroup(subjectRef: Subject)
+        {
+            logger.error("[processUserGroup] %s >>>>> %s", subjectRef.name, subjectRef.kind);
+
+            const rbacRoot = scope.logicRootNode.fetchByNaming(NodeKind.rbac);
+            let subjectItem : LogicItem | null = null; 
+
+            if (subjectRef.kind === 'Group')
+            {
+                subjectItem = rbacRoot.fetchByNaming(NodeKind.group, subjectRef.name);
+            }
+            else if (subjectRef.kind === 'User')
+            {
+                subjectItem = rbacRoot.fetchByNaming(NodeKind.user, subjectRef.name);
+            }
+
+            if (!subjectItem) {
+                return;
+            }
+
+            const linkNamingParts = [subjectRef.kind];
+            linkNamingParts.push(subjectRef.name);
+            const linkNaming = linkNamingParts.join('_');
+
+            item.link('subject', subjectItem, linkNaming);
         }
 
     })

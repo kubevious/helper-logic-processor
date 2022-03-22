@@ -1,6 +1,8 @@
 import _ from 'the-lodash';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 import { ObjectMeta } from 'kubernetes-types/meta/v1';
+import { LogicItem } from '..';
+import { LogicRoleBindingRuntime } from '../types/parser/logic-rbac';
 
 export type VerbsDict = Record<string, boolean>;
 
@@ -16,6 +18,12 @@ export interface RulesApiItem {
 }
 
 export type RulesMap = Record<string, RulesApiItem>;
+
+export interface HasRoleRulesMap
+{
+    rules: RulesMap;
+}
+
 
 export class RoleHelper {
 
@@ -224,6 +232,23 @@ export class RoleHelper {
         };
     
         return config;
+    }
+
+    produceItemSubjectRoleMatrix(item: LogicItem, runtime: HasRoleRulesMap)
+    {
+        runtime.rules = this.makeRulesMap();
+
+        const bindingItems = item.resolveSourceLinkItems('subject');
+        for(const bindingItem of bindingItems)
+        {
+            runtime.rules = this.combineRulesMap(
+                runtime.rules,
+                (<LogicRoleBindingRuntime>bindingItem.runtime).rules);
+        } 
+
+        runtime.rules = this.optimizeRulesMap(runtime.rules);
+
+        item.addProperties(this.buildRoleMatrixProps(runtime.rules));
     }
 }
 

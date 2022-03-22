@@ -8,14 +8,14 @@ export default K8sRoleParser()
         const rulesMap = helpers.roles.makeRulesMap();
         (<LogicRoleRuntime>item.runtime).rules = rulesMap;
 
-        for(let rule of (config.rules || []))
+        for(const rule of (config.rules || []))
         {
-            for(let api of (rule.apiGroups || []))
+            for(const api of (rule.apiGroups || []))
             {
-                for(let resource of (rule.resources || []))
+                for(const resource of (rule.resources || []))
                 {
                     if (rule.resourceNames) {
-                        for(let resourceName of rule.resourceNames) {
+                        for(const resourceName of rule.resourceNames) {
                             helpers.roles.addRule(rulesMap, api, resource, resourceName, rule.verbs)
                         }
                     } else {
