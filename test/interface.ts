@@ -4,12 +4,13 @@ import should = require('should');
 import { makeLogger } from './helpers/logger';
 
 import { ParserLoader, LogicProcessor } from '../src';
-import { ProcessingTracker } from '@kubevious/helpers/dist/processing-tracker';
+import { TimerScheduler } from '@kubevious/helper-backend/dist/timer-scheduler';
+import { ProcessingTracker } from '@kubevious/helper-backend/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
 
 const logger = makeLogger('empty');
 
-const tracker = new ProcessingTracker(logger);
+const tracker = new ProcessingTracker(logger, new TimerScheduler(logger));
 
 describe('interface', () => {
 

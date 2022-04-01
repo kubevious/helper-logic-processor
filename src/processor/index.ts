@@ -9,7 +9,7 @@ import { LogicItem } from '../logic/item';
 
 import { BaseParserExecutor } from './base/executor';
 
-import { ProcessingTrackerScoper } from '@kubevious/helpers/dist/processing-tracker';
+import { ProcessingTrackerScoper } from '@kubevious/helper-backend';
 import { RegistryState } from '@kubevious/state-registry';
 import { SnapshotConfigKind, SnapshotItemInfo } from '@kubevious/state-registry';
 import { ValidationConfig, DEFAULT_VALIDATION_CONFIG } from '@kubevious/entity-meta';

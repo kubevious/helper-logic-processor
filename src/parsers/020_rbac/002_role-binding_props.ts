@@ -87,8 +87,6 @@ export default K8sRoleBindingParser()
 
         function processUserGroup(subjectRef: Subject)
         {
-            logger.error("[processUserGroup] %s >>>>> %s", subjectRef.name, subjectRef.kind);
-
             const rbacRoot = scope.logicRootNode.fetchByNaming(NodeKind.rbac);
             let subjectItem : LogicItem | null = null; 
 
