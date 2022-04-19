@@ -39,14 +39,17 @@ export default ConcreteParser()
                 config: resource
             });
 
-            if (resource.isDisconnected && !resource.isDisabled) {
-                kindRoot.raiseAlert(ValidatorID.API_SERVICE_DISCONNECTED, 'API Service is disconnected.');
-            }
-
+            if (!resource.isDisabled)
             {
-                const errorMsg = resource.error?.message;
-                if (errorMsg) {
-                    kindRoot.raiseAlert(ValidatorID.API_SERVICE_CONNECTION_ERROR, `${errorMsg}. Code: ${resource.error?.code}`);
+                if (resource.isDisconnected) {
+                    kindRoot.raiseAlert(ValidatorID.API_SERVICE_DISCONNECTED, 'API Service is disconnected.');
+                }
+    
+                {
+                    const errorMsg = resource.error?.message;
+                    if (errorMsg) {
+                        kindRoot.raiseAlert(ValidatorID.API_SERVICE_CONNECTION_ERROR, `${errorMsg}. Code: ${resource.error?.code}`);
+                    }
                 }
             }
         }

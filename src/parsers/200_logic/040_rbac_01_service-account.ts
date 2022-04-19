@@ -43,7 +43,9 @@ export default LogicLauncherParser()
             }
             else
             {
-                if (hasAccountNameSet) {
+                if (hasAccountNameSet &&
+                    svcAccountName !== 'default')
+                {
                     item.raiseAlert(ValidatorID.MISSING_CONTAINER_TO_SERVICE_ACCOUNT, `Service account ${svcAccountName} is not found.`);
                 }
             }
