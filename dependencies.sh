@@ -7,6 +7,7 @@ REPO_DEPENDENCIES=(
     "@kubevious/state-registry"
     "@kubevious/entity-meta"
     "@kubevious/helper-backend"
+    "@kubevious/data-models"
 )
 
 
@@ -17,4 +18,5 @@ FORCE_RESOLVE_DEPENDENCIES=(
     "@kubevious/state-registry"
     "@kubevious/entity-meta"
     "@kubevious/helper-backend"
+    "@kubevious/data-models"
 )

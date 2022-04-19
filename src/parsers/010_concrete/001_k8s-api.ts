@@ -4,6 +4,7 @@ import { ConcreteParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { ApiResourceStatus } from '@kubevious/data-models';
 
 export default ConcreteParser()
     .target({
@@ -13,7 +14,7 @@ export default ConcreteParser()
     })
     .handler(({ logger, scope, item }) => {
 
-        const resources = _.get(item.config, 'config.resources');
+        const resources = _.get(item.config, 'config.resources') as ApiResourceStatus[];
         if (!resources) {
             return;
         }
@@ -39,7 +40,7 @@ export default ConcreteParser()
                 config: resource
             });
 
-            if (!resource.isDisabled)
+            if (!resource.isDisabled && !resource.isSkipped)
             {
                 if (resource.isDisconnected) {
                     kindRoot.raiseAlert(ValidatorID.API_SERVICE_DISCONNECTED, 'API Service is disconnected.');
