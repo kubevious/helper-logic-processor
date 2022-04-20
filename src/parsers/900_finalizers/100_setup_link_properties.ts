@@ -3,6 +3,7 @@ import { LogicParser } from '../../parser-builder';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicParser()
+    .survivesBreakpoint()
     .target({
         path: [],
         subtree: true

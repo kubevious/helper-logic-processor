@@ -11,7 +11,7 @@ export default K8sRoleParser()
             return;
         }
 
-        if (item.resolveTargetLinks(LogicLinkKind.app).length == 0)
+        if (item.resolveTargetLinks(LogicLinkKind.binding).length == 0)
         {
             item.raiseAlert(ValidatorID.UNUSED_ROLE, `${config.kind} not used.`);
         }

@@ -3,14 +3,14 @@ import { LogicParser } from '../../parser-builder';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
 export default LogicParser()
+    .survivesBreakpoint()
     .target({
         path: [],
         subtree: true
     })
     .handler(({ logger, item, helpers }) => {
 
-        const usedDnsMap = item.usedDns;
-        const dns = _.keys(usedDnsMap).filter(x => x != item.dn);
+        const dns = item.usedDnsList.filter(x => x != item.dn);
 
         if (dns.length > 0) {
             const usedDns = _.orderBy(dns);

@@ -1,9 +1,9 @@
 import _ from 'the-lodash';
-import { PropsKind, PropsId } from '@kubevious/entity-meta';
+import { PropsKind, PropsId, NodeKind } from '@kubevious/entity-meta';
 import { ObjectMeta } from 'kubernetes-types/meta/v1';
 import { LogicItem } from '..';
 import { LogicRoleBindingRuntime } from '../types/parser/logic-rbac';
-import { ClusterRoleBinding, RoleBinding } from 'kubernetes-types/rbac/v1';
+import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-types/rbac/v1';
 import { LogicLinkKind } from '../logic/link-kind';
 
 export type VerbsDict = Record<string, boolean>;
@@ -265,6 +265,31 @@ export class RoleHelper {
 
         subject.link(LogicLinkKind.binding, bindingItem, linkNaming);
     }
+
+
+    getTargetBindingKind(config : ClusterRoleBinding | RoleBinding) : NodeKind
+    {
+        if(config.kind === "RoleBinding") {
+            return NodeKind.rlbndg
+        }
+        if(config.kind === "ClusterRoleBinding") {
+            return NodeKind.crlbndg
+        }
+        throw new Error();
+    }
+
+
+    getTargetRoleKind(config : ClusterRole | Role) : NodeKind
+    {
+        if(config.kind === "Role") {
+            return NodeKind.rl
+        }
+        if(config.kind === "ClusterRole") {
+            return NodeKind.crl
+        }
+        throw new Error();
+    }
+
 }
 
 function isAllNsRulePresent(allNsNamedMap : Record<string, Record< string, VerbsDict>>, item : RuleItem)

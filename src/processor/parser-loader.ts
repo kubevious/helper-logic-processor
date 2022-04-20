@@ -53,14 +53,14 @@ export class ParserLoader
 
         const parserModule = require(importPath);
 
-        let defaultExport = parserModule.default;
+        const defaultExport = parserModule.default;
         if (!defaultExport) {
             this.logger.error("Invalid Parser: %s", moduleName);
             throw new Error("Invalid Parser: " + moduleName);
             return;
         }
 
-        let baseParserBuilder = <ParserBuilder>defaultExport;
+        const baseParserBuilder = <ParserBuilder>defaultExport;
         this._allParsers.push({
             moduleName: moduleName,
             baseBuilder: baseParserBuilder
@@ -76,6 +76,23 @@ export class ParserLoader
             this._parsers = only;
         } else {
             this._parsers = nonSkipped;
+        }
+
+        {
+            const breakerIndex = _.findIndex(this._parsers, x => x.baseBuilder.isBreakpoint());
+            if (breakerIndex >= 0)
+            {
+                this.logger.error('[_extractProcessors] *****************************************');
+                this.logger.error('[_extractProcessors] *****************************************');
+                this.logger.error('[_extractProcessors] ********** BREAKPOINT DETECTED **********');
+                this.logger.error('[_extractProcessors] *****************************************');
+                this.logger.error('[_extractProcessors] *****************************************');
+                this.logger.error('[_extractProcessors] breakerIndex: %s', breakerIndex);
+
+                const parsers = _.take(this._parsers, breakerIndex + 1);
+                const survivors = _.drop(this._parsers, breakerIndex + 1).filter(x => x.baseBuilder.doesSurviveBreakpoint());
+                this._parsers = _.concat(parsers, survivors);
+            }
         }
     }
 

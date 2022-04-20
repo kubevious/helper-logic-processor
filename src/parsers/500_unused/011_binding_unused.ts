@@ -11,8 +11,7 @@ export default K8sRoleBindingParser()
             return;
         }
 
-        // TODO: Handle the case of User Subjects.
-        if (item.resolveTargetLinks(LogicLinkKind.app).length == 0)
+        if (item.resolveTargetLinks(LogicLinkKind.subject).length == 0)
         {
             item.raiseAlert(ValidatorID.UNUSED_ROLE_BINDING, `${config.kind} not used.`);
         }

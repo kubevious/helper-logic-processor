@@ -36,4 +36,7 @@ export enum LogicLinkKind
     env = 'env',
 
     image = 'image',
+
+    rbac = 'rbac',
+
 }

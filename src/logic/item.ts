@@ -128,6 +128,10 @@ export class LogicItem
         return this._data.uses;
     }
 
+    get usedDnsList() {
+        return _.keys(this.usedDns);
+    }
+
     makeShadowOf(other: LogicItem)
     {
         this._shadowOf = other.dn;

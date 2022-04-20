@@ -1,7 +1,6 @@
 import _ from 'the-lodash';
 import { LogicServiceAccountParser } from '../../parser-builder/logic';
 import { ClusterRoleBinding, RoleBinding } from 'kubernetes-types/rbac/v1';
-import { NodeKind } from '@kubevious/entity-meta';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicLinkKind } from '../../logic/link-kind';
 
@@ -19,7 +18,7 @@ export default LogicServiceAccountParser()
 
             helpers.shadow.create(k8sBinding, item, 
                 {
-                    kind: getTargetKind(config),
+                    kind: helpers.roles.getTargetBindingKind(config),
                     linkName: LogicLinkKind.k8s,
                     inverseLinkName: LogicLinkKind.logic,
                     inverseLinkPath: `${appRuntime.namespace}::${app.naming}`
@@ -27,20 +26,6 @@ export default LogicServiceAccountParser()
                 
             k8sBinding.link(LogicLinkKind.app, app, `${appRuntime.namespace}::${app.naming}`);
         }
-
-        /*** HELPERS **/
-
-        function getTargetKind(config : ClusterRoleBinding | RoleBinding) : NodeKind
-        {
-            if(config.kind === "RoleBinding") {
-                return NodeKind.rlbndg
-            }
-            if(config.kind === "ClusterRoleBinding") {
-                return NodeKind.crlbndg
-            }
-            throw new Error();
-        }
-
 
     })
     ;

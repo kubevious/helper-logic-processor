@@ -7,7 +7,6 @@ import { LogicItem } from '../../logic/item';
 import { LogicLinkKind } from '../../logic/link-kind';
 
 export default K8sRoleBindingParser()
-    .trace()
     .handler(({ logger, scope, config, item, metadata, namespace, runtime, helpers }) => {
 
         if (config.roleRef)
@@ -36,6 +35,15 @@ export default K8sRoleBindingParser()
             if (role)
             {
                 runtime.rules = (<LogicRoleRuntime>role.runtime).rules;
+
+                const linkNamingParts = [
+                    config.kind,
+                    metadata.namespace,
+                    metadata.name
+                ];
+                const linkNaming = _.filter(linkNamingParts, x => x).map(x => x!).join('::');
+
+                role.link(LogicLinkKind.binding, item, linkNaming);
             }
             else
             {
@@ -109,6 +117,14 @@ export default K8sRoleBindingParser()
 
             item.link(LogicLinkKind.subject, subjectItem, linkNaming);
             helpers.roles.linkSubjectToBinding(subjectItem, item, config);
+
+            helpers.shadow.create(item, subjectItem, 
+                {
+                    kind: helpers.roles.getTargetBindingKind(config),
+                    linkName: LogicLinkKind.k8s,
+                    inverseLinkName: LogicLinkKind.rbac,
+                    inverseLinkPath: `${subjectRef.kind}::${subjectRef.name}`
+                })
         }
 
     })
