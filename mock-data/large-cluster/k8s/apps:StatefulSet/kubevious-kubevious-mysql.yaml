@@ -98,7 +98,10 @@ spec:
                             value: kubevious
                         -
                             name: MYSQL_USER
-                            value: kubevious
+                            valueFrom:
+                                configMapKeyRef:
+                                    key: MYSQL_USER_NAME
+                                    name: kubevious-mysql-user
                         -
                             name: MYSQL_PASSWORD
                             valueFrom:
@@ -111,6 +114,32 @@ spec:
                                 secretKeyRef:
                                     name: kubevious-mysql-secret-root
                                     key: MYSQL_ROOT_PASSWORD
+                        -   name: MY_MEMORY_LIMIT
+                            valueFrom:
+                                resourceFieldRef:
+                                    containerName: mysql
+                                    resource: requests.memory
+                                    divisor: 1Mi   
+                        -   name: MY_NODE_NAME
+                            valueFrom:
+                                fieldRef:
+                                    fieldPath: spec.nodeName
+                        -   name: MY_POD_NAME
+                            valueFrom:
+                                fieldRef:
+                                    fieldPath: metadata.name
+                        -   name: MY_POD_NAMESPACE
+                            valueFrom:
+                                fieldRef:
+                                    fieldPath: metadata.namespace
+                        -   name: MY_POD_IP
+                            valueFrom:
+                                fieldRef:
+                                    fieldPath: status.podIP
+                        -   name: MY_POD_SERVICE_ACCOUNT
+                            valueFrom:
+                                fieldRef:
+                                    fieldPath: spec.serviceAccountName                                                                     
                     resources:
                         requests:
                             cpu: 100m

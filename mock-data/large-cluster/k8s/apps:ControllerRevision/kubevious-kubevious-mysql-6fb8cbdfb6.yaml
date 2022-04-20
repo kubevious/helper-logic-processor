@@ -52,7 +52,10 @@ data:
                                 value: kubevious
                             -
                                 name: MYSQL_USER
-                                value: kubevious
+                                valueFrom:
+                                    configMapKeyRef:
+                                        key: MYSQL_USER_NAME
+                                        name: kubevious-mysql-user
                             -
                                 name: MYSQL_PASSWORD
                                 valueFrom:

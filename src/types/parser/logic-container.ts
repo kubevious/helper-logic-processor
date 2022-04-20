@@ -4,7 +4,7 @@ export interface LogicContainerRuntime
 {
     namespace: string;
     app: string;
-    envVars: Record<string, string>;
+    envVars: Record<string, string | null>;
 
     resourcesRequest: { [ metric: string] : PropertyValueWithUnit };
     resourcesLimit: { [ metric: string] : PropertyValueWithUnit };

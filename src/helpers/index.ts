@@ -10,6 +10,7 @@ import { LogicUtils } from './logic';
 import { ShadowUtils } from './shadow';
 import { NetworkingUtils } from './networking';
 import { LogicScope } from '../logic/scope';
+import { ContainerEnvironmentUtils } from './container/environment';
 
 export class Helpers {
 
@@ -22,6 +23,7 @@ export class Helpers {
     public usage: UsageUtils;
     public shadow: ShadowUtils;
     public networking: NetworkingUtils;
+    public environment: ContainerEnvironmentUtils; 
 
     constructor(logger: ILogger, scope: LogicScope)
     {
@@ -31,6 +33,7 @@ export class Helpers {
         this.logic = new LogicUtils(this, logger, scope);
         this.shadow = new ShadowUtils(this, logger, scope);
         this.networking = new NetworkingUtils();
+        this.environment = new ContainerEnvironmentUtils(this, logger, scope);
     }
 
 }
