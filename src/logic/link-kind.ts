@@ -9,6 +9,7 @@ export enum LogicLinkKind
     role = 'role',
     subject = 'subject',
     binding = 'binding',
+    svcaccount = 'svcaccount',
 
     psp = 'psp',
 

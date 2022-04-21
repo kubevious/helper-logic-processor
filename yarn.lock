@@ -90,10 +90,10 @@
     the-logger "^2.0.14"
     the-promise "^2.0.13"
 
-"@kubevious/entity-meta@^1.0.45", "@kubevious/entity-meta@^1.0.56":
-  version "1.0.56"
-  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.56.tgz#e2460fee0d7ae931b1da911725e9f0aa556a9e48"
-  integrity sha512-KW9dhxn6bEGK9z4/426i8Un+/uPc1HLUoZA61okj26s+BKnB9uOte2PPGdl0tu/I0WIx2zZ9zMj21NywdfH09g==
+"@kubevious/entity-meta@^1.0.45", "@kubevious/entity-meta@^1.0.56", "@kubevious/entity-meta@^1.0.57":
+  version "1.0.57"
+  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.57.tgz#ce51b61e0e5aa097d7658d39d924c474e68ffa7b"
+  integrity sha512-dgJUeH+E/SbkK0+S7EVtTesMMJ7Wb9ZkB8grqY0G/p4x0bRiZixRf9vn6CM4a4Ijr1w++EiYD1qSqjZV+AJ1Dg==
   dependencies:
     the-lodash "^2.0.9"
 

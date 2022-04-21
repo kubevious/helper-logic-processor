@@ -19,7 +19,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@kubevious/data-models": "^1.0.21",
-    "@kubevious/entity-meta": "^1.0.56",
+    "@kubevious/entity-meta": "^1.0.57",
     "@kubevious/helper-backend": "^1.0.38",
     "@kubevious/state-registry": "^1.0.13",
     "glob": "^7.1.7",
@@ -51,7 +51,7 @@
     "the-promise": "^2.0.13",
     "@kubevious/helpers": "^1.0.62",
     "@kubevious/state-registry": "^1.0.13",
-    "@kubevious/entity-meta": "^1.0.56",
+    "@kubevious/entity-meta": "^1.0.57",
     "@kubevious/helper-backend": "^1.0.38",
     "@kubevious/data-models": "^1.0.21"
   }

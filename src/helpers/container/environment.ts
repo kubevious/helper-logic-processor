@@ -185,9 +185,6 @@ class EnvironmentVarsProcessor
 
     private extractFieldRefEnvVar(envVar: EnvVar, keyRef: ObjectFieldSelector)
     {
-        this._logger.error("extractFieldRefEnvVar: config:", this._ownerConfig);
-        this._logger.error("extractFieldRefEnvVar: keyRef.fieldPath:", keyRef.fieldPath);
-        
         const value = _.get(this._ownerConfig, keyRef.fieldPath) ?? '';
         this._setValue(envVar.name, value);
     }
