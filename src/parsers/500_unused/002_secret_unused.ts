@@ -9,7 +9,8 @@ export default K8sParser()
     })
     .handler(({ item }) => {
 
-        if (item.resolveSourceLinks(LogicLinkKind.k8s).length == 0)
+        if ((item.resolveSourceLinks(LogicLinkKind.k8s).length == 0) &&
+            (item.resolveTargetLinkItems(LogicLinkKind.svcaccount).length == 0))
         {
             item.raiseAlert(ValidatorID.UNUSED_SECRET, 'Secret not used.');
         }
