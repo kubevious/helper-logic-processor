@@ -133,16 +133,6 @@
     the-logger "^2.0.9"
     the-promise "^2.0.13"
 
-"@kubevious/helpers@^1.0.62":
-  version "1.0.62"
-  resolved "https://registry.yarnpkg.com/@kubevious/helpers/-/helpers-1.0.62.tgz#68a9079411b7ec8a1cb6a15d6d3c458f54b51ff9"
-  integrity sha512-8UleQ3aDzjH008x5FVXv5dXa6gHVA3+D8KuChgcntBwWzme8JmIbvrlbIRnUgf6ZsQSHSo26bzHl7YFicMsPyQ==
-  dependencies:
-    moment "^2.29.1"
-    the-lodash "^2.0.9"
-    the-logger "^2.0.9"
-    the-promise "^2.0.13"
-
 "@kubevious/http-client@^1.0.19":
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/@kubevious/http-client/-/http-client-1.0.19.tgz#2f0cdde936225f30e1689e69ee4727d152a56ffd"
