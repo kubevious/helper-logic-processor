@@ -83,9 +83,9 @@ export class LogicUtils
             });
         }
 
-        addProperty('Initialized', health.initializedCount);
         addProperty('Scheduled', health.scheduledCount);
         addProperty('Containers Ready', health.containersReadyCount);
+        addProperty('Initialized', health.initializedCount);
         addProperty('Ready', health.readyCount);
 
         props.build();
@@ -129,8 +129,10 @@ export class LogicUtils
             });
     }
 
-    processOwnerReferences(item : LogicItem, kind: NodeKind, metadata: ObjectMeta)
+    processOwnerReferences(item : LogicItem, kind: NodeKind, metadata: ObjectMeta, params? : { addToAppOwnersDict ? : boolean })
     {
+        params = params ?? {};
+
         const ownerReferences = metadata.ownerReferences ?? [];
         for(const ref of ownerReferences)
         {
@@ -160,9 +162,15 @@ export class LogicUtils
                         selfLogicRuntime.namespace = logicOwnerRuntime.namespace;
                         selfLogicRuntime.app = logicOwnerRuntime.app;
 
-                        // TODO: Make sure it does not mess up the UI with too many links
-                        // const appDn = this.makeAppDn(logicOwnerRuntime.namespace, logicOwnerRuntime.app);
-                        // selfLogicItem.link(LogicLinkKind.app, appDn);
+                        if (params.addToAppOwnersDict) {
+                            const appDn = this.makeAppDn(logicOwnerRuntime.namespace, logicOwnerRuntime.app);
+                            const appItem = this._scope.findItem(appDn);
+                            if (appItem)
+                            {
+                                const appRuntime = (appItem.runtime as LogicAppRuntime);
+                                appRuntime.podOwnersDict.register(ref, selfLogicItem);
+                            }
+                        }
                     }
             
                 }

@@ -6,6 +6,7 @@ import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
 import { NodeKind } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
+import { OwnerReferenceDict } from '../../helpers/logic/owner-reference-dict';
 
 export default K8sParser<CronJob>()
     .target({
@@ -30,6 +31,7 @@ export default K8sParser<CronJob>()
         appRuntime.ports = {};
         appRuntime.helmCharts = {};
         appRuntime.podTemplateSpec = config.spec?.jobTemplate.spec?.template;
+        appRuntime.podOwnersDict = new OwnerReferenceDict();
         
         helpers.logic.setupHealthRuntime(appRuntime);
 
