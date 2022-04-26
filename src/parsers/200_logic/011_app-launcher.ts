@@ -54,7 +54,7 @@ export default K8sParser<Deployment | DaemonSet | StatefulSet | Job>()
         appRuntime.ports = {};
         appRuntime.helmCharts = {};
         appRuntime.podTemplateSpec = config.spec?.template;
-        appRuntime.podReferenceDict = new OwnerReferenceDict();
+        appRuntime.podOwnersDict = new OwnerReferenceDict();
 
         helpers.logic.setupHealthRuntime(appRuntime);
 

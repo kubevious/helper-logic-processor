@@ -31,7 +31,7 @@ export default K8sParser<CronJob>()
         appRuntime.ports = {};
         appRuntime.helmCharts = {};
         appRuntime.podTemplateSpec = config.spec?.jobTemplate.spec?.template;
-        appRuntime.podReferenceDict = new OwnerReferenceDict();
+        appRuntime.podOwnersDict = new OwnerReferenceDict();
         
         helpers.logic.setupHealthRuntime(appRuntime);
 

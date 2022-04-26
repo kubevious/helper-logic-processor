@@ -30,7 +30,7 @@ export interface LogicAppRuntime extends LogicCommonWorkload
 
     podTemplateSpec?: PodTemplateSpec;
 
-    podReferenceDict : OwnerReferenceDict;
+    podOwnersDict : OwnerReferenceDict;
 }
 
 export interface PortInfo

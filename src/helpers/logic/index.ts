@@ -83,9 +83,9 @@ export class LogicUtils
             });
         }
 
-        addProperty('Initialized', health.initializedCount);
         addProperty('Scheduled', health.scheduledCount);
         addProperty('Containers Ready', health.containersReadyCount);
+        addProperty('Initialized', health.initializedCount);
         addProperty('Ready', health.readyCount);
 
         props.build();
@@ -168,7 +168,7 @@ export class LogicUtils
                             if (appItem)
                             {
                                 const appRuntime = (appItem.runtime as LogicAppRuntime);
-                                appRuntime.podReferenceDict.register(ref, selfLogicItem);
+                                appRuntime.podOwnersDict.register(ref, selfLogicItem);
                             }
                         }
                     }
