@@ -96,6 +96,9 @@ export function LogicPodParser() {
         .target({
             path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.pod]
         })
+        .target({
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.job, NodeKind.pod]
+        })
 }
 
 
@@ -107,6 +110,9 @@ export function LogicPodPvcParser() {
         })
         .target({
             path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.pod, NodeKind.pvc]
+        })
+        .target({
+            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.job, NodeKind.pod, NodeKind.pvc]
         })
 }
 
