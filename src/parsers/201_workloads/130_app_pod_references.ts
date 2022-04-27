@@ -44,7 +44,7 @@ export default LogicAppParser()
         };
 
         item.addProperties({
-            kind: PropsKind.healthTable,
+            kind: PropsKind.podsVersionsHealth,
             id: PropsId.podStages,
             config: appInstances
         });
