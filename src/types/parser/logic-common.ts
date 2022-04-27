@@ -8,9 +8,18 @@ export interface LogicCommonWorkload
 
 export interface LogicWorkloadHealth
 {
-    podCount: number;
-    initializedCount: number;
-    scheduledCount: number;
-    containersReadyCount: number;
-    readyCount: number;
+    pods: number;
+    pending: number;
+    running: number;
+    succeeded: number;
+    failed: number;
+    unknown: number;
+
+    /* running phase */
+    scheduling: number;
+    initializing: number;
+    waitingContainersReady: number;
+    waitingConditions: number;
+    waitingReady: number;
+    ready: number;
 }

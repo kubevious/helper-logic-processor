@@ -18,9 +18,9 @@ export default LogicLauncherParser()
             }
 
             const xRuntime = x.runtime as LogicCommonWorkload;
-            helpers.logic.mergeHealthRuntime(xRuntime, children.map(child => child.runtime as LogicCommonWorkload));
+            helpers.logic.health.mergeHealthRuntime(xRuntime, children.map(child => child.runtime as LogicCommonWorkload));
 
-            helpers.logic.buildHealthProperties(x, xRuntime);
+            helpers.logic.health.buildHealthProperties(x, xRuntime);
         }
 
         calculateHealthR(item);

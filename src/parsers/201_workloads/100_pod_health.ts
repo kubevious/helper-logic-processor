@@ -1,32 +1,46 @@
+import { PodPhase, PodRunStage } from '@kubevious/entity-meta/dist/props-config/pods-versions-health';
 import _ from 'the-lodash';
 import { LogicPodParser } from '../../parser-builder/logic';
 
 export default LogicPodParser()
     .handler(({ logger, scope, item, runtime, config }) => {
 
-        if (config.status?.phase === "Succeeded") {
-            return;
-        }
+        const health = runtime.health;
+        health.pods++;
 
-        runtime.health.podCount++;
+        if (runtime.phase === PodPhase.Running) {
+            health.running++;
 
-        const conditions = config.status?.conditions ?? [];
-        for(const condition of conditions) {
-            if (condition.status === 'True')
-            {
-                if (condition.type === 'Ready') {
-                    runtime.health.readyCount++;
-                }
-                if (condition.type === 'Initialized') {
-                    runtime.health.initializedCount++;
-                }
-                if (condition.type === 'ContainersReady') {
-                    runtime.health.containersReadyCount++;
-                }
-                if (condition.type === 'PodScheduled') {
-                    runtime.health.scheduledCount++;
-                }
+            if (runtime.runStage === PodRunStage.Scheduling) {
+                health.scheduling++;
             }
+            else if (runtime.runStage === PodRunStage.Initializing) {
+                health.initializing++;
+            }
+            else if (runtime.runStage === PodRunStage.WaitingContainersReady) {
+                health.waitingContainersReady++;
+            }
+            else if (runtime.runStage === PodRunStage.WaitingConditions) {
+                health.waitingConditions++;
+            }
+            else if (runtime.runStage === PodRunStage.WaitingReady) {
+                health.waitingReady++;
+            }
+            else if (runtime.runStage === PodRunStage.Ready) {
+                health.ready++;
+            }
+        }
+        else if (runtime.phase === PodPhase.Succeeded) {
+            health.succeeded++;
+        }
+        else if (runtime.phase === PodPhase.Failed) {
+            health.failed++;
+        }
+        else if (runtime.phase === PodPhase.Pending) {
+            health.pending++;
+        }
+        else {
+            health.unknown++;
         }
 
     })

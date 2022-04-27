@@ -1,15 +1,12 @@
-import { Pod } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
 import { ValidatorID } from '@kubevious/entity-meta';
+import { K8sPodParser } from '../../parser-builder/k8s';
+import { PodPhase } from '@kubevious/entity-meta/dist/props-config/pods-versions-health';
 
-export default K8sParser<Pod>()
-    .target({
-        kind: "Pod"
-    })
-    .handler(({ config, item }) => {
+export default K8sPodParser()
+    .handler(({ config, item, runtime }) => {
 
-        if (config.status?.phase === "Succeeded") {
+        if (runtime.phase === PodPhase.Succeeded) {
             return;
         }
 

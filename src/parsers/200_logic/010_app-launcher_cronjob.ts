@@ -33,7 +33,7 @@ export default K8sParser<CronJob>()
         appRuntime.podTemplateSpec = config.spec?.jobTemplate.spec?.template;
         appRuntime.podOwnersDict = new OwnerReferenceDict();
         
-        helpers.logic.setupHealthRuntime(appRuntime);
+        helpers.logic.health.setupHealthRuntime(appRuntime);
 
         item.link(LogicLinkKind.app, app);
 
@@ -50,7 +50,7 @@ export default K8sParser<CronJob>()
         appLauncherRuntime.app = metadata.name!;
         appLauncherRuntime.podTemplateSpec = appRuntime.podTemplateSpec;
         
-        helpers.logic.setupHealthRuntime(appLauncherRuntime);
+        helpers.logic.health.setupHealthRuntime(appLauncherRuntime);
 
         const labelsMap = helpers.k8s.labelsMap(appRuntime.podTemplateSpec?.metadata);
         helpers.k8s.labelMatcher.registerManual('LogicApp', namespace, labelsMap, app)

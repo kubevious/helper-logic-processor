@@ -1,23 +1,28 @@
-import { Pod } from 'kubernetes-types/core/v1';
 import _ from 'the-lodash';
-import { K8sParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
-import { LogicCommonWorkload } from '../../types/parser/logic-common';
-import { LogicAppRuntime } from '../../types/parser/logic-app';
+import { K8sPodParser } from '../../parser-builder/k8s';
+import { LogicPodRuntime } from '../../types/parser/logic-pod';
 
-export default K8sParser<Pod>()
-    .target({
-        kind: "Pod"
-    })
-    .handler(({ logger, config, item, metadata, helpers, scope }) => {
+export default K8sPodParser()
+    .handler(({ logger, config, item, metadata, helpers, scope, runtime }) => {
+
         helpers.logic.processOwnerReferences(item, NodeKind.pod, metadata,
             {
                 addToAppOwnersDict: true
             });
 
-        if (item.resolveTargetLinks(LogicLinkKind.logic).length == 0)
+        const logicPods = item.resolveTargetLinkItems(LogicLinkKind.logic);
+        for(const logicPodItem of logicPods) {
+            const logicPodRuntime = logicPodItem.runtime as LogicPodRuntime;
+            logicPodRuntime.phase = runtime.phase;
+            logicPodRuntime.runStage = runtime.runStage;
+            logicPodRuntime.conditions = runtime.conditions;
+            logicPodRuntime.radioactiveProps = runtime.radioactiveProps;
+        }
+
+        if (logicPods.length == 0)
         {
             item.raiseAlert(ValidatorID.UNOWNED_POD, 'Controller not found.');
         }

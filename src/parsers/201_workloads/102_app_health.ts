@@ -8,9 +8,9 @@ export default LogicAppParser()
 
         const launcherItems = item.getChildrenByKind(NodeKind.launcher);
 
-        helpers.logic.mergeHealthRuntime(runtime, launcherItems.map(child => child.runtime as LogicCommonWorkload));
+        helpers.logic.health.mergeHealthRuntime(runtime, launcherItems.map(child => child.runtime as LogicCommonWorkload));
         
-        helpers.logic.buildHealthProperties(item, runtime);
+        helpers.logic.health.buildHealthProperties(item, runtime);
 
     })
     ;

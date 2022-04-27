@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { PersistentVolume, PersistentVolumeClaim, Secret, Service, ServicePort, ServiceAccount } from 'kubernetes-types/core/v1';
+import { PersistentVolume, PersistentVolumeClaim, Secret, Service, ServicePort, ServiceAccount, Pod } from 'kubernetes-types/core/v1';
 
 import { K8sParser, LogicParser } from './';
 import { StorageClass } from 'kubernetes-types/storage/v1';
@@ -12,6 +12,7 @@ import { LogicRoleBindingRuntime, LogicServiceAccountRuntime } from '../types/pa
 import { NodeKind } from '@kubevious/entity-meta';
 import { K8sConfig } from '../types/k8s';
 import { Node } from 'kubernetes-types/core/v1';
+import { K8sPodRuntime } from '../types/parser/k8s-pod';
 
 export function K8sNodeParser() {
 
@@ -20,6 +21,13 @@ export function K8sNodeParser() {
             clustered: true,
             kind: "Node"
         })
+}
+
+export function K8sPodParser() {
+    return K8sParser<Pod, K8sPodRuntime>()
+        .target({
+            kind: "Pod"
+        });
 }
 
 export function K8sStorageClassParser() {

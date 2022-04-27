@@ -1,7 +1,7 @@
 import _ from 'the-lodash';
-import { LogicPodParser } from '../../parser-builder/logic';
+import { K8sPodParser } from '../../parser-builder/k8s';
 
-export default LogicPodParser()
+export default K8sPodParser()
     .handler(({ logger, config, item, runtime, helpers }) => {
 
         runtime.radioactiveProps = {};
@@ -21,7 +21,7 @@ export default LogicPodParser()
                 runtime.radioactiveProps['privileged'] = true;
             }
 
-            for(let container of podSpec.containers)
+            for(const container of podSpec.containers)
             {
                 if (container.securityContext?.privileged) {
                     runtime.radioactiveProps['privileged'] = true;
