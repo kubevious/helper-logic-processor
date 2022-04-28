@@ -79,6 +79,8 @@ export class LogicHealthUtils
         const health = runtime.health;
         const total = health.pods;
 
+        const totalRunning = health.pending + health.running + health.unknown;
+
         const config : WorkloadHealthConfig = {
             pods: this._makeMetric(health.pods, total),
             pending: this._makeMetric(health.pending, total),
@@ -87,12 +89,12 @@ export class LogicHealthUtils
             failed: this._makeMetric(health.failed, total),
             unknown: this._makeMetric(health.unknown, total),
 
-            scheduling: this._makeMetric(health.scheduling, total),
-            initializing: this._makeMetric(health.initializing, total),
-            waitingContainersReady: this._makeMetric(health.waitingContainersReady, total),
-            waitingConditions: this._makeMetric(health.waitingConditions, total),
-            waitingReady: this._makeMetric(health.waitingReady, total),
-            ready: this._makeMetric(health.ready, total),
+            scheduling: this._makeMetric(health.scheduling, totalRunning),
+            initializing: this._makeMetric(health.initializing, totalRunning),
+            waitingContainersReady: this._makeMetric(health.waitingContainersReady, totalRunning),
+            waitingConditions: this._makeMetric(health.waitingConditions, totalRunning),
+            waitingReady: this._makeMetric(health.waitingReady, totalRunning),
+            ready: this._makeMetric(health.ready, totalRunning),
 
             restartedPods: runtime.restartedPodsBucket
         };
