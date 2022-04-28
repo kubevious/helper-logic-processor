@@ -7,6 +7,8 @@ import { Helpers } from '..';
 import { LogicItem } from '../../logic/item';
 import { LogicScope } from '../../logic/scope';
 import { LogicCommonWorkload, LogicWorkloadHealth } from '../../types/parser/logic-common';
+import { BucketKeys, HistogramBucket } from '@kubevious/entity-meta/dist/props-config/histogram-bucket';
+import { WorkloadHealthConfig, WorkloadHealthMetric } from '@kubevious/entity-meta/dist/props-config/app-health';
 
 export class LogicHealthUtils
 {
@@ -39,19 +41,35 @@ export class LogicHealthUtils
             waitingReady: 0,
             ready: 0,
         }
+
+        runtime.restartedPodsBucket = {
+            [BucketKeys.BUCKET_15_MINS]: 0,
+            [BucketKeys.BUCKET_1_HR]: 0,
+            [BucketKeys.BUCKET_8_HRS]: 0,
+            [BucketKeys.BUCKET_1_DAY]: 0,
+        }
     }
 
     mergeHealthRuntime(result: LogicCommonWorkload, childrenRuntimes: LogicCommonWorkload[])
     {
         const targetHealth : LogicWorkloadHealth = result.health;
+        const targetRestartedPodsBucket: HistogramBucket = result.restartedPodsBucket;
 
         for(const childRuntime of childrenRuntimes)
         {
-            const childHealth : LogicWorkloadHealth = childRuntime.health;
-
-            for(const key of _.keys(childHealth))
             {
-                (targetHealth as any)[key] += (childHealth as any)[key];
+                const childHealth : LogicWorkloadHealth = childRuntime.health;
+                for(const key of _.keys(childHealth))
+                {
+                    (targetHealth as any)[key] += (childHealth as any)[key];
+                }
+            }
+            {
+                const childRestartedPodsBucket: HistogramBucket = childRuntime.restartedPodsBucket;
+                for(const key of _.keys(childRestartedPodsBucket))
+                {
+                    (targetRestartedPodsBucket as any)[key] += (childRestartedPodsBucket as any)[key];
+                }
             }
         }
     }
@@ -59,24 +77,40 @@ export class LogicHealthUtils
     buildHealthProperties(item: LogicItem, runtime: LogicCommonWorkload)
     {
         const health = runtime.health;
-        const count = health.pods;
+        const total = health.pods;
 
-        const config : any = {};
-        for(const key of _.keys(health))
-        {
-            const value = (health as any)[key] as number;
-            const perc = (count > 0) ? Math.round(value * 100 / count) : 0;
-            config[key] = {
-                count: value,
-                perc: perc
-            }
-        }
+        const config : WorkloadHealthConfig = {
+            pods: this._makeMetric(health.pods, total),
+            pending: this._makeMetric(health.pending, total),
+            running: this._makeMetric(health.running, total),
+            succeeded: this._makeMetric(health.succeeded, total),
+            failed: this._makeMetric(health.failed, total),
+            unknown: this._makeMetric(health.unknown, total),
+
+            scheduling: this._makeMetric(health.scheduling, total),
+            initializing: this._makeMetric(health.initializing, total),
+            waitingContainersReady: this._makeMetric(health.waitingContainersReady, total),
+            waitingConditions: this._makeMetric(health.waitingConditions, total),
+            waitingReady: this._makeMetric(health.waitingReady, total),
+            ready: this._makeMetric(health.ready, total),
+
+            restartedPods: runtime.restartedPodsBucket
+        };
 
         item.addProperties({
-            kind: PropsKind.healthTable,
+            kind: PropsKind.workloadsHealth,
             id: PropsId.health,
             config: config
         });
+    }
+
+    private _makeMetric(value: number, total: number): WorkloadHealthMetric
+    {
+        const perc = (total > 0) ? Math.round(value * 100 / total) : 0;
+        return {
+            count: value,
+            perc: perc
+        }
     }
 
 }   

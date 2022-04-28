@@ -46,7 +46,7 @@ describe('dev-runner', () => {
                     .then(() => registryState);
             })
     })
-    .timeout(30 * 1000)
+    .timeout(60 * 1000)
     ;
 
 });

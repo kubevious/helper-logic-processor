@@ -65,6 +65,10 @@ export class LogicScope
         return this._concreteRegistry;
     }
 
+    get date() {
+        return this._concreteRegistry.date;
+    }
+
     get logicRootNode() {
         return this._rootNode;
     }

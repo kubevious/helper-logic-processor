@@ -1,5 +1,5 @@
 import _ from 'the-lodash';
-import { PersistentVolume, PersistentVolumeClaim, Secret, Service, ServicePort, ServiceAccount, Pod } from 'kubernetes-types/core/v1';
+import { PersistentVolume, PersistentVolumeClaim, Secret, Service, ServiceAccount, Pod } from 'kubernetes-types/core/v1';
 
 import { K8sParser, LogicParser } from './';
 import { StorageClass } from 'kubernetes-types/storage/v1';

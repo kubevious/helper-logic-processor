@@ -5,10 +5,7 @@ import { K8sPodParser } from '../../parser-builder/k8s';
 export default K8sPodParser()
     .handler(({ logger, config, item, metadata, helpers, scope, runtime }) => {
         
-        runtime.phase = (config.status?.phase as PodPhase) ?? PodPhase.Unknown;
-        runtime.conditions = [];
-
-        if (runtime.phase === PodPhase.Running)
+        if (runtime.phase !== PodPhase.Succeeded)
         {
             const conditionList = config.status?.conditions ?? [];
             runtime.conditions = conditionList.map(x => ({
@@ -45,11 +42,3 @@ export default K8sPodParser()
 
     })
     ;
-
-const DEFAULT_CONDITIONS = [
-    "PodScheduled",
-    "Initialized",
-    "ContainersReady",
-    "Ready"
-];
-const DEFAULT_CONDITIONS_DICT = _.makeDict(DEFAULT_CONDITIONS, x => x, x => true);

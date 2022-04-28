@@ -1,0 +1,158 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: oom-test-75f76948f6
+  namespace: failures
+  uid: 19591e3a-49c1-4523-94eb-34aa148847ae
+  resourceVersion: '1732294'
+  generation: 1
+  creationTimestamp: '2022-04-27T23:33:22Z'
+  labels:
+    app.kubernetes.io/name: oom-test
+    pod-template-hash: 75f76948f6
+  annotations:
+    deployment.kubernetes.io/desired-replicas: '1'
+    deployment.kubernetes.io/max-replicas: '2'
+    deployment.kubernetes.io/revision: '7'
+    meta.helm.sh/release-name: oom-test
+    meta.helm.sh/release-namespace: failures
+  ownerReferences:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: oom-test
+      uid: 8b45d265-ba72-41ce-824b-5b3e76d78c41
+      controller: true
+      blockOwnerDeletion: true
+  managedFields:
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: apps/v1
+      time: '2022-04-27T23:43:59Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:deployment.kubernetes.io/desired-replicas: {}
+            f:deployment.kubernetes.io/max-replicas: {}
+            f:deployment.kubernetes.io/revision: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+          f:labels:
+            .: {}
+            f:app.kubernetes.io/name: {}
+            f:pod-template-hash: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"8b45d265-ba72-41ce-824b-5b3e76d78c41"}:
+              .: {}
+              f:apiVersion: {}
+              f:blockOwnerDeletion: {}
+              f:controller: {}
+              f:kind: {}
+              f:name: {}
+              f:uid: {}
+        f:spec:
+          f:replicas: {}
+          f:selector: {}
+          f:template:
+            f:metadata:
+              f:labels:
+                .: {}
+                f:app.kubernetes.io/name: {}
+                f:pod-template-hash: {}
+            f:spec:
+              f:containers:
+                k:{"name":"good"}:
+                  .: {}
+                  f:args: {}
+                  f:command: {}
+                  f:image: {}
+                  f:imagePullPolicy: {}
+                  f:name: {}
+                  f:resources:
+                    .: {}
+                    f:limits:
+                      .: {}
+                      f:cpu: {}
+                      f:memory: {}
+                  f:terminationMessagePath: {}
+                  f:terminationMessagePolicy: {}
+                k:{"name":"stress"}:
+                  .: {}
+                  f:args: {}
+                  f:command: {}
+                  f:image: {}
+                  f:imagePullPolicy: {}
+                  f:name: {}
+                  f:resources:
+                    .: {}
+                    f:limits:
+                      .: {}
+                      f:cpu: {}
+                      f:memory: {}
+                  f:terminationMessagePath: {}
+                  f:terminationMessagePolicy: {}
+              f:dnsPolicy: {}
+              f:restartPolicy: {}
+              f:schedulerName: {}
+              f:securityContext: {}
+              f:terminationGracePeriodSeconds: {}
+        f:status:
+          f:fullyLabeledReplicas: {}
+          f:observedGeneration: {}
+          f:replicas: {}
+  selfLink: /apis/apps/v1/namespaces/failures/replicasets/oom-test-75f76948f6
+status:
+  replicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: oom-test
+      pod-template-hash: 75f76948f6
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: oom-test
+        pod-template-hash: 75f76948f6
+    spec:
+      containers:
+        - name: stress
+          image: containerstack/alpine-stress
+          command:
+            - /bin/sh
+          args:
+            - '-c'
+            - >-
+              PERIOD="$((RANDOM % 30 + 30))s"; echo "Waiting $PERIOD..."; date;
+              sleep $PERIOD; stress --vm 1 --vm-bytes 52428800 --vm-keep
+          resources:
+            limits:
+              cpu: 10m
+              memory: 25M
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+        - name: good
+          image: alpine
+          command:
+            - /bin/sh
+          args:
+            - '-c'
+            - while :; do echo 'Hello World'; date; sleep 10 ; done
+          resources:
+            limits:
+              cpu: 1m
+              memory: 10M
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler

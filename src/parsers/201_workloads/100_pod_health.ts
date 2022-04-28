@@ -8,9 +8,25 @@ export default LogicPodParser()
         const health = runtime.health;
         health.pods++;
 
-        if (runtime.phase === PodPhase.Running) {
+        if (runtime.phase === PodPhase.Succeeded) {
+            health.succeeded++;
+            return;
+        }
+        else if (runtime.phase === PodPhase.Failed) {
+            health.failed++;
+            return;
+        }
+        else if (runtime.phase === PodPhase.Running) {
             health.running++;
-
+        }
+        else if (runtime.phase === PodPhase.Pending) {
+            health.pending++;
+        }
+        else {
+            health.unknown++;
+        }
+        
+        if (runtime.runStage) {
             if (runtime.runStage === PodRunStage.Scheduling) {
                 health.scheduling++;
             }
@@ -29,18 +45,6 @@ export default LogicPodParser()
             else if (runtime.runStage === PodRunStage.Ready) {
                 health.ready++;
             }
-        }
-        else if (runtime.phase === PodPhase.Succeeded) {
-            health.succeeded++;
-        }
-        else if (runtime.phase === PodPhase.Failed) {
-            health.failed++;
-        }
-        else if (runtime.phase === PodPhase.Pending) {
-            health.pending++;
-        }
-        else {
-            health.unknown++;
         }
 
     })
