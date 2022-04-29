@@ -17,6 +17,8 @@ import { ValidationConfig, DEFAULT_VALIDATION_CONFIG } from '@kubevious/entity-m
 import { IConcreteRegistry } from '../types/registry';
 import { ParserInfo, ParserLoader } from './parser-loader'
 
+import { PersistenceStore } from '../store/presistence-store';
+
 export class LogicProcessor 
 {
     private _logger : ILogger;
@@ -27,6 +29,7 @@ export class LogicProcessor
     private _validationConfig : ValidationConfig;
 
     private _processors : BaseParserExecutor[] = [];
+    private _store : PersistenceStore;
 
     constructor(logger: ILogger,
                 tracker: ProcessingTrackerScoper,
@@ -41,6 +44,8 @@ export class LogicProcessor
         this._parserLoader = parserLoader;
         this._validationConfig = _.defaults(_.clone(validationConfig), DEFAULT_VALIDATION_CONFIG) ;
 
+        this._store = new PersistenceStore(logger.sublogger("LogicStore"));
+
         this._loadProcessors();
     }
 
@@ -50,6 +55,10 @@ export class LogicProcessor
 
     get parserLogger() {
         return this._parserLogger;
+    }
+
+    get store() {
+        return this._store;
     }
 
     private _loadProcessors()
@@ -92,7 +101,11 @@ export class LogicProcessor
     {
         return this._tracker.scope("Logic::process", (tracker) => {
 
-            const scope = new LogicScope(this._logger, this._registry, this._validationConfig);
+            const scope = new LogicScope(
+                this._logger,
+                this._registry,
+                this._store,
+                this._validationConfig);
 
             const helpers = new Helpers(this._logger, scope);
 

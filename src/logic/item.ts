@@ -416,6 +416,14 @@ export class LogicItem
         return _.deepClean(node);
     }
 
+    loadFromStore() {
+        return this._logicScope.store.getValue(this.dn);
+    }
+
+    saveToStore(value: any) {
+        return this._logicScope.store.setValue(this.dn, value);
+    }
+
     static constructTop(scope: LogicScope, kind: NodeKind) : LogicItem {
         return new LogicItem(scope, null, kind, null);
     }
