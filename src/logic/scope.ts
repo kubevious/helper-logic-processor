@@ -8,6 +8,7 @@ import { LogicLinkRegistry } from '../logic/linker/registry';
 import { Alert } from '@kubevious/state-registry'
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidationConfig, ValidatorSetting, DEFAULT_VALIDATION_CONFIG, ValidatorID } from '@kubevious/entity-meta';
+import { PersistenceStore } from '../store/presistence-store';
 
 export const ROOT_NODE_LOGIC = NodeKind.root;
 
@@ -36,6 +37,7 @@ export class LogicScope
     private _rootNode : LogicItem;
     private _itemsMap : Record<string, LogicItem> = {};
     private _itemKindMap : Record<string, Record<string, LogicItem> > = {};
+    private _store: PersistenceStore;
 
     private _lastStageData : StageProcessingData = {
         createdItems: [],
@@ -46,10 +48,12 @@ export class LogicScope
 
     constructor(logger: ILogger,
                 concreteRegistry: IConcreteRegistry,
+                store: PersistenceStore,
                 validationConfig : ValidationConfig)
     {
         this._logger = logger.sublogger("LogicScope");
         this._concreteRegistry = concreteRegistry;
+        this._store = store;
         this._validationConfig = validationConfig
 
         this._linkRegistry = new LogicLinkRegistry(this);
@@ -75,6 +79,10 @@ export class LogicScope
 
     get linkRegistry() {
         return this._linkRegistry;
+    }
+
+    get store() {
+        return this._store;
     }
 
     getValidatorSetting(validator: ValidatorID) : ValidatorSetting

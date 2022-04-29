@@ -242,15 +242,6 @@ export class LogicItem
         return this.getChildrenByKind(kind).length;
     }
 
-    // remove() {
-    //     if (!this._parent) {
-    //         return;
-    //     }
-    //     this._logicScope._dropItem(this);
-    //     delete this._parent._children[this.rn];
-    //     this._parent = null;
-    // }
-
     findByNaming(kind: NodeKind, name?: string | undefined) : LogicItem | null
     {
         const rn = LogicItem._makeRn(kind, name);
@@ -414,6 +405,22 @@ export class LogicItem
             (<any>node).shadowOf = this._shadowOf;
         }
         return _.deepClean(node);
+    }
+
+    loadFromStore(key: string) {
+        return this._logicScope.store.getValue(this.dn, key);
+    }
+
+    getFromStore<T>(key: string, defaultValue: T) : T {
+        const value = this.loadFromStore(key);
+        if (value) {
+            return value as T;
+        }
+        return defaultValue;
+    }
+
+    saveToStore(key: string, value: any) {
+        return this._logicScope.store.setValue(this.dn, key, value);
     }
 
     static constructTop(scope: LogicScope, kind: NodeKind) : LogicItem {
