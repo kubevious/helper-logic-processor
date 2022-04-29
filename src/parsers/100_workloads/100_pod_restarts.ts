@@ -1,10 +1,11 @@
-import { PropsId, PropsKind } from '@kubevious/entity-meta/dist';
+import { PropsId, PropsKind } from '@kubevious/entity-meta';
+import { PodHealthConfig } from '@kubevious/entity-meta/dist/props-config/pod-health';
 import _ from 'the-lodash';
 import { K8sPodParser } from '../../parser-builder/k8s';
 import { BucketAggregator } from '../../utils/bucket-aggregator';
 
 export default K8sPodParser()
-    .handler(({ config, item, runtime, scope, }) => {
+    .handler(({ config, item, runtime, scope, logger }) => {
 
         runtime.restartCount = 0;
 
@@ -14,12 +15,28 @@ export default K8sPodParser()
             runtime.restartCount += containerStatus.restartCount;
         }
 
-        const aggregator = new BucketAggregator(scope.date, runtime.restartCount);
-        aggregator.add(config.metadata?.creationTimestamp ?? new Date(), 0);
+        const storeValue = item.getFromStore<RestartCountHistory>(STORE_KEY_RESTARTS, { entries: [] });
+        if (!storeValue.entries) {
+            storeValue.entries = [];
+        }
 
+        const aggregator = new BucketAggregator(scope.date, runtime.restartCount);
+        for(const item of storeValue.entries)
+        {
+            aggregator.add(item.date, item.count);
+        }
         runtime.restartCountBucket = aggregator.produceBuckets();
 
-        const podHealth = {
+        {
+            storeValue.entries = aggregator.getItems().map(x => ({
+                date: x.date.toISOString(),
+                count: x.value
+            }));
+
+            item.saveToStore(STORE_KEY_RESTARTS, storeValue);
+        }
+
+        const podHealth : PodHealthConfig = {
             restarts: runtime.restartCountBucket
         }
 
@@ -31,3 +48,16 @@ export default K8sPodParser()
         
     })
     ;
+
+
+interface RestartCountHistory
+{
+    entries: RestartCountEntry[];
+}
+interface RestartCountEntry
+{
+    date: string,
+    count: number
+}
+
+const STORE_KEY_RESTARTS = 'restarts';

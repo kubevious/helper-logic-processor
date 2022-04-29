@@ -8,6 +8,14 @@ export class BucketAggregator
     private _latestValue: number;
     private _values : Item[] = [];
 
+    private _bucket : HistogramBucket = {
+        [BucketKeys.BUCKET_15_MINS]: 0,
+        [BucketKeys.BUCKET_1_HR]: 0,
+        [BucketKeys.BUCKET_8_HRS]: 0,
+        [BucketKeys.BUCKET_1_DAY]: 0,
+    };
+
+
     constructor(date: string | Date, latestValue: number)
     {
         this._date = moment(date);
@@ -16,20 +24,9 @@ export class BucketAggregator
         this.add(date, latestValue);
     }
 
-    loadItems(items: BucketStorageItem[])
+    getItems()
     {
-        for(const item of items)
-        {
-            this.add(item.date, item.value);
-        }
-    }
-
-    exportItems() : BucketStorageItem[]
-    {
-        return this._values.map(x => ({
-            date: x.date.toISOString(),
-            value: x.value
-        }));
+        return this._values;
     }
 
     add(date: string | Date, value: number)
@@ -51,30 +48,37 @@ export class BucketAggregator
 
     produceBuckets() : HistogramBucket
     {
-        const data : HistogramBucket = {
-            [BucketKeys.BUCKET_15_MINS]: 0,
-            [BucketKeys.BUCKET_1_HR]: 0,
-            [BucketKeys.BUCKET_8_HRS]: 0,
-            [BucketKeys.BUCKET_1_DAY]: 0,
+        if (this._values.length <= 1) {
+            this._addToBucket({
+                date: moment(),
+                value: 0,
+                diffSec: 0
+            })
+
+        } else {
+            for(const item of this._values)
+            {
+                this._addToBucket(item);
+            }
         }
 
-        for(const item of this._values)
-        {
-            const deltaV = this._latestValue - item.value;
+        return this._bucket;
+    }
 
-            if (item.diffSec <= BUCKET_15_MINS) {
-                data[BucketKeys.BUCKET_15_MINS] += deltaV;
-            }
-            if (item.diffSec <= BUCKET_1_HR) {
-                data[BucketKeys.BUCKET_1_HR] += deltaV;
-            }
-            if (item.diffSec <= BUCKET_8_HRS) {
-                data[BucketKeys.BUCKET_8_HRS] += deltaV;
-            }
-            data[BucketKeys.BUCKET_1_DAY] += deltaV;
+    private _addToBucket(item: Item)
+    {
+        const deltaV = this._latestValue - item.value;
+
+        if (item.diffSec <= BUCKET_15_MINS) {
+            this._bucket[BucketKeys.BUCKET_15_MINS] += deltaV;
         }
-
-        return data;
+        if (item.diffSec <= BUCKET_1_HR) {
+            this._bucket[BucketKeys.BUCKET_1_HR] += deltaV;
+        }
+        if (item.diffSec <= BUCKET_8_HRS) {
+            this._bucket[BucketKeys.BUCKET_8_HRS] += deltaV;
+        }
+        this._bucket[BucketKeys.BUCKET_1_DAY] += deltaV;
     }
 }
 
