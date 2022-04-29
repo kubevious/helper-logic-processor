@@ -1,5 +1,6 @@
 import 'mocha';
 import should = require('should');
+import * as Path from 'path';
 
 import _ from 'the-lodash';
 
@@ -9,6 +10,8 @@ import { ParserLoader, LogicProcessor } from '../../src';
 import { TimerScheduler } from '@kubevious/helper-backend/dist/timer-scheduler';
 import { ProcessingTracker } from '@kubevious/helper-backend/dist/processing-tracker';
 import { ConcreteRegistry } from '../helpers/concrete-registry';
+import { saveJson, tryLoadJson } from '../helpers/file-system';
+import { PersistenceItem } from '../../src/store/presistence-store';
 
 const logger = makeLogger('dev-runner');
 
@@ -18,6 +21,10 @@ describe('dev-runner', () => {
 
     it('large-cluster', () => {
         const registry = new ConcreteRegistry(logger);
+
+        const LogicStorePath = Path.resolve(__dirname, '..', '..', 'runtime', 'logic-store.json');
+
+        const currentStoreItems : PersistenceItem[] = tryLoadJson(LogicStorePath) ?? [];
 
         return Promise.resolve()
             .then(() => registry.loadMockData('large-cluster'))
@@ -29,7 +36,16 @@ describe('dev-runner', () => {
                     .then(() => parserLoader.init())
                     .then(() => {
                         const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry, {});
-                        return logicProcessor.process();
+                        logicProcessor.store.loadItems(currentStoreItems);
+
+                        return logicProcessor.process()
+                            .then(registryState => {
+                                const storeItems = logicProcessor.store.exportItems();
+
+                                saveJson(LogicStorePath, storeItems);
+
+                                return registryState;
+                            })
                     })
             })
             .then(registryState => {

@@ -39,7 +39,11 @@ export class PersistenceStore
 
     getValue(dn: string, key: string) 
     {
-        return this._data[key] ?? null;
+        const dict = this._data[dn];
+        if (dict) {
+            return dict[key] ?? null;
+        }
+        return null;
     }
 
     setValue(dn: string, key: string, value: any)

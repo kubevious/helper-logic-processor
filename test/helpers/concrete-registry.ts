@@ -2,13 +2,13 @@ import { IConcreteItem, IConcreteRegistry } from "../../src"
 
 import _ from 'the-lodash';
 import { Promise } from 'the-promise';
-import { readFileSync } from 'fs';
 import * as Path from 'path';
-import * as yaml from 'js-yaml';
 import { ILogger } from "the-logger";
 import { promise as glob } from 'glob-promise';
 import { ConcreteItem } from "./concrete-item";
 import { ConcreteRegistryFilter } from "../../src/types/registry";
+
+import { loadYaml, loadJson } from './file-system';
 
 export class ConcreteRegistry implements IConcreteRegistry
 {
@@ -45,20 +45,26 @@ export class ConcreteRegistry implements IConcreteRegistry
 
     loadMockData(mockName : string)
     {
-        let dirName = Path.resolve(__dirname, '..', '..', 'mock-data', mockName);
+        const dirName = Path.resolve(__dirname, '..', '..', 'mock-data', mockName);
         this.logger.info("Loading Mock Data from: %s", dirName);
 
         return Promise.resolve()
             .then(() => {
                 return glob(`${dirName}/**/*.yaml`)
                     .then((files) => {
-                        return Promise.serial(files, x => this._loadYaml(x));
+                        return Promise.serial(files, x => {
+                            const obj = loadYaml(x);
+                            this.addItem(obj);
+                        });
                     })
             })
             .then(() => {
                 return glob(`${dirName}/**/*.json`)
                     .then((files) => {
-                        return Promise.serial(files, x => this._loadJson(x));
+                        return Promise.serial(files, x => {
+                            const obj = loadJson(x);
+                            this.addItem(obj);
+                        });
                     })
             })
     }
@@ -68,20 +74,4 @@ export class ConcreteRegistry implements IConcreteRegistry
     //     return Promise.serial(_.values(this._items), x => x.debugOutputToFileSystem(dir));
     // }
 
-    private _loadYaml(filePath: string)
-    {
-        this.logger.verbose("Loading YAML: %s", filePath);
-        let contents = readFileSync(filePath, { encoding: 'utf8' });
-        const obj = yaml.load(contents);
-        this.addItem(obj);
-    }
-
-
-    private _loadJson(filePath: string)
-    {
-        this.logger.verbose("Loading JSON: %s", filePath);
-        let contents = readFileSync(filePath, { encoding: 'utf8' });
-        const obj = JSON.parse(contents);
-        this.addItem(obj);
-    }
 }
