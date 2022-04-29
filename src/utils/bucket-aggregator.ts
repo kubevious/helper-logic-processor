@@ -13,6 +13,7 @@ export class BucketAggregator
         [BucketKeys.BUCKET_1_HR]: 0,
         [BucketKeys.BUCKET_8_HRS]: 0,
         [BucketKeys.BUCKET_1_DAY]: 0,
+        [BucketKeys.BUCKET_TOTAL]: 0,
     };
 
 
@@ -20,6 +21,7 @@ export class BucketAggregator
     {
         this._date = moment(date);
         this._latestValue = latestValue;
+        this._bucket[BucketKeys.BUCKET_TOTAL] = latestValue;
 
         this.add(date, latestValue);
     }

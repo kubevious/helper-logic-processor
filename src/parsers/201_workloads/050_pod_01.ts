@@ -28,6 +28,7 @@ export default K8sPodParser()
                 [BucketKeys.BUCKET_1_HR]: restartedPodCount(runtime.restartCountBucket[BucketKeys.BUCKET_1_HR]),
                 [BucketKeys.BUCKET_8_HRS]: restartedPodCount(runtime.restartCountBucket[BucketKeys.BUCKET_8_HRS]),
                 [BucketKeys.BUCKET_1_DAY]: restartedPodCount(runtime.restartCountBucket[BucketKeys.BUCKET_1_DAY]),
+                [BucketKeys.BUCKET_TOTAL]: restartedPodCount(runtime.restartCountBucket[BucketKeys.BUCKET_TOTAL]),
             };
         }
 
