@@ -1,3 +1,4 @@
+import _ from 'the-lodash';
 import moment from 'moment';
 
 import { BucketKeys, HistogramBucket } from '@kubevious/entity-meta/dist/props-config/histogram-bucket';
@@ -26,9 +27,12 @@ export class BucketAggregator
         this.add(date, latestValue);
     }
 
-    getItems()
+    getItems() : BucketStorageItem[]
     {
-        return this._values;
+        return this._values.map(x => ({
+            date: x.date.toISOString(),
+            count: x.value
+        }));
     }
 
     add(date: string | Date, value: number)
@@ -50,7 +54,10 @@ export class BucketAggregator
 
     produceBuckets() : HistogramBucket
     {
-        if (this._values.length <= 1) {
+        this._values = _.orderBy(this._values, x => x.date, ['desc']);
+        // console.log("VALUES: ", this._values);
+
+        if (this._values.length === 0) {
             this._addToBucket({
                 date: moment(),
                 value: 0,
@@ -61,6 +68,7 @@ export class BucketAggregator
             for(const item of this._values)
             {
                 this._addToBucket(item);
+                this._latestValue = item.value;
             }
         }
 
@@ -70,6 +78,10 @@ export class BucketAggregator
     private _addToBucket(item: Item)
     {
         const deltaV = this._latestValue - item.value;
+        // console.log("item.value: ", item.value);
+        // console.log("this._latestValue: ", this._latestValue);
+        // console.log("deltaV: ", deltaV);
+        // console.log("item.diffSec: ", item.diffSec);
 
         if (item.diffSec <= BUCKET_15_MINS) {
             this._bucket[BucketKeys.BUCKET_15_MINS] += deltaV;
@@ -87,7 +99,7 @@ export class BucketAggregator
 export interface BucketStorageItem
 {
     date: string;
-    value: number;
+    count: number;
 }
 
 interface Item

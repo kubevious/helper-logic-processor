@@ -219,7 +219,7 @@ status:
                     startedAt: '2021-08-01T11:43:37Z'
             lastState: {}
             ready: true
-            restartCount: 0
+            restartCount: 94
             image: 'quay.io/jetstack/cert-manager-cainjector:v0.10.1'
             imageID: >-
                 docker-pullable://quay.io/jetstack/cert-manager-cainjector@sha256:aaa0d125234ccb2ccab729f7a553dd10c90b9079c25c56263aca80effab6d958

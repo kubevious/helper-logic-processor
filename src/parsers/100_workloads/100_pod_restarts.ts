@@ -28,11 +28,7 @@ export default K8sPodParser()
         runtime.restartCountBucket = aggregator.produceBuckets();
 
         {
-            storeValue.entries = aggregator.getItems().map(x => ({
-                date: x.date.toISOString(),
-                count: x.value
-            }));
-
+            storeValue.entries = aggregator.getItems();
             item.saveToStore(STORE_KEY_RESTARTS, storeValue);
         }
 
