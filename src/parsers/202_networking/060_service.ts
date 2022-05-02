@@ -36,20 +36,24 @@ export default K8sServiceParser()
                 }
             }
 
-            const targetApps = helpers.k8s.labelMatcher.matchSelector(
-                'LogicApp',
-                namespace,
-                { matchLabels: config.spec!.selector! });
-            
-            for(const targetApp of targetApps)
+            const serviceSelector = config.spec!.selector;
+            if (serviceSelector)
             {
-                processTargetApp(targetApp);
-            }
-
-            if (targetApps.length == 0) {
-                item.raiseAlert(ValidatorID.MISSING_SERVICE_APP, 'Could not find apps matching selector.');
-            } else if (targetApps.length > 1) {
-                item.raiseAlert(ValidatorID.SERVICE_MULTIPLE_APPS, 'More than one apps matched selector.');
+                const targetApps = helpers.k8s.labelMatcher.matchSelector(
+                    'LogicApp',
+                    namespace,
+                    { matchLabels: serviceSelector });
+                
+                for(const targetApp of targetApps)
+                {
+                    processTargetApp(targetApp);
+                }
+    
+                if (targetApps.length == 0) {
+                    item.raiseAlert(ValidatorID.MISSING_SERVICE_APP, 'Could not find apps matching selector.');
+                } else if (targetApps.length > 1) {
+                    item.raiseAlert(ValidatorID.SERVICE_MULTIPLE_APPS, 'More than one apps matched selector.');
+                }
             }
         }
 
