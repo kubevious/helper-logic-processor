@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wrong-port
+  namespace: networking
+  labels:
+    app.kubernetes.io/name: wrong-port
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app.kubernetes.io/name: webapp

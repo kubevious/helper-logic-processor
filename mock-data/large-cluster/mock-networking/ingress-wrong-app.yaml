@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wrong-app
+  namespace: networking
+  labels:
+    app.kubernetes.io/name: wrong-app
+spec:
+  # ingressClassName: standard
+  rules:
+  - host: sample.kubevious.io
+    http:
+      paths:
+      - path: /wrong-app
+        pathType: Prefix
+        backend:
+          service:
+            name: wrong-app
+            port:
+              number: 80

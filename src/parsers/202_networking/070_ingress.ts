@@ -46,37 +46,37 @@ export default K8sParser<Ingress>()
 
         function processIngressBackend(backend: IngressBackend, pathConfig: HTTPIngressPath | undefined, ruleConfig: IngressRule | undefined)
         {
+            const domainName = ruleConfig?.host;
+            const urlPath = pathConfig?.path ?? '*';
+
             const service = backend?.service;
-            if (!service) {
+            const serviceName = service?.name;
+            if (!serviceName) {
+                helpers.gateway.setupIngress(domainName, urlPath, item);
                 return 
             }
 
-            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', service.name);
+            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', serviceName);
             const k8sServiceItem = item.link(LogicLinkKind.service, serviceDn);
+
+            helpers.gateway.setupIngress(domainName, urlPath, item, k8sServiceItem, service.port ?? {});
+
             if (k8sServiceItem)
             {
+                const app = k8sServiceItem.resolveTargetLinkItem(LogicLinkKind.app);
+                if (app)
                 {
-                    const app = k8sServiceItem.resolveTargetLinkItem(LogicLinkKind.app);
-                    if (app)
-                    {
-                        const appRuntime = <LogicAppRuntime>app.runtime;
-                        appRuntime.exposedWithIngress = true;
-        
-                        item.link(LogicLinkKind.app, app);
+                    const appRuntime = <LogicAppRuntime>app.runtime;
+                    appRuntime.exposedWithIngress = true;
+    
+                    item.link(LogicLinkKind.app, app);
 
-                        helpers.logic.createIngress(app, item);
-                    }
-                }
-
-                {
-                    const domainName = ruleConfig?.host;
-                    const urlPath = pathConfig?.path ?? '*';
-                    helpers.gateway.setupIngress(domainName, urlPath, item, pathConfig, k8sServiceItem);
+                    helpers.logic.createIngress(app, item);
                 }
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Service ${service.name} is missing.`);
+                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Service ${serviceName} is missing.`);
             }
         }
 

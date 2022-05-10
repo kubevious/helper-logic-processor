@@ -4,6 +4,7 @@ import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
+import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
 
 export default K8sParser<Ingress>()
     .target({
@@ -44,32 +45,40 @@ export default K8sParser<Ingress>()
 
         function processIngressBackend(backend: IngressBackend, pathConfig: HTTPIngressPath | undefined, ruleConfig: IngressRule | undefined)
         {
+            const domainName = ruleConfig?.host;
+            const urlPath = pathConfig?.path ?? '*';
+
             const serviceName = backend?.serviceName;
             if (!serviceName) {
+                helpers.gateway.setupIngress(domainName, urlPath, item, null);
                 return 
             }
 
             const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', serviceName);
             const k8sServiceItem = item.link(LogicLinkKind.service, serviceDn);
+
+            const servicePort: ServiceBackendPort = {}
+            
+            if (_.isNumber(backend?.servicePort)) {
+                servicePort.number = backend?.servicePort;
+            }
+            else if (_.isString(backend?.servicePort)) {
+                servicePort.name = backend?.servicePort;
+            }
+
+            helpers.gateway.setupIngress(domainName, urlPath, item, k8sServiceItem, servicePort);
+
             if (k8sServiceItem)
             {
+                const app = k8sServiceItem.resolveTargetLinkItem(LogicLinkKind.app);
+                if (app)
                 {
-                    const app = k8sServiceItem.resolveTargetLinkItem(LogicLinkKind.app);
-                    if (app)
-                    {
-                        const appRuntime = <LogicAppRuntime>app.runtime;
-                        appRuntime.exposedWithIngress = true;
+                    const appRuntime = <LogicAppRuntime>app.runtime;
+                    appRuntime.exposedWithIngress = true;
 
-                        item.link(LogicLinkKind.app, app);
+                    item.link(LogicLinkKind.app, app);
 
-                        helpers.logic.createIngress(app, item);
-                    }
-                }
-
-                {
-                    const domainName = ruleConfig?.host;
-                    const urlPath = pathConfig?.path ?? '*';
-                    helpers.gateway.setupIngress(domainName, urlPath, item, pathConfig, k8sServiceItem);
+                    helpers.logic.createIngress(app, item);
                 }
             }
             else

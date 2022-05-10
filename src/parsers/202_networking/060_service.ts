@@ -11,11 +11,14 @@ export default K8sServiceParser()
     .handler(({ logger, config, scope, item, metadata, namespace, runtime, helpers }) => {
 
         runtime.portsByName = {};
+        runtime.portsByNumber = {};
         runtime.portsDict = {};
 
-        if (config.spec!.type == 'ClusterIP' || 
-            config.spec!.type == 'NodePort' ||
-            config.spec!.type == 'LoadBalancer')
+        const serviceType = config.spec!.type || 'ClusterIP'; 
+
+        if (serviceType == 'ClusterIP' || 
+            serviceType == 'NodePort' ||
+            serviceType == 'LoadBalancer')
         {
             for(const portConfig of (config.spec?.ports ?? []))
             {
@@ -31,6 +34,9 @@ export default K8sServiceParser()
                 const id = makePortId(runtimePort.port, runtimePort.protocol);
 
                 runtime.portsDict[id] = runtimePort;
+
+                runtime.portsByNumber[portConfig.port] = runtimePort;
+
                 if (portConfig.name) {
                     runtime.portsByName[portConfig.name] = runtimePort;
                 }

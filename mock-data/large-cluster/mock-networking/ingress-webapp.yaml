@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp
+  namespace: networking
+  labels:
+    app.kubernetes.io/name: webapp
+spec:
+  # ingressClassName: standard
+  rules:
+  - host: sample.kubevious.io
+    http:
+      paths:
+      - path: /web-app
+        pathType: Prefix
+        backend:
+          service:
+            name: webapp
+            port:
+              number: 80

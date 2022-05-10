@@ -1,4 +1,5 @@
-import { NodeKind, PropsId, PropsKind } from '@kubevious/entity-meta';
+import { NodeKind, PropsId, PropsKind, ValidatorID } from '@kubevious/entity-meta';
+import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
 import _ from 'the-lodash';
 import { ILogger } from "the-logger";
 import { Helpers } from '..';
@@ -6,7 +7,7 @@ import { LogicItem } from '../../logic/item';
 import { LogicLinkKind } from '../../logic/link-kind';
 import { LogicScope } from '../../logic/scope';
 import { K8sConfig } from '../../types/k8s';
-import { K8sServiceRuntime } from '../../types/parser/k8s-service';
+import { K8sServicePort, K8sServiceRuntime } from '../../types/parser/k8s-service';
 
 export class GatewayUtils
 {
@@ -35,7 +36,7 @@ export class GatewayUtils
         return urlItem;
     }
 
-    private createIngress(domainName: string | undefined, urlPath: string | undefined, item: LogicItem, ruleConfig: any)
+    private createIngress(domainName: string | undefined, urlPath: string | undefined, item: LogicItem)
     {        
         const urlItem = this.getURL(domainName, urlPath);
 
@@ -54,9 +55,13 @@ export class GatewayUtils
             });
     }
 
-    setupIngress(domainName: string | undefined, urlPath: string | undefined, item: LogicItem, ruleConfig: any, k8sServiceItem: LogicItem)
+    setupIngress(domainName: string | undefined, urlPath: string | undefined, item: LogicItem, k8sServiceItem?: LogicItem | null, servicePort?: ServiceBackendPort)
     {
-        const gIngress = this.createIngress(domainName, urlPath, item, ruleConfig);
+        const gIngress = this.createIngress(domainName, urlPath, item);
+
+        if (!k8sServiceItem) {
+            return;
+        }
 
         const gService = this._helpers.shadow.create(k8sServiceItem, gIngress,
             {
@@ -70,36 +75,52 @@ export class GatewayUtils
 
         const serviceRuntime = <K8sServiceRuntime>k8sServiceItem.runtime;
 
-        // TODO: Check why logicServiceItem is not used.
-        for(const logicServiceItem of k8sServiceItem.resolveTargetLinkItems(LogicLinkKind.logic))
-        {
-            for(const portConfig of _.values(serviceRuntime.portsDict))
-            {
-                const gPort = gService.fetchByNaming(NodeKind.port, portConfig.id);
-                gPort.setConfig(portConfig);
-                gPort.addProperties({
-                    kind: PropsKind.yaml,
-                    id: PropsId.config,
-                    config: portConfig.config
-                });
+        if (!servicePort) {
+            return;
+        }
+        
+        let servicePortConfig : K8sServicePort | undefined;
 
-                for(const appPortItemDn of _.keys(portConfig.logicPorts))
-                {
-                    const appPortItem = this._scope.findItem(appPortItemDn)!;
-                    const gAppPortItem = this._helpers.shadow.create(appPortItem, gPort, {
-                        linkName: LogicLinkKind.logic,
-
-                        skipUsageRegistration: true
-                    });
-
-                    const app = appPortItem.parent!.parent!;
-                    const gApp = this._helpers.shadow.create(app, gAppPortItem, {
-                        linkName: LogicLinkKind.app,
-
-                        skipUsageRegistration: true
-                    });
-                }
+        if (servicePort.number) {
+            servicePortConfig = serviceRuntime.portsByNumber[servicePort.number];
+            if (!servicePortConfig) {
+                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE_PORT, `Service ${k8sServiceItem.naming} is missing port ${servicePort.number}.`);
             }
+        }
+        else if (servicePort.name) {
+            servicePortConfig = serviceRuntime.portsByName[servicePort.name];
+            if (!servicePortConfig) {
+                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE_PORT, `Service ${k8sServiceItem.naming} is missing port ${servicePort.name}.`);
+            }
+        }
+
+        if (!servicePortConfig) {
+            return;
+        }
+
+        const gPort = gService.fetchByNaming(NodeKind.port, servicePortConfig.id);
+        gPort.setConfig(servicePortConfig);
+        gPort.addProperties({
+            kind: PropsKind.yaml,
+            id: PropsId.config,
+            config: servicePortConfig.config
+        });
+
+        for(const appPortItemDn of _.keys(servicePortConfig.logicPorts))
+        {
+            const appPortItem = this._scope.findItem(appPortItemDn)!;
+            const gAppPortItem = this._helpers.shadow.create(appPortItem, gPort, {
+                linkName: LogicLinkKind.logic,
+
+                skipUsageRegistration: true
+            });
+
+            const app = appPortItem.parent!.parent!;
+            const gApp = this._helpers.shadow.create(app, gAppPortItem, {
+                linkName: LogicLinkKind.app,
+
+                skipUsageRegistration: true
+            });
         }
     }
 }   

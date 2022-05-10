@@ -1,9 +1,9 @@
 import { ServicePort } from 'kubernetes-types/core/v1';
-import { LogicItem } from '../../logic/item';
 
 export interface K8sServiceRuntime
 {
     portsDict : { [portProtocol : string] : K8sServicePort }
+    portsByNumber : { [number : number] : K8sServicePort }
     portsByName : { [name : string] : K8sServicePort }
 }
 

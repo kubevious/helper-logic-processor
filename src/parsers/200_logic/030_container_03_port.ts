@@ -15,9 +15,10 @@ export default LogicContainerParser()
         const appRuntime = <LogicAppRuntime>app.runtime;
 
         for(const portConfig of config.ports) {
-            let portName = portConfig.protocol + "-" + portConfig.containerPort;
+            const protocol = portConfig.protocol || 'TCP';
+            let portName = `${protocol}-${portConfig.containerPort}`;
             if (portConfig.name) {
-                portName = portConfig.name + " (" + portName + ")";
+                portName = `${portConfig.name}  (${portName})`;
             }
 
             const portItem = item.fetchByNaming(NodeKind.port, portName);
