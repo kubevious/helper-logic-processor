@@ -1,4 +1,5 @@
 import { ObjectMeta } from "kubernetes-types/meta/v1";
+import { TraefikServiceReference } from "./traefik-service";
 
 export interface IngressRoute
 {
@@ -19,9 +20,10 @@ export interface IngressRouteConfig
         name: string,
         namespace?: string
     }[],
-    services?: {
-        name: string,
-        kind?: "Service" | "TraefikService",
-        port?: number | string
-    }[],
+    services?: IngressRouteServiceConfig[],
+}
+
+export interface IngressRouteServiceConfig extends TraefikServiceReference
+{
+    
 }

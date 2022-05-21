@@ -8,6 +8,7 @@ import { LogicLinkKind } from '../../logic/link-kind';
 import { LogicScope } from '../../logic/scope';
 import { K8sConfig } from '../../types/k8s';
 import { K8sServicePort, K8sServiceRuntime } from '../../types/parser/k8s-service';
+import { LogicAppRuntime } from '../../types/parser/logic-app';
 
 export class GatewayUtils
 {
@@ -36,7 +37,11 @@ export class GatewayUtils
         return urlItem;
     }
 
-    private createIngress(domainName: string | undefined, urlPath: string | undefined, item: LogicItem)
+    createIngress(
+        domainName: string | undefined,
+        urlPath: string | undefined,
+        item: LogicItem,
+        options? : { kind?: NodeKind })
     {        
         const urlItem = this.getURL(domainName, urlPath);
 
@@ -45,7 +50,7 @@ export class GatewayUtils
 
         return this._helpers.shadow.create(item, urlItem,
             {
-                kind: NodeKind.ingress,
+                kind: options?.kind ?? NodeKind.ingress,
                 name: ruleName,
 
                 linkName: LogicLinkKind.k8s,
@@ -55,15 +60,13 @@ export class GatewayUtils
             });
     }
 
-    setupIngress(domainName: string | undefined, urlPath: string | undefined, item: LogicItem, k8sServiceItem?: LogicItem | null, servicePort?: ServiceBackendPort)
+    createService(
+        ownerItem: LogicItem,
+        gParent: LogicItem,
+        k8sServiceItem: LogicItem,
+        servicePort?: ServiceBackendPort)
     {
-        const gIngress = this.createIngress(domainName, urlPath, item);
-
-        if (!k8sServiceItem) {
-            return;
-        }
-
-        const gService = this._helpers.shadow.create(k8sServiceItem, gIngress,
+        const gService = this._helpers.shadow.create(k8sServiceItem, gParent,
             {
                 kind: NodeKind.service,
 
@@ -84,13 +87,13 @@ export class GatewayUtils
         if (servicePort.number) {
             servicePortConfig = serviceRuntime.portsByNumber[servicePort.number];
             if (!servicePortConfig) {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE_PORT, `Service ${k8sServiceItem.naming} is missing port ${servicePort.number}.`);
+                ownerItem.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE_PORT, `Service ${k8sServiceItem.naming} is missing port ${servicePort.number}.`);
             }
         }
         else if (servicePort.name) {
             servicePortConfig = serviceRuntime.portsByName[servicePort.name];
             if (!servicePortConfig) {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE_PORT, `Service ${k8sServiceItem.naming} is missing port ${servicePort.name}.`);
+                ownerItem.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE_PORT, `Service ${k8sServiceItem.naming} is missing port ${servicePort.name}.`);
             }
         }
 
@@ -123,4 +126,45 @@ export class GatewayUtils
             });
         }
     }
+
+    findAndMountService(
+        item: LogicItem,
+        gOwner: LogicItem,
+        namespace: string,
+        serviceName: string | undefined,
+        servicePort: ServiceBackendPort)
+    {
+        if (!serviceName) {
+            return;
+        }
+
+        const serviceDn = this._helpers.k8s.makeDn(namespace!, 'v1', 'Service', serviceName);
+        const k8sServiceItem = item.link(LogicLinkKind.service, serviceDn);
+
+        if (k8sServiceItem)
+        {
+            this._helpers.gateway.createService(
+                item,
+                gOwner,
+                k8sServiceItem,
+                servicePort);
+
+            const app = k8sServiceItem.resolveTargetLinkItem(LogicLinkKind.app);
+            if (app)
+            {
+                const appRuntime = <LogicAppRuntime>app.runtime;
+                appRuntime.exposedWithIngress = true;
+
+                item.link(LogicLinkKind.app, app);
+
+                this._helpers.logic.createIngress(app, item);
+            }
+        }
+        else
+        {
+            item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Service ${serviceName} is missing.`);
+        }
+
+    }
+    
 }   
