@@ -13,15 +13,15 @@ export interface IngressRoute
 
 export interface IngressRouteConfig
 {
-    kind?: string,
-    match?: string,
+    kind: "Rule",
+    match: string,
     middlewares?: {
         name: string,
         namespace?: string
     }[],
     services?: {
         name: string,
-        kind?: string,
-        port?: number
+        kind?: "Service" | "TraefikService",
+        port?: number | string
     }[],
 }
