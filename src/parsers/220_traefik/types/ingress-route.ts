@@ -16,14 +16,17 @@ export interface IngressRouteConfig
 {
     kind: "Rule",
     match: string,
-    middlewares?: {
-        name: string,
-        namespace?: string
-    }[],
+    middlewares?: TraefikMiddlewareReference[],
     services?: IngressRouteServiceConfig[],
 }
 
 export interface IngressRouteServiceConfig extends TraefikServiceReference
 {
     
+}
+
+export interface TraefikMiddlewareReference
+{
+    name: string,
+    namespace?: string,
 }

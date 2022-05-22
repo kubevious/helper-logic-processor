@@ -2,7 +2,7 @@ import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
-import { IngressRoute, IngressRouteConfig, IngressRouteServiceConfig } from './types/ingress-route';
+import { IngressRoute, IngressRouteConfig, TraefikMiddlewareReference } from './types/ingress-route';
 import { TraefikService, TraefikServiceReference } from './types/traefik-service';
 import { parseDomainName, parseEndpointPath } from './types/route-utils';
 import { LogicItem } from '../../logic/item';
@@ -25,6 +25,7 @@ export default K8sParser<IngressRoute>()
             processRoute(route);
         }
 
+
         /*** HELPERS ***/
 
         function processRoute(route: IngressRouteConfig)
@@ -32,11 +33,55 @@ export default K8sParser<IngressRoute>()
             const domainName = parseDomainName(route.match);
             const urlPath = parseEndpointPath(route.match);
 
-            const gIngress = helpers.gateway.createIngress(domainName, urlPath, item);
+            const gIngress = helpers.gateway.createIngress(domainName, urlPath, item,
+                {
+                    kind: NodeKind.traefik_ingress_route,
+                });
 
             for(const serviceConfig of (route.services ?? []))
             {
                 processServiceConfig(serviceConfig, gIngress);
+            }
+
+            for(const middlewareRef of (route.middlewares ?? []))
+            {
+                processMiddleware(middlewareRef, gIngress);
+            }
+        }
+
+        function processMiddleware(
+            middlewareRef: TraefikMiddlewareReference,
+            gIngress: LogicItem)
+        {
+            let middlewareItem : LogicItem | null = null;
+
+            if (middlewareRef.name.includes('@'))
+            {
+                middlewareItem = helpers.thirdParty.traefik.findGlobalMiddleware(
+                    middlewareRef.name);
+            }
+            else
+            {
+                middlewareItem = helpers.thirdParty.traefik.findLocalMiddleware(
+                    middlewareRef.namespace ?? namespace!,
+                    middlewareRef.name);
+            }
+            
+            if (middlewareItem)
+            {
+                helpers.shadow.create(middlewareItem, gIngress,
+                    {
+                        kind: NodeKind.traefik_middleware,
+        
+                        linkName: LogicLinkKind.k8s,
+
+                        inverseLinkName: LogicLinkKind.gateway,
+                        inverseLinkPath: metadata.name!
+                    });
+            }
+            else
+            {
+                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Middleware ${middlewareRef.name} is missing.`);
             }
         }
 
@@ -80,12 +125,12 @@ export default K8sParser<IngressRoute>()
             {
                 const gTraefikService = helpers.shadow.create(traefikServiceItem, gOwner,
                     {
-                        kind: NodeKind.service,
+                        kind: NodeKind.traefik_service,
         
                         linkName: LogicLinkKind.k8s,
+
                         inverseLinkName: LogicLinkKind.gateway,
-        
-                        skipUsageRegistration: true
+                        inverseLinkPath: metadata.name!
                     });
                 
                 const traefikServiceConfig = traefikServiceItem.config as TraefikService;
@@ -93,6 +138,11 @@ export default K8sParser<IngressRoute>()
                 for (const weightedServiceConfig of traefikServiceConfig?.spec?.weighted?.services ?? [])
                 {
                     processServiceConfig(weightedServiceConfig, gTraefikService);
+                }
+               
+                for (const mirroredServiceConfig of traefikServiceConfig?.spec?.mirroring?.mirrors ?? [])
+                {
+                    processServiceConfig(mirroredServiceConfig, gTraefikService);
                 }
                
             }
