@@ -1,9 +1,9 @@
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
-import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
 import { IngressRoute, IngressRouteConfig, IngressRouteServiceConfig } from './types/ingress-route';
+import { TraefikService, TraefikServiceReference } from './types/traefik-service';
 import { parseDomainName, parseEndpointPath } from './types/route-utils';
 import { LogicItem } from '../../logic/item';
 import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
@@ -22,36 +22,8 @@ export default K8sParser<IngressRoute>()
         
         for(const route of config.spec.routes ?? [])
         {
-
             processRoute(route);
-
         }
-        
-        // if (config.spec.defaultBackend) {
-        //     processIngressBackend(config.spec.defaultBackend, undefined, undefined);
-        // }
-
-        // const rules = config.spec.rules ?? [];
-        // for(const ruleConfig of rules)
-        // {
-        //     if (ruleConfig.http && ruleConfig.http.paths)
-        //     {
-        //         for(const pathConfig of ruleConfig.http.paths)
-                
-        //         {
-        //             if (pathConfig.backend)
-        //             {
-        //                 processIngressBackend(pathConfig.backend, pathConfig, ruleConfig);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // if (item.resolveTargetLinks(LogicLinkKind.app).length == 0)
-        // {
-        //     item.raiseAlert(ValidatorID.INGRESS_NOT_MOUNT_TO_APPS, 'Could not match Ingress to Services.')
-        // }
-
 
         /*** HELPERS ***/
 
@@ -69,8 +41,8 @@ export default K8sParser<IngressRoute>()
         }
 
         function processServiceConfig(
-            serviceConfig: IngressRouteServiceConfig,
-            gIngress: LogicItem)
+            serviceConfig: TraefikServiceReference,
+            gOwner: LogicItem)
         {
             if (serviceConfig.kind === 'Service' ||
                 !serviceConfig.kind)
@@ -85,28 +57,28 @@ export default K8sParser<IngressRoute>()
 
                 helpers.gateway.findAndMountService(
                     item,
-                    gIngress,
+                    gOwner,
                     namespace!,
                     serviceConfig.name,
                     servicePort);
             }
             else if (serviceConfig.kind === 'TraefikService')
             {
-                processTraefikService(serviceConfig, gIngress);
+                processTraefikService(serviceConfig, gOwner);
             }
 
         }
 
         function processTraefikService(
-            serviceConfig: IngressRouteServiceConfig,
-            gIngress: LogicItem)
+            serviceConfig: TraefikServiceReference,
+            gOwner: LogicItem)
         {
             const traefikServiceDn = helpers.k8s.makeDn(namespace!, config.apiVersion, 'TraefikService', serviceConfig.name);
             const traefikServiceItem = item.link(LogicLinkKind.service, traefikServiceDn);
     
             if (traefikServiceItem)
             {
-                const gTraefikService = helpers.shadow.create(traefikServiceItem, gIngress,
+                const gTraefikService = helpers.shadow.create(traefikServiceItem, gOwner,
                     {
                         kind: NodeKind.service,
         
@@ -115,6 +87,13 @@ export default K8sParser<IngressRoute>()
         
                         skipUsageRegistration: true
                     });
+                
+                const traefikServiceConfig = traefikServiceItem.config as TraefikService;
+
+                for (const weightedServiceConfig of traefikServiceConfig?.spec?.weighted?.services ?? [])
+                {
+                    processServiceConfig(weightedServiceConfig, gTraefikService);
+                }
                
             }
             else
