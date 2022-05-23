@@ -1,9 +1,104 @@
-export function parseDomainName(match: string)
+const REGEX_ONLY_HOST = /^Host\(`(\S+)`\)$/gm;
+const REGEX_HOST_AND_PATH_PREFIX = /^Host\(`(\S+)`\) && PathPrefix\(`(\S+)`\)$/gm;
+const REGEX_HOST_AND_PATH = /^Host\(`(\S+)`\) && Path\(`(\S+)`\)$/gm;
+const REGEX_TWO_HOSTS = /^Host\(`(\S+)`\) \|\| Host\(`(\S+)`\)$/gm;
+
+export function parseDomainNames(rule: string) : string[]
 {
-    return match ?? "*";
+    rule = rule ?? '';
+
+    if (rule.length === 0) {
+        return [ '*' ];
+    }
+
+    {
+        const match = findAll(REGEX_ONLY_HOST, rule);
+        if (match) {
+            return [ match[1] ];
+        }
+    }
+
+    {
+        const match = findAll(REGEX_HOST_AND_PATH_PREFIX, rule);
+        if (match) {
+            return [ match[1] ];
+        }
+    }
+
+    {
+        const match = findAll(REGEX_HOST_AND_PATH, rule);
+        if (match) {
+            return [ match[1] ];
+        }
+    }
+
+
+    {
+        const match = findAll(REGEX_TWO_HOSTS, rule);
+        if (match) {
+            return [ match[1], match[2] ];
+        }
+    }
+
+    return [ rule ?? "*" ];
 }
 
-export function parseEndpointPath(match: string)
+export function parseEndpointPaths(rule: string, domainName: string) : string[]
 {
-    return match ?? "/";
+    rule = rule ?? '';
+
+    if (rule.length === 0) {
+        return [ '/*' ];
+    }
+
+    {
+        const match = findAll(REGEX_ONLY_HOST, rule);
+        if (match) {
+            return [ '/*' ];
+        }
+    }
+
+    {
+        const match = findAll(REGEX_HOST_AND_PATH_PREFIX, rule);
+        if (match) {
+            return [ `${match[2]}/*` ];
+        }
+    }
+
+    {
+        const match = findAll(REGEX_HOST_AND_PATH, rule);
+        if (match) {
+            return [ match[2] ];
+        }
+    }
+
+
+    {
+        const match = findAll(REGEX_TWO_HOSTS, rule);
+        if (match) {
+            return [ '/*' ];
+        }
+    }
+
+    return [ rule ?? "/*" ];
+}
+
+
+function findAll(regex: RegExp, sourceString: string) {
+    const output : any[] = []
+    let m : any;
+    while ((m = regex.exec(sourceString)) !== null) {
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        
+        m.forEach((match: any, groupIndex: number) => {
+            output.push(match);
+            // console.log(`Found match, group ${groupIndex}: ${match}`);
+        });
+    } 
+    if (output.length === 0) {
+        return null;
+    }
+    return output
 }

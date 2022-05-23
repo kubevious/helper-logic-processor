@@ -4,7 +4,7 @@ import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
 import { IngressRoute, IngressRouteConfig, TraefikMiddlewareReference } from './types/ingress-route';
 import { TraefikService, TraefikServiceReference } from './types/traefik-service';
-import { parseDomainName, parseEndpointPath } from './types/route-utils';
+import { parseDomainNames, parseEndpointPaths } from './types/route-utils';
 import { LogicItem } from '../../logic/item';
 import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
 
@@ -30,22 +30,29 @@ export default K8sParser<IngressRoute>()
 
         function processRoute(route: IngressRouteConfig)
         {
-            const domainName = parseDomainName(route.match);
-            const urlPath = parseEndpointPath(route.match);
+            const domainNames = parseDomainNames(route.match);
 
-            const gIngress = helpers.gateway.createIngress(domainName, urlPath, item,
+            for(const domainName of domainNames)
+            {
+                const urlPaths = parseEndpointPaths(route.match, domainName);
+
+                for(const urlPath of urlPaths)
                 {
-                    kind: NodeKind.traefik_ingress_route,
-                });
+                    const gIngress = helpers.gateway.createIngress(domainName, urlPath, item,
+                        {
+                            kind: NodeKind.traefik_ingress_route,
+                        });
 
-            for(const serviceConfig of (route.services ?? []))
-            {
-                processServiceConfig(serviceConfig, gIngress);
-            }
+                    for(const serviceConfig of (route.services ?? []))
+                    {
+                        processServiceConfig(serviceConfig, gIngress);
+                    }
 
-            for(const middlewareRef of (route.middlewares ?? []))
-            {
-                processMiddleware(middlewareRef, gIngress);
+                    for(const middlewareRef of (route.middlewares ?? []))
+                    {
+                        processMiddleware(middlewareRef, gIngress);
+                    }
+                }
             }
         }
 
