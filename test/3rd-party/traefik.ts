@@ -59,6 +59,24 @@ describe('traefik', () => {
     })
     ;
 
+    it('parseDomainNames-two-hosts-and-prefix', () => {
+
+        const match = "(Host(`test1.kubevious.io`) || Host(`test2.kubevious.io`)) && PathPrefix(`/api/v1`)";
+        const result = parseDomainNames(match);
+        should(result).be.eql([ 'test1.kubevious.io', 'test2.kubevious.io' ]);
+
+    })
+    ;
+
+    it('parseDomainNames-two-prefixes', () => {
+
+        const match = "PathPrefix(`/dashboard`) || PathPrefix(`/api`)";
+        const result = parseDomainNames(match);
+        should(result).be.eql([ '*' ]);
+
+    })
+    ;
+
     it('parseDomainNames-custom', () => {
 
         const match = "Host(`demo-traefik.kubevious.io`) || PathPrefix(`/multiversion/v1`)";
@@ -111,6 +129,24 @@ describe('traefik', () => {
         const match = "Host(`demo-traefik.kubevious.io`) || Host(`demo-backup.kubevious.io`)";
         const result = parseEndpointPaths(match, "*");
         should(result).be.eql([ '/*' ]);
+
+    })
+    ;
+
+    it('parseEndpointPaths-two-hosts-and-prefix', () => {
+
+        const match = "(Host(`test1.kubevious.io`) || Host(`test2.kubevious.io`)) && PathPrefix(`/api/v1`)";
+        const result = parseEndpointPaths(match, "*");
+        should(result).be.eql([ '/api/v1/*' ]);
+
+    })
+    ;
+
+    it('parseEndpointPaths-two-prefixes', () => {
+
+        const match = "PathPrefix(`/dashboard`) || PathPrefix(`/api`)";
+        const result = parseEndpointPaths(match, "*");
+        should(result).be.eql([ '/dashboard/*', '/api/*' ]);
 
     })
     ;
