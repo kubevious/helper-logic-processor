@@ -37,7 +37,16 @@ export class ParserLoader
 
         return glob(`${searchPath}/**/*.ts`)
             .then(files => {
-                return Promise.parallel(files, x => {
+
+                const filteredFiles = files.filter(x => {
+                    const parts = x.split('/');
+                    if (parts.includes('types')) {
+                        return false;
+                    }
+                    return true;
+                })
+
+                return Promise.parallel(filteredFiles, x => {
                     const relPath = x.substr(searchPath.length + 1);
                     const moduleName = relPath.replace('.d.ts', '').replace('.ts', '');
                     const modulePath = `${relSearchDir}/${moduleName}`;

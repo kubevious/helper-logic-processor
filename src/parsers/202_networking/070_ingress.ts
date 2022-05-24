@@ -48,36 +48,16 @@ export default K8sParser<Ingress>()
         {
             const domainName = ruleConfig?.host;
             const urlPath = pathConfig?.path ?? '*';
+            const gIngress = helpers.gateway.createIngress(domainName, urlPath, item);
 
             const service = backend?.service;
-            const serviceName = service?.name;
-            if (!serviceName) {
-                helpers.gateway.setupIngress(domainName, urlPath, item);
-                return 
-            }
 
-            const serviceDn = helpers.k8s.makeDn(namespace!, 'v1', 'Service', serviceName);
-            const k8sServiceItem = item.link(LogicLinkKind.service, serviceDn);
-
-            helpers.gateway.setupIngress(domainName, urlPath, item, k8sServiceItem, service.port ?? {});
-
-            if (k8sServiceItem)
-            {
-                const app = k8sServiceItem.resolveTargetLinkItem(LogicLinkKind.app);
-                if (app)
-                {
-                    const appRuntime = <LogicAppRuntime>app.runtime;
-                    appRuntime.exposedWithIngress = true;
-    
-                    item.link(LogicLinkKind.app, app);
-
-                    helpers.logic.createIngress(app, item);
-                }
-            }
-            else
-            {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Service ${serviceName} is missing.`);
-            }
+            helpers.gateway.findAndMountService(
+                item,
+                gIngress,
+                namespace!,
+                service?.name,
+                service?.port ?? {});
         }
 
     })

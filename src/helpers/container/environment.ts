@@ -139,11 +139,18 @@ class EnvironmentVarsProcessor
                     return;
                 }
             }
+
+            if (!keyRef.optional) {
+                this._raiseAlert(ValidatorID.MISSING_ENV_CONFIG_MAP_KEY, `Could not find key ${keyRef.key} in ConfigMap ${configMapName} data.`);
+            }
+        }
+        else 
+        {
+            if (!keyRef.optional) {
+                this._raiseAlert(ValidatorID.MISSING_ENV_CONFIG_MAP, `Could not find ConfigMap ${configMapName}`);
+            }
         }
 
-        if (!keyRef.optional) {
-            this._raiseAlert(ValidatorID.MISSING_ENV_CONFIG_MAP, `Could not find ConfigMap ${configMapName}`);
-        }
     }
 
     private extractSecretRefEnvVar(envVar: EnvVar, keyRef: SecretKeySelector)
@@ -164,10 +171,16 @@ class EnvironmentVarsProcessor
                     return;
                 }
             }
-        }
 
-        if (!keyRef.optional) {
-            this._raiseAlert(ValidatorID.MISSING_ENV_SECRET, `Could not find Secret ${secretName}`);
+            if (!keyRef.optional) {
+                this._raiseAlert(ValidatorID.MISSING_ENV_SECRET_KEY, `Could not find key ${keyRef.key} in Secret ${secretName} data`);
+            }
+        }
+        else
+        {
+            if (!keyRef.optional) {
+                this._raiseAlert(ValidatorID.MISSING_ENV_SECRET, `Could not find Secret ${secretName}`);
+            }
         }
     }
 

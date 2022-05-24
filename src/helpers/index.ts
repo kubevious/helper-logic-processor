@@ -11,6 +11,7 @@ import { ShadowUtils } from './shadow';
 import { NetworkingUtils } from './networking';
 import { LogicScope } from '../logic/scope';
 import { ContainerEnvironmentUtils } from './container/environment';
+import { ThirdPartyUtils } from './third-party';
 
 export class Helpers {
 
@@ -24,6 +25,7 @@ export class Helpers {
     public shadow: ShadowUtils;
     public networking: NetworkingUtils;
     public environment: ContainerEnvironmentUtils; 
+    public thirdParty: ThirdPartyUtils; 
 
     constructor(logger: ILogger, scope: LogicScope)
     {
@@ -34,6 +36,7 @@ export class Helpers {
         this.shadow = new ShadowUtils(this, logger, scope);
         this.networking = new NetworkingUtils();
         this.environment = new ContainerEnvironmentUtils(this, logger, scope);
+        this.thirdParty = new ThirdPartyUtils(this, logger, scope);
     }
 
 }
