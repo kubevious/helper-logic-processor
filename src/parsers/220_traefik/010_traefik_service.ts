@@ -6,7 +6,6 @@ import { K8sParser } from '../../parser-builder';
 import { TraefikService, TraefikServiceReference } from './types/traefik-service';
 
 export default K8sParser<TraefikService>()
-    .trace()
     .target({
         api: "traefik.containo.us",
         kind: "TraefikService"
@@ -55,7 +54,7 @@ export default K8sParser<TraefikService>()
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Service ${serviceRefConfig.name} is missing.`);
+                item.raiseAlert(ValidatorID.TRAEFIK_MISSING_SERVICE, `Service ${serviceRefConfig.name} is missing.`);
             }
         }
 

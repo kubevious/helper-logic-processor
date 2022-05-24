@@ -8,7 +8,8 @@ export interface IngressRoute
     metadata: ObjectMeta;
     spec?: {
         entryPoints?: string[];
-        routes?: IngressRouteConfig[]
+        routes?: IngressRouteConfig[];
+        tls?: TraefikIngressRouteTLS;
     }
 }
 
@@ -30,3 +31,17 @@ export interface TraefikMiddlewareReference
     name: string,
     namespace?: string,
 }
+
+export interface TraefikIngressRouteTLS
+{
+    secretName?: string;
+    options?: {
+        name?: string;
+        namespace?: string;
+    },
+    certResolver? : string;
+    domains: {
+        main?: string; 
+        sans?: string[]; 
+    }[]
+}   

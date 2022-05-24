@@ -9,7 +9,6 @@ import { LogicItem } from '../../logic/item';
 import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
 
 export default K8sParser<IngressRoute>()
-    .trace()
     .target({
         api: "traefik.containo.us",
         kind: "IngressRoute"
@@ -52,6 +51,39 @@ export default K8sParser<IngressRoute>()
                     {
                         processMiddleware(middlewareRef, gIngress);
                     }
+
+                    processTLSOptions(gIngress);
+                }
+            }
+        }
+
+        function processTLSOptions(gIngress: LogicItem)
+        {
+            if (config.spec?.tls)
+            {
+                const tlsName = config.spec.tls.options!.name;
+                if (tlsName)
+                {
+                    const tlsOptionsItem = helpers.thirdParty.traefik.findTLSOptions(
+                        config.spec.tls.options!.namespace ?? namespace!, 
+                        tlsName);
+
+                    if (tlsOptionsItem)
+                    {
+                        helpers.shadow.create(tlsOptionsItem, gIngress,
+                            {
+                                kind: NodeKind.traefik_tls_opts,
+                
+                                linkName: LogicLinkKind.k8s,
+        
+                                inverseLinkName: LogicLinkKind.gateway,
+                                inverseLinkPath: metadata.name!
+                            });
+                    }
+                    else
+                    {
+                        item.raiseAlert(ValidatorID.TRAEFIK_MISSING_TLS_OPTIONS, `TLSOPtions ${tlsName} is missing.`);
+                    }
                 }
             }
         }
@@ -88,7 +120,7 @@ export default K8sParser<IngressRoute>()
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `Middleware ${middlewareRef.name} is missing.`);
+                item.raiseAlert(ValidatorID.TRAEFIK_MISSING_MIDDLEWARE, `Middleware ${middlewareRef.name} is missing.`);
             }
         }
 
@@ -155,7 +187,7 @@ export default K8sParser<IngressRoute>()
             }
             else
             {
-                item.raiseAlert(ValidatorID.MISSING_INGRESS_SERVICE, `TraefikService ${serviceConfig.name} is missing.`);
+                item.raiseAlert(ValidatorID.TRAEFIK_MISSING_SERVICE, `TraefikService ${serviceConfig.name} is missing.`);
             }
         }
 

@@ -14,6 +14,7 @@ export class TraefikUtils
 
     private _globalMiddlewares : Record<string, LogicItem> = {}
     private _namespacedMiddlewares : Record<string, Record<string, LogicItem>> = {}
+    private _namespacedTLSOptions : Record<string, Record<string, LogicItem>> = {}
 
     constructor(helpers: Helpers, logger: ILogger, scope: LogicScope)
     {
@@ -48,4 +49,19 @@ export class TraefikUtils
         return null;
     }
 
+    registerTLSOptions(namespace: string, name: string, item: LogicItem)
+    {
+        if (!this._namespacedTLSOptions[namespace]) {
+            this._namespacedTLSOptions[namespace] = {}
+        }
+        this._namespacedTLSOptions[namespace][name] = item;
+    }
+
+    findTLSOptions(namespace: string, name: string)
+    {
+        if (this._namespacedTLSOptions[namespace]) {
+            return this._namespacedTLSOptions[namespace][name] ?? null;
+        }
+        return null;
+    }
 }

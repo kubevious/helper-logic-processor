@@ -1,9 +1,7 @@
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
-import { TraefikService } from './types/traefik-service';
 
-export default K8sParser<TraefikService>()
-    .trace()
+export default K8sParser()
     .target({
         api: "traefik.containo.us",
         kind: "Middleware"
