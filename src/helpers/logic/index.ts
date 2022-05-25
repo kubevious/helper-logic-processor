@@ -45,7 +45,7 @@ export class LogicUtils
         ]);
     }
 
-    createIngress(app: LogicItem, k8sIngress: LogicItem) : void
+    createIngress(app: LogicItem, k8sIngress: LogicItem, newNodeKind: NodeKind) : void
     {
         const config = <K8sConfig>k8sIngress.config;
         let name = config.metadata.name!;
@@ -60,11 +60,11 @@ export class LogicUtils
         }
         runtime.ingresses[k8sIngress.dn] = true;
 
-        if (app.findByNaming(NodeKind.ingress, name))
+        if (app.findByNaming(newNodeKind, name))
         {
             name = name + '_';
             let counter = 2;
-            while(app.findByNaming(NodeKind.ingress, `${name}${counter}`))
+            while(app.findByNaming(newNodeKind, `${name}${counter}`))
             {
                 name = `${name}${counter}`;
                 counter++;
@@ -73,7 +73,7 @@ export class LogicUtils
 
         this._helpers.shadow.create(k8sIngress, app,
             {
-                kind: NodeKind.ingress,
+                kind: newNodeKind,
                 name: name,
 
                 linkName: LogicLinkKind.k8s,

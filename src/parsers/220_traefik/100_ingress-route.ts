@@ -144,7 +144,8 @@ export default K8sParser<IngressRoute>()
                     gOwner,
                     namespace!,
                     serviceConfig.name,
-                    servicePort);
+                    servicePort,
+                    NodeKind.traefik_ingress_route);
             }
             else if (serviceConfig.kind === 'TraefikService')
             {

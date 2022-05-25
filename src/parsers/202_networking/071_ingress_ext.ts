@@ -2,7 +2,7 @@ import { HTTPIngressPath, Ingress, IngressBackend, IngressRule } from 'kubernete
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
 import { LogicAppRuntime } from '../../types/parser/logic-app';
-import { ValidatorID } from '@kubevious/entity-meta';
+import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
 import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
 
@@ -62,7 +62,8 @@ export default K8sParser<Ingress>()
                 gIngress,
                 namespace!,
                 backend?.serviceName,
-                servicePort);
+                servicePort,
+                NodeKind.ingress);
 
         }
         

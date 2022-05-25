@@ -132,7 +132,8 @@ export class GatewayUtils
         gOwner: LogicItem,
         namespace: string,
         serviceName: string | undefined,
-        servicePort: ServiceBackendPort)
+        servicePort: ServiceBackendPort,
+        appIngresKind: NodeKind)
     {
         if (!serviceName) {
             return;
@@ -157,7 +158,7 @@ export class GatewayUtils
 
                 item.link(LogicLinkKind.app, app);
 
-                this._helpers.logic.createIngress(app, item);
+                this._helpers.logic.createIngress(app, item, appIngresKind);
             }
         }
         else
