@@ -64,24 +64,24 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@kubevious/data-models@^1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@kubevious/data-models/-/data-models-1.0.23.tgz#f3edeea08e9eea91db873d8722bf43df625835da"
-  integrity sha512-zj5wiAHeOlwXMFCsVSMwY6noKHFV99OemGPslzHGEbsRNtBQjbjTpN+pjP+2JgBe4aKuPD/Heoc7McVB1hPsNg==
+"@kubevious/data-models@^1.0.35":
+  version "1.0.35"
+  resolved "https://registry.yarnpkg.com/@kubevious/data-models/-/data-models-1.0.35.tgz#9362794dee0b48e0d8b94e3c437898e12de3b91b"
+  integrity sha512-U7g+prVEN7wypg1IF0/RDFR8z1YRur7QRqoHO+ovxvzV7Xw3CinPOCbu9kazV70TOh6hTcN/yb6ByaXR4Xh02w==
   dependencies:
-    "@kubevious/easy-data-store" "^1.0.11"
+    "@kubevious/easy-data-store" "^1.0.12"
     "@kubevious/helper-backend" "^1.0.38"
-    "@kubevious/ui-middleware" "^1.0.62"
+    "@kubevious/ui-middleware" "^1.0.72"
     moment "^2.29.1"
     the-lodash "^2.0.9"
     the-logger "^2.0.14"
     the-promise "^2.0.13"
     uuid "^8.3.2"
 
-"@kubevious/easy-data-store@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@kubevious/easy-data-store/-/easy-data-store-1.0.11.tgz#e85853ee850893a70532f7ae849a1b0b48e8b7d3"
-  integrity sha512-0GOosqTWl/bBGc54iwXFZYvBY+gysfIIRvmFm1Jl0Pn6/6dEBK9COohxF2+jUEiQlQMkx+I2U3UZZ9yAN1PzYQ==
+"@kubevious/easy-data-store@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@kubevious/easy-data-store/-/easy-data-store-1.0.12.tgz#eb63275416d128764f3db03c4076c666ea33d7c2"
+  integrity sha512-qhydcSfFb5NkW6T8ECPaSo9+OZg1CM9YWiAqKjAapAIOZU4m5uqjUz14tUrXUWoEmDIEadfTUc+9TIr/GVARCQ==
   dependencies:
     "@kubevious/helper-cache" "^1.0.4"
     "@kubevious/helper-mysql" "^1.0.11"
@@ -90,10 +90,10 @@
     the-logger "^2.0.14"
     the-promise "^2.0.13"
 
-"@kubevious/entity-meta@^1.0.45", "@kubevious/entity-meta@^1.0.56", "@kubevious/entity-meta@^1.0.69":
-  version "1.0.69"
-  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.69.tgz#c24fdf75453b2e1f4efd596575b5b673f7a9fb6a"
-  integrity sha512-B8XmMmcwnwOwbgkgWwJGdDK3oeBfDIl+yeP5gqvvXRtMLMOrKUc14+fU/KFNdgysO5j7oXXQlgnOUGcCKq1EEQ==
+"@kubevious/entity-meta@^1.0.45", "@kubevious/entity-meta@^1.0.69", "@kubevious/entity-meta@^1.0.70":
+  version "1.0.70"
+  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.70.tgz#79c4e77a932359ee4071189b1e5b0c79008831fa"
+  integrity sha512-0advYa5akw1fw+3UuKlN5quwqeQrEy8k+tOogxULKBf8yfr0hmbMm1vSDmwbRhi/i1xeZfKrmS1zbjzBK4bV5Q==
   dependencies:
     the-lodash "^2.0.9"
 
@@ -153,12 +153,12 @@
     the-logger "^2.0.14"
     the-promise "^2.0.13"
 
-"@kubevious/ui-middleware@^1.0.62":
-  version "1.0.62"
-  resolved "https://registry.yarnpkg.com/@kubevious/ui-middleware/-/ui-middleware-1.0.62.tgz#2fccbbc01f53451e0665d74040264d205c97d5ea"
-  integrity sha512-e7kfROVKpHFlemouN86dLIwXP2lSbIFhx4l5OyoJE4q909cqpSYOp+MjA3eCrEf9ke14WmQ9DwaGHUoJ8/NQ1w==
+"@kubevious/ui-middleware@^1.0.72":
+  version "1.0.75"
+  resolved "https://registry.yarnpkg.com/@kubevious/ui-middleware/-/ui-middleware-1.0.75.tgz#12e1d2ed1fb6f5e0a67e8747ca2a39d4c3e7f8e1"
+  integrity sha512-fwS88E4+7Mg4z7hHPjymPUOXxFneZgTDVvmU8YwiRV85YyFGEctjC5OVJmeHqAPmZFHRu3bt/ZeXde7D7bP13A==
   dependencies:
-    "@kubevious/entity-meta" "^1.0.56"
+    "@kubevious/entity-meta" "^1.0.69"
     "@kubevious/http-client" "^1.0.19"
     the-promise "^2.0.13"
 
