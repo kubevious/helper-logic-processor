@@ -26,7 +26,7 @@ export default ConcreteParser()
                 apiRoot = apiRoot.fetchByNaming(NodeKind.api, resource.apiName);
             } 
 
-            const apiVersionRoot = apiRoot.fetchByNaming(NodeKind.version, resource.apiVersion);
+            const apiVersionRoot = apiRoot.fetchByNaming(NodeKind.version, resource.version);
 
             const kindRoot = apiVersionRoot.fetchByNaming(NodeKind.kind, resource.kindName);
 
