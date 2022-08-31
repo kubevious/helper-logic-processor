@@ -1,388 +1,325 @@
-synthetic: true
 apiVersion: kubevious.io/v1
 kind: ApiResourceStatus
 metadata:
-    name: default
+  name: default
 config:
-    resources:
-        -
-            apiName: admissionregistration.k8s.io
-            apiVersion: v1
-            kindName: MutatingWebhookConfiguration
-        -
-            apiName: admissionregistration.k8s.io
-            apiVersion: v1
-            kindName: ValidatingWebhookConfiguration
-        -
-            apiName: apiextensions.k8s.io
-            apiVersion: v1
-            kindName: CustomResourceDefinition
-        -
-            apiName: apiregistration.k8s.io
-            apiVersion: v1
-            kindName: APIService
-        -
-            apiName: apps
-            apiVersion: v1
-            kindName: ControllerRevision
-        -
-            apiName: apps
-            apiVersion: v1
-            kindName: DaemonSet
-        -
-            apiName: apps
-            apiVersion: v1
-            kindName: Deployment
-        -
-            apiName: apps
-            apiVersion: v1
-            kindName: ReplicaSet
-        -
-            apiName: apps
-            apiVersion: v1
-            kindName: StatefulSet
-        -
-            apiName: authentication.k8s.io
-            apiVersion: v1
-            kindName: TokenReview
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: authorization.k8s.io
-            apiVersion: v1
-            kindName: LocalSubjectAccessReview
-            isDisconnected: true
-            error:
-                code: 500
-                message: API returned empty result
-        -
-            apiName: authorization.k8s.io
-            apiVersion: v1
-            kindName: SelfSubjectAccessReview
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: authorization.k8s.io
-            apiVersion: v1
-            kindName: SelfSubjectRulesReview
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: authorization.k8s.io
-            apiVersion: v1
-            kindName: SubjectAccessReview
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: autoscaling
-            apiVersion: v1
-            kindName: HorizontalPodAutoscaler
-        -
-            apiName: batch
-            apiVersion: v1
-            kindName: Job
-        -
-            apiName: certificates.k8s.io
-            apiVersion: v1beta1
-            kindName: CertificateSigningRequest
-        -
-            apiName: certmanager.k8s.io
-            apiVersion: v1alpha1
-            kindName: Certificate
-        -
-            apiName: certmanager.k8s.io
-            apiVersion: v1alpha1
-            kindName: CertificateRequest
-        -
-            apiName: certmanager.k8s.io
-            apiVersion: v1alpha1
-            kindName: Challenge
-        -
-            apiName: certmanager.k8s.io
-            apiVersion: v1alpha1
-            kindName: ClusterIssuer
-        -
-            apiName: certmanager.k8s.io
-            apiVersion: v1alpha1
-            kindName: Issuer
-        -
-            apiName: certmanager.k8s.io
-            apiVersion: v1alpha1
-            kindName: Order
-        -
-            apiName: cloud.google.com
-            apiVersion: v1
-            kindName: BackendConfig
-        -
-            apiName: coordination.k8s.io
-            apiVersion: v1
-            kindName: Lease
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: BGPConfiguration
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: BGPPeer
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: BlockAffinity
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: ClusterInformation
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: FelixConfiguration
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: GlobalBGPConfig
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: GlobalFelixConfig
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: GlobalNetworkPolicy
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: GlobalNetworkSet
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: HostEndpoint
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: IPAMBlock
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: IPAMConfig
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: IPAMHandle
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: IPPool
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: NetworkPolicy
-        -
-            apiName: crd.projectcalico.org
-            apiVersion: v1
-            kindName: NetworkSet
-        -
-            apiName: discovery.k8s.io
-            apiVersion: v1beta1
-            kindName: EndpointSlice
-        -
-            apiName: extensions
-            apiVersion: v1beta1
-            kindName: Ingress
-        -
-            apiName: metrics.k8s.io
-            apiVersion: v1beta1
-            kindName: NodeMetrics
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: metrics.k8s.io
-            apiVersion: v1beta1
-            kindName: PodMetrics
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: migration.k8s.io
-            apiVersion: v1alpha1
-            kindName: StorageState
-        -
-            apiName: migration.k8s.io
-            apiVersion: v1alpha1
-            kindName: StorageVersionMigration
-        -
-            apiName: networking.gke.io
-            apiVersion: v1
-            kindName: ManagedCertificate
-        -
-            apiName: networking.k8s.io
-            apiVersion: v1
-            kindName: NetworkPolicy
-        -
-            apiName: node.k8s.io
-            apiVersion: v1beta1
-            kindName: RuntimeClass
-        -
-            apiName: nodemanagement.gke.io
-            apiVersion: v1alpha1
-            kindName: UpdateInfo
-        -
-            apiName: policy
-            apiVersion: v1beta1
-            kindName: PodDisruptionBudget
-        -
-            apiName: policy
-            apiVersion: v1beta1
-            kindName: PodSecurityPolicy
-        -
-            apiName: rbac.authorization.k8s.io
-            apiVersion: v1
-            kindName: ClusterRole
-        -
-            apiName: rbac.authorization.k8s.io
-            apiVersion: v1
-            kindName: ClusterRoleBinding
-        -
-            apiName: rbac.authorization.k8s.io
-            apiVersion: v1
-            kindName: Role
-        -
-            apiName: rbac.authorization.k8s.io
-            apiVersion: v1
-            kindName: RoleBinding
-        -
-            apiName: scalingpolicy.kope.io
-            apiVersion: v1alpha1
-            kindName: ScalingPolicy
-        -
-            apiName: scheduling.k8s.io
-            apiVersion: v1
-            kindName: PriorityClass
-        -
-            apiName: snapshot.storage.k8s.io
-            apiVersion: v1beta1
-            kindName: VolumeSnapshot
-        -
-            apiName: snapshot.storage.k8s.io
-            apiVersion: v1beta1
-            kindName: VolumeSnapshotClass
-        -
-            apiName: snapshot.storage.k8s.io
-            apiVersion: v1beta1
-            kindName: VolumeSnapshotContent
-        -
-            apiName: storage.k8s.io
-            apiVersion: v1
-            kindName: CSIDriver
-        -
-            apiName: storage.k8s.io
-            apiVersion: v1
-            kindName: CSINode
-        -
-            apiName: storage.k8s.io
-            apiVersion: v1
-            kindName: StorageClass
-        -
-            apiName: storage.k8s.io
-            apiVersion: v1
-            kindName: VolumeAttachment
-        -
-            apiName: webhook.certmanager.k8s.io
-            apiVersion: v1beta1
-            kindName: AdmissionReview
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Binding
-            isDisconnected: true
-            error:
-                code: 500
-                message: API returned empty result
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: ComponentStatus
-            isDisconnected: true
-            error:
-                code: 405
-                message: Method Not Allowed
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: ConfigMap
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Endpoints
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Event
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: LimitRange
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Namespace
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Node
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: PersistentVolume
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: PersistentVolumeClaim
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Pod
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: PodTemplate
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: ReplicationController
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: ResourceQuota
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Secret
-            isDisconnected: true
-            error:
-                code: 403
-                message: Forbidden
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: Service
-        -
-            apiName: null
-            apiVersion: v1
-            kindName: ServiceAccount
-
+  resources:
+    - apiName: admissionregistration.k8s.io
+      version: v1
+      kindName: MutatingWebhookConfiguration
+      apiVersion: admissionregistration.k8s.io/v1
+      isNamespaced: false
+    - apiName: admissionregistration.k8s.io
+      version: v1
+      kindName: ValidatingWebhookConfiguration
+      apiVersion: admissionregistration.k8s.io/v1
+      isNamespaced: false
+    - apiName: apiextensions.k8s.io
+      version: v1
+      kindName: CustomResourceDefinition
+      apiVersion: apiextensions.k8s.io/v1
+      isNamespaced: false
+    - apiName: apiregistration.k8s.io
+      version: v1
+      kindName: APIService
+      apiVersion: apiregistration.k8s.io/v1
+      isNamespaced: false
+    - apiName: apps
+      version: v1
+      kindName: ControllerRevision
+      apiVersion: apps/v1
+      isNamespaced: true
+    - apiName: apps
+      version: v1
+      kindName: DaemonSet
+      apiVersion: apps/v1
+      isNamespaced: true
+    - apiName: apps
+      version: v1
+      kindName: Deployment
+      apiVersion: apps/v1
+      isNamespaced: true
+    - apiName: apps
+      version: v1
+      kindName: ReplicaSet
+      apiVersion: apps/v1
+      isNamespaced: true
+    - apiName: apps
+      version: v1
+      kindName: StatefulSet
+      apiVersion: apps/v1
+      isNamespaced: true
+    - error:
+        code: 405
+        message: Method Not Allowed
+      apiName: authentication.k8s.io
+      version: v1
+      kindName: TokenReview
+      apiVersion: authentication.k8s.io/v1
+      isNamespaced: false
+      isDisconnected: true
+    - error:
+        code: 500
+        message: API returned empty result
+      apiName: authorization.k8s.io
+      version: v1
+      kindName: LocalSubjectAccessReview
+      apiVersion: authorization.k8s.io/v1
+      isNamespaced: true
+      isDisconnected: true
+    - error:
+        code: 405
+        message: Method Not Allowed
+      apiName: authorization.k8s.io
+      version: v1
+      kindName: SelfSubjectAccessReview
+      apiVersion: authorization.k8s.io/v1
+      isNamespaced: false
+      isDisconnected: true
+    - error:
+        code: 405
+        message: Method Not Allowed
+      apiName: authorization.k8s.io
+      version: v1
+      kindName: SelfSubjectRulesReview
+      apiVersion: authorization.k8s.io/v1
+      isNamespaced: false
+      isDisconnected: true
+    - error:
+        code: 405
+        message: Method Not Allowed
+      apiName: authorization.k8s.io
+      version: v1
+      kindName: SubjectAccessReview
+      apiVersion: authorization.k8s.io/v1
+      isNamespaced: false
+      isDisconnected: true
+    - apiName: autoscaling
+      version: v2
+      kindName: HorizontalPodAutoscaler
+      apiVersion: autoscaling/v2
+      isNamespaced: true
+    - apiName: batch
+      version: v1
+      kindName: CronJob
+      apiVersion: batch/v1
+      isNamespaced: true
+    - apiName: batch
+      version: v1
+      kindName: Job
+      apiVersion: batch/v1
+      isNamespaced: true
+    - apiName: certificates.k8s.io
+      version: v1
+      kindName: CertificateSigningRequest
+      apiVersion: certificates.k8s.io/v1
+      isNamespaced: false
+    - apiName: coordination.k8s.io
+      version: v1
+      kindName: Lease
+      apiVersion: coordination.k8s.io/v1
+      isNamespaced: true
+    - apiName: discovery.k8s.io
+      version: v1
+      kindName: EndpointSlice
+      apiVersion: discovery.k8s.io/v1
+      isNamespaced: true
+    - apiName: events.k8s.io
+      version: v1
+      kindName: Event
+      apiVersion: events.k8s.io/v1
+      isNamespaced: true
+    - apiName: flowcontrol.apiserver.k8s.io
+      version: v1beta2
+      kindName: FlowSchema
+      apiVersion: flowcontrol.apiserver.k8s.io/v1beta2
+      isNamespaced: false
+    - apiName: flowcontrol.apiserver.k8s.io
+      version: v1beta2
+      kindName: PriorityLevelConfiguration
+      apiVersion: flowcontrol.apiserver.k8s.io/v1beta2
+      isNamespaced: false
+    - apiName: kubevious.io
+      version: v1
+      kindName: ChangePackage
+      isSkipped: true
+      apiVersion: kubevious.io/v1
+      isNamespaced: true
+      isDisconnected: true
+    - apiName: kubevious.io
+      version: v1
+      kindName: ValidationState
+      isSkipped: true
+      apiVersion: kubevious.io/v1
+      isNamespaced: true
+      isDisconnected: true
+    - apiName: networking.k8s.io
+      version: v1
+      kindName: Ingress
+      apiVersion: networking.k8s.io/v1
+      isNamespaced: true
+    - apiName: networking.k8s.io
+      version: v1
+      kindName: IngressClass
+      apiVersion: networking.k8s.io/v1
+      isNamespaced: false
+    - apiName: networking.k8s.io
+      version: v1
+      kindName: NetworkPolicy
+      apiVersion: networking.k8s.io/v1
+      isNamespaced: true
+    - apiName: node.k8s.io
+      version: v1
+      kindName: RuntimeClass
+      apiVersion: node.k8s.io/v1
+      isNamespaced: false
+    - apiName: policy
+      version: v1
+      kindName: PodDisruptionBudget
+      apiVersion: policy/v1
+      isNamespaced: true
+    - apiName: policy
+      version: v1beta1
+      kindName: PodSecurityPolicy
+      apiVersion: policy/v1beta1
+      isNamespaced: false
+    - apiName: rbac.authorization.k8s.io
+      version: v1
+      kindName: ClusterRole
+      apiVersion: rbac.authorization.k8s.io/v1
+      isNamespaced: false
+    - apiName: rbac.authorization.k8s.io
+      version: v1
+      kindName: ClusterRoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      isNamespaced: false
+    - apiName: rbac.authorization.k8s.io
+      version: v1
+      kindName: Role
+      apiVersion: rbac.authorization.k8s.io/v1
+      isNamespaced: true
+    - apiName: rbac.authorization.k8s.io
+      version: v1
+      kindName: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      isNamespaced: true
+    - apiName: scheduling.k8s.io
+      version: v1
+      kindName: PriorityClass
+      apiVersion: scheduling.k8s.io/v1
+      isNamespaced: false
+    - apiName: storage.k8s.io
+      version: v1
+      kindName: CSIDriver
+      apiVersion: storage.k8s.io/v1
+      isNamespaced: false
+    - apiName: storage.k8s.io
+      version: v1
+      kindName: CSINode
+      apiVersion: storage.k8s.io/v1
+      isNamespaced: false
+    - apiName: storage.k8s.io
+      version: v1
+      kindName: CSIStorageCapacity
+      apiVersion: storage.k8s.io/v1
+      isNamespaced: true
+    - apiName: storage.k8s.io
+      version: v1
+      kindName: StorageClass
+      apiVersion: storage.k8s.io/v1
+      isNamespaced: false
+    - apiName: storage.k8s.io
+      version: v1
+      kindName: VolumeAttachment
+      apiVersion: storage.k8s.io/v1
+      isNamespaced: false
+    - apiName: null
+      version: v1
+      kindName: Binding
+      isSkipped: true
+      apiVersion: v1
+      isNamespaced: true
+      isDisconnected: true
+    - apiName: null
+      version: v1
+      kindName: ComponentStatus
+      isSkipped: true
+      apiVersion: v1
+      isNamespaced: false
+      isDisconnected: true
+    - apiName: null
+      version: v1
+      kindName: ConfigMap
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: Endpoints
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: Event
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: LimitRange
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: Namespace
+      apiVersion: v1
+      isNamespaced: false
+    - apiName: null
+      version: v1
+      kindName: Node
+      apiVersion: v1
+      isNamespaced: false
+    - apiName: null
+      version: v1
+      kindName: PersistentVolume
+      apiVersion: v1
+      isNamespaced: false
+    - apiName: null
+      version: v1
+      kindName: PersistentVolumeClaim
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: Pod
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: PodTemplate
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: ReplicationController
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: ResourceQuota
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: Secret
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: Service
+      apiVersion: v1
+      isNamespaced: true
+    - apiName: null
+      version: v1
+      kindName: ServiceAccount
+      apiVersion: v1
+      isNamespaced: true
+synthetic: true

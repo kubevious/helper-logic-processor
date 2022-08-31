@@ -3,8 +3,7 @@ import { LogicItem } from '../../';
 import { ConcreteParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
-import { ValidatorID } from '@kubevious/entity-meta';
-import { ApiResourceStatus } from '@kubevious/data-models';
+import { ValidatorID, K8sApiResourceStatus } from '@kubevious/entity-meta';
 
 export default ConcreteParser()
     .target({
@@ -14,10 +13,7 @@ export default ConcreteParser()
     })
     .handler(({ logger, scope, item }) => {
 
-        const resources = _.get(item.config, 'config.resources') as ApiResourceStatus[];
-        if (!resources) {
-            return;
-        }
+        const resources = _.get(item.config, 'config.resources') as K8sApiResourceStatus[] || [];
 
         const infraRoot = scope.logicRootNode.fetchByNaming(NodeKind.infra);
 

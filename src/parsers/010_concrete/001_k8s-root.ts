@@ -1,8 +1,7 @@
 import _ from 'the-lodash';
 import { ConcreteParser } from '../../parser-builder';
 import { NodeKind } from '@kubevious/entity-meta';
-import { PropsKind, PropsId } from '@kubevious/entity-meta';
-import { ApiResourceStatus } from '@kubevious/data-models';
+import { PropsKind, PropsId, K8sApiResourceStatus } from '@kubevious/entity-meta';
 
 export default ConcreteParser()
     .target({
@@ -29,7 +28,7 @@ export default ConcreteParser()
             .column('state')
         ;
 
-        let resources = _.get(item.config, 'config.resources') as ApiResourceStatus[] ?? []; 
+        let resources = _.get(item.config, 'config.resources') as K8sApiResourceStatus[] || []; 
         resources = _.orderBy(resources, [x => x.apiName ?? '', x => x.apiVersion, x => x.kindName]);
 
         for (const resource of resources)
@@ -47,7 +46,7 @@ export default ConcreteParser()
 
             apiTable.row({
                 api: resource.apiName ?? undefined,
-                version: resource.apiVersion,
+                version: resource.version,
                 kind: resource.kindName,
                 state: statusItems.join(', '),
             })
