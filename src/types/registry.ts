@@ -5,6 +5,8 @@ export interface IConcreteRegistry
     date: Date;
     filterItems(filter?: ConcreteRegistryFilter | null) : IConcreteItem[];
     debugOutputCapacity() : void;
+    add(obj: K8sConfig) : void;
+    findItem(id: ItemId) : K8sConfig | null;
 }
 
 export interface ConcreteRegistryFilter {
@@ -30,4 +32,4 @@ export interface ItemId {
     kind: string,
     namespace?: string, 
     name: string,
-};
+}

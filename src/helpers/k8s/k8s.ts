@@ -11,19 +11,27 @@ import { ObjectMeta } from "kubernetes-types/meta/v1";
 import { LogicScope } from '../../logic/scope';
 import { PropsKind, PropsId } from '@kubevious/entity-meta';
 
+import { K8sApiRegistry } from './api-registry';
+
 export class KubernetesUtils {
 
     private _labelMatcher : GlobalLabelMatcher;
     private _scope: LogicScope;
+    private _apiRegistry : K8sApiRegistry;
     
     constructor(logger: ILogger, scope: LogicScope)
     {
         this._labelMatcher = new GlobalLabelMatcher(logger);
         this._scope = scope;
+        this._apiRegistry = new K8sApiRegistry(logger, scope);
     }
 
     get labelMatcher() {
         return this._labelMatcher;
+    }
+
+    get apiRegistry() {
+        return this._apiRegistry;
     }
     
     config(item : LogicItem) : K8sConfig

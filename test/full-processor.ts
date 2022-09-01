@@ -1,16 +1,18 @@
 import 'mocha';
 import should = require('should');
+import * as Path from 'path';
 
 import _ from 'the-lodash';
 
 import { makeLogger } from './helpers/logger';
 
-import { ParserLoader, LogicProcessor } from '../src';
+import { ParserLoader, LogicProcessor, K8sConfig } from '../src';
 import { TimerScheduler } from '@kubevious/helper-backend/dist/timer-scheduler';
 import { ProcessingTracker } from '@kubevious/helper-backend/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
 
 import { NodeKind } from '@kubevious/entity-meta';
+import { loadYaml } from './helpers/file-system';
 
 const logger = makeLogger('full-proc');
 
@@ -30,7 +32,18 @@ describe('full-processor', () => {
                 return Promise.resolve()
                     .then(() => parserLoader.init())
                     .then(() => {
+
+                        const extraChanges : K8sConfig[] = [];
+                        {
+                            const guardChangesPath = Path.resolve(__dirname, '..', 'mock-data', 'guard-changes');
+                            extraChanges.push(loadYaml(Path.resolve(guardChangesPath, 'nginx-no-ns.yaml')) as K8sConfig);
+                            extraChanges.push(loadYaml(Path.resolve(guardChangesPath, 'nginx-with-ns.yaml')) as K8sConfig);
+                        }
+                        
                         const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry, {});
+
+                        logicProcessor.applyExtraChanges(extraChanges);
+
                         return logicProcessor.process();
                     })
             })
@@ -75,14 +88,13 @@ describe('full-processor', () => {
                 }
 
                 {
-                    // const app = registryState.findByDn("root/logic/ns-[marketing]/app-[github-stargazers-1645570800]/launcher-[Job]");
-                    // should(app).be.ok();
+                    const app = registryState.findByDn("root/k8s/ns-[default]/api-[apps]/version-[v1]/kind-[Deployment]/resource-[nginx]");
+                    should(app).be.ok();
                 }
 
-
                 {
-                    // const app = registryState.findByDn("root/logic/ns-[marketing]/app-[github-stargazers]/launcher-[CronJob]");
-                    // should(app).be.ok();
+                    const app = registryState.findByDn("root/k8s/ns-[sample]/api-[apps]/version-[v1]/kind-[Deployment]/resource-[nginx-good]");
+                    should(app).be.ok();
                 }
                 
             })

@@ -6,11 +6,11 @@ import _ from 'the-lodash';
 
 import { makeLogger } from '../helpers/logger';
 
-import { ParserLoader, LogicProcessor } from '../../src';
+import { ParserLoader, LogicProcessor, K8sConfig } from '../../src';
 import { TimerScheduler } from '@kubevious/helper-backend/dist/timer-scheduler';
 import { ProcessingTracker } from '@kubevious/helper-backend/dist/processing-tracker';
 import { ConcreteRegistry } from '../helpers/concrete-registry';
-import { saveJson, tryLoadJson } from '../helpers/file-system';
+import { saveJson, tryLoadJson, loadYaml } from '../helpers/file-system';
 import { PersistenceItem } from '../../src/store/presistence-store';
 
 const logger = makeLogger('dev-runner');
@@ -26,6 +26,13 @@ describe('dev-runner', () => {
 
         const currentStoreItems : PersistenceItem[] = tryLoadJson(LogicStorePath) ?? [];
 
+        const extraChanges : K8sConfig[] = [];
+        {
+            const guardChangesPath = Path.resolve(__dirname, '..', '..', 'mock-data', 'guard-changes');
+            extraChanges.push(loadYaml(Path.resolve(guardChangesPath, 'nginx-no-ns.yaml')) as K8sConfig);
+            extraChanges.push(loadYaml(Path.resolve(guardChangesPath, 'nginx-with-ns.yaml')) as K8sConfig);
+        }
+
         return Promise.resolve()
             .then(() => registry.loadMockData('large-cluster'))
             .then(() => {
@@ -37,6 +44,8 @@ describe('dev-runner', () => {
                     .then(() => {
                         const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry, {});
                         logicProcessor.store.loadItems(currentStoreItems);
+
+                        logicProcessor.applyExtraChanges(extraChanges);
 
                         return logicProcessor.process()
                             .then(registryState => {

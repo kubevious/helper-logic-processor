@@ -1,4 +1,4 @@
-import { IConcreteItem, IConcreteRegistry } from "../../src"
+import { IConcreteItem, IConcreteRegistry, K8sConfig } from "../../src"
 
 import _ from 'the-lodash';
 import { Promise } from 'the-promise';
@@ -6,7 +6,7 @@ import * as Path from 'path';
 import { ILogger } from "the-logger";
 import { promise as glob } from 'glob-promise';
 import { ConcreteItem } from "./concrete-item";
-import { ConcreteRegistryFilter } from "../../src/types/registry";
+import { ConcreteRegistryFilter, ItemId } from "../../src/types/registry";
 
 import { loadYaml, loadJson } from './file-system';
 
@@ -26,10 +26,15 @@ export class ConcreteRegistry implements IConcreteRegistry
         return this._date;
     }
 
-    addItem(config: any)
+    add(obj: K8sConfig) : void
     {
-        const item = new ConcreteItem(this.logger, config);
+        const item = new ConcreteItem(this.logger, obj);
         this._items[_.stableStringify(item.id)] = item;
+    }
+
+    findItem(id: ItemId) : K8sConfig | null
+    {
+        return this._items[_.stableStringify(id)]?.config ?? null;
     }
 
     filterItems(filter?: ConcreteRegistryFilter | null) : IConcreteItem[]
@@ -54,7 +59,7 @@ export class ConcreteRegistry implements IConcreteRegistry
                     .then((files) => {
                         return Promise.serial(files, x => {
                             const obj = loadYaml(x);
-                            this.addItem(obj);
+                            this.add(obj as K8sConfig);
                         });
                     })
             })
@@ -63,7 +68,7 @@ export class ConcreteRegistry implements IConcreteRegistry
                     .then((files) => {
                         return Promise.serial(files, x => {
                             const obj = loadJson(x);
-                            this.addItem(obj);
+                            this.add(obj as K8sConfig);
                         });
                     })
             })

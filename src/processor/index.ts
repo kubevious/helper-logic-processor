@@ -18,6 +18,7 @@ import { IConcreteRegistry } from '../types/registry';
 import { ParserInfo, ParserLoader } from './parser-loader'
 
 import { PersistenceStore } from '../store/presistence-store';
+import { K8sConfig } from '../types/k8s';
 
 export class LogicProcessor 
 {
@@ -30,6 +31,8 @@ export class LogicProcessor
 
     private _processors : BaseParserExecutor[] = [];
     private _store : PersistenceStore;
+
+    private _extraChanges : K8sConfig[] = [];
 
     constructor(logger: ILogger,
                 tracker: ProcessingTrackerScoper,
@@ -59,6 +62,42 @@ export class LogicProcessor
 
     get store() {
         return this._store;
+    }
+
+
+    applyExtraChanges(changes: K8sConfig[])
+    {
+        this._extraChanges = changes;
+    }
+
+    process() : Promise<RegistryState>
+    {
+        return this._tracker.scope("Logic::process", (tracker) => {
+
+            const scope = new LogicScope(
+                this._logger,
+                this._registry,
+                this._store,
+                this._validationConfig);
+
+            const helpers = new Helpers(this._logger, scope);
+
+            return Promise.resolve()
+                .then(() => this._initializeHelpers(scope, helpers, tracker))
+                .then(() => this._applyChanges(scope, helpers, tracker))
+                .then(() => this._runLogic(scope, helpers, tracker))
+                .then(() => this._dumpToFile(scope, helpers))
+                .then(() => {
+                    const items = scope.extractItems();
+                    const state = this._makeRegistryState(items);
+                    return state;
+                })
+                ;
+        })
+        .catch((reason : any) => {
+            this._logger.error("[process] ", reason);
+            throw reason;
+        });
     }
 
     private _loadProcessors()
@@ -97,32 +136,22 @@ export class LogicProcessor
         }
     }
 
-    process() : Promise<RegistryState>
+    private _initializeHelpers(scope : LogicScope, helpers: Helpers, tracker : ProcessingTrackerScoper)
     {
-        return this._tracker.scope("Logic::process", (tracker) => {
+        helpers.k8s.apiRegistry.initialize(this._registry);
+    }
 
-            const scope = new LogicScope(
-                this._logger,
-                this._registry,
-                this._store,
-                this._validationConfig);
+    private _applyChanges(scope : LogicScope, helpers: Helpers, tracker : ProcessingTrackerScoper)
+    {
+        return tracker.scope("applyChanges", () => {
 
-            const helpers = new Helpers(this._logger, scope);
+            for(const change of this._extraChanges)
+            {
+                const readyConfig = helpers.k8s.apiRegistry.postProcessConfig(change);
+                this._registry.add(readyConfig);
+            }
 
-            return Promise.resolve()
-                .then(() => this._runLogic(scope, helpers, tracker))
-                .then(() => this._dumpToFile(scope, helpers))
-                .then(() => {
-                    const items = scope.extractItems();
-                    const state = this._makeRegistryState(items);
-                    return state;
-                })
-                ;
         })
-        .catch((reason : any) => {
-            this._logger.error("[process] ", reason);
-            throw reason;
-        });
     }
 
     private _runLogic(scope : LogicScope, helpers: Helpers, tracker : ProcessingTrackerScoper)
