@@ -12,7 +12,7 @@ export class K8sApiRegistry {
     private logger: ILogger;
     private _scope: LogicScope;
 
-    private _loader? : K8sApiResourceStatusLoader;
+    private _loader : K8sApiResourceStatusLoader = new K8sApiResourceStatusLoader();
     
     constructor(logger: ILogger, scope: LogicScope)
     {
@@ -34,7 +34,7 @@ export class K8sApiRegistry {
         const k8sApiResourceStatusConfig = (apiResourceStatusObj as any) as K8sApiResourceStatusConfig;
         try
         {
-            this._loader = new K8sApiResourceStatusLoader(k8sApiResourceStatusConfig);
+            this._loader.load(k8sApiResourceStatusConfig);
         }
         catch(reason)
         {
@@ -44,20 +44,17 @@ export class K8sApiRegistry {
 
     postProcessConfig(config: K8sConfig) : K8sConfig
     {
-        if (this._loader)
+        const resourceStatus = this._loader.getByApiVersionAndKind(config.apiVersion, config.kind);
+        if (resourceStatus)
         {
-            const resourceStatus = this._loader.getByApiVersionAndKind(config.apiVersion, config.kind);
-            if (resourceStatus)
+            if (resourceStatus.isNamespaced)
             {
-                if (resourceStatus.isNamespaced)
+                if (!config.metadata?.namespace)
                 {
-                    if (!config.metadata?.namespace)
-                    {
-                        if (!config.metadata) {
-                            config.metadata = {}
-                        }
-                        config.metadata.namespace = 'default';
+                    if (!config.metadata) {
+                        config.metadata = {}
                     }
+                    config.metadata.namespace = 'default';
                 }
             }
         }
