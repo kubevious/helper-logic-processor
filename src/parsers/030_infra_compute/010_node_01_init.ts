@@ -44,5 +44,6 @@ const NODE_POOL_LABELS = [
     'cloud.google.com/gke-nodepool',
     'eks.amazonaws.com/nodegroup',
     'kops.k8s.io/instancegroup',
-    'kubernetes.azure.com/agentpool'
+    'kubernetes.azure.com/agentpool',
+    'doks.digitalocean.com/node-pool'
 ]
