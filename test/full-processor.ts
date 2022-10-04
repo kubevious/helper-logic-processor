@@ -104,4 +104,49 @@ describe('full-processor', () => {
     .timeout(30 * 1000)
     ;
 
+    it('openshift', () => {
+        const registry = new ConcreteRegistry(logger);
+
+        return Promise.resolve()
+            .then(() => registry.loadMockData('openshift'))
+            .then(() => {
+                registry.debugOutputCapacity();
+
+                const parserLoader = new ParserLoader(logger);
+                return Promise.resolve()
+                    .then(() => parserLoader.init())
+                    .then(() => {
+
+                        const logicProcessor = new LogicProcessor(logger, tracker, parserLoader, registry, {});
+
+                        return logicProcessor.process();
+                    })
+            })
+            .then(registryState => {
+                should(registryState).be.ok();
+
+                // const registryLoggerOptions = new LoggerOptions().enableFile(true).cleanOnStart(true).pretty(true);
+                // setupLogger('registry-logger', registryLoggerOptions);
+                const registryLogger = makeLogger('registry-logger');
+
+                return registryState.debugOutputToDir(registryLogger, 'openshift')
+                    .then(() => {
+                        const snapshotInfo = registryState.extractSnapshotInfo();
+                        const contents = JSON.stringify(snapshotInfo, null, 4);
+                        return registryLogger.outputFile("openshift-snapshot.json", contents);
+                    })
+                    .then(() => registryState);
+            })
+            .then(registryState => {
+
+                {
+                    const app = registryState.findByDn("root/logic/ns-[kube-system]");
+                    should(app).be.ok();
+                }
+                
+            })
+    })
+    .timeout(30 * 1000)
+    ;
+
 });

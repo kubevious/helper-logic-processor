@@ -59,7 +59,10 @@ export class ConcreteRegistry implements IConcreteRegistry
                     .then((files) => {
                         return Promise.serial(files, x => {
                             const obj = loadYaml(x);
-                            this.add(obj as K8sConfig);
+                            // this.logger.info("[loadMockData] %s...", x);
+                            if (obj) {
+                                this.add(obj as K8sConfig);
+                            }
                         });
                     })
             })
