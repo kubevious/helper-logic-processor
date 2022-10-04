@@ -16,6 +16,9 @@ steps:
     commands:
       - cf_export GITHUB_TOKEN=$(codefresh get context github --decrypt -o yaml | yq -y .spec.data.auth.password)
       - cf_export CICD_REPO_PATH=/codefresh/volume/repo.git
+      - export MOCK_DATA_REPO_NAME=cicd-saas
+      - cf_export MOCK_DATA_REPO_NAME=${MOCK_DATA_REPO_NAME}
+      - cf_export MOCK_DATA_REPO_PATH=/codefresh/volume/${MOCK_DATA_REPO_NAME}.git
       - 'echo "Repo: ${{CF_REPO_NAME}}"'
       - 'echo "Branch: ${{CF_BRANCH}}"'
       - 'echo "Revision: ${{CF_REVISION}}"'
@@ -36,6 +39,20 @@ steps:
       - cd ${{CICD_REPO_PATH}}
       - git reset --hard ${{CF_REVISION}}
       - ls -la
+
+  clone_mock_data:
+    title: Clone Mock Data Repo
+    stage: clone
+    image: 'alpine/git:latest'
+    working_directory: "/codefresh/volume"
+    commands:
+      - pwd
+      - ls -la
+      - rm -rf ${{MOCK_DATA_REPO_PATH}}
+      - 'git clone https://${{CF_REPO_OWNER}}:${{GITHUB_TOKEN}}@github.com/${{CF_REPO_OWNER}}/${{MOCK_DATA_REPO_NAME}}.git ${{MOCK_DATA_REPO_PATH}}'
+      - ls -la
+      - cd ${{MOCK_DATA_REPO_PATH}}
+      - ls -la      
 
   prepare:
     title: Prepare Dependencies

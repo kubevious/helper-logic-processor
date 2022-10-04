@@ -2,13 +2,13 @@ import { IConcreteItem, IConcreteRegistry, K8sConfig } from "../../src"
 
 import _ from 'the-lodash';
 import { Promise } from 'the-promise';
-import * as Path from 'path';
 import { ILogger } from "the-logger";
 import { promise as glob } from 'glob-promise';
 import { ConcreteItem } from "./concrete-item";
 import { ConcreteRegistryFilter, ItemId } from "../../src/types/registry";
 
 import { loadYaml, loadJson } from './file-system';
+import { getMockPath } from '../helpers/mock';
 
 export class ConcreteRegistry implements IConcreteRegistry
 {
@@ -50,7 +50,7 @@ export class ConcreteRegistry implements IConcreteRegistry
 
     loadMockData(mockName : string)
     {
-        const dirName = Path.resolve(__dirname, '..', '..', 'mock-data', mockName);
+        const dirName = getMockPath(mockName);
         this.logger.info("Loading Mock Data from: %s", dirName);
 
         return Promise.resolve()

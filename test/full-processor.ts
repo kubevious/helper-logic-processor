@@ -14,6 +14,8 @@ import { ConcreteRegistry } from './helpers/concrete-registry';
 import { NodeKind } from '@kubevious/entity-meta';
 import { loadYaml } from './helpers/file-system';
 
+import { getMockPath } from './helpers/mock';
+
 const logger = makeLogger('full-proc');
 
 const tracker = new ProcessingTracker(logger, new TimerScheduler(logger));
@@ -24,7 +26,7 @@ describe('full-processor', () => {
         const registry = new ConcreteRegistry(logger);
 
         return Promise.resolve()
-            .then(() => registry.loadMockData('large-cluster'))
+            .then(() => registry.loadMockData('large-cluster-mock'))
             .then(() => {
                 registry.debugOutputCapacity();
 
@@ -35,7 +37,7 @@ describe('full-processor', () => {
 
                         const extraChanges : K8sConfig[] = [];
                         {
-                            const guardChangesPath = Path.resolve(__dirname, '..', 'mock-data', 'guard-changes');
+                            const guardChangesPath = getMockPath('guard-changes');
                             extraChanges.push(loadYaml(Path.resolve(guardChangesPath, 'nginx-no-ns.yaml')) as K8sConfig);
                             extraChanges.push(loadYaml(Path.resolve(guardChangesPath, 'nginx-with-ns.yaml')) as K8sConfig);
                         }
