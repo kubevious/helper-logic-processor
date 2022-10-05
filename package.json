@@ -1,6 +1,6 @@
 {
   "name": "@kubevious/helper-logic-processor",
-  "version": "1.0.104",
+  "version": "1.0.105",
   "description": "Backend Logic Processor",
   "main": "dist/index.js",
   "types": "dist",
