@@ -1,10 +1,23 @@
+import { NodeKind } from "@kubevious/entity-meta";
 import { PodTemplateSpec } from "kubernetes-types/core/v1";
 import { OwnerReferenceDict } from "../../helpers/logic/owner-reference-dict";
 import { PropertyValueWithUnit } from "../../helpers/resources";
 import { LogicCommonWorkload } from './logic-common';
 
+
+export interface SourceLauncherInfoRuntime
+{
+    dn: string,
+    kind: string,
+    nodeKind: NodeKind,
+    replicas: number | null,
+    podTemplateSpec: PodTemplateSpec,
+}
+
 export interface LogicAppRuntime extends LogicCommonWorkload
 {
+    sourceLauncherInfos: SourceLauncherInfoRuntime[];
+
     launcherKind: string;
     launcherReplicas: number | null;
 

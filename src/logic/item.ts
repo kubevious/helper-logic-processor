@@ -234,6 +234,19 @@ export class LogicItem
         return _.values(this._children).filter(x => x.kind == kind);
     }
 
+    getDescendentsByKind(kind: NodeKind) : LogicItem[] {
+        let results : LogicItem[] = [];
+        if (this.kind === kind) {
+            results.push(this);
+        }
+        for(const child of this.getChildren())
+        {
+            const childResults = child.getDescendentsByKind(kind);
+            results = _.concat(results, childResults);
+        }
+        return results;
+    }
+
     countChildren() : number {
         return this.getChildren().length;
     }

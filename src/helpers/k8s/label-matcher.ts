@@ -38,8 +38,8 @@ export class LabelMatcher
 
     match(selector: LabelMap) : LogicItem[]
     {
-        let result : LogicItem[] = [];
-        for(let item of this._labels)
+        const result : LogicItem[] = [];
+        for(const item of this._labels)
         {
             if (labelsMatch(item.labels, selector))
             {
@@ -51,7 +51,7 @@ export class LabelMatcher
 
     debugOutputToFile(writer: DumpWriter)
     {
-        for (let item of this._labels)
+        for (const item of this._labels)
         {
             writer
                 .write(`=> ${item.target.dn}`)
@@ -63,7 +63,7 @@ export class LabelMatcher
 
 function labelsMatch(labels: LabelMap, selector: LabelMap)
 {
-    for(let key of _.keys(selector)) {
+    for(const key of _.keys(selector)) {
         if (selector[key] != labels[key]) {
             return false;
         }

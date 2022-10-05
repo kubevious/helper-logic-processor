@@ -1,6 +1,4 @@
 import _ from 'the-lodash';
-import { DaemonSet, Deployment, StatefulSet } from 'kubernetes-types/apps/v1';
-import { CronJob, Job } from 'kubernetes-types/batch/v1';
 import { ClusterRole, ClusterRoleBinding, Role, RoleBinding } from 'kubernetes-types/rbac/v1';
 import { Container, PersistentVolumeClaim, Pod, ServiceAccount, Volume } from 'kubernetes-types/core/v1';
 
@@ -15,12 +13,22 @@ import { LogicAppRuntime } from '../types/parser/logic-app';
 import { LogicNamespaceRuntime } from '../types/parser/logic-namespace';
 import { NodeKind } from '@kubevious/entity-meta';
 import { LogicPvcRuntime } from '../types/parser/logic-pvc';
+import { LogicTargetQuery } from '../logic/scope';
+import { LogicLinkKind } from '../logic/link-kind';
 
 export function LogicLauncherParser() {
 
-    return LogicParser<Deployment | DaemonSet | StatefulSet | Job | CronJob, LogicLauncherRuntime>()
+    return LogicParser<any, LogicLauncherRuntime>()
         .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher ]
+            path: [ 
+                NodeKind.logic,
+                NodeKind.ns,
+                NodeKind.app, 
+                {
+                    query: LogicTargetQuery.link,
+                    kind: LogicLinkKind.launcher
+                }
+            ]
         });
 }
 
@@ -89,15 +97,22 @@ export function LogicNetworkPoliciesParser() {
 
 export function LogicPodParser() {
 
-    return LogicParser<Pod, LogicPodRuntime>()
+    return LogicParser<Pod, LogicPodRuntime>()    
         .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.replicaset, NodeKind.pod]
-        })
-        .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.pod]
-        })
-        .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.job, NodeKind.pod]
+            path: [ 
+                NodeKind.logic,
+                NodeKind.ns,
+                NodeKind.app, 
+                {
+                    query: LogicTargetQuery.link,
+                    kind: LogicLinkKind.launcher
+                },
+                {
+                    query: LogicTargetQuery.node,
+                    kind: NodeKind.pod,
+                    descendents: true
+                },
+            ]
         })
 }
 
@@ -106,13 +121,20 @@ export function LogicPodPvcParser() {
 
     return LogicParser<PersistentVolumeClaim, LogicPvcRuntime>()
         .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.replicaset, NodeKind.pod, NodeKind.pvc]
-        })
-        .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.pod, NodeKind.pvc]
-        })
-        .target({
-            path: [ NodeKind.logic, NodeKind.ns, NodeKind.app, NodeKind.launcher, NodeKind.job, NodeKind.pod, NodeKind.pvc]
+            path: [ 
+                NodeKind.logic,
+                NodeKind.ns,
+                NodeKind.app, 
+                {
+                    query: LogicTargetQuery.link,
+                    kind: LogicLinkKind.launcher
+                },
+                {
+                    query: LogicTargetQuery.node,
+                    kind: NodeKind.pvc,
+                    descendents: true
+                },
+            ]
         })
 }
 

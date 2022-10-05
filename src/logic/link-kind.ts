@@ -5,6 +5,7 @@ export enum LogicLinkKind
     k8s = 'k8s',
 
     app = 'app',
+    launcher = 'launcher',
 
     role = 'role',
     subject = 'subject',

@@ -1,14 +1,15 @@
 import _ from 'the-lodash';
-import { NodeKind, PropsId, PropsKind } from '@kubevious/entity-meta';
+import { PropsId, PropsKind } from '@kubevious/entity-meta';
 import { LogicContainerParser } from '../../parser-builder/logic';
 import { K8sConfig } from '../../types/k8s';
 import { LogicLauncherRuntime } from '../../types/parser/logic-launcher';
+import { LogicLinkKind } from '../../logic/link-kind';
 
 export default LogicContainerParser()
     .handler(({ logger, item, config, runtime, helpers}) => {
 
         const app = item.parent;
-        const launcher = app!.getChildrenByKind(NodeKind.launcher)[0]!;
+        const launcher = app!.resolveTargetLinkItems(LogicLinkKind.launcher)[0]!;
         const launcherRuntime = launcher.runtime as LogicLauncherRuntime;
 
         const podSpecConfig : K8sConfig = {

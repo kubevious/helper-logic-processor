@@ -237,6 +237,9 @@ export class LogicProcessor
                 .then(() => {
                     return helpers.k8s.labelMatcher.dumpToFile();
                 })
+                .then(() => {
+                    return helpers.k8s.ownerReferenceDict.dumpToFile();
+                })
             // .then(() => {
             //     let writer = this.logger.outputStream("dump-logic-tree");
             //     if (writer) {

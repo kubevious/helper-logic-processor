@@ -6,4 +6,4 @@ cd $MY_DIR
 rm -rf logs
 
 export LOG_TO_FILE=true
-npm run dev
+npm run dev-openshift

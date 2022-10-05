@@ -9,23 +9,40 @@ import { Alert } from '@kubevious/state-registry'
 import { NodeKind } from '@kubevious/entity-meta';
 import { ValidationConfig, ValidatorSetting, DEFAULT_VALIDATION_CONFIG, ValidatorID } from '@kubevious/entity-meta';
 import { PersistenceStore } from '../store/presistence-store';
+import { LogicLinkKind } from './link-kind';
 
 export const ROOT_NODE_LOGIC = NodeKind.root;
 
 export interface LogicTarget {
-    path: (LogicTargetPathElement | NodeKind)[],
+    path: (NodeKind | LogicTargetPathElement | LogicTargetLinkElement )[], //   
     subtree?: boolean
 }
 
 export interface LogicTargetFinal {
-    path: LogicTargetPathElement[],
+    path: LogicFinalTargetType[],
     subtree: boolean
 }
 
-export interface LogicTargetPathElement {
-    kind: NodeKind;
-    name?: string;
+export enum LogicTargetQuery {
+    node = "node",
+    child = "child",
+    descendent = "descendent",
+    link = "link"
 }
+
+export interface LogicTargetPathElement {
+    query: LogicTargetQuery.node,
+    kind: NodeKind,
+    name?: string,
+    descendents?: boolean,
+}
+
+export interface LogicTargetLinkElement {
+    query: LogicTargetQuery.link,
+    kind: LogicLinkKind,
+}
+
+export type LogicFinalTargetType = LogicTargetPathElement | LogicTargetLinkElement;
 
 
 export class LogicScope
@@ -129,16 +146,11 @@ export class LogicScope
             });
         }
         else
-        //if (targetFinal.path.length > 0)
         {
             this._visitTreePath(targetFinal, rootNode, 0, item => {
                 items.push(item);
             });
         }
-        // else
-        // {
-            
-        // }
         return items;
     }
 
@@ -146,15 +158,28 @@ export class LogicScope
     {
         const result: LogicTargetFinal = {
             subtree: target.subtree ?? false,
-            path: target.path.map(x => {
-                if (_.isString(x)) {
-                    return {
-                        kind: <NodeKind>x
-                    }
-                } else {
-                    return x;
+            path: []
+        }
+        for(const x of target.path)
+        {
+            if (_.isString(x)) {
+                result.path.push({
+                    query: LogicTargetQuery.node,
+                    kind: <NodeKind>x
+                })
+            }
+            else {
+                if (x.query == LogicTargetQuery.node)
+                {
+                    const xx = x as LogicTargetPathElement;
+                    result.path.push(xx);
                 }
-            })
+                else if (x.query == LogicTargetQuery.link)
+                {
+                    const xx = x as LogicTargetLinkElement;
+                    result.path.push(xx);
+                }
+            }
         }
         return result;
     }
@@ -178,19 +203,36 @@ export class LogicScope
         }
     }
 
-    private _findNextNodes(item : LogicItem, filter: LogicTargetPathElement) : LogicItem[]
+    private _findNextNodes(item : LogicItem, genericFilter: LogicFinalTargetType) : LogicItem[]
     {
-        if (filter.name)
+        if (genericFilter.query == LogicTargetQuery.node)
         {
-            const child = item.findByNaming(filter.kind, filter.name);
-            if (child) {
-                return [ child ];
-            }
-            return [];
-        }
+            const filter = genericFilter as LogicTargetPathElement;
 
-        const children = item.getChildrenByKind(filter.kind);
-        return children;
+            if (filter.descendents) {
+                // TODO: Descendents by name not yet supported.
+                return item.getDescendentsByKind(filter.kind);
+            }
+
+            if (filter.name)
+            {
+                const child = item.findByNaming(filter.kind, filter.name);
+                if (child) {
+                    return [ child ];
+                }
+                return [];
+            }
+
+            const children = item.getChildrenByKind(filter.kind);
+            return children;
+        }
+        else if (genericFilter.query == LogicTargetQuery.link)
+        {
+            const filter = genericFilter as LogicTargetLinkElement;
+            return item.resolveTargetLinkItems(filter.kind!);
+        }
+        
+        return [];
     }
 
     private _visitTreeAll(item : LogicItem, cb : (item : LogicItem) => void)

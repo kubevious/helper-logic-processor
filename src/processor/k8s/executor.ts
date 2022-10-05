@@ -3,7 +3,7 @@ import { ILogger } from 'the-logger';
 
 import { LogicProcessor } from '../';
 
-import { LogicScope, LogicTargetPathElement } from "../../logic/scope";
+import { LogicScope, LogicTargetPathElement, LogicTargetQuery } from "../../logic/scope";
 
 import { K8sParserInfo } from './builder'
 
@@ -15,7 +15,8 @@ import { LogicProcessorHandlerArgs } from '../logic/handler-args';
 import { K8sProcessorHandlerArgs } from './handler-args';
 import { K8sConfig } from '../..';
 import { Helpers } from '../../helpers';
-import { NodeKind } from '@kubevious/entity-meta';
+
+import { makeLogicTargetPath } from './helpers';
 
 export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
 {
@@ -23,7 +24,7 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
     private _name : string;
 
     private _targetPath : LogicTargetPathElement[];
-
+    
     private _innerExecutor : LogicParserExecutor<TConfig, TRuntime>;
 
     private _handler? : (args : K8sProcessorHandlerArgs<TConfig, TRuntime>) => void;
@@ -38,38 +39,10 @@ export class K8sParserExecutor<TConfig, TRuntime> implements BaseParserExecutor
         this._logger = processor.parserLogger;
         this._handler = parserInfo.handler;
 
-        this._targetPath = [
-            { kind: NodeKind.k8s },
-        ]
-
-        if (parserInfo.target!.clustered)
-        { 
-            this._targetPath.push({ kind: NodeKind.cluster });
-        }
-        else
-        {
-            this._targetPath.push({ kind: NodeKind.ns });
-        }
-
-        if (parserInfo.target!.api)
-        {
-            this._targetPath.push({ kind: NodeKind.api, name: parserInfo.target!.api });
-        }
-
-        if (parserInfo.target!.version)
-        {
-            this._targetPath.push({ kind: NodeKind.version, name: parserInfo.target!.version });
-        } else {
-            this._targetPath.push({ kind: NodeKind.version });
-        }
-
-        this._targetPath.push({ kind: NodeKind.kind, name: parserInfo.target!.kind });
-
-        this._targetPath.push({ kind: NodeKind.resource });
-
+        this._targetPath = makeLogicTargetPath(parserInfo.target!);
 
         const logicParserInfo : LogicParserInfo<TConfig, TRuntime> = {
-            target: { path: this._targetPath },
+            target: { path: this._targetPath! },
 
             targetKind: 'unused',
 

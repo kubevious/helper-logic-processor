@@ -5,6 +5,7 @@ import { NodeKind } from '@kubevious/entity-meta';
 import { K8sConfig, LogicItem, parseApiVersion } from "../..";
 
 import { GlobalLabelMatcher } from './global-label-matcher';
+import { GlobalOwnerReferenceDict } from './global-owner-reference-dict';
 
 import { makeDn, RnInfo } from '../../utils/dn-utils';
 import { ObjectMeta } from "kubernetes-types/meta/v1";
@@ -18,16 +19,22 @@ export class KubernetesUtils {
     private _labelMatcher : GlobalLabelMatcher;
     private _scope: LogicScope;
     private _apiRegistry : K8sApiRegistry;
+    private _ownerReferenceDict: GlobalOwnerReferenceDict;
     
     constructor(logger: ILogger, scope: LogicScope)
     {
         this._labelMatcher = new GlobalLabelMatcher(logger);
+        this._ownerReferenceDict = new GlobalOwnerReferenceDict(logger, this);
         this._scope = scope;
         this._apiRegistry = new K8sApiRegistry(logger, scope);
     }
 
     get labelMatcher() {
         return this._labelMatcher;
+    }
+
+    get ownerReferenceDict() {
+        return this._ownerReferenceDict;
     }
 
     get apiRegistry() {

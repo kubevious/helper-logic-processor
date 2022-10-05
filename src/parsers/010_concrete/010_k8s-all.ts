@@ -48,6 +48,8 @@ export default ConcreteParser()
         helpers.k8s.makeLabelsProps(logicItem, config);
         helpers.k8s.makeAnnotationsProps(logicItem, config);
 
+        helpers.k8s.ownerReferenceDict.registerOwners(logicItem);
+
         if (item.id.namespace) {
             const nsUsageItem = infraApiKindRoot.fetchByNaming(NodeKind.ns, item.id.namespace!)
             nsUsageItem.link(LogicLinkKind.nsapi, kindRoot!);
