@@ -28,31 +28,45 @@ export default K8sRoleBindingParser()
         /*** HELPERS ***/
         function processRole(roleRef: RoleRef)
         {
-            const targetNamespace = namespace || null;
-
-            const roleDn = helpers.k8s.makeDn(targetNamespace, config.apiVersion!, roleRef.kind, roleRef.name);
-            const role = item.link(LogicLinkKind.role, roleDn);
-            if (role)
+            if (roleRef.kind === 'ClusterRole')
             {
-                runtime.rules = (<LogicRoleRuntime>role.runtime).rules;
-
-                const linkNamingParts = [
-                    config.kind,
-                    metadata.namespace,
-                    metadata.name
-                ];
-                const linkNaming = _.filter(linkNamingParts, x => x).map(x => x!).join('::');
-
-                role.link(LogicLinkKind.binding, item, linkNaming);
-            }
-            else
-            {
-                if (targetNamespace) {
-                    item.raiseAlert(ValidatorID.MISSING_ROLE, `Could not find ${roleRef.kind} ${targetNamespace} :: ${roleRef.name}.`);
-                } else {
+                const roleDn = helpers.k8s.makeDn(null, config.apiVersion!, roleRef.kind, roleRef.name);
+                if (!processRoleDn(roleDn))
+                {
                     item.raiseAlert(ValidatorID.MISSING_ROLE, `Could not find ${roleRef.kind} ${roleRef.name}.`);
                 }
             }
+            else if (roleRef.kind === 'Role')
+            {
+                const targetNamespace = namespace || null;
+                const roleDn = helpers.k8s.makeDn(targetNamespace, config.apiVersion!, roleRef.kind, roleRef.name);
+
+                if (!processRoleDn(roleDn))
+                {
+                    item.raiseAlert(ValidatorID.MISSING_ROLE, `Could not find ${roleRef.kind} ${targetNamespace} :: ${roleRef.name}.`);
+                }
+            }
+        }
+
+        function processRoleDn(roleDn: string)
+        {
+            const role = item.link(LogicLinkKind.role, roleDn);
+            if (!role)
+            {
+                return false;
+            }
+
+            runtime.rules = (<LogicRoleRuntime>role.runtime).rules;
+
+            const linkNamingParts = [
+                config.kind,
+                metadata.namespace,
+                metadata.name
+            ];
+            const linkNaming = _.filter(linkNamingParts, x => x).map(x => x!).join('::');
+
+            role.link(LogicLinkKind.binding, item, linkNaming);
+            return false;
         }
 
         function processSubject(subjectRef: Subject)
