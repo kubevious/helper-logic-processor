@@ -66,7 +66,7 @@ export default K8sRoleBindingParser()
             const linkNaming = _.filter(linkNamingParts, x => x).map(x => x!).join('::');
 
             role.link(LogicLinkKind.binding, item, linkNaming);
-            return false;
+            return true;
         }
 
         function processSubject(subjectRef: Subject)
