@@ -11,7 +11,7 @@ import { TimerScheduler } from '@kubevious/helper-backend/dist/timer-scheduler';
 import { ProcessingTracker } from '@kubevious/helper-backend/dist/processing-tracker';
 import { ConcreteRegistry } from './helpers/concrete-registry';
 
-import { NodeKind } from '@kubevious/entity-meta';
+import { NodeKind, PropsId } from '@kubevious/entity-meta';
 import { loadYaml } from './helpers/file-system';
 
 import { getMockPath } from './helpers/mock';
@@ -80,13 +80,14 @@ describe('full-processor', () => {
                     const images = registryState.childrenByKind('root/logic/ns-[kube-system]/app-[kube-dns]/cont-[kubedns]', NodeKind.image);
                     should(_.keys(images)).have.length(1);
 
-                    const img = _.values(images)[0];
-                    should(img).be.ok();
+                    const imgDn = _.values(images)[0];
+                    should(imgDn).be.ok();
 
-                    const props = img.getPropertiesConfig('properties');
-                    should(props).be.ok();
-                    should(props['name']).be.equal('k8s-dns-kube-dns-amd64');
-                    should(props['repository']).be.equal('gke.gcr.io');
+                    const props = registryState.getProperties(imgDn, PropsId.properties);
+                    const propsConfig = props.config;
+                    should(propsConfig).be.ok();
+                    should(propsConfig['name']).be.equal('k8s-dns-kube-dns-amd64');
+                    should(propsConfig['repository']).be.equal('gke.gcr.io');
                 }
 
                 {
