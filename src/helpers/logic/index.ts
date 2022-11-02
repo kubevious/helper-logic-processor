@@ -2,7 +2,7 @@ import _ from 'the-lodash';
 
 import { ObjectMeta } from 'kubernetes-types/meta/v1';
 
-import { NodeKind } from '@kubevious/entity-meta';
+import { NodeKind, makeDn } from '@kubevious/entity-meta';
 import { ILogger } from "the-logger";
 
 import { Helpers } from '..';
@@ -13,7 +13,6 @@ import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { LogicCommonWorkload } from '../../types/parser/logic-common';
 import { makeRelativeName } from '../../utils/name-helpers';
 
-import { makeDn } from '../../utils/dn-utils';
 import { LogicLinkKind } from '../../logic/link-kind';
 
 import { LogicHealthUtils } from './health';

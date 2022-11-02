@@ -7,10 +7,9 @@ import { K8sConfig, LogicItem, parseApiVersion } from "../..";
 import { GlobalLabelMatcher } from './global-label-matcher';
 import { GlobalOwnerReferenceDict } from './global-owner-reference-dict';
 
-import { makeDn, RnInfo } from '../../utils/dn-utils';
 import { ObjectMeta } from "kubernetes-types/meta/v1";
 import { LogicScope } from '../../logic/scope';
-import { PropsKind, PropsId } from '@kubevious/entity-meta';
+import { PropsKind, PropsId, makeDn, RnInfo } from '@kubevious/entity-meta';
 
 import { K8sApiRegistry } from './api-registry';
 
