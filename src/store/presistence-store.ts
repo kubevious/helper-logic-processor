@@ -1,5 +1,6 @@
 import _ from 'the-lodash';
 import { ILogger } from 'the-logger';
+import { RegistryState } from '@kubevious/state-registry';
 
 export class PersistenceStore
 {
@@ -16,6 +17,17 @@ export class PersistenceStore
         for(const row of data)
         {
             this.setValue(row.dn, row.key, row.value);
+        }
+    }
+
+    deleteMissingItems(state: RegistryState)
+    {
+        for(const dn of _.keys(this._data))
+        {
+            if (!state.findByDn(dn))
+            {
+                delete this._data[dn];
+            }
         }
     }
 

@@ -64,7 +64,6 @@ export class LogicProcessor
         return this._store;
     }
 
-
     applyExtraChanges(changes: K8sConfig[])
     {
         this._extraChanges = changes;
@@ -90,6 +89,7 @@ export class LogicProcessor
                 .then(() => {
                     const items = scope.extractItems();
                     const state = this._makeRegistryState(items);
+                    this._store.deleteMissingItems(state);
                     return state;
                 })
                 ;
