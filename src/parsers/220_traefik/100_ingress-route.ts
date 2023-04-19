@@ -59,9 +59,9 @@ export default K8sParser<IngressRoute>()
 
         function processTLSOptions(gIngress: LogicItem)
         {
-            if (config.spec?.tls)
+            if (config.spec?.tls?.options)
             {
-                const tlsName = config.spec.tls.options!.name;
+                const tlsName = config.spec.tls.options.name;
                 if (tlsName)
                 {
                     const tlsOptionsItem = helpers.thirdParty.traefik.findTLSOptions(
