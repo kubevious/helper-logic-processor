@@ -1,9 +1,9 @@
 import _ from 'the-lodash';
-import { Promise } from 'the-promise';
 import { ILogger } from 'the-logger/dist';
 import { ParserBuilder } from './base/builder'
 import * as path from 'path' 
 import { promise as glob } from 'glob-promise';
+import { MyPromise } from 'the-promise';
 
 export class ParserLoader
 {
@@ -46,8 +46,8 @@ export class ParserLoader
                     return true;
                 })
 
-                return Promise.parallel(filteredFiles, x => {
-                    const relPath = x.substr(searchPath.length + 1);
+                return MyPromise.parallel(filteredFiles, x => {
+                    const relPath = x.substring(searchPath.length + 1);
                     const moduleName = relPath.replace('.d.ts', '').replace('.ts', '');
                     const modulePath = `${relSearchDir}/${moduleName}`;
                     this._loadProcessor(moduleName, modulePath)

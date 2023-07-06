@@ -1,5 +1,4 @@
 import _ from 'the-lodash';
-import { Promise } from 'the-promise';
 
 import { LabelSelector } from "kubernetes-types/meta/v1";
 import { DumpWriter, ILogger } from "the-logger";

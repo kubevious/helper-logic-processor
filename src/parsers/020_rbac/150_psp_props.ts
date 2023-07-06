@@ -1,8 +1,7 @@
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
-import { PodSecurityPolicy } from 'kubernetes-types/policy/v1beta1';
 
-export default K8sParser<PodSecurityPolicy>()
+export default K8sParser<any>()
     .target({
         clustered: true,
         api: "policy",

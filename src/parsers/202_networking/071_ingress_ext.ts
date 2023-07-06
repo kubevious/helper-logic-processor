@@ -1,12 +1,11 @@
-import { HTTPIngressPath, Ingress, IngressBackend, IngressRule } from 'kubernetes-types/extensions/v1beta1';
+// import { HTTPIngressPath, Ingress, IngressBackend, IngressRule } from 'kubernetes-types/extensions/v1beta1';
 import _ from 'the-lodash';
 import { K8sParser } from '../../parser-builder';
-import { LogicAppRuntime } from '../../types/parser/logic-app';
 import { NodeKind, ValidatorID } from '@kubevious/entity-meta';
 import { LogicLinkKind } from '../../logic/link-kind';
 import { ServiceBackendPort } from 'kubernetes-types/networking/v1';
 
-export default K8sParser<Ingress>()
+export default K8sParser<any>()
     .target({
         api: "extensions",
         kind: "Ingress"
@@ -43,7 +42,7 @@ export default K8sParser<Ingress>()
 
         /*** HELPERS ***/
 
-        function processIngressBackend(backend: IngressBackend, pathConfig: HTTPIngressPath | undefined, ruleConfig: IngressRule | undefined)
+        function processIngressBackend(backend: any, pathConfig: any | undefined, ruleConfig: any | undefined)
         {
             const domainName = ruleConfig?.host;
             const urlPath = pathConfig?.path ?? '*';

@@ -1,7 +1,6 @@
 import { IConcreteItem, IConcreteRegistry, K8sConfig } from "../../src"
 
 import _ from 'the-lodash';
-import { Promise } from 'the-promise';
 import { ILogger } from "the-logger";
 import { promise as glob } from 'glob-promise';
 import { ConcreteItem } from "./concrete-item";
@@ -9,6 +8,7 @@ import { ConcreteRegistryFilter, ItemId } from "../../src/types/registry";
 
 import { loadYaml, loadJson } from './file-system';
 import { getMockPath } from '../helpers/mock';
+import { MyPromise } from "the-promise";
 
 export class ConcreteRegistry implements IConcreteRegistry
 {
@@ -57,7 +57,7 @@ export class ConcreteRegistry implements IConcreteRegistry
             .then(() => {
                 return glob(`${dirName}/**/*.yaml`)
                     .then((files) => {
-                        return Promise.serial(files, x => {
+                        return MyPromise.serial(files, x => {
                             const obj = loadYaml(x);
                             // this.logger.info("[loadMockData] %s...", x);
                             if (obj) {
@@ -69,7 +69,7 @@ export class ConcreteRegistry implements IConcreteRegistry
             .then(() => {
                 return glob(`${dirName}/**/*.json`)
                     .then((files) => {
-                        return Promise.serial(files, x => {
+                        return MyPromise.serial(files, x => {
                             const obj = loadJson(x);
                             this.add(obj as K8sConfig);
                         });
@@ -79,7 +79,7 @@ export class ConcreteRegistry implements IConcreteRegistry
 
     // debugOutputToFileSystem(dir: string)
     // {
-    //     return Promise.serial(_.values(this._items), x => x.debugOutputToFileSystem(dir));
+    //     return MyPromise.serial(_.values(this._items), x => x.debugOutputToFileSystem(dir));
     // }
 
 }

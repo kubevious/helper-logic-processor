@@ -1,7 +1,6 @@
 
 import _ from 'the-lodash';
 import { extractK8sConfigId, IConcreteItem,  ItemId } from "../../src"
-import { Promise } from 'the-promise';
 import { ILogger } from "the-logger";
 import { ConcreteRegistryFilter } from "../../src/types/registry";
 
@@ -39,7 +38,7 @@ export class ConcreteItem implements IConcreteItem
         // if (!_.isObject(idFilter)) {
         //     return false;
         // }
-        for(let key of _.keys(idFilter!)) {
+        for(const key of _.keys(idFilter!)) {
             const filterVal = _.get(idFilter, key);
             const idVal = _.get(this.id, key);
             if (_.isNull(filterVal)) {
