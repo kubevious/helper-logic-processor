@@ -79,7 +79,7 @@ export default LogicParser()
         ];
 
         const TerminatorDict = _.makeDict(targets, x => x.api ? `${x.api}::${x.k8sKind}` : x.k8sKind, x => x);
-        logger.info("****** TerminatorDict: ", TerminatorDict);
+        // logger.info("****** TerminatorDict: ", TerminatorDict);
 
         const visited : { [dn : string] : boolean } = {};
         const appRootDns : string[] = [];
@@ -90,7 +90,7 @@ export default LogicParser()
             processK8sTarget(target);
         }
 
-        logger.info("****** ALL APP ROOTS: ", appRootDns);
+        // logger.info("****** ALL APP ROOTS: ", appRootDns);
 
         /****/
 
@@ -160,7 +160,7 @@ export default LogicParser()
 
         function makeAppRoot(item: LogicItem)
         {
-            logger.info("****** APP ROOT: %s", item.dn);
+            // logger.info("****** APP ROOT: %s", item.dn);
             appRootDns.push(item.dn);
 
             const config = item.config as K8sConfig;
